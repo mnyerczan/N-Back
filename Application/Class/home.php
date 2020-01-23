@@ -6,10 +6,11 @@ require_once APPROOT.'Model/Home/homeViewModel.php';
 
 class Home
 {
-    private $database,
+    private 
+            $database,
             $sql = 'SELECT content FROM documents WHERE title = "start_page" AND privilege = 3';
 
-    function __construct( )
+    function __construct()
     {
         $this->database = EntityGateway::getDB();        
         

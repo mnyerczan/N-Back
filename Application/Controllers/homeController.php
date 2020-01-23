@@ -5,7 +5,7 @@ use Login\UserEntity;
 
 require_once APPROOT.'Class/home.php';
 
-class homeController
+class homeController extends Controller
 {
     private $user;
 
@@ -22,23 +22,12 @@ class homeController
         
         $datas = [ 
             'seria' => new Seria( $this->user->id ), 
-            'user' => $this->user,
-            'home' => (new Home())->getContent()
+            'user'  => $this->user,
+            'home'  => (new Home())->getContent()
         ];
 
 
         $this->View( 'home', $datas );
     }
-
-
-             
-    
-
-    function View( $view, array $datas = [] )
-    {             
-        extract( $datas );
-   
-
-        require_once APPROOT.'Templates/Main/_layout.php';        
-    }
+                 
 }

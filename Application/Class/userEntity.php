@@ -1,7 +1,7 @@
 <?php
 namespace Login;
 
-use DB\DBInterface;
+use DB\EntityGateway;
 
 class UserEntity
 {
@@ -39,9 +39,9 @@ class UserEntity
         }
     }
 
-    function __construct( DBInterface $dbObject )
+    function __construct()
     {
-		$this->dbObject = $dbObject;
+		$this->dbObject = EntityGateway::getDB();
 		
 		$this->datas['id'] 				= 1;
 		$this->datas['name'] 			= NULL;
@@ -52,7 +52,7 @@ class UserEntity
 		$this->datas['birth'] 			= NULL;
 		$this->datas['pw_length'] 		= NULL;
 		$this->datas['file_name'] 		= NULL;
-		$this->datas['theme'] 			= NULL;
+		$this->datas['theme'] 			= @$_COOKIE['theme'] ? $_COOKIE['theme'] : 'white';
 		$this->datas['refresh'] 		= NULL;
 
 		// NOT IMPLEMENTED FEATUTRE
@@ -64,7 +64,7 @@ class UserEntity
 		$this->datas['seconds'] 		= NULL;
 		$this->datas['trials'] 			= NULL;
 		$this->datas['event_length']	= NULL;
-		$this->datas['color'] 			= NULL;
+		$this->datas['color'] 			= NULL;	
     }
 
 
@@ -82,7 +82,7 @@ class UserEntity
 	
 		if( 1 == count( $result ))
 		{		
-			$this->SetDatas( $result );			
+			$this->SetUser( $result );			
 	
 			return $this->result = "TRUE";
 		}        		
@@ -104,7 +104,7 @@ class UserEntity
 	
 		if( 1 == count( $result ))
 		{		
-			$this->SetDatas( $result );			
+			$this->SetUser( $result );			
 			$this->SetSession( $result );	
 	
 			return $this->result = "TRUE";
@@ -124,7 +124,7 @@ class UserEntity
 
 
 
-	private function SetDatas( $result )
+	private function SetUser( $result )
 	{		
 		$this->datas['id'] 				= $result[0]['id'];
 		$this->datas['email']			= Include_special_characters($result[0]['email']);

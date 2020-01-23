@@ -1,0 +1,25 @@
+[23-Jan-2020 20:36:29 Europe/Berlin] PHP Warning:  chown(): Operation not permitted in /home/m_/source/Thesis_v.2.0/log/logHandler.php on line 19
+[23-Jan-2020 20:36:29 Europe/Berlin] PHP Stack trace:
+[23-Jan-2020 20:36:29 Europe/Berlin] PHP   1. {main}() /home/m_/source/Thesis_v.2.0/index.php:0
+[23-Jan-2020 20:36:29 Europe/Berlin] PHP   2. require_once() /home/m_/source/Thesis_v.2.0/index.php:84
+[23-Jan-2020 20:36:29 Europe/Berlin] PHP   3. chown() /home/m_/source/Thesis_v.2.0/log/logHandler.php:19
+[23-Jan-2020 20:37:13 Europe/Berlin] PHP Warning:  fopen(log/thesis.log): failed to open stream: No such file or directory in /home/m_/source/Thesis_v.2.0/log/logHandler.php on line 3
+[23-Jan-2020 20:37:13 Europe/Berlin] PHP Stack trace:
+[23-Jan-2020 20:37:13 Europe/Berlin] PHP   1. {main}() /home/m_/source/Thesis_v.2.0/index.php:0
+[23-Jan-2020 20:37:13 Europe/Berlin] PHP   2. require_once() /home/m_/source/Thesis_v.2.0/index.php:84
+[23-Jan-2020 20:37:13 Europe/Berlin] PHP   3. fopen() /home/m_/source/Thesis_v.2.0/log/logHandler.php:3
+[23-Jan-2020 20:37:13 Europe/Berlin] PHP Warning:  chown(): Operation not permitted in /home/m_/source/Thesis_v.2.0/log/logHandler.php on line 19
+[23-Jan-2020 20:37:13 Europe/Berlin] PHP Stack trace:
+[23-Jan-2020 20:37:13 Europe/Berlin] PHP   1. {main}() /home/m_/source/Thesis_v.2.0/index.php:0
+[23-Jan-2020 20:37:13 Europe/Berlin] PHP   2. require_once() /home/m_/source/Thesis_v.2.0/index.php:84
+[23-Jan-2020 20:37:13 Europe/Berlin] PHP   3. chown() /home/m_/source/Thesis_v.2.0/log/logHandler.php:19
+[23-Jan-2020 20:37:29 Europe/Berlin] PHP Warning:  fopen(log/thesis.log): failed to open stream: No such file or directory in /home/m_/source/Thesis_v.2.0/log/logHandler.php on line 3
+[23-Jan-2020 20:37:29 Europe/Berlin] PHP Stack trace:
+[23-Jan-2020 20:37:29 Europe/Berlin] PHP   1. {main}() /home/m_/source/Thesis_v.2.0/index.php:0
+[23-Jan-2020 20:37:29 Europe/Berlin] PHP   2. require_once() /home/m_/source/Thesis_v.2.0/index.php:84
+[23-Jan-2020 20:37:29 Europe/Berlin] PHP   3. fopen() /home/m_/source/Thesis_v.2.0/log/logHandler.php:3
+[23-Jan-2020 20:37:29 Europe/Berlin] PHP Warning:  chown(): Operation not permitted in /home/m_/source/Thesis_v.2.0/log/logHandler.php on line 19
+[23-Jan-2020 20:37:29 Europe/Berlin] PHP Stack trace:
+[23-Jan-2020 20:37:29 Europe/Berlin] PHP   1. {main}() /home/m_/source/Thesis_v.2.0/index.php:0
+[23-Jan-2020 20:37:29 Europe/Berlin] PHP   2. require_once() /home/m_/source/Thesis_v.2.0/index.php:84
+[23-Jan-2020 20:37:29 Europe/Berlin] PHP   3. chown() /home/m_/source/Thesis_v.2.0/log/logHandler.php:19

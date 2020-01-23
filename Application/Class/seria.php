@@ -1,5 +1,5 @@
 <?php 
-use DB\DBInterface;
+use DB\EntityGateway;
 
 class Seria
 {
@@ -8,9 +8,9 @@ class Seria
             $result,
             $seria = 0;    
 
-    public function __construct( DBInterface $dbObject, int $uid )
+    public function __construct( int $uid )
     {
-        $this->dbObject = $dbObject;  
+        $this->dbObject = EntityGateway::getDB(); 
         $this->uid = $uid;                  
 
         $this->GetResult();

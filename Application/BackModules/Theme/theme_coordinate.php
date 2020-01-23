@@ -13,7 +13,7 @@ session_start();
 
 if ( @!$_SESSION['u_name'] ) die;
 
-chdir('../../');
+chdir('../../../');
 
 require_once 'Class/seria.php';
 require_once 'theme.php';

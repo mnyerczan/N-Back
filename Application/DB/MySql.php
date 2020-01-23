@@ -13,7 +13,7 @@ if( @defined(LOGIN) )
 }
 else
 {
-    require_once 'Interfaces/DBInterface.php';
+    require_once APPROOT.'Interfaces/DBInterface.php';
 }
 
 
@@ -64,7 +64,7 @@ class MySql extends baseDbApi implements DBInterface
         }
         catch( PDOException $e ) 
         {           
-            error_log( $e->getMessage(), 3, 'log/dberror.log' );
+            error_log( $e->getMessage()." in ".__FILE__." at ".__LINE__, 3, 'log/dberror.log' );
             die; 
         }
     }
@@ -105,16 +105,16 @@ class MySql extends baseDbApi implements DBInterface
                 throw new RuntimeException( $statement->errorInfo()[2] );
             }
             
-            return $statement->fetchAll();
+            return $statement->fetchAll( PDO::FETCH_CLASS );
             
         }
         catch( RuntimeException $e )
         {
-            LogLn( 1, $e->getMessage()."in ".__FILE__." at ".__LINE__ );   
-            error_log( $e->getMessage() );
+            LogLn( 1, $e->getMessage()." in ".__FILE__." at ".__LINE__ );   
+            error_log( $e->getMessage()." in ".__FILE__." at ".__LINE__ );
         }
 
-        return [];
+        return $params;
     }
 
 
@@ -150,7 +150,7 @@ class MySql extends baseDbApi implements DBInterface
         catch( RuntimeException $e )
         {
             LogLn( 1, $e->getMessage()."in ".__FILE__." at ".__LINE__ );
-            error_log( $e->getMessage() );
+            error_log( $e->getMessage()." in ".__FILE__." at ".__LINE__ );
 
             return FALSE;
         }

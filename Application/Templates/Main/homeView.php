@@ -1,16 +1,18 @@
 ﻿<div id="start_page_container" >
 <?php
-LogLn(0, "[GETSTARTPAGE]***START***");
-
-$content = Sql_query('SELECT content FROM documents WHERE title = "start_page" AND privilege = 3;');
 
 
+//$content = Sql_query('SELECT content FROM documents WHERE title = "start_page" AND privilege = 3;');
 
-if(count($content) > 0 && strlen($content[0]['content']) > 0){
-	echo Include_special_characters($content['0']['content']);
+
+
+if( strlen($home->content) > 0 )
+{
+	echo Include_special_characters($home->content);
 }
 else {
 	echo '<div id="n_back_modify_level">Position N-Back</div>';
+	exit;
 }
 
 
@@ -38,4 +40,3 @@ else {
 		</a>
 	</div>
 </div>
-<?php	LogLn(0, "[GETSTARTPAGE] ***END***");	?>

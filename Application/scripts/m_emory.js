@@ -681,7 +681,7 @@ function Check_modify_theme_radio(new_theme, uid)
 		$.ajax({
 
 			type: "GET",
-			url : "Application/Theme/theme_coordinate.php?theme="+new_theme,
+			url : "Application/BackModules/Theme/theme_coordinate.php?theme="+new_theme,
 			async: false,
 			success:function(text){
 				msg = text.trim();

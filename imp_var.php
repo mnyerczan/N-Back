@@ -17,5 +17,4 @@ if(!empty($_POST)) $_post_datas = $_POST;
 						   $exit = -1;
 
 								$e = '';
-
-								
+?>				

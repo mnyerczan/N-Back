@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 
 
@@ -7,8 +7,6 @@ $admin_privilege = 3;
 		$logfile = "log/thesis.log";
 		   $time = DateTime::createFromFormat('U.u', number_format(microtime(true), 6, '.', ''));
 			$now = $time->setTimeZone(new DateTimeZone('Europe/Budapest'));
-
-
 
 #paraméterei
 # LOCK_EX

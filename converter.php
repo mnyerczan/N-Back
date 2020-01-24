@@ -1,28 +1,11 @@
-﻿<?php
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//# JavaScriptel és php-val is meghívható php függvények								  					      //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+<?php
 
+//# String formázó függvény. Kiszüri a speckó karaktereket a DB-be valo inzertálás elött.
 
-if(isset($_GET['special_chararcters']) && $_GET['special_chararcters'] == 0){
-
-	echo Escape_special_characters($_GET['msg']);
-
-}
-elseif(isset($_GET['special_chararcters']) && $_GET['special_chararcters'] == 1){
-
-	echo Include_special_characters($_GET['msg']);
-
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//# String formázó függvény. Kiszüri a speckó karaktereket a DB-be valo inzertálás elött.					      //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function Escape_special_characters($msg){
-
-
-	if(substr_count($msg, "'") > 0){
+function Escape_special_characters($msg)
+{
+	if(substr_count($msg, "'") > 0)
+	{
 		$msg_t = explode("'", $msg);
 		$msg='';
 
@@ -37,7 +20,8 @@ function Escape_special_characters($msg){
 		}
 	}
 
-	if(substr_count($msg, '"') > 0){
+	if(substr_count($msg, '"') > 0)
+	{
 		$msg_t = explode('"', $msg);
 		$msg='';
 
@@ -52,7 +36,8 @@ function Escape_special_characters($msg){
 		}
 	}
 
-	if(substr_count($msg, '`') > 0){
+	if(substr_count($msg, '`') > 0)
+	{
 		$msg_t = explode('`', $msg);
 		$msg='';
 
@@ -66,7 +51,8 @@ function Escape_special_characters($msg){
 			}
 		}
 	}
-	if(substr_count($msg, '<') > 0){
+	if(substr_count($msg, '<') > 0)
+	{
 		$msg_t = explode('<', $msg);
 		$msg='';
 
@@ -80,7 +66,8 @@ function Escape_special_characters($msg){
 			}
 		}
 	}
-	if(substr_count($msg, '>') > 0){
+	if(substr_count($msg, '>') > 0)
+	{
 		$msg_t = explode('>', $msg);
 		$msg='';
 
@@ -94,13 +81,13 @@ function Escape_special_characters($msg){
 			}
 		}
 	}
-
-
 	return $msg;
  }
-function Escape_special_characters_except_less_and_grater_then_characters($msg){
+function Escape_special_characters_except_less_and_grater_then_characters($msg)
+{
 
-		if(substr_count($msg, "'") > 0){
+	if(substr_count($msg, "'") > 0)
+		{
 		$msg_t = explode("'", $msg);
 		$msg='';
 
@@ -115,7 +102,8 @@ function Escape_special_characters_except_less_and_grater_then_characters($msg){
 		}
 	}
 
-	if(substr_count($msg, '"') > 0){
+	if(substr_count($msg, '"') > 0)
+	{
 		$msg_t = explode('"', $msg);
 		$msg='';
 
@@ -130,7 +118,8 @@ function Escape_special_characters_except_less_and_grater_then_characters($msg){
 		}
 	}
 
-	if(substr_count($msg, '`') > 0){
+	if(substr_count($msg, '`') > 0)
+	{
 		$msg_t = explode('`', $msg);
 		$msg='';
 
@@ -144,14 +133,13 @@ function Escape_special_characters_except_less_and_grater_then_characters($msg){
 			}
 		}
 	}
-
 	return $msg;
 }
- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//# String formázó függvény. Beilleszti a speckó karaktereket a DB-ből valo kiolvasás után.					      //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function Include_special_characters($msg){
+ 
+//# String formázó függvény. Beilleszti a speckó karaktereket a DB-ből valo kiolvasás után.	
 
+function Include_special_characters($msg)
+{
 	if(substr_count($msg, "@@@@_A") > 0){
 		$msg_t = explode("@@@@_A", $msg);
 		$msg='';
@@ -182,7 +170,8 @@ function Include_special_characters($msg){
 		}
 	}
 
-	if(substr_count($msg, '@@@@_C') > 0){
+	if(substr_count($msg, '@@@@_C') > 0)
+	{
 		$msg_t = explode('@@@@_C', $msg);
 		$msg='';
 
@@ -196,7 +185,8 @@ function Include_special_characters($msg){
 			}
 		}
 	}
-		if(substr_count($msg, '@@@@_D') > 0){
+	if(substr_count($msg, '@@@@_D') > 0)
+	{
 		$msg_t = explode('@@@@_D', $msg);
 		$msg='';
 
@@ -210,7 +200,8 @@ function Include_special_characters($msg){
 			}
 		}
 	}
-		if(substr_count($msg, '@@@@_E') > 0){
+	if(substr_count($msg, '@@@@_E') > 0)
+	{
 		$msg_t = explode('@@@@_E', $msg);
 		$msg='';
 
@@ -224,8 +215,6 @@ function Include_special_characters($msg){
 			}
 		}
 	}
-
-
 	return $msg;
- }
+}
 ?>

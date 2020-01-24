@@ -28,31 +28,9 @@ class Seria
 
 
     protected function GetResult()
-    {
-        #Ez a script lekéri a timestamp mezők date tagjának intécastolt értékét GROUP BY-olva, hozzá az összevonás számát
-        #pusztán szemléltetésnek, és az aznapi összes időt. A WHILE függvény pedíg addig meg, míg az aktuális napi és az
-        # egyel korábbi ineger értéke megegyezik. minen loopban nö egyel a seria száma így jön ki a végeredmény.
-
-        $query = "
-			select
-			cast(current_date as unsigned) as intDate,
-			-1 as session,
-			-1 as minutes
-			union all
-			(select
-			substr(cast(str_to_date(substr(timestamp, 1 ,10), \"%Y-%m-%d %h:%i%p\" ) as unsigned), 1, 8) as intDate,
-			count(*) as session,
-			round(sum(time_length) / 1000 /60, 1) as minutes
-			from n_back_sessions
-			where user_id= \"{$this->uid}\"
-			and ip =\"{$_SERVER["REMOTE_ADDR"]}\"
-			and manual = 0
-			group by intDate
-			having round(sum(time_length) / 1000 /60, 1) >= 20
-			order by intDate DESC, session ASC
-            LIMIT 30)";                
-                    
-        $this->result = $this->dbObject->Select( $query );
+    {                                   
+        $this->result = $this->dbObject->getSeria();
+    
                 
     }
 

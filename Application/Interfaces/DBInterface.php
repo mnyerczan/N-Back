@@ -11,9 +11,11 @@ interface DBInterface
      * @return self object 
      * 
      */
-    static function GetInstance(): object;   
+    static function GetInstance(): object;  
+    function getHomeContent(): string;
+    function getSeria(): array;
 
-    public function Select( string $script, array $params = [] ): array;
-    public function Execute( string $script, array $params = [] ): bool;
+    //function Select( string $script, array $params = [] ): array;
+    //function Execute( string $script, array $params = [] ): bool;
     
 }

@@ -217,7 +217,7 @@
      */
 		html {
 			height: 100%;
-			color: white;
+			color: black;
 			background-color: white;
 			/*background-image: url("./../img/international-network-4k-wallpaper.jpg");
 			background-size: 100% 100%;
@@ -232,7 +232,6 @@
 					width: 100%;
 				   margin: 0;
 				   height: 100%;
-			    -font-size: 12px;
 		 background-color: transparent;
 				  display: table;
 
@@ -250,24 +249,6 @@
 			border-bottom: 1px solid #eee;
 			background-color:rgba(255, 255, 255, 0.8);		
 		}
-
-        .main_header_style_left{
-            float: left;            
-			height: 60px;
-			overflow: hidden;
-			user-select: none;
-
-        }
-        #main_header_img{
-            margin-top: 5px;
-            display: inline-block;
-            float: left;
-        }
-        .main_header_style_left h1{
-            font-size:20px;
-            font-style: italic;
-            font-family: Geneva;
-        }
         .main_header_style_center{
             float: right;
             text-align: left;
@@ -342,99 +323,11 @@
      *
      *  Navigációs sáv. main_page_left_var
      *
-     */
-		#goal_label{
-			background-color: #0a0;			
-			color: white;
-			padding: 1px 5px;
-			border-radius: 4px;
-			color: darkblue;
-		}
-		.nav_bar_text{
-			background: #000;
-		}
-		.nav_bar_parent_arrow_img{
-			width: 8px;
-			height: 8px;
-			background-image: url(".././img/down_black.png");
-			background-size: 8px 8px;
-			position: relative;
-		}
-		.nav_bar{	
-			background-color: #111;	
-			color: #fff;			
-			outline-color: rgb(94, 66, 15);
-		}
-
-		#nav_bar_link_container{
-			border-bottom: 1px solid #ddd;
-		}
-		.nav_bar a{
-			color: white;
-		}
-		.nav_bar_paragraph{
-			width: 94%;
-		 	height: 30px;
-			margin: 3px 0;
-			border: none;
-			background-color: transparent;
-			display: table;
-	  		padding-top: 10px;
-	 		padding-left: 10px;
-	  		cursor: pointer;
-		   	outline: none;
-	  		font-weight: bold;
-			color: white;
-			-webkit-user-select: none; /* Safari 3.1+ */
-		  	-moz-user-select: none; /* Firefox 2+ */
-		  	-ms-user-select: none; /* IE 10+ */
-			user-select: none; /* Standard syntax */
-
-		}
-		.nav_bar_paragraph:hover{
-			color: #666;
-			background-color: #444;
-		}
-		.nav_bar_paragraph_child{
-				  width: 148px;
-				 height: 30px;
-				 margin: 0;
-		background-color: white;
-			     color: black;
-		  font-weight: bold;
-				padding: 10px 0 0 10px;
-				display: block;
-				  float: right;				 
-		  user-select: none;
-		-webkit-user-select: none; /* Safari 3.1+ */
-		  -moz-user-select: none; /* Firefox 2+ */
-		  -ms-user-select: none; /* IE 10+ */
-			 user-select: none; /* Standard syntax */
-		}
-		.nav_bar_child_links_content{
-			background-image: linear-gradient( to right, transparent 21%, white 10%);						
-		}
-		.nav_bar_paragraph_child:hover{
-			-background: #eee;			
-		}
-		.nav_bar_links{
-			text-decoration: none;
-			height: 40px;
-			margin: 3px 0 3px 0;
-			display: block;
-			outline: none;
-			z-index: 10001;
-		}
-		.nav_bar_links:active{
-            color: purple;
-        }
-		#false_indicator_container{
-			width: 94%;
-			height: 20px;
-			display: table;
-			margin: 2.5%;
-		}
-
+	 */
+	 .nav_bar{
+		 color: white;
+	 }
+		
 
     /*
      *

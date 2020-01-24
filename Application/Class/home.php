@@ -7,8 +7,7 @@ require_once APPROOT.'Model/Home/homeViewModel.php';
 class Home
 {
     private 
-            $database,
-            $sql = 'SELECT content FROM documents WHERE title = "start_page" AND privilege = 3';
+            $database;            
 
     function __construct()
     {
@@ -18,6 +17,6 @@ class Home
 
     function getContent()
     {                            
-        return new HomeViewModel( $this->database->Select( $this->sql )[0]->content );
+        return new HomeViewModel( $this->database->getHomeContent());
     }
 }

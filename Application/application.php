@@ -3,6 +3,16 @@
 use DB\EntityGateway;
 use Login\UserEntity;
 
+require_once APPROOT.'Class/userEntity.php';
+require_once APPROOT.'Interfaces/DBInterface.php';
+require_once APPROOT.'DB/MySql.php';
+require_once APPROOT.'DB/entityGateway.php';
+require_once APPROOT.'Core/controller.php';
+
+require_once "_globals.php";
+
+require_once "converter.php";
+require_once APPROOT."functions.php";
 
 final class Application
 {
@@ -15,7 +25,9 @@ final class Application
     /**
      * Create user object
      */
-        $this->user = new UserEntity( EntityGateway::getDB() );               
+        $this->user = new UserEntity();  
+        $this->user->Load();
+        
     }
 
     function route()
@@ -24,12 +36,15 @@ final class Application
         
 
         if(preg_match( '%^/$%', $_SERVER['REQUEST_URI'] ))
-            $page = 'home';
+            $page = 'main';
+        else
+            $page = '_404';
 
         
         require_once APPROOT."Controllers/{$page}Controller.php";
 
         $controller = $page.'Controller';
+
 
         new $controller($this->user);
     }    

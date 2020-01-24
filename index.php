@@ -1,14 +1,6 @@
 ﻿<?php 	
 	define('APPROOT', 'Application/');
 
-	require_once APPROOT.'DB/MySql.php';
-	require_once APPROOT.'Class/seria.php';
-	require_once APPROOT.'DB/baseDbApi.php';
-
-	require_once APPROOT.'Class/userEntity.php';
-	require_once APPROOT.'Interfaces/DBInterface.php';
-	require_once APPROOT.'DB/MySql.php';
-	require_once APPROOT.'DB/entityGateway.php';
 	require_once APPROOT.'application.php';
 
 	header("Expires: Tue, 03 Jul 2001 06:00:00 GMT");
@@ -18,10 +10,6 @@
     header("Pragma: no-cache");
 	header("Connection: close"); 
 	
-	require_once "globals.php";
-
-	require_once "special_characters_handler.php";
-	require_once APPROOT."functions.php";	
 
 /**
  * Hibaüzenetek tartalmának futásidejű beállítása
@@ -42,7 +30,7 @@
 
 
 
-	ob_start();
+	//ob_start();
 	session_start();
 
 
@@ -54,11 +42,11 @@
 /**
  * initialize log files
  */
-	require_once APPROOT.'log/logHandler.php';
+	//require_once APPROOT.'log/logHandler.php';
 
 
 	#Ezekhez a változókhoz szükség van a $_SESSION változóira.
-	require_once("imp_var.php");
+	//require_once("imp_var.php");
 	
 	
 	
@@ -85,8 +73,4 @@
 	
 	$bodyParams .= '"'; */
 
-	(new Application())->route();
-	
-
-
-	//require_once 'Application/view/_layout.php';
+	(new Application())->route();		

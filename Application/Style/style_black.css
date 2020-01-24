@@ -262,22 +262,7 @@
 			border-bottom: 1px solid #222;
 			background-color:rgba(0, 0, 0, 0.6);
 		} 
-        .main_header_style_left{
-            float: left;            
-			height: 60px;
-			overflow: hidden;
-			user-select: none;
-        }
-        #main_header_img{
-            margin-top: 5px;
-            display: inline-block;
-            float: left;
-        }
-        .main_header_style_left h1{
-            font-size:20px;
-            font-style: italic;
-            font-family: Geneva;
-        }
+
         .main_header_style_center{
             float: right;
             text-align: left;
@@ -351,86 +336,12 @@
      *  Navigációs sáv. main_page_left_var
      *
      */
-		#goal_label{
-			background-color: #090;
-			color: black;
-			padding: 0 5px;
-		}
-		.nav_bar_text{
-			background: #222;
-		}
-		.nav_bar{
-	  		background-color: black;
-			color: #bbb;
-			outline-color: rgb(94, 66, 15);
-		}
-		#nav_bar_link_container{
-			border-bottom: 1px solid #222;
-		}
-		.nav_bar a{
-			color: black;
-		}
-		.nav_bar_paragraph{
-			  width: 94%;
-			 height: 30px;
-			 margin: 3px 0;
-			 border: none;
-background-color: transparent;;
-			  color: white;
-			display: table;
-	  padding-top: 10px;
-	 padding-left: 10px;
-			 cursor: pointer;
-			outline: none;
-	  font-weight: bold;
-			z-index: 2 !important;
-		-webkit-user-select: none; /* Safari 3.1+ */
-		  -moz-user-select: none; /* Firefox 2+ */
-		  -ms-user-select: none; /* IE 10+ */
-			 user-select: none; /* Standard syntax */
-		}
-		.nav_bar_paragraph:hover{
-            background-image: linear-gradient(#222, #222);
-		}
-		.nav_bar_paragraph_child{
-				  width: 148px;
-				 height: 30px;
-				 margin: 0;
-	background-color: #111;
-		  font-weight: bold;
-				  color: white;
-				padding: 10px 0 0 10px;
-				display: block;
-				  float: right;
-		-webkit-user-select: none; /* Safari 3.1+ */
-		  -moz-user-select: none; /* Firefox 2+ */
-		  -ms-user-select: none; /* IE 10+ */
-			 user-select: none; /* Standard syntax */
-		}
-		.nav_bar_paragraph_child:hover{
-			background-color: #222;
-		}
-		.nav_bar_child_links_content{
-			background-image: linear-gradient( to right, transparent 21%, black 10%);
-		}
-		.nav_bar_links{
-			text-decoration: none;
-			height: 40px;
-			margin: 3px 0 3px 0;
-			display: block;
-			outline: none;
-		}
-
-        .nav_bar_links:active{
-            color: purple;
-        }
-		#false_indicator_container{
-			width: 94%;
-			height: 20px;
-			display: table;
-			margin: 2.5%;
-			_border: 1px solid #888;
-		}
+	.nav_bar{
+		background-color: black;
+	}
+	.nav-lnks a{
+		color: white;
+	}
 
     /*
      *

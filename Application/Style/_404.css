@@ -1,0 +1,117 @@
+body{
+    margin:0;
+}
+/* All button */
+
+.btn{
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: solid;
+    cursor: pointer;
+    margin: 2px;
+    transition: box-shadow 0.1s ease-in-out, font-weight 0.1s ease-in-out;
+}
+.btn:hover{    
+    z-index: 10000;
+    box-shadow: 0 0 2px 2px #C0C0C0;    
+    text-shadow: none;
+}
+
+/*----------------------------------------*/
+/* button size: small, medium, large */
+.sml-btn{
+    min-width: 60px;
+    padding: 2px;
+    font-size: 14px;
+}
+.md-btn{
+    min-width: 100px;
+    padding: 5px;   
+    font-size: 16px; 
+}
+.lrg-btn{
+    min-width: 140px;
+    padding: 8px;
+    font-size: 20px;    
+}
+
+/*----------------------------------------*/
+/* ms-button styles */
+.ms-btn-rd, .ms-btn-blk,
+.ms-btn-gld,.ms-btn-grn,
+.ms-btn-bl, .ms-btn-std,
+.ms-btn-rng{
+    box-shadow: 0 0 5px #aaa;
+    outline-color: transparent;    
+    font-weight: bold;     
+}
+.ms-btn-bl, .ms-btn-blk, 
+.ms-btn-grn, .ms-btn-rd, 
+.ms-btn-rng{
+    color: white; 
+}
+.ms-btn-bl, .ms-btn-blk,
+.ms-btn-grn, .ms-btn-rng,
+.ms-btn-rd, .ms-btn-gld{
+    text-shadow:0 0 1px black;
+}
+.ms-btn-rd{
+    border-color: #875;    
+    background-image:linear-gradient(to bottom, rgb(194, 72, 72), rgb(121, 12, 12));
+}
+.ms-btn-blk{
+    border-color: #875;    
+    background-image:linear-gradient(to bottom, rgb(126, 132, 143), rgb(0, 0, 0));
+    
+}
+.ms-btn-gld{
+    border-color: rgb(97, 99, 13);
+    color: rgb(240, 241, 214);
+    background-image:linear-gradient(to bottom, rgb(196, 211, 108), rgb(93, 107, 11));
+
+}
+.ms-btn-bl{
+    border-color:#875;    
+    background-image: linear-gradient(to bottom, rgb(90, 90, 190), rgb(39, 39, 77));
+}
+.ms-btn-grn{
+    border-color: #875;    
+    background-image: linear-gradient(to bottom,rgb(21, 197, 15), rgb(11, 131, 7)); 
+}
+.ms-btn-std{
+    border-color: transparent;    
+    background-color: white;  
+    color: black; 
+}
+.ms-btn-std:hover{
+    color: blue;
+}
+.ms-btn-rng{
+    border-color: rgb(228, 150, 150);      
+    background-color: rgb(255, 166, 0);      
+}
+/*
+ * Error Page
+ */
+ .ms-error-pg{
+    width: 100vw;
+    height: 30vh;
+    margin: auto;
+    padding: 30px 0;
+    border-bottom: 2px solid gray;
+    border-top: none;
+    background-color: #eee;
+}
+.ms-error-msg{
+    text-align: center;
+    color: #99b;
+    font-size: 40px;
+    font-style: italic;
+}
+.ms-404-msg{
+    padding:0 50px;  
+    background-color: #f5f5f5f6;
+}
+.ms-404-btn-container{
+    padding: 50px;
+}

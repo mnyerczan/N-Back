@@ -12,26 +12,27 @@
 		<script type="text/javascript" src="scripst/bootstrap/3_0_4.js"></script>
 		<script type="text/javascript" src="scripts/jQuery/jquery-3.3.1.min.js"></script>
 		<script>var jsLogLevel = true;</script>
-		<link rel="stylesheet" type="text/css" href="<?=APPROOT?>style/style_black.css" />
-		<link rel="stylesheet" type="text/css" href="<?=APPROOT?>style/style_white.css" />
-		<link rel="stylesheet" type="text/css" href="<?=APPROOT?>style/common.css" />
-		<link rel="stylesheet" id="theme_link" type="text/css" href="<?=APPROOT?>style/style_<?= $user->theme ?>.css" />
+		<link rel="stylesheet" type="text/css" href="<?=APPROOT?>Style/style_white.css" />
+		<link rel="stylesheet" type="text/css" href="<?=APPROOT?>Style/style_black.css" />		
+		<link rel="stylesheet" type="text/css" href="<?=APPROOT?>Style/common.css" />
+		<link rel="stylesheet" id="theme_link" type="text/css" href="<?=APPROOT?>Style/style_<?= $user->theme ?>.css" />
 	</head>
 	<body  class="main_body" id="main" tabindex="-1">
 		<!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-<!-- Header -->
-<?php require_once APPROOT."Templates/Main/headerView.php";  ?>
-<!-- Info label -->
-<?php //require_once('info_label.php');?>
-<!-- Main Page -->
+		<!-- Header -->
+		<?php require_once APPROOT."Templates/Main/headerView.php";  ?>
+		<!-- Info label -->
+		<?php //require_once('info_label.php');?>
+		<!-- Nav bar -->
+		<?php require_once APPROOT.'Templates/Main/navbarView.php'; ?>
+		<!-- Main Page -->
 		<div class="main_page" id="main_page">
-<!-- Nav bar -->
-<?php //require_once('nav_bar.php'); ?>
-<!--Center Box-->
+			<!--Center Box-->
 			<main id="main_page_center_box" unselectable="on" tabindex="-1" <?= @$_GET['nb_common'] == 1 ? 'style="pointer-events: none;"' : ""?>>
-<?php   	require_once APPROOT."Templates/Main/{$view}View.php";
+	
+				<?php require_once APPROOT."Templates/Main/{$view}View.php";
 /* 
 switch($page)
 {

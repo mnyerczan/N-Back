@@ -48,7 +48,7 @@ class UserEntity
 		$this->datas['u_name'] 			= NULL;
 		$this->datas['email'] 			= NULL;
 		$this->datas['login_datetime']	= NULL;
-		$this->datas['privilege'] 		= NULL;
+		$this->datas['privilege'] 		= 0;
 		$this->datas['birth'] 			= NULL;
 		$this->datas['pw_length'] 		= NULL;
 		$this->datas['file_name'] 		= NULL;
@@ -69,17 +69,12 @@ class UserEntity
 
 
 	function Load( $name = 'default', $pass = NULL ): string
-    {
-		$sql=
-		   "SELECT `users`.*, `n_back_datas`.*, current_timestamp AS refresh 
-			FROM `users` JOIN `n_back_datas` 
-				ON `users`.`id` = `n_back_datas`.`user_id` 
-			WHERE `u_name` = :name 
-			AND `password` = :pass ";
+    {		
 		
 
-		$result = $this->dbObject->Select( $sql, [ ":name" => $name, ":pass" => $pass ]  );	
-	
+		$result = $this->dbObject->getUser( [ ":name" => $name, ":pass" => $pass ]  );	
+			
+
 		if( 1 == count( $result ))
 		{		
 			$this->SetUser( $result );			
@@ -100,8 +95,8 @@ class UserEntity
 			AND `password` = :pass ";
 		
 
-		$result = $this->dbObject->Select( $sql, [ ":name" => $name, ":pass" => md5( "salt".md5( $pass ) ) ]  );	
-	
+		$result = $this->dbObject->getUser( $sql, [ ":name" => $name, ":pass" => md5( "salt".md5( $pass ) ) ]  );			
+
 		if( 1 == count( $result ))
 		{		
 			$this->SetUser( $result );			

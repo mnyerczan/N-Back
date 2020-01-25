@@ -1,0 +1,11 @@
+<IFModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILNAME} !-f
+    RewriteCond %{REQUEST_FILNAME} !-d
+    #kivétel adása a szabályhoz, hogy a 
+    #http://localhost/School/web-project-1/application/style/style.css kérést kiszolgálja a szerver.
+    RewriteCond %{REQUEST_URI} !/style/style.css
+    RewriteRule ^ index.php [L]
+</IFModule>
+# A minusszal kiakapcsoljuk a könyvtárak kilistázásának lehetőségét.
+#Options -Indexes

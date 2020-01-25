@@ -7,8 +7,8 @@ use RuntimeException;
 use PDO;
 
 
-require_once APPROOT.'Interfaces/DBInterface.php';
-require_once APPROOT.'DB/baseDbApi.php';
+require_once APPLICATION.'Interfaces/DBInterface.php';
+require_once APPLICATION.'DB/baseDbApi.php';
 
 /**
  * MySql This is a singleton
@@ -30,11 +30,11 @@ class MySql extends baseDbApi implements DBInterface
     /**
      * Navbar Module
      */
-    public function getChildLinks( $menuid, $privilege )
+    public function getChildMenus( $menuid, $privilege )
     {
         $sql = 'SELECT * FROM menus where parent_id = :menuid AND privilege <= :privilege';
 
-        return $this->Select( $sql, [ ':menuid' => $menuid, ':privilege' => $privilege ] ) ;        
+        return $this->Select( $sql, [ ':menuid' => $menuid, ':privilege' => 3 ] ) ;        
 
     }
 
@@ -93,7 +93,7 @@ class MySql extends baseDbApi implements DBInterface
     {
         $sql = 'SELECT * FROM menus WHERE parent_id = "none" AND privilege <= :privilege ORDER BY child ASC, name ASC';
 
-        return $this->Select( $sql, [ ':privilege' => $privilege ] );
+        return $this->Select( $sql, [ ':privilege' => 3 ] );
     }    
 
     //-----------------------------------------------------------------------------           

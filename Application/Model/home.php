@@ -2,7 +2,7 @@
 
 use DB\EntityGateway;
 
-require_once APPROOT.'Model/Home/homeViewModel.php';
+require_once APPLICATION.'Model/Home/homeViewModel.php';
 
 class Home
 {

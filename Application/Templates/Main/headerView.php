@@ -33,7 +33,7 @@ var theme = "<?= $user->theme  ?  $user->theme : (isset($_cookie_datas['theme'])
 		</div>
 		<?php if($seria->seria > 0): ?>
 		<div id='seria_text' title= "<?= $seria->seria, $seria->seria > 1 ? " days series" : " day series" ?>">
-			<img src="<?=APPROOT?>img/fat_flame_red.png" id="seria_flame_img">
+			<img src="<?=APPLICATION?>img/fat_flame_red.png" id="seria_flame_img">
 			<pre id="serias_left_time"></pre>
 		</div>
 		<?php endif; ?>
@@ -41,13 +41,13 @@ var theme = "<?= $user->theme  ?  $user->theme : (isset($_cookie_datas['theme'])
 		<?php if( $user->id !== 1 ):?>				
 			<a href="index.php?exit=1" onclick="return confirm('Are you sure?')">
 				<button class="header_button">  Logout
-					<img src="<?=APPROOT?>img/logout_white.png" class="header_button_img" style="width:20px;height:17px;">
+					<img src="<?=APPLICATION?>img/logout_white.png" class="header_button_img" style="width:20px;height:17px;">
 				</button>
 			</a>
 			<div class="border"></div>
 				<a href="index.php?index=6" >
 					<button class="header_button" title="Go to profile"><b id="name_marker">										
-						<?=$user->name?><img src="<?=APPROOT?>users/<?=explode('_', $user->file_name)[0]?>/<?= $user->file_name?>"
+						<?=$user->name?><img src="<?=APPLICATION?>users/<?=explode('_', $user->file_name)[0]?>/<?= $user->file_name?>"
 						class="header_button_img" id="header_user_pics" ></b>
 					</button>
 				</a>
@@ -55,7 +55,7 @@ var theme = "<?= $user->theme  ?  $user->theme : (isset($_cookie_datas['theme'])
 			<?php if($user->privilege == $admin_privilege):?>						
 				<a href='index.php?index=6&c=1'>
 					<button class='header_button'> New account
-						<img src='<?=APPROOT?>img/add_user_blue.png' class='header_button_img' style='width:20px;height:17px;'>
+						<img src='<?=APPLICATION?>img/add_user_blue.png' class='header_button_img' style='width:20px;height:17px;'>
 					</button>
 				</a>
 				<div class='border'></div>
@@ -64,7 +64,7 @@ var theme = "<?= $user->theme  ?  $user->theme : (isset($_cookie_datas['theme'])
 		<?php if( !$user->login_datetime && (!isset($_GET['index']) || $_GET['index'] != '1' )): ?>		
 			<a href='index.php?index=1'>
 				<button class='header_button'>  Sign in
-					<img src='<?=APPROOT?>img/login_white.png' class='header_button_img' style='width:20px;height:17px;'>
+					<img src='<?=APPLICATION?>img/login_white.png' class='header_button_img' style='width:20px;height:17px;'>
 				</button>
 			</a>
 			<div class='border'></div>
@@ -72,7 +72,7 @@ var theme = "<?= $user->theme  ?  $user->theme : (isset($_cookie_datas['theme'])
 		<?php if( !$user->login_datetime && (  !isset($_GET['index']) || $_GET['index'] != 6 ) ): ?> 				
 			<a href='index.php?index=6&c=1'>
 				<button class='header_button'> Sign Up							
-					<img src='<?=APPROOT?>img/add_user_blue.png' class='header_button_img' style='width:20px;height:17px;'>
+					<img src='<?=APPLICATION?>img/add_user_blue.png' class='header_button_img' style='width:20px;height:17px;'>
 				</button>
 			</a>
 			<div class='border'></div>
@@ -82,14 +82,16 @@ var theme = "<?= $user->theme  ?  $user->theme : (isset($_cookie_datas['theme'])
 		<div class="clear"></div>
 	</div>
 </div>
-<script>
-	var
-		seria				= "<?= $seria->seria ?>",
-		div					= document.getElementById("serias_left_time");
-		isnbCommonEqualOne	= "<?php echo isset($_GET["nb_common"]) && $_GET["nb_common"] == 1 ? 1 : 0; ?>";
-		
-	if(document.getElementById("serias_left_time"))
+<script>	
+	if(_$("serias_left_time"))
 	{	
-		document.getElementById("serias_left_time").addEventListener("load", SeriaLeftTexHandler(seria, div, isnbCommonEqualOne));
+		_$("serias_left_time").addEventListener(
+				"load", 
+				SeriaLeftTexHandler(
+					"<?= $seria->seria ?>", 
+					_$("serias_left_time"), 
+					"<?= isset($_GET["nb_common"]) && $_GET["nb_common"] == 1 ? 1 : 0; ?>"
+				)
+			);
 	}
 </script>

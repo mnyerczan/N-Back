@@ -49,27 +49,27 @@
 
 
 
-				for($j = 0; $j < count($navbar->datas['childLinks']); $j++)
+				for($j = 0; $j < count($navbar->datas['childMenus']); $j++)
 				{
 
 					////////////////
 					#	Gyerekek   #
 					////////////////
 
-					if($navbar['childLinks'][$j]['privilege'] <= $user->privilege)
+					if($navbar['childMenus'][$j]['privilege'] <= $user->privilege)
 					{
 
-						$child_name = strlen(Include_special_characters($navbar['childLinks'][$j]['name'])) > 8 ?
-							substr(Include_special_characters($navbar['childLinks'][$j]['name']), 0, 8).'..' : Include_special_characters($navbar['childLinks'][$j]['name']);
+						$child_name = strlen(Include_special_characters($navbar['childMenus'][$j]['name'])) > 8 ?
+							substr(Include_special_characters($navbar['childMenus'][$j]['name']), 0, 8).'..' : Include_special_characters($navbar['childMenus'][$j]['name']);
 
 						$child_links_index_array++;
 						?>
-								<a class="navbar['menus']" style="cursor:pointer;" onclick="S_datas(<?php echo "'",$navbar['childLinks'][$j]['path'], "','"
-										,$navbar['childLinks'][$j]['id'],"','",$navbar['childLinks'][$j]['name'],"','",$navbar['childLinks'][$j]['privilege'], "'"; ?>)">
+								<a class="navbar['menus']" style="cursor:pointer;" onclick="S_datas(<?php echo "'",$navbar['childMenus'][$j]['path'], "','"
+										,$navbar['childMenus'][$j]['id'],"','",$navbar['childMenus'][$j]['name'],"','",$navbar['childMenus'][$j]['privilege'], "'"; ?>)">
 						<?php
-						echo   '<p class="nav_bar_paragraph_child" id="parent_id_'.$navbar['childLinks'][$j]['parent_id'].'">
+						echo   '<p class="nav_bar_paragraph_child" id="parent_id_'.$navbar['childMenus'][$j]['parent_id'].'">
 										'.$child_name.'
-									'.($navbar['childLinks'][$j]['ikon'] != 'none' ? '<img src="'.$navbar['childLinks'][$j]['ikon'].'" class="header_button_img" style="width: 20px;">' : '').'
+									'.($navbar['childMenus'][$j]['ikon'] != 'none' ? '<img src="'.$navbar['childMenus'][$j]['ikon'].'" class="header_button_img" style="width: 20px;">' : '').'
 									</p>
 								</a>';
 					}

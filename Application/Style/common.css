@@ -29,17 +29,17 @@ body{
 	width: 120px;
 	float: right;
 }
-#good_trial_nav_not_font,
-#bad_trial_nav_not_font{
+.good_trial_nav_not_font,
+.bad_trial_nav_not_font{
 	padding: 1px 5px;
 	margin:  0 2px;
 	border-radius: 2px;
 	box-shadow: 3px 1px 6px 2px #444;
 }
-#bad_trial_nav_not_font{
+.bad_trial_nav_not_font{
 	background-color: #800;	
 }
-#good_trial_nav_not_font{
+.good_trial_nav_not_font{
 	background-color: #0a0;
 	color:darkblue;
 }
@@ -69,8 +69,8 @@ body{
 .navbar-hdr{
 	float: left;            
 	height: 40px;
-	width: calc( 100% - 40px );
-	padding: 0 20px;
+	width: calc( 100% - 20px );
+	padding: 10px;
 	overflow: hidden;
 	user-select: none;
 	display: block;
@@ -78,7 +78,7 @@ body{
 .navbar-hdr h1{
 	display: block;
 	float: right;
-	margin:0;
+	margin:5px;
 	font-size:25px;
 	font-style: italic;
 	font-family: Geneva;
@@ -95,8 +95,12 @@ body{
 	width: calc( 100% - 20px);
 	height: 120px;
 	position:absolute;
+	padding: 0 10px;
 	display: table;
-	top:120px;
+	top:100px;
+	padding-bottom:5px;
+	background-color: #000;	
+	z-index: 10001;
 }
 .nav-lnks a{
 	width: calc( 100% - 20px );	
@@ -105,13 +109,16 @@ body{
 	display: block;	
 	border-radius: 2px;
 	font-size: 14px;
-	background-color: #222;
+	background-color: #333;
 }
 .nav-lnks a:hover{
-	background-color: #444;
+	color: #999;
+}
+.nav-lnks a:active {
+	background-color: #080;
 }
 .nav-lnks-arrow {
-	width: 18px;
+	width: 10px;
 	display: block;
 	float: left;
 	padding: 4px 6px 4px 0;
@@ -123,18 +130,91 @@ body{
 }
 .nav-hidden{
 	display: none;
+	transition: display 2s ease-in-out;
 }
 .hidden-section:hover .nav-hidden{
-	display: block;
+	display: block;		
+}
+/*---- navbar info section ----*/
+#navbar-infos {
+	position: absolute;
+	top:220px;
+	/* navbar padding: 10px; */
+	width: calc( 100% - 20px - 10px );
+	padding: 15px;
+	display: table;	
+}
+#navbar-infos h5 {
+	font-style: italic;
+	font-weight: normal;
+	margin: 10px 0;
+}
+#navbar-infos h4,
+#navbar-infos h5,
+.navbar-second-text {
+	text-align: center;
+}
+.navbar-second-text {
+	display: none;
+}
+.nav_bar_text {
+	font-size: 12px;
+	margin: 2px 0;
+}
+@media (max-height: 800px) {
+	.nav_bar_text {
+		display: none;
+	}
+	.navbar-second-text,
+	#navbar-infos h5 {
+		display: block;
+		margin: 5px 0;
+	}
+}
+@media (max-height: 750px) {
+	.navbar-second-text {
+		font-size: 12px;
+	}
 }
 
+@media (max-height: 600px) {
+	.navbar-second-text {
+		display: none;
+	}
+}
+
+
+/*---- navbar sessions section ----*/
+#navbar-sessions {
+	position: absolute;
+	top:48%;
+	height: 52vh;
+	padding:0 10px;
+	/* navbar padding: 10px; */
+	width: calc( 100% - 20px );
+	display: block;	
+	overflow-y: auto;
+	background-color: #000;
+}
+#navbar-sessions h4,
+#navbar-sessions h5,
+#navbar-sessions h6 {
+	text-align: center;
+}
+#navbar-sessions h6 {
+	line-height: 15px;
+	padding: 5px 0;
+	margin: 5px 0;
+	background-color: rgb(39, 35, 24);
+}
 
 /*---- increase indicators ----*/
 .increase-container{
-	padding-bottom: 10px;	
+	padding:0 10px;	
 	height: 20px;
 	width: calc( 100% - 20px );
 	position:absolute;
+	background-color: #333;
 	top:70px;
 }
 .online_ring{
@@ -156,10 +236,9 @@ body{
 .nav_bar{	
 	overflow: hidden;
 	font-size: 14px;	
-	min-height: 880px;	
-	height: 100%;
+	height: 100vh;	
 	float: left;		
-	padding: 10px;
+	-padding: 10px;
 	margin:0;
 	display: table;
 

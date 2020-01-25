@@ -10,7 +10,7 @@ define("LOGIN", "TRUE");
 
 $documentRoot = ".././";
 
-require_once $documentRoot.'Class/userEntity.php';
+require_once $documentRoot.'Model/userEntity.php';
 require_once $documentRoot.'Interfaces/DBInterface.php';
 require_once $documentRoot.'DB/MySql.php';
 require_once $documentRoot.'DB/entityGateway.php';

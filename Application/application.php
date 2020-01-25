@@ -3,16 +3,16 @@
 use DB\EntityGateway;
 use Login\UserEntity;
 
-require_once APPROOT.'Class/userEntity.php';
-require_once APPROOT.'Interfaces/DBInterface.php';
-require_once APPROOT.'DB/MySql.php';
-require_once APPROOT.'DB/entityGateway.php';
-require_once APPROOT.'Core/controller.php';
+require_once APPLICATION.'Model/userEntity.php';
+require_once APPLICATION.'Interfaces/DBInterface.php';
+require_once APPLICATION.'DB/MySql.php';
+require_once APPLICATION.'DB/entityGateway.php';
+require_once APPLICATION.'Core/controller.php';
 
 require_once "_globals.php";
 
 require_once "converter.php";
-require_once APPROOT."functions.php";
+require_once APPLICATION."functions.php";
 
 final class Application
 {
@@ -28,6 +28,7 @@ final class Application
         $this->user = new UserEntity();  
         $this->user->Load();
         
+       
     }
 
     function route()
@@ -41,7 +42,7 @@ final class Application
             $page = '_404';
 
         
-        require_once APPROOT."Controllers/{$page}Controller.php";
+        require_once APPLICATION."Controllers/{$page}Controller.php";
 
         $controller = $page.'Controller';
 

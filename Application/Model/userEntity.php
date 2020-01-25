@@ -5,7 +5,7 @@ use DB\EntityGateway;
 
 class UserEntity
 {
-    private $result,
+    private $loged,
 			$dbObject;
 			
 	private $datas = [];			
@@ -44,34 +44,37 @@ class UserEntity
 		$this->dbObject = EntityGateway::getDB();
 		
 		$this->datas['id'] 				= 1;
-		$this->datas['name'] 			= NULL;
-		$this->datas['u_name'] 			= NULL;
+		$this->datas['name'] 			= 'Guest';
+		$this->datas['u_name'] 			= 'Guest';
 		$this->datas['email'] 			= NULL;
 		$this->datas['login_datetime']	= NULL;
 		$this->datas['privilege'] 		= 0;
 		$this->datas['birth'] 			= NULL;
 		$this->datas['pw_length'] 		= NULL;
 		$this->datas['file_name'] 		= NULL;
-		$this->datas['theme'] 			= @$_COOKIE['theme'] ? $_COOKIE['theme'] : 'white';
+		$this->datas['theme'] 			= $_COOKIE['theme'] 		?? 'white';
 		$this->datas['refresh'] 		= NULL;
 
 		// NOT IMPLEMENTED FEATUTRE
 		$this->datas['online'] 			= NULL;
 		//--------------------------------------------------------------------------------------------
 		
-		$this->datas['manual'] 			= NULL;
-		$this->datas['level'] 			= NULL;
-		$this->datas['seconds'] 		= NULL;
-		$this->datas['trials'] 			= NULL;
-		$this->datas['event_length']	= NULL;
-		$this->datas['color'] 			= NULL;	
+		$this->datas['manual'] 			= $_COOKIE['manual'] 		?? 'Off';
+		// Game level
+		$this->datas['level'] 			= $_COOKIE['level'] 		?? 1;
+		// Tim between two event in seconds
+		$this->datas['seconds'] 		= $_COOKIE['seconds'] 		?? 3;
+		// Min trial has 25 events
+		$this->datas['trials'] 			= $_COOKIE['trials'] 		?? 25;
+		// One event length in seconds 
+		$this->datas['event_length']	= $_COOKIE['event_length'] 	?? 0.75;
+		// Event's color
+		$this->datas['color'] 			= $_COOKIE['color'] 		?? 'blue';
     }
 
 
 	function Load( $name = 'default', $pass = NULL ): string
-    {		
-		
-
+    {			
 		$result = $this->dbObject->getUser( [ ":name" => $name, ":pass" => $pass ]  );	
 			
 
@@ -79,33 +82,25 @@ class UserEntity
 		{		
 			$this->SetUser( $result );			
 	
-			return $this->result = "TRUE";
+			return $this->loged = "TRUE";
 		}        		
 
-		return $this->result = "FALSE";
+		return $this->loged = "FALSE";
 	}
 
     function Login( string $name, string $pass ): string
-    {
-		$sql=
-		   "SELECT `users`.*, `n_back_datas`.*, current_timestamp AS refresh 
-			FROM `users` JOIN `n_back_datas` 
-				ON `users`.`id` = `n_back_datas`.`user_id` 
-			WHERE `u_name` = :name 
-			AND `password` = :pass ";
-		
-
-		$result = $this->dbObject->getUser( $sql, [ ":name" => $name, ":pass" => md5( "salt".md5( $pass ) ) ]  );			
+    {		
+		$result = $this->dbObject->getUser( [ ":name" => $name, ":pass" => md5( "salt".md5( $pass ) ) ]  );			
 
 		if( 1 == count( $result ))
 		{		
 			$this->SetUser( $result );			
 			$this->SetSession( $result );	
 	
-			return $this->result = "TRUE";
+			return $this->loged = "TRUE";
 		}        		
 
-		return $this->result = "FALSE";
+		return $this->loged = "FALSE";
 	
 	}
 

@@ -1,7 +1,7 @@
 ﻿<?php 	
-	define('APPROOT', 'Application/');
+	define('APPLICATION', 'Application/');
 
-	require_once APPROOT.'application.php';
+	require_once APPLICATION.'application.php';
 
 	header("Expires: Tue, 03 Jul 2001 06:00:00 GMT");
     header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -42,7 +42,7 @@
 /**
  * initialize log files
  */
-	//require_once APPROOT.'log/logHandler.php';
+	//require_once APPLICATION.'log/logHandler.php';
 
 
 	#Ezekhez a változókhoz szükség van a $_SESSION változóira.

@@ -5,9 +5,9 @@ use DB\EntityGateway;
 use Login\UserEntity;
 
 
-require_once APPROOT.'Class/seria.php';
-require_once APPROOT.'Class/home.php';
-require_once APPROOT.'Class/navbar.php';
+require_once APPLICATION.'Model/seria.php';
+require_once APPLICATION.'Model/home.php';
+require_once APPLICATION.'Model/navbar.php';
 
 class MainController extends Controller
 {

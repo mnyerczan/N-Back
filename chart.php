@@ -15,14 +15,14 @@ $result = Sql_query($sql =  '
 	SELECT * FROM (SELECT
 			((sum(level) / count(level)) ) AS level,
 			CASE
-			WHEN sum(correct_hit) = 0 or (sum(correct_hit) + sum(wrong_hit)) = 0
+			WHEN sum(correctHit) = 0 or (sum(correctHit) + sum(wrongHit)) = 0
 			then 0
-			else sum(correct_hit) / (sum(correct_hit) + sum(wrong_hit)) END AS stat,
+			else sum(correctHit) / (sum(correctHit) + sum(wrongHit)) END AS stat,
 			substr(timestamp, 1, 10) as date,
-			sec_to_time(ceil(SUM(time_length) / 1000)) as time_length			
-		from n_back_sessions
-		where manual ="Off"
-			and user_id =  '.$uid.'
+			sec_to_time(ceil(SUM(sessionLength) / 1000)) as sessionLength			
+		from nbackSessions
+		where gameMode ="Position"
+			and userID =  '.$uid.'
 		group by date
 		ORDER BY date DESC
 		Limit 20
@@ -157,7 +157,7 @@ $skala_font_size = $column_font_size * 0.8;
 
 				onmouseover="Mark_on_x_axis(time_column_'.$i.', '.round($result[$i]['level'] + $result[$i]['stat'], 2).')">          <span class="chart_pointer">&#9670</span>
 
-				<span class="chart_column_text" style="',substr($result[$i]['time_length'], 0, 2) >= 20 || strlen($result[$i]['time_length']) > 5 ?
+				<span class="chart_column_text" style="',substr($result[$i]['sessionLength'], 0, 2) >= 20 || strlen($result[$i]['sessionLength']) > 5 ?
 
 				"font-weight: bold" : ($main_theme == "white" ? "color: #bbb" : "color: #555"),'">',
 				
@@ -216,11 +216,11 @@ $skala_font_size = $column_font_size * 0.8;
 				{
 					
 					 $game_time_for_chart = 
-					 	(int)substr($result[$i]['time_length'], 0, 2) > 0 ?
-						(int)substr($result[$i]['time_length'], 3, 2) + 60 : 
-						(int)substr($result[$i]['time_length'], 3, 2);
+					 	(int)substr($result[$i]['sessionLength'], 0, 2) > 0 ?
+						(int)substr($result[$i]['sessionLength'], 3, 2) + 60 : 
+						(int)substr($result[$i]['sessionLength'], 3, 2);
 
-					$game_time_for_chart +=  (int)substr($result[$i]['time_length'], 6, 2) >= 30 ? 1 : 0;
+					$game_time_for_chart +=  (int)substr($result[$i]['sessionLength'], 6, 2) >= 30 ? 1 : 0;
 
 					echo '<div class="time_column" id="time_column_'.$i.'">'.$game_time_for_chart.'</div>';
 

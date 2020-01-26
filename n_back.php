@@ -1,24 +1,24 @@
 ﻿<?php
-if (isset($_COOKIE['correct_hit'])) $was_session = true; else $was_session = false;
+if (isset($_COOKIE['correctHit'])) $was_session = true; else $was_session = false;
 
-if(!isset($_SESSION['n_back_datas']['manual'] ) || $_SESSION['n_back_datas']['manual'] == ""){
-    $_NBACK['manual'] 			= isset($_COOKIE['manual']) ? $_COOKIE['manual'] : 'Off';
+if(!isset($_SESSION['nbackDatas']['gameMode'] ) || $_SESSION['nbackDatas']['gameMode'] == ""){
+    $_NBACK['gameMode'] 			= isset($_COOKIE['gameMode']) ? $_COOKIE['gameMode'] : 'Off';
     $_NBACK['level']			= isset($_COOKIE['level']) ? $_COOKIE['level'] : '1';
     $_NBACK['seconds']			= isset($_COOKIE['seconds']) ? $_COOKIE['seconds'] : '3';
     $_NBACK['trial']			= isset($_COOKIE['trial']) ? $_COOKIE['trial'] : 20 + 5;
-    $_NBACK['event_length']		= isset($_COOKIE['event_length']) ? $_COOKIE['event_length'] : '0.500';
+    $_NBACK['eventLength']		= isset($_COOKIE['eventLength']) ? $_COOKIE['eventLength'] : '0.500';
     $_NBACK['color']			= isset($_COOKIE['color']) ? $_COOKIE['color'] : 'blue';
     $trial_min 					= isset($_COOKIE['level']) ? $_COOKIE['level'] * 5 : 5;
 }
 else
 {
-    $_NBACK['manual']  			= $_SESSION['n_back_datas']['manual'];
-    $_NBACK['level']			= $_SESSION['n_back_datas']['level'];
-    $_NBACK['seconds']			= $_SESSION['n_back_datas']['seconds'];
-    $_NBACK['trial']			= $_SESSION['n_back_datas']['trials'] ;
-    $_NBACK['event_length']		= $_SESSION['n_back_datas']['event_length'];
-    $_NBACK['color']  			= $_SESSION['n_back_datas']['color'];
-    $trial_min 					= $_SESSION['n_back_datas']['level'] * 5;
+    $_NBACK['gameMode']  			= $_SESSION['nbackDatas']['gameMode'];
+    $_NBACK['level']			= $_SESSION['nbackDatas']['level'];
+    $_NBACK['seconds']			= $_SESSION['nbackDatas']['seconds'];
+    $_NBACK['trial']			= $_SESSION['nbackDatas']['trials'] ;
+    $_NBACK['eventLength']		= $_SESSION['nbackDatas']['eventLength'];
+    $_NBACK['color']  			= $_SESSION['nbackDatas']['color'];
+    $trial_min 					= $_SESSION['nbackDatas']['level'] * 5;
 }
 
 
@@ -33,18 +33,18 @@ switch($nb_case){
 				number_of_visiblility = 0,
 				level = parseInt("<?php echo $_NBACK['level'] ?>"),
 				seconds_js = parseInt("<?php echo $_NBACK['seconds']; ?>"),
-				correct_hit = 0,
-				wrong_hit = 0;
+				correctHit = 0,
+				wrongHit = 0;
 				length_of_session =  parseInt("<?php echo $_NBACK['trial'];?>"),
-				event_length = parseFloat("<?php echo $_NBACK['event_length']; ?>"),
+				eventLength = parseFloat("<?php echo $_NBACK['eventLength']; ?>"),
 				start_timestamp = new Date().getTime(),
 				help_timestamp = start_timestamp;				
-				manual = "<?php  echo ($_NBACK['manual'] == 'On') ? 'Manual mode:' : 'Position';?>",
+				gameMode = "<?php  echo ($_NBACK['gameMode'] == 'gameMode') ? 'gameMode' : 'Position mode:';?>",
 				is_escape = 0,
 				n_back_notice_1_help = 0,
 				num_of_seccons = 0,
 				place_index = 4,
-				n_back_session_time_length = 0,
+				n_back_session_sessionLength = 0,
 				t = [],
 				array_indexes = [];
 
@@ -158,7 +158,7 @@ switch($nb_case){
 	case 3:{
 		?>
 		<script type="text/javascript">
-			this.manual = <?php if($_NBACK['manual'] == 'Off') {echo 'false;';} else {echo 'true;';}?>
+			this.gameMode = <?php if($_NBACK['gameMode'] == 'Off') {echo 'false;';} else {echo 'true;';}?>
 			this.trial_min = <?php echo $trial_min; ?>;
 			this.seconds_min = 0.1;
 
@@ -177,7 +177,7 @@ switch($nb_case){
 		<!-- Names -->
 		<div id="n_back_options_names">
 			<div class="n_back_options_values_container">
-				<b tabindex="-1" >Manual mode</b>
+				<b tabindex="-1" >Position mode</b>
 			</div>
 			<div class="n_back_options_values_container">
 				<b tabindex="-1" style="border-color: transparent"><u>Session</u></b>
@@ -196,7 +196,7 @@ switch($nb_case){
 				<b tabindex="-1" id="time_of_session">Seconds</b>
 			</div>
 			<div class="n_back_options_values_container">
-				<b tabindex="-1" id="event_length_lbl">Event length</b>
+				<b tabindex="-1" id="eventLength_lbl">Event length</b>
 			</div>
 			<div class="n_back_options_values_container">
 				<b tabindex="-1" >Color</b>
@@ -205,13 +205,13 @@ switch($nb_case){
 	<!-- _Values -->
 		<div id="n_back_options_values">
 		<form tabindex="-1" id="n_back_options_form" method="POST" action="index.php?index=2" ></form>
-	<!-- manual-->
+	<!-- gameMode-->
 
 		<div class="n_back_options_values_container">
 			<div class="number_input_container">
-				<div class="down" tabindex="1"  onmousedown="ChangeManualValueInNBackOptions('down', '')" >&#9664;</div>
-				<input class="input" tabindex="-1" form="n_back_options_form" name="manual" id="_manual" type="text"  value="<?php echo $_NBACK['manual']?>" readonly onwheel="ChangeManualValueInNBackOptions('-1', event)" autofocus/>
-				<div class="up" id="_manual_up" tabindex="2"  onmousedown="ChangeManualValueInNBackOptions('up', '')" >&#9654;</div>
+				<div class="down" tabindex="1"  onmousedown="ChangePositionValueInNBackOptions('down', '')" >&#9664;</div>
+				<input class="input" tabindex="-1" form="n_back_options_form" name="gameMode" id="_gameMode" type="text"  value="<?php echo $_NBACK['gameMode']?>" readonly onwheel="ChangePositionValueInNBackOptions('-1', event)" autofocus/>
+				<div class="up" id="_gameMode_up" tabindex="2"  onmousedown="ChangePositionValueInNBackOptions('up', '')" >&#9654;</div>
 			</div>
 		</div>
 	<!--sessions-->
@@ -220,7 +220,7 @@ switch($nb_case){
 		<div class="n_back_options_values_container">
 			<div class="number_input_container">
 				<div class="down" tabindex="3"  onmousedown="ChangeNuberValue('down',level, 0)" >&#8722;</div>
-				<input class="input" tabindex="-1" form="n_back_options_form"   name="level" id="level" id="level" type="text" step="1" min="1" max="20" value="<?php echo round($_NBACK['level'], 2)?>" readonly onwheel="ChangeNuberValue('-1',level, 0, event)" <?php if($_NBACK["manual"] == "Off") echo "style='color:#aaa'";?> />
+				<input class="input" tabindex="-1" form="n_back_options_form"   name="level" id="level" id="level" type="text" step="1" min="1" max="20" value="<?php echo round($_NBACK['level'], 2)?>" readonly onwheel="ChangeNuberValue('-1',level, 0, event)" <?php if($_NBACK["gameMode"] == "Off") echo "style='color:#aaa'";?> />
 				<div class="up" tabindex="4"  onmousedown="ChangeNuberValue('up',level, 0)"  >+</div>
 			</div>
 		</div>
@@ -247,12 +247,12 @@ switch($nb_case){
 				<section ></section>
 			</div>
 		</div>
-	<!-- event_length-->
+	<!-- eventLength-->
 		<div class="n_back_options_values_container">
 			<div class="number_input_container">
-				<div class="down" tabindex="8" onmousedown="ChangeNuberValue('down',event_length, 3)" >&#8722;</div>
-				<input class="input" tabindex="-1" form="n_back_options_form"  name="event_length" id="event_length" type="text" step="0.005" min="0.005" max="4.955" value="<?php echo ($_NBACK['event_length']);?>" readonly onwheel="ChangeNuberValue('-1',event_length, 3, event)"/>
-				<div class="up" tabindex="9" onmousedown="ChangeNuberValue('up',event_length, 3)" >+</div>
+				<div class="down" tabindex="8" onmousedown="ChangeNuberValue('down',eventLength, 3)" >&#8722;</div>
+				<input class="input" tabindex="-1" form="n_back_options_form"  name="eventLength" id="eventLength" type="text" step="0.005" min="0.005" max="4.955" value="<?php echo ($_NBACK['eventLength']);?>" readonly onwheel="ChangeNuberValue('-1',eventLength, 3, event)"/>
+				<div class="up" tabindex="9" onmousedown="ChangeNuberValue('up',eventLength, 3)" >+</div>
 			</div>
 		</div>
 	<!--Color -->
@@ -263,7 +263,7 @@ switch($nb_case){
 				<div class="up" tabindex="11" onmousedown="ChangeColorValueInNBackOptions('up',color, 'e')" >&#9654;</div>
 			</div>
 		</div>
-		<input form="n_back_options_form" name="case" type="text" value="n_back_datas_modify" readonly hidden>
+		<input form="n_back_options_form" name="case" type="text" value="nbackDatas_modify" readonly hidden>
 		</div>
 		<!--Controls-->
 		<div id="n_back_well_come_navigation_container" >
@@ -278,7 +278,7 @@ switch($nb_case){
 		</div>
 
 		<script>
-			//document.getElementById("_manual_up").addEventListener("onkeydown" , ChangeManualValueInNBackOptions('up', '') );
+			//document.getElementById("_gameMode_up").addEventListener("onkeydown" , ChangePositionValueInNBackOptions('up', '') );
 		</script>
 
 		<?php
@@ -370,7 +370,7 @@ switch($nb_case){
 		if( (isset($_post_datas['docid']) && $_post_datas['docid'] != 'none') || isset($_post_datas['upload'])){
 
 		$doc_id = isset($_post_datas['upload']) ? Upload_document_datas() : $_post_datas['docid'];
-		$document_content = Sql_query($sql = 'SELECT d.content AS content, d.user_id, d.title, (SELECT name FROM users WHERE id = d.user_id) as name, substr(timestamp, 1, 16) as timestamp FROM documents AS d WHERE id = "'.$doc_id.'";')[0];
+		$document_content = Sql_query($sql = 'SELECT d.content AS content, d.userID, d.title, (SELECT name FROM users WHERE id = d.userID) as name, substr(timestamp, 1, 16) as timestamp FROM documents AS d WHERE id = "'.$doc_id.'";')[0];
 
 		if(count($document_content) >0){
 		echo '<div id="document_heaher_container">
@@ -383,8 +383,8 @@ switch($nb_case){
 		?>
 		<div id="n_back_well_come_navigation_container">
 			<?php
-			if(isset($_SESSION['user_datas']['id']) && (isset($document_content['user_id']) &&
-			round($_SESSION['user_datas']['id']) == round($document_content['user_id'])|| $_SESSION['user_datas']['privilege'] == 3)){
+			if(isset($_SESSION['user_datas']['id']) && (isset($document_content['userID']) &&
+			round($_SESSION['user_datas']['id']) == round($document_content['userID'])|| $_SESSION['user_datas']['privilege'] == 3)){
 			?>
 			<div class="n_back_well_come_controls">
 				<a onclick="Send_docid_from_list('<?php echo $doc_id; ?>')">
@@ -471,7 +471,7 @@ function Send_docid_from_list(e){
 <?php
 function Upload_document_datas(){
 
-	GLOBAL 	$user_id,
+	GLOBAL 	$userID,
 			$_post_datas;
 
 	$exit = -1;
@@ -484,7 +484,7 @@ function Upload_document_datas(){
 		$doc_content = Escape_special_characters_except_less_and_grater_then_characters($_post_datas['document_content']);
 		switch($doc_id){
 			case 'none':{
-				$sql_documet = 'INSERT INTO documents(user_id,title, content, privilege) VALUES ("'.$user_id.'","'.$title.'","'.$doc_content.'","'.$doc_privilege.'")';
+				$sql_documet = 'INSERT INTO documents(userID,title, content, privilege) VALUES ("'.$userID.'","'.$title.'","'.$doc_content.'","'.$doc_privilege.'")';
 			}break;
 			case 'delete':{
 				$sql_documet = 'DELETE FROM documentse WHERE id = "'.$doc_id.'";';

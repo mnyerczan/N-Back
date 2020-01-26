@@ -80,7 +80,7 @@ function Session(){
 	if(number_of_visiblility -1 < length_of_session)
 	{
 		// If wasn't agreement under the game 
-		if(number_of_visiblility == length_of_session - 1 &&  wrong_hit == 0 && correct_hit == 0)
+		if(number_of_visiblility == length_of_session - 1 &&  wrongHit == 0 && correctHit == 0)
 		{
 			place_index = array_indexes[1];
 		}
@@ -106,8 +106,8 @@ function Session(){
 			if((_$('n_back_notice_2').style.backgroundColor != "rgb(0, 170, 0)" && _$('n_back_notice_2').style.backgroundColor != "rgb(140, 200, 140)")
 			&&  array_indexes[0] === array_indexes[array_indexes.length - 1] )
 			{
-				wrong_hit = parseInt(wrong_hit) +1;
-				_$("info_wrong").innerHTML = wrong_hit;
+				wrongHit = parseInt(wrongHit) +1;
+				_$("info_wrong").innerHTML = wrongHit;
 
 				//Jelzésképp kékre vált
 				setBlue('n_back_notice_2');
@@ -124,18 +124,18 @@ function Session(){
 				{
 					case "rgb(200, 100, 100)": if(this.array_indexes[0] != this.array_indexes[this.array_indexes.length - 1] )
 					{
-						wrong_hit = parseInt(wrong_hit) +1;
-						_$("info_wrong").innerHTML = wrong_hit;
+						wrongHit = parseInt(wrongHit) +1;
+						_$("info_wrong").innerHTML = wrongHit;
 
 					}	break;
 
-					case "rgb(140, 200, 140)" : correct_hit= parseInt(correct_hit) +1;
-							_$("info_correct").innerHTML = correct_hit;
+					case "rgb(140, 200, 140)" : correctHit= parseInt(correctHit) +1;
+							_$("info_correct").innerHTML = correctHit;
 						break; 
 				}
 
-				//console.log("wrong:\t" + wrong_hit);
-				//console.log("correct:\t" + correct_hit);
+				//console.log("wrong:\t" + wrongHit);
+				//console.log("correct:\t" + correctHit);
 			}
 
 		}
@@ -156,7 +156,7 @@ function Session(){
 				_$('n_back_notice_1').placeholder= length_of_session - number_of_visiblility + n_back_notice_1_help + ' back';
 			}
 
-		}, this.event_length * 1000);
+		}, this.eventLength * 1000);
 	}
 
 
@@ -180,18 +180,18 @@ function Session(){
 
 
 	//------------------------------------------------------------------------------------------------------
-	if(parseInt(correct_hit) == 0 && parseInt(wrong_hit) != 0 )
+	if(parseInt(correctHit) == 0 && parseInt(wrongHit) != 0 )
 	{
 		_$("info_percent").innerHTML = "0%";				
 	}
-	else if(parseInt(correct_hit) != 0 && (parseInt(wrong_hit) + parseInt(correct_hit)) > 0)
+	else if(parseInt(correctHit) != 0 && (parseInt(wrongHit) + parseInt(correctHit)) > 0)
 	{
 		_$("info_percent").innerHTML =
-		Math.round((parseFloat(correct_hit) / (parseFloat(wrong_hit) +parseFloat(correct_hit))) *100)+'%';
+		Math.round((parseFloat(correctHit) / (parseFloat(wrongHit) +parseFloat(correctHit))) *100)+'%';
 	}
 
-	 n_back_session_time_length = (parseInt(n_back_session_time_length) +Timer());
-	 _$("info_time").innerHTML = Math.round(n_back_session_time_length / 1000) + " s";
+	 n_back_session_sessionLength = (parseInt(n_back_session_sessionLength) +Timer());
+	 _$("info_time").innerHTML = Math.round(n_back_session_sessionLength / 1000) + " s";
 
 
 	number_of_visiblility++;
@@ -206,13 +206,13 @@ function Session(){
 		if(length_of_session != 0){
 
 
-			if(correct_hit < 0) correct_hit = 0;
-			document.cookie = "correct_hit="+correct_hit;
+			if(correctHit < 0) correctHit = 0;
+			document.cookie = "correctHit="+correctHit;
 
-			if(wrong_hit < 0) wrong_hit = 0;
-			document.cookie = "wrong_hit="+ wrong_hit;
+			if(wrongHit < 0) wrongHit = 0;
+			document.cookie = "wrongHit="+ wrongHit;
 
-			var game_mode = (this.manual == "Position") ? "Off": "On";
+			var game_mode = (this.manual == "Position") ? "Off": "Manual";
 			document.cookie = "manual="+game_mode;
 
 			if(this.level < 1) this.level = 1;
@@ -224,16 +224,16 @@ function Session(){
 			if(this.seconds_js < 0.1) this.seconds_js = 0.1;
 			document.cookie = "seconds="+this.seconds_js;
 
-			if(n_back_session_time_length < this.length_of_session * this.seconds_js)
+			if(n_back_session_sessionLength < this.length_of_session * this.seconds_js)
 			{
-				n_back_session_time_length = this.length_of_session * this.seconds_js;
+				n_back_session_sessionLength = this.length_of_session * this.seconds_js;
 			}
-			document.cookie = "time_length="+n_back_session_time_length;
+			document.cookie = "sessionLength="+n_back_session_sessionLength;
 
-			if(this.event_length < 0.005) this.event_length = 0.005;
-			document.cookie = "event_length="+this.event_length;
+			if(this.eventLength < 0.005) this.eventLength = 0.005;
+			document.cookie = "eventLength="+this.eventLength;
 
-			document.cookie = "n_back_is_upload=0";
+			document.cookie = "sessionUpload=0";
 
 			 window.location= "index.php?index=2&case=nb";
 		}
@@ -388,7 +388,7 @@ function js_set_manual_function(e)
 		}
 		else 
 		{
-			_$('manual').value='On';
+			_$('manual').value='Manual';
 			manual=true;
 			e.style.color='#1c5272';
 			_$('level').disabled = true;
@@ -438,7 +438,7 @@ function key_event(e)
 				case 3: level_function(key); 			break;
 				case 4: n_back_actions_function(key); 	break;
 				case 5: trial_function(key);			break;
-				case 6: event_length_function(key);		break;
+				case 6: eventLength_function(key);		break;
 			}
 	}
 	else
@@ -469,13 +469,13 @@ function trial_function(key){
 
 
 
-function event_length_function(key){
-	if(key == 38 &&  (_$("event_length").value <  parseFloat(_$("seconds").value)) &&
-		(_$("event_length").value < parseFloat(_$("seconds").value) -0.01)){
- 		_$("event_length").value = Math.round((parseFloat(_$("event_length").value) + 0.005) * 1000) / 1000;
+function eventLength_function(key){
+	if(key == 38 &&  (_$("eventLength").value <  parseFloat(_$("seconds").value)) &&
+		(_$("eventLength").value < parseFloat(_$("seconds").value) -0.01)){
+ 		_$("eventLength").value = Math.round((parseFloat(_$("eventLength").value) + 0.005) * 1000) / 1000;
 	}
-	else if( key == 40 && parseFloat(_$("event_length").value) > 0.005 ){
-		_$("event_length").value = Math.round((parseFloat(_$("event_length").value) - 0.005) * 1000) / 1000;
+	else if( key == 40 && parseFloat(_$("eventLength").value) > 0.005 ){
+		_$("eventLength").value = Math.round((parseFloat(_$("eventLength").value) - 0.005) * 1000) / 1000;
 	}
  }
 
@@ -491,8 +491,8 @@ function n_back_actions_function(key){
 			_$("seconds").value = Math.round((parseFloat(_$("seconds").value) + 0.1) * 1000) / 1000;
 		}
 
-		while(parseFloat(_$("event_length").value) > parseFloat(_$("seconds").value) -0.05){
-			_$("event_length").value = Math.round((parseFloat(_$("event_length").value) - 0.01) * 1000) / 1000;
+		while(parseFloat(_$("eventLength").value) > parseFloat(_$("seconds").value) -0.05){
+			_$("eventLength").value = Math.round((parseFloat(_$("eventLength").value) - 0.01) * 1000) / 1000;
 		}
 
 		n_back_options_modify_long_markup();
@@ -504,7 +504,7 @@ function n_back_actions_function(key){
 function manual_mode_function(key){
 
 	if(key == 38 && _$("manual").value == 'Off'){
-			_$("manual").value = 'On';
+			_$("manual").value = 'Manual';
 			_$("level").disabled = false;
 			if(js_theme == "black"){
 				_$("level").style.color = "#ccc";
@@ -512,7 +512,7 @@ function manual_mode_function(key){
 			else _$("level").style.color = "#333";
 	}
 	else
-		if(key == 40 && _$("manual").value == 'On'){
+		if(key == 40 && _$("manual").value == 'Manual'){
 			_$("manual").value = 'Off';
 			_$("level").disabled = true;
 			if(js_theme == "black"){
@@ -795,7 +795,7 @@ function Login_validate(){
 function ClickOrWheelInNBackOptions(p, e){
 
 	/*
-	 *  Ez a függvény dönti el, hogy a ChangeManualValue() és a
+	 *  Ez a függvény dönti el, hogy a ChangePositionValue() és a
 	 *  ChangeNuberValue() függvényt klikkelve, vagy görgetve
 	 *  hívtuk meg.
 	 */
@@ -836,16 +836,16 @@ function ChangeNuberValue(p, e, l, event){
 		  name = e.name;
 			  p = ClickOrWheelInNBackOptions(p, event);
 
-	let q 					= _$("event_length").value,
+	let q 					= _$("eventLength").value,
 		eventLengthValue 	= parseFloat(q);
 			secondsValue 	= parseFloat(_$("seconds").value),
 					_manual = _$("_manual").value;
 
 
 
-	if( name == "level" &&  _manual == "On" || name != "level" ){
+	if( name == "level" &&  _manual == "Manual" || name != "level" ){
 
-		if(p == "up" && value < max && ( name != "event_length" || name == "event_length" && eventLengthValue < secondsValue - 0.005)){
+		if(p == "up" && value < max && ( name != "eventLength" || name == "eventLength" && eventLengthValue < secondsValue - 0.005)){
 				e.value = ( value + step ).toFixed(l);
 		}
 		else{
@@ -893,7 +893,7 @@ function ChangeNuberValue(p, e, l, event){
 
 
 
-function ChangeManualValueInNBackOptions(p, event){
+function ChangePositionValueInNBackOptions(p, event){
 
 	/*
 	 * 	p = érték növelés "up" vagy csökkentés "down"
@@ -908,7 +908,7 @@ function ChangeManualValueInNBackOptions(p, event){
 		color = "#999";//(theme == "white") ? "black" : "white";
 
 
-	if(p == "down" && value == "On" ){
+	if(p == "down" && value == "Manual" ){
 
 			_$("_manual").value = "Off";
 			_$("level").style.color = "#777";
@@ -916,7 +916,7 @@ function ChangeManualValueInNBackOptions(p, event){
 	else
 		if (p == "up" && value == "Off" ){
 
-			_$("_manual").value = "On";
+			_$("_manual").value = "Manual";
 			_$("level").style.color = color;
 		}
 
@@ -967,7 +967,7 @@ function Forum_step_forward(){
 		Step_next_page("forward");
 	}
 }
-function SeriaLeftTexHandler( seria, div, isnbCommonEqualOne )
+function SeriaLeftTexHandler( seria, div, isnbCommonEqualManuale )
 {	
 	/*
 	 * Széria isszaszámlálás. Ha tegnapi az utolsó session, nem indul el a ciklus.

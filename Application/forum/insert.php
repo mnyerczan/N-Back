@@ -8,7 +8,7 @@ mysqli_set_charset($conn, "utf8");
 
  $uname		= 	$_POST['uname'];
  $msg  		=  	Escape_special_characters($_POST['msg']);
- $menu_id	= 	$_POST['menu_id'];
+ $menuID	= 	$_POST['menuID'];
  $uid 		=   $_POST['uid'];
  $title 		=	Escape_special_characters($_POST['title']);
  $limit     =   $_POST['limit'];
@@ -19,7 +19,7 @@ mysqli_set_charset($conn, "utf8");
  $logfile   =   ".././log/thesis.log";
 
 if($error_level >0) file_put_contents($logfile, "\n[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][FORUM][GETROOMNAMEBYID] *** START ***\n", $log_param_1);
-if(count($get_name = sql_query("SELECT name, privilege FROM menus WHERE id = ".$menu_id." and parent_id = '00000001';")) > 0 ){
+if(count($get_name = sql_query("SELECT name, privilege FROM menus WHERE id = ".$menuID." and parentID = '00000001';")) > 0 ){
 if($error_level >0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][FORUM][GETROOMNAMEBYID] *** END ***\n", $log_param_1);
 
 $room_name = Include_special_characters($get_name[0]['name']);
@@ -35,12 +35,12 @@ $room_name = Include_special_characters($get_name[0]['name']);
 #    Insert SQL script. 																																																											#
 #																																																																	#
 
- 		$res = Sql_execute_query($sql_insert =  "INSERT INTO logs(user_id,content,title, menu_id)VALUES ((SELECT id FROM users WHERE name = '".$uname."' LIMIT 1),'".$msg."','".$title."','".$menu_id."');");
+ 		$res = Sql_execute_query($sql_insert =  "INSERT INTO logs(userID,content,title, menuID)VALUES ((SELECT id FROM users WHERE name = '".$uname."' LIMIT 1),'".$msg."','".$title."','".$menuID."');");
 
 #																																																																	#
 #	 Query SQL script																																																												#
 /*
-		$sql_query =  'SELECT l.title,l.id as logid, u.id AS user_id,u.name AS username,l.content AS msg, l.timestamp, u.file_name, u.online FROM users u, logs l WHERE u.id = l.user_id and l.menu_id = '.$menu_id.' ORDER BY l.id desc LIMIT '.$limit.' OFFSET '.$offset.';';
+		$sql_query =  'SELECT l.title,l.id as logid, u.id AS userID,u.name AS username,l.content AS msg, l.timestamp, u.fileName, u.online FROM users u, logs l WHERE u.id = l.userID and l.menuID = '.$menuID.' ORDER BY l.id desc LIMIT '.$limit.' OFFSET '.$offset.';';
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
 
@@ -60,7 +60,7 @@ $room_name = Include_special_characters($get_name[0]['name']);
 						<div class="log_header" style="background-color: '.($extract['logid'] % 2 == 0 ? ' #f1f1f1;' : 'white' ).';">
 
 							<div class="log_header_left_container">
-								Posted by <span style="font-size:11px; font-family: Comic Sans MS; '.($extract['user_id'] == $uid ? 'color: #557;' : '').'">'.$extract['username'].'</span>'.
+								Posted by <span style="font-size:11px; font-family: Comic Sans MS; '.($extract['userID'] == $uid ? 'color: #557;' : '').'">'.$extract['username'].'</span>'.
 								($extract["online"] == 1 ? "<b class='online_ring'>&#9679</b>" : "")
 								.'<div style="float: right; width: 30px; display: table; border-left: 1px solid #666; padding-left: 10px;">#'.round($extract['logid']).'</div>
 								<div style="float: right; width: 200px; display: table; text-align: center;">'.$extract['timestamp'].'</div>
@@ -68,7 +68,7 @@ $room_name = Include_special_characters($get_name[0]['name']);
 							<div>
 								<div class="log_header_title"><img src="img/comment.png" style="width: 10px;"> '.$title.'</div>
 								<div>',
-								($privilege == 3 || $uid == $extract['user_id']) ? '<a href="#" id="delete_msg_link" onclick="Delete_log('.round($extract['logid']).');" style="float: right;color:black;">Delete message</a>' : ''
+								($privilege == 3 || $uid == $extract['userID']) ? '<a href="#" id="delete_msg_link" onclick="Delete_log('.round($extract['logid']).');" style="float: right;color:black;">Delete message</a>' : ''
 								,'</div>
 							</div>
 						</div>
@@ -76,8 +76,8 @@ $room_name = Include_special_characters($get_name[0]['name']);
 					</div>
 
 					<div class="image_container">'
-					.(($extract['file_name'] != 'none') ?'
-					<img src="users/forum_images/'. $extract['file_name'].'">
+					.(($extract['fileName'] != 'none') ?'
+					<img src="users/forum_images/'. $extract['fileName'].'">
 					':'<img src="'.($main_theme == "white" ? 'img/default_user_black.png' : 'img/default_user_white.png').'" style=" float: right; background-color: #c3babd;">
 					'
 					).'

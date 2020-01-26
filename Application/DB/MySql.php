@@ -23,39 +23,80 @@ class MySql extends baseDbApi implements DBInterface
                 $host       = "localhost",
                 $user       = "root",
                 $pass       = "1024",
-                $database   = "NBackDB";
+                $database   = "testDB";
 
     //-----------------------------------------------------------------------------
-           
+        
+    private static function CheckDatabase()
+    {
+        $statement = self::$connect->prepare('SHOW TABLES');
+
+        try 
+        {
+            $statement->Execute();
+
+            $tables = $statement->fetchAll();
+            
+            if ( count( $tables ) < 6 )
+            {
+                throw new RuntimeException('Database breaked. Count of tables not enough ');
+            }
+            
+        } 
+        catch ( RuntimeException $e ) 
+        {
+            error_log( $e->getMessage()." in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'log/dberror.log' );
+
+            die('Sorry! Something is wrong while load page!');
+        }
+    }
+
+    //-----------------------------------------------------------------------------
+
+    /**
+     * User module
+     */
+
+    public function getUsersCount(): array
+    {
+        return $this->Select('SELECT COUNT(*) as num FROM users');
+    }
+
+    //-----------------------------------------------------------------------------
+
     /**
      * Navbar Module
      */
     public function getChildMenus( $menuid, $privilege )
     {
-        $sql = 'SELECT * FROM menus where parent_id = :menuid AND privilege <= :privilege';
+        $sql = 'SELECT * FROM menus where parentID = :menuid AND privilege <= :privilege';
 
         return $this->Select( $sql, [ ':menuid' => $menuid, ':privilege' => 3 ] ) ;        
 
     }
 
-    public function getSessions( $uid )
+    public function getSessions( $uid, string $anytime = NULL )
     {
         $sql="
                 select 
                     case when timestamp < current_date then concat('Yesterday ', substr(timestamp,12, 5)) else substr(timestamp, 12, 5) end as time,
                     result, 
-                    wrong_hit,
-                    correct_hit, 
+                    wrongHit,
+                    correctHit, 
                     level, 
-                    manual, 
-                    ip 
-                from n_back_sessions 
-                where user_id= :uid
+                    gameMode, 
+                    ip,
+                    timestamp,
+                    sessionLength
+                from nbackSessions 
+                where userID= :uid
                 and timestamp > :timestamp  
                 order by timestamp desc 
                 limit 10";
         
-        $param = [ ':uid' => $uid, ':timestamp' => date("Y-m-d H:i:s", mktime(date('H'), date('i'), date('s'), date('m'), date('d') - 1, date('Y'))) ];
+        $timestamp = $anytime ?? date("Y-m-d H:i:s", mktime(date('H'), date('i'), date('s'), date('m'), date('d') - 1, date('Y')));
+
+        $param = [ ':uid' => $uid, ':timestamp' => $timestamp ];
 
         return $this->Select( $sql, $param );
     }
@@ -64,20 +105,20 @@ class MySql extends baseDbApi implements DBInterface
     public function getTimes( $uid )
     {
         $sql ='select
-                SEC_TO_TIME(ceil(sum(`time_length`) / 1000)) as "last_day",
+                SEC_TO_TIME(ceil(sum(`sessionLength`) / 1000)) as "last_day",
                 (select
-                    SEC_TO_TIME(ceil(sum(`time_length`) / 1000))
-                from `n_back_sessions`
-                where `user_id` = :uid1
+                    SEC_TO_TIME(ceil(sum(`sessionLength`) / 1000))
+                from `nbackSessions`
+                where `userID` = :uid1
                 and `timestamp` > current_date) as "today",
                 (select
-                    SEC_TO_TIME(ceil(sum(`time_length`) / 1000))
-                from `n_back_sessions`
-                where `user_id` = :uid2
+                    SEC_TO_TIME(ceil(sum(`sessionLength`) / 1000))
+                from `nbackSessions`
+                where `userID` = :uid2
                 and `timestamp` > current_date
-                and `manual` = 0) as "today_position"
-            from `n_back_sessions`
-            where `user_id` = :uid3
+                and `gameMode` = 0) as "today_position"
+            from `nbackSessions`
+            where `userID` = :uid3
             and `timestamp` > :timestamp';
 
         return $this->Select( $sql, [ 
@@ -91,7 +132,7 @@ class MySql extends baseDbApi implements DBInterface
 
     public function getMenus( $privilege )
     {
-        $sql = 'SELECT * FROM menus WHERE parent_id = "none" AND privilege <= :privilege ORDER BY child ASC, name ASC';
+        $sql = 'SELECT * FROM menus WHERE parentID = "none" AND privilege <= :privilege ORDER BY child ASC, name ASC';
 
         return $this->Select( $sql, [ ':privilege' => 3 ] );
     }    
@@ -105,7 +146,8 @@ class MySql extends baseDbApi implements DBInterface
     {
         $sql = 'SELECT content FROM documents WHERE title = "start_page" AND privilege = 3';
         
-        return $this->Select( $sql )[0]->content;
+
+        return $this->Select( $sql )[0]->content ?? '';
     }
 
     //-----------------------------------------------------------------------------
@@ -116,10 +158,10 @@ class MySql extends baseDbApi implements DBInterface
     public function getUser( array $params ): array
     {
         $sql=
-		   "SELECT `users`.*, `n_back_datas`.*, current_timestamp AS refresh 
-			FROM `users` JOIN `n_back_datas` 
-				ON `users`.`id` = `n_back_datas`.`user_id` 
-			WHERE `u_name` = :name 
+		   "SELECT `users`.*, `nbackDatas`.*, current_timestamp AS refresh 
+			FROM `users` JOIN `nbackDatas` 
+				ON `users`.`id` = `nbackDatas`.`userID` 
+			WHERE `userName` = :name 
             AND `password` = :pass ";
             
         return $this->Select( $sql, $params );
@@ -145,13 +187,13 @@ class MySql extends baseDbApi implements DBInterface
         (select
         substr(cast(str_to_date(substr(timestamp, 1 ,10), \"%Y-%m-%d %h:%i%p\" ) as unsigned), 1, 8) as intDate,
         count(*) as session,
-        round(sum(time_length) / 1000 /60, 1) as minutes
-        from n_back_sessions
-        where user_id= \"{$this->uid}\"
+        round(sum(sessionLength) / 1000 /60, 1) as minutes
+        from nbackSessions
+        where userID= \"{$this->uid}\"
         and ip =\"{$_SERVER["REMOTE_ADDR"]}\"
-        and manual = 0
+        and gameMode = 0
         group by intDate
-        having round(sum(time_length) / 1000 /60, 1) >= 20
+        having round(sum(sessionLength) / 1000 /60, 1) >= 20
         order by intDate DESC, session ASC
         LIMIT 30)";   
 
@@ -168,7 +210,8 @@ class MySql extends baseDbApi implements DBInterface
         if ( self::$INSTANCE == NULL )
         {
             self::$INSTANCE = new self(); 
-            self::Connect();                         
+            self::Connect();     
+            self::CheckDatabase();                    
         }               
         return self::$INSTANCE;
     }
@@ -271,7 +314,7 @@ class MySql extends baseDbApi implements DBInterface
         }
         catch( PDOException $e ) 
         {           
-            error_log( $e->getMessage()." in ".__FILE__." at ".__LINE__, 3, 'log/dberror.log' );
+            error_log( $e->getMessage()." in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'log/dberror.log' );
             die; 
         }
     }

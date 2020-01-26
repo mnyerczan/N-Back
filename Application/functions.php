@@ -29,7 +29,7 @@ function Get_get_datas_to_sting(){
 function Delete_user(){
 
 	global 	$_SESSION,
-			$user_id,
+			$userID,
 			$img_name,
 			$log_param_1,
 			$logfile,
@@ -39,20 +39,20 @@ function Delete_user(){
 	$exit = 1;
 	if($error_level > 0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][Delete_user] ***SART***\n", $log_param_1);
 
-	if($error_level > 1)file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR'].'][Delete_user] user ID: '.$user_id."\n", $log_param_1);
+	if($error_level > 1)file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR'].'][Delete_user] user ID: '.$userID."\n", $log_param_1);
 
-	if($user_id != 'none' ){
+	if($userID != 'none' ){
 		$remove_user_sql = '
 			DELETE FROM users
 			WHERE
-				id = "'.$user_id.'";';
+				id = "'.$userID.'";';
 		if($img_name != 'none'){
 			Delete_image_from_server();
 		}
 
 		$exit = Sql_execute_query($remove_user_sql);
 
-		if($user_id == $_SESSION['user_datas']['id']){
+		if($userID == $_SESSION['user_datas']['id']){
 			session_destroy();
 		}
 	}
@@ -68,7 +68,7 @@ function Delete_user(){
 function Delete_image_from_server(){
 
 	global 	$_SESSION,
-			$user_id,
+			$userID,
 			$img_name,
 			$log_param_1,
 			$logfile,
@@ -79,32 +79,32 @@ function Delete_image_from_server(){
 	if($error_level > 0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."]DELETE_IMAGE_FROM_SERVER] *** START ***\n", $log_param_1);
 
 
-	if($user_id != '' && $user_id != 'none'){
+	if($userID != '' && $userID != 'none'){
 		$img_name = Sql_query('
 			SELECT
-				file_name
+				fileName
 			FROM users
 			WHERE
-				id = '.$user_id.';')[0]['file_name'];
+				id = '.$userID.';')[0]['fileName'];
 
 
 		$sql_remove_image = '
 			UPDATE users
 			SET
-				file_name = "none"
+				fileName = "none"
 			where
-				id = '.$user_id.';';
+				id = '.$userID.';';
 
 		if(Sql_execute_query($sql_remove_image) == 0 ){
 
-			if(file_exists('users/'.$user_id. '/' . $img_name))	$exit = unlink('users/'.$user_id. '/' . $img_name);
+			if(file_exists('users/'.$userID. '/' . $img_name))	$exit = unlink('users/'.$userID. '/' . $img_name);
 			elseif($error_level > 0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."]DELETE_IMAGE_FROM_SERVER] ERROR: Profile image not exists\n", $log_param_1);
 
 			if(file_exists('users/forum_images/' . $img_name)) $exit = unlink('users/forum_images/' . $img_name);
 			elseif($error_level > 0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."]DELETE_IMAGE_FROM_SERVER] ERROR: Forum image not exists\n", $log_param_1);
 
-			if(is_dir('users'.'/'.$user_id)) rmdir('users'.'/'.$user_id);
-			elseif($error_level > 0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."]DELETE_IMAGE_FROM_SERVER] ERROR: users/".$user_id." Directory not exists\n", $log_param_1);
+			if(is_dir('users'.'/'.$userID)) rmdir('users'.'/'.$userID);
+			elseif($error_level > 0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."]DELETE_IMAGE_FROM_SERVER] ERROR: users/".$userID." Directory not exists\n", $log_param_1);
 
 		}
 
@@ -197,7 +197,7 @@ function Load_datas(){
 			$log_param_1,
 			$logfile,
 			$error_level,
-			$user_id,
+			$userID,
 			$now;
 			$exit = 1;
 
@@ -208,10 +208,10 @@ function Load_datas(){
 
 
 	#Adatmódosításnál
-	if(isset($_post_datas['u_name']) || isset($_post_datas['u_name_original'])){
+	if(isset($_post_datas['userName']) || isset($_post_datas['userName_original'])){
 
-		if($_post_datas['u_name'] != NULL || $_post_datas['u_name'] != '') $login_name = $_post_datas['u_name'];
-		else $login_name = $_post_datas['u_name_original'];
+		if($_post_datas['userName'] != NULL || $_post_datas['userName'] != '') $login_name = $_post_datas['userName'];
+		else $login_name = $_post_datas['userName_original'];
 
 		if( isset($_post_datas['pass']) && strlen($_post_datas['pass']) < 4) $_post_pass = $pass = $_post_datas['pass_original'];
 		else $pass = md5("salt".md5($_post_pass = $_post_datas['pass']));
@@ -223,46 +223,46 @@ function Load_datas(){
 		$sql_nb="
 				select
 					n.id,
-					n.manual,
+					n.gameMode,
 					n.level,
 					n.seconds,
 					n.trials,
-					n.event_length,
+					n.eventLength,
 					n.color,
 					current_timestamp AS refresh
-				from users u, n_back_datas n
-				where u.id = n.user_id
-					and u.u_name = '".Escape_special_characters($login_name)."'
+				from users u, nbackDatas n
+				where u.id = n.userID
+					and u.userName = '".Escape_special_characters($login_name)."'
 					and u.password='".$pass."';";
 
 		$sql_user="
 				select * from users
 				where
-					u_name='".Escape_special_characters($login_name)."'
+					userName='".Escape_special_characters($login_name)."'
 					and password='".$pass."';";
 	}
 	#Egyébb: pl. témamódosítás után.
-	elseif( $user_id != 'none')
+	elseif( $userID != 'none')
 	{
 		#módosítás: az értékadás után módosítja a $_SESSION tartalmát, így a lekérdezés eredménye zero.
 		$_SESSION = $_SESSION;
 
 		$sql_nb="select
 					n.id,
-					n.manual,
+					n.gameMode,
 					n.level,
 					n.seconds,
 					n.trials,
-					n.event_length,
+					n.eventLength,
 					n.color,
 					current_timestamp AS refresh
-				from users u, n_back_datas n
-				where u.id = n.user_id
-					and u.id = '".$user_id."'
+				from users u, nbackDatas n
+				where u.id = n.userID
+					and u.id = '".$userID."'
 					and u.password='".$_SESSION['user_datas']['password']."';";
 
 		$sql_user="select * from users
-				where u_name='".$_SESSION['user_datas']['u_name']."'
+				where userName='".$_SESSION['user_datas']['userName']."'
  				and password = '".$_SESSION['user_datas']['password']."';";
 	}
 
@@ -278,25 +278,25 @@ function Load_datas(){
 		$_SESSION['user_datas']['id'] 				= $result_user[0]['id'];
 		$_SESSION['user_datas']['name']				= Include_special_characters($result_user[0]['name']);
 		$_SESSION['user_datas']['email']			= Include_special_characters($result_user[0]['email']);
-		$_SESSION['user_datas']['login_datetime']	= $result_user[0]['login_datetime'];
-		$_SESSION['user_datas']['u_name']			= Include_special_characters($result_user[0]['u_name']);
+		$_SESSION['user_datas']['loginDatetime']	= $result_user[0]['loginDatetime'];
+		$_SESSION['user_datas']['userName']			= Include_special_characters($result_user[0]['userName']);
 		$_SESSION['user_datas']['privilege']		= $result_user[0]['privilege'];
 		$_SESSION['user_datas']['password']			= $result_user[0]['password'];
 		$_SESSION['user_datas']['birth']				= $result_user[0]['birth'];
-		$_SESSION['user_datas']['pw_length']		= $result_user[0]['pw_length'];
-		$_SESSION['user_datas']['file_name']		= $result_user[0]['file_name'];
+		$_SESSION['user_datas']['passwordLength']		= $result_user[0]['passwordLength'];
+		$_SESSION['user_datas']['fileName']		= $result_user[0]['fileName'];
 		$_SESSION['user_datas']['theme']				= $result_user[0]['theme'];
 		$_SESSION['user_datas']['online'] 			= $result_user[0]['online'];
 		$_SESSION['user_datas']['refresh'] 			= $result_nb[0]['refresh'];
 
 
-		$_SESSION['n_back_datas']['id'] 				= $result_nb[0]['id'];
-		$_SESSION['n_back_datas']['manual'] 		= $result_nb[0]['manual'];
-		$_SESSION['n_back_datas']['level'] 			= $result_nb[0]['level'];
-		$_SESSION['n_back_datas']['seconds']		= $result_nb[0]['seconds'];
-		$_SESSION['n_back_datas']['trials'] 		= $result_nb[0]['trials'];
-		$_SESSION['n_back_datas']['event_length'] = $result_nb[0]['event_length'];
-		$_SESSION['n_back_datas']['color'] 			= $result_nb[0]['color'];
+		$_SESSION['nbackDatas']['id'] 				= $result_nb[0]['id'];
+		$_SESSION['nbackDatas']['gameMode'] 		= $result_nb[0]['gameMode'];
+		$_SESSION['nbackDatas']['level'] 			= $result_nb[0]['level'];
+		$_SESSION['nbackDatas']['seconds']		= $result_nb[0]['seconds'];
+		$_SESSION['nbackDatas']['trials'] 		= $result_nb[0]['trials'];
+		$_SESSION['nbackDatas']['eventLength'] = $result_nb[0]['eventLength'];
+		$_SESSION['nbackDatas']['color'] 			= $result_nb[0]['color'];
 
 		$exit = 0;
 	}
@@ -326,40 +326,40 @@ function Insert_nb_sessions(){
 
 	$result = Genereate_sessions_result_column_value();
 
-	$manual = (isset($_cookie_datas['manual']) && $_cookie_datas['manual'] == 'Off') ? 0 : 1;
+	$gameMode = (isset($_cookie_datas['gameMode']) && $_cookie_datas['gameMode'] == 'Position') ? 0 : 1;
 
 	if(isset($_SESSION['user_datas']['id']))
 	{
 
-			$sql_insert_session = 'INSERT INTO n_back_sessions (user_id,ip,level,correct_hit,wrong_hit,time_length,manual, result) VALUES
+			$sql_insert_session = 'INSERT INTO nbackSessions (userID,ip,level,correctHit,wrongHit,sessionLength,gameMode, result) VALUES
 				("'.$_SESSION['user_datas']['id'].'",
 				"'.$_SERVER['REMOTE_ADDR'].'",
-				"'.$_SESSION['n_back_datas']['level'].'",
-				"'.$_cookie_datas['correct_hit'].'",
-				"'.$_cookie_datas['wrong_hit'].'",
-				"'.$_cookie_datas['time_length'].'",
-				"'.$manual.'",
+				"'.$_SESSION['nbackDatas']['level'].'",
+				"'.$_cookie_datas['correctHit'].'",
+				"'.$_cookie_datas['wrongHit'].'",
+				"'.$_cookie_datas['sessionLength'].'",
+				"'.$gameMode.'",
 				"'.$result.'");';
 
 	}
 	else{
-			$sql_insert_session='INSERT INTO n_back_sessions (user_id,ip,level,correct_hit,wrong_hit,time_length,manual, result) VALUES
+			$sql_insert_session='INSERT INTO nbackSessions (userID,ip,level,correctHit,wrongHit,sessionLength,gameMode, result) VALUES
 					("1",
 					"'.$_SERVER['REMOTE_ADDR'].'",
 					"'.$_cookie_datas['level'].'",
-					"'.$_cookie_datas['correct_hit'].'",
-					"'.$_cookie_datas['wrong_hit'].'",
-					"'.$_cookie_datas['time_length'].'",
-					"'.$manual.'",
+					"'.$_cookie_datas['correctHit'].'",
+					"'.$_cookie_datas['wrongHit'].'",
+					"'.$_cookie_datas['sessionLength'].'",
+					"'.$gameMode.'",
 					"'.$result.'");';
 
 		}
 	
-	if(isset($_cookie_datas['n_back_is_upload']) && $_cookie_datas['n_back_is_upload'] == '0' && Sql_execute_query($sql_insert_session) === 0)
+	if(isset($_cookie_datas['sessionUpload']) && $_cookie_datas['sessionUpload'] == '0' && Sql_execute_query($sql_insert_session) === 0)
 	{
 		if($error_level >0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][Insert_nb_sessions] SQL : ", $sql_insert_session."\n", $log_param_1);
-		setCookie('n_back_is_upload','1');
-		setCookie('last_modified',date("Y.m.d H:i:s "));
+		setCookie('sessionUpload','1');
+		setCookie('lastModified',date("Y.m.d H:i:s "));
 		$exit = 0;
 
 	}
@@ -385,23 +385,23 @@ function Genereate_sessions_result_column_value(){
 			$now,
 			$error_level;
 
-		if($_cookie_datas['manual'] == 'Off'){
+		if($_cookie_datas['gameMode'] == 'Position'){
 
-			if($_cookie_datas['correct_hit'] > 0 ){
+			if($_cookie_datas['correctHit'] > 0 ){
 
-				$pro_res = $_cookie_datas['correct_hit'] / ($_cookie_datas['correct_hit'] + $_cookie_datas['wrong_hit']) * 100;
+				$pro_res = $_cookie_datas['correctHit'] / ($_cookie_datas['correctHit'] + $_cookie_datas['wrongHit']) * 100;
 				$exit = ($pro_res >= 80 ) ? '1' : (($pro_res > 50 || $_cookie_datas['level'] == 1) ? '0' : '-1');
 
 				if($error_level >0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR'].'][CREATE SESSION RESUL]][POSITION] RESULT: '.$exit."\n", $log_param_1);
 				return $exit;
 			}
-			if($_cookie_datas['wrong_hit'] > 0 &&  $_cookie_datas['level'] > 1){
+			if($_cookie_datas['wrongHit'] > 0 &&  $_cookie_datas['level'] > 1){
 
 				if($error_level >0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][CREATE SESSION RESUL][POSITION] RESuLT: -1\n", $log_param_1);
 				return -1;
 			}
 		}
-		if($error_level >0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][CREATE SESSION RESUL][MANUAL] RESULT: 0\n", $log_param_1);
+		if($error_level >0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][CREATE SESSION RESUL][gameMode] RESULT: 0\n", $log_param_1);
 		return 0;
  }
 
@@ -441,7 +441,7 @@ function Modify_user_datas(){
 			$_post_datas,
 			$_SESSION,
 			$conn_pdo,
-			$user_id,
+			$userID,
 			$log_param_1,
 			$logfile,
 			$now,
@@ -452,14 +452,14 @@ function Modify_user_datas(){
 	if($error_level > 0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][Modify_user_datas] ***START***\n", $log_param_1);
 	if($error_level > 2) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][Modify_user_datas][POST]".print_r($_POST, true)."\n", $log_param_1);
 
-	if($user_id != 'none'){
+	if($userID != 'none'){
 
-		$exit = Load_file_to_server($user_id, $file);
+		$exit = Load_file_to_server($userID, $file);
 		if($_post_datas['mail'] == null || $_post_datas['mail'] == '')	$mail= $_post_datas['mail_original'];
 		else $mail= $_post_datas['mail'];
 
-		if( $_post_datas['u_name'] == null || $_post_datas['u_name'] == '') $u_name = $_post_datas['u_name_original'];
-		else $u_name = $_post_datas['u_name'];
+		if( $_post_datas['userName'] == null || $_post_datas['userName'] == '') $userName = $_post_datas['userName_original'];
+		else $userName = $_post_datas['userName'];
 
 		if($_post_datas['pass'] != null && $_post_datas['pass'] != '' && strlen($_post_datas['pass']) > 3){
 			$pass = md5("salt".md5( $_post_datas['pass']));
@@ -467,24 +467,24 @@ function Modify_user_datas(){
 		}
 		else {
 			$pass = $_post_datas['pass_original'];
-			$_post_pass = $_post_datas['pw_length_original'];
+			$_post_pass = $_post_datas['passwordLength_original'];
 		}
 
 		$privilege = isset($_POST['privilege']) ? $_POST['privilege'] : $_SESSION['user_datas']['privilege'];
 		$sql = "
 		UPDATE users
 		SET
-			u_name='".Escape_special_characters($u_name)."',
+			userName='".Escape_special_characters($userName)."',
 			email='".Escape_special_characters($mail)."',
 			password='".$pass."' ,
-			pw_length = '".$_post_pass."' ,
+			passwordLength = '".$_post_pass."' ,
 			privilege='".$privilege."'
 		where
-			id='".$user_id."';";
+			id='".$userID."';";
 
 		if (Sql_execute_query($sql) === 0){
 
-			if($user_id == $_SESSION['user_datas']['id']){
+			if($userID == $_SESSION['user_datas']['id']){
 				$exit = Load_datas();
 			}
 		}
@@ -521,30 +521,30 @@ function Update_nback_datas(){
 		if($error_level >2) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR'].'][UPDATE NBACK DATAS] POST: '.print_r($_post_datas)."\n", $log_param_1);
 
 			$sql="
-			UPDATE n_back_datas
+			UPDATE nbackDatas
 			SET
-				manual='".$_post_datas['manual']."',
+				gameMode='".$_post_datas['gameMode']."',
 				level='".$_post_datas['level']."',
 				seconds='".$_post_datas['seconds']."',
 				trials='".$trials."',
-				event_length='".$_post_datas['event_length']."',
+				eventLength='".$_post_datas['eventLength']."',
 				color ='".$_post_datas['color']."'
 			WHERE
-				user_id='".$_SESSION['user_datas']['id']."'; ";
+				userID='".$_SESSION['user_datas']['id']."'; ";
 
 		if(Sql_execute_query($sql) === 0){
 
 			if($error_level >0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][UPDATE NBACK DATAS] UPDATE DATAS OK\n", $log_param_1);
 			if($error_level >2) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR'].'][UPDATE NBACK DATAS] SQL: '.$sql."\n", $log_param_1);
 
-			if($_post_datas['manual'] != $_SESSION['n_back_datas']['manual']){
+			if($_post_datas['gameMode'] != $_SESSION['nbackDatas']['gameMode']){
 
 				if( Sql_execute_query("
-				UPDATE n_back_sessions
+				UPDATE nbackSessions
 				SET
 					result = 0
 				WHERE
-					user_id= ".$_SESSION['user_datas']['id'].";") == 0){
+					userID= ".$_SESSION['user_datas']['id'].";") == 0){
 
 					if($error_level >0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][UPDATE NBACK DATAS][SET RESULT TO DEFAULT] OK \n", $log_param_1);
 				}
@@ -569,18 +569,18 @@ function Update_nback_datas(){
 	}
 	else {
 
-			setCookie("manual", $_post_datas["manual"]);
+			setCookie("gameMode", $_post_datas["gameMode"]);
 			setCookie('level', $_post_datas['level']);
 			setCookie('seconds', $_post_datas['seconds']);
 			setCookie('trial', $trials);
-			setCookie('event_length', $_post_datas['event_length']);
+			setCookie('eventLength', $_post_datas['eventLength']);
 			setCookie('color', $_post_datas['color']);
-			setCookie('last_modified',date("Y.m.d H:i:s "));
+			setCookie('lastModified',date("Y.m.d H:i:s "));
 
-// echo "post-Manual: ", $_post_datas['manual'],"\n";
-// echo "cookie-Manual: ", $_COOKIE["manual"],"\n";
+// echo "post-Position: ", $_post_datas['gameMode'],"\n";
+// echo "cookie-Position: ", $_COOKIE["gameMode"],"\n";
 
-			if($error_level >0 && $_COOKIE["manual"] == $_post_datas['manual'])
+			if($error_level >0 && $_COOKIE["gameMode"] == $_post_datas['gameMode'])
 				file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][UPDATE NBACK DATAS] UPDATE COOKIE: OK\n", $log_param_1);
 			else {
 				file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][UPDATE NBACK DATAS] UPDATE COOKIE: FALSE\n", $log_param_1);
@@ -597,7 +597,7 @@ function Update_nback_datas(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 	Felhasználói profil létrehozása után amennyiben van feltöltendő file, létrehoz  az edott					  //
 //# user nevén mappát, amibe áthelyezi a tmp_dir-ből a feltöltött képet. 										  //
-//	Ez az thesis/users/"user_id" mappába kerül. Ha nincs a struktúrában USERS mappa, automatikusa készít egyet.	  //
+//	Ez az thesis/users/"userID" mappába kerül. Ha nincs a struktúrában USERS mappa, automatikusa készít egyet.	  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function Create_user($_post_datas, $file){
 
@@ -610,9 +610,9 @@ function Create_user($_post_datas, $file){
 
 	if( $file!= '' && $file != 'none' )
 	{
-		$file_name = $gen_id.'_'. $file['file']['name'];
+		$fileName = $gen_id.'_'. $file['file']['name'];
 	}
-	else $file_name = 'none';
+	else $fileName = 'none';
 
 
 	$users_count = Sql_query('SELECT COUNT(*) as num FROM users;');
@@ -632,26 +632,26 @@ function Create_user($_post_datas, $file){
 
 	if(isset($_post_datas['create_user_birth']) && $_post_datas['create_user_birth'] != '')
 	{
-		$sql="INSERT INTO users (name, email, u_name, password, birth, pw_length, file_name, `privilege`) values
+		$sql="INSERT INTO users (name, email, userName, password, birth, passwordLength, fileName, `privilege`) values
 			('".Escape_special_characters($_post_datas["create_user_name"])."',
 			'".Escape_special_characters($_post_datas['create_user_email'])."',
 			'".Escape_special_characters($_post_datas['create_user_user'])."',
 			'".md5($pass)."',
 			'".$_post_datas['create_user_birth']."',
 			'".strlen($_post_datas['create_user_pass'])."',
-			'".Escape_special_characters($file_name)."',
+			'".Escape_special_characters($fileName)."',
 			'".$privilege."');";
 	}
 
 	else
 	{
-		$sql="INSERT INTO users (name, email, u_name, password, pw_length, file_name, `privilege`) values
+		$sql="INSERT INTO users (name, email, userName, password, passwordLength, fileName, `privilege`) values
 			('".Escape_special_characters($_post_datas["create_user_name"])."',
 			'".Escape_special_characters($_post_datas['create_user_email'])."',
 			'".Escape_special_characters($_post_datas['create_user_user'])."',
 			'".md5($pass)."',
 			'".strlen($_post_datas['create_user_pass'])."',
-			'".Escape_special_characters($file_name)."',
+			'".Escape_special_characters($fileName)."',
 			'".$privilege."');";
 	}
 
@@ -705,7 +705,7 @@ function Load_file_to_server($id, $file )
 			LogLn(0, "[Load_file_to_server] Stored in: ".$id.'/'.$file_id_and_name);
 		}
 
-		$sql = 'UPDATE users SET file_name = "' . $file_id_and_name . '" where id = '. $id .'';
+		$sql = 'UPDATE users SET fileName = "' . $file_id_and_name . '" where id = '. $id .'';
 		Sql_execute_query($sql);
 
 		if (!file_exists('users/forum_images/' .$file_id_and_name)) 
@@ -758,7 +758,7 @@ function Compress_image($source_url, $destination_url)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //# Statisztika számláló fuggvény																			      //
 //  a felhasználó utolsó 20 napjának adatait kapja.
-// wrong, correct hit, manual, timestamp as date
+// wrong, correct hit, gameMode, timestamp as date
 // a $sessions tárolja, hogy hány nap volt a leghosszabb egybefüggő, megszakadsnál nullázódik éskezdi előről.
 // összeadja az összes százalékos teljesítményt, majd kiszámolja az átlagot.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -775,7 +775,7 @@ function User_tatistic($ut)
 	{
 		for($i=0;$i<count($ut);$i++)
 		{
-			if($ut[$i]['manual'] == 0)
+			if($ut[$i]['gameMode'] == 0)
 			{
 				if($i>0)
 				{
@@ -793,7 +793,7 @@ function User_tatistic($ut)
 						$sessions++;
 					}
 				}
-			$sum_percents += ($ut[$i]['correct_hit'] + $ut[$i]['wrong_hit']) != 0 ? $ut[$i]['correct_hit'] / ($ut[$i]['correct_hit'] + $ut[$i]['wrong_hit']) * 100 : 0;
+			$sum_percents += ($ut[$i]['correctHit'] + $ut[$i]['wrongHit']) != 0 ? $ut[$i]['correctHit'] / ($ut[$i]['correctHit'] + $ut[$i]['wrongHit']) * 100 : 0;
 			}
 		}
 

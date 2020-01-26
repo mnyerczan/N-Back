@@ -5,7 +5,7 @@
 
 	$child_links_index_array = 0;
 
-	if($navbar['menus'][$i]->parent_id == 'none' )
+	if($navbar['menus'][$i]->parentID == 'none' )
 	{
 		echo    '<div id="nav_bar_child_links_container_'.$navbar['menus'][$i]->id.'">';
 
@@ -67,7 +67,7 @@
 								<a class="navbar['menus']" style="cursor:pointer;" onclick="S_datas(<?php echo "'",$navbar['childMenus'][$j]['path'], "','"
 										,$navbar['childMenus'][$j]['id'],"','",$navbar['childMenus'][$j]['name'],"','",$navbar['childMenus'][$j]['privilege'], "'"; ?>)">
 						<?php
-						echo   '<p class="nav_bar_paragraph_child" id="parent_id_'.$navbar['childMenus'][$j]['parent_id'].'">
+						echo   '<p class="nav_bar_paragraph_child" id="parentID_'.$navbar['childMenus'][$j]['parentID'].'">
 										'.$child_name.'
 									'.($navbar['childMenus'][$j]['ikon'] != 'none' ? '<img src="'.$navbar['childMenus'][$j]['ikon'].'" class="header_button_img" style="width: 20px;">' : '').'
 									</p>
@@ -119,7 +119,7 @@
 
 			$was_eighty_percent = 0;
 			$was_under_than_fifty_percent=0;
-			$manual = 0; 	//???
+			$gameMode = 0; 	//???
 			
 	
 		
@@ -137,26 +137,26 @@
 
             for($i=0; $i< sizeof($navbar['sessions']); $i++)
             {
-				if($row[$i]->correct_hit != '0' ){
+				if($row[$i]->correctHit != '0' ){
 				////////////////////////////////////////////////////////////////////////////////////////////
 				//	Az eredmények kiírásáért felelős rész. Ha nagyobb mint 80% legyen az érték színe zöld.//
 				//	Ha kisebb 50 legyen piros, egyébként fekete.										  //
 				//  Nem jó! ha csak az utolsó 24 órát vizsgálok fals az eredmény.						  //
 				////////////////////////////////////////////////////////////////////////////////////////////
-					if(round($row[$i]->correct_hit / (($row[$i]->wrong_hit + $row[$i]->correct_hit) / 100)) >= 80){
-						echo '<h6>End at: ', $row[$i]['time'], ',<br> <span id="good_trial_nav_not_font">'.round($row[$i]->correct_hit / (($row[$i]->wrong_hit + $row[$i]->correct_hit) / 100)).'%</span>, level: ', $row[$i]['level'],', ', ($row[$i]['manual'] == 1) ? 'manual' : 'position', '</h6>';
+					if(round($row[$i]->correctHit / (($row[$i]->wrongHit + $row[$i]->correctHit) / 100)) >= 80){
+						echo '<h6>End at: ', $row[$i]['time'], ',<br> <span id="good_trial_nav_not_font">'.round($row[$i]->correctHit / (($row[$i]->wrongHit + $row[$i]->correctHit) / 100)).'%</span>, level: ', $row[$i]['level'],', ', ($row[$i]['gameMode'] == 1) ? 'gameMode' : 'position', '</h6>';
 					}
-					else if(round($row[$i]->correct_hit / (($row[$i]->wrong_hit + $row[$i]->correct_hit) / 100)) <= 50){
-						echo '<h6>End at: ', $row[$i]['time'], ',<br> <span id="bad_trial_nav_not_font">'.round($row[$i]->correct_hit / (($row[$i]->wrong_hit + $row[$i]->correct_hit) / 100)).'%</span>, level: ', $row[$i]['level'],', ', ($row[$i]['manual'] == 1) ? 'manual' : 'position', '</h6>';
+					else if(round($row[$i]->correctHit / (($row[$i]->wrongHit + $row[$i]->correctHit) / 100)) <= 50){
+						echo '<h6>End at: ', $row[$i]['time'], ',<br> <span id="bad_trial_nav_not_font">'.round($row[$i]->correctHit / (($row[$i]->wrongHit + $row[$i]->correctHit) / 100)).'%</span>, level: ', $row[$i]['level'],', ', ($row[$i]['gameMode'] == 1) ? 'gameMode' : 'position', '</h6>';
 					}
 					else{
-						echo '<h6>End at: ', $row[$i]['time'], ',<br>'.round($row[$i]->correct_hit / (($row[$i]->wrong_hit + $row[$i]->correct_hit) / 100)).'%, level: ', $row[$i]['level'],', ', ($row[$i]['manual'] == 1) ? 'manual' : 'position', '</h6>';
+						echo '<h6>End at: ', $row[$i]['time'], ',<br>'.round($row[$i]->correctHit / (($row[$i]->wrongHit + $row[$i]->correctHit) / 100)).'%, level: ', $row[$i]['level'],', ', ($row[$i]['gameMode'] == 1) ? 'gameMode' : 'position', '</h6>';
 					}
 				}
 				else{
-					echo '<h6>End at: ', $row[$i]['time'], ',<br><span id="bad_trial_nav_not_font">', str_repeat('&nbsp;', 2), '0%</span>, level: ', $row[$i]['level'],', ', ($row[$i]['manual'] == 1) ? 'manual' : 'position', '</h6>';
+					echo '<h6>End at: ', $row[$i]['time'], ',<br><span id="bad_trial_nav_not_font">', str_repeat('&nbsp;', 2), '0%</span>, level: ', $row[$i]['level'],', ', ($row[$i]['gameMode'] == 1) ? 'gameMode' : 'position', '</h6>';
 				}
-                if($row[$i]['manual'] == '0')
+                if($row[$i]['gameMode'] == '0')
                 {
 					#n-back increase
                     if($row[$i]['result'] == 1)
@@ -178,21 +178,21 @@
 								setcookie ('level',1);
 							}
 							#SESSION / Csak ha van felhasználó!
-                            if(isset($_SESSION['n_back_datas']['level']))
+                            if(isset($_SESSION['nbackDatas']['level']))
                             {
 
-								$_SESSION['n_back_datas']['level']++;
+								$_SESSION['nbackDatas']['level']++;
 								/*Update*/
 
-								Sql_execute_query('update n_back_datas set level = '.$_SESSION['n_back_datas']['level'].', trials = "'.($_SESSION['n_back_datas']['trials'] + 5).'"  where user_id = '.$_SESSION['user_datas']['id'].'; ');
-								Sql_execute_query('update n_back_sessions set result = "0" where user_id = '.$_SESSION['user_datas']['id'].';');
+								Sql_execute_query('update nbackDatas set level = '.$_SESSION['nbackDatas']['level'].', trials = "'.($_SESSION['nbackDatas']['trials'] + 5).'"  where userID = '.$_SESSION['user_datas']['id'].'; ');
+								Sql_execute_query('update nbackSessions set result = "0" where userID = '.$_SESSION['user_datas']['id'].';');
 
 								Load_datas();
 							}
 									#Ha nincs felhasználó
                             else
                             {
-								Sql_execute_query('update n_back_sessions set result = "0" where user_id = "1" and ip = "'.$_SERVER['REMOTE_ADDR'].'";');
+								Sql_execute_query('update nbackSessions set result = "0" where userID = "1" and ip = "'.$_SERVER['REMOTE_ADDR'].'";');
 							}
 							header('Location: index.php?index=9&rep_common=4');
 						}
@@ -206,9 +206,9 @@
 							#cookie
                             if(!isset($_COOKIE['level']))
                             {
-                                if(isset($_SESSION['n_back_datas']['level']))
+                                if(isset($_SESSION['nbackDatas']['level']))
                                 {
-									setcookie('level', $_SESSION['n_back_datas']['level']);
+									setcookie('level', $_SESSION['nbackDatas']['level']);
 								}
                                 else
                                 {
@@ -216,21 +216,21 @@
 								}
 							}
 							#SESSION / Csak ha van felhasználó!
-                            if(isset($_SESSION['n_back_datas']['level'])) 
+                            if(isset($_SESSION['nbackDatas']['level'])) 
                             {
-                                if($_SESSION['n_back_datas']['level'] != '1')
+                                if($_SESSION['nbackDatas']['level'] != '1')
                                 {
-									$_SESSION['n_back_datas']['level']--;
+									$_SESSION['nbackDatas']['level']--;
 									/*Update*/
-									Sql_execute_query('update n_back_datas set level = "'.$_SESSION['n_back_datas']['level'].'" , trials = "'.($_SESSION['n_back_datas']['trials'] - 5).'" where user_id = "'.$_SESSION['user_datas']['id'].'"; ');
+									Sql_execute_query('update nbackDatas set level = "'.$_SESSION['nbackDatas']['level'].'" , trials = "'.($_SESSION['nbackDatas']['trials'] - 5).'" where userID = "'.$_SESSION['user_datas']['id'].'"; ');
 								}
-								Sql_execute_query($sql = 'update n_back_sessions set result = "0" where user_id = "'.$_SESSION['user_datas']['id'].'" and ip = "'.$_SERVER['REMOTE_ADDR'].'";');
+								Sql_execute_query($sql = 'update nbackSessions set result = "0" where userID = "'.$_SESSION['user_datas']['id'].'" and ip = "'.$_SERVER['REMOTE_ADDR'].'";');
 								Load_datas();
 							}
 									#Ha nincs felhasználó
                             elseif( $_COOKIE['level'] !=1 )
                             {
-								Sql_execute_query('update n_back_sessions set result = "0" where user_id = "1" and ip = "'.$_SERVER['REMOTE_ADDR'].'";');
+								Sql_execute_query('update nbackSessions set result = "0" where userID = "1" and ip = "'.$_SERVER['REMOTE_ADDR'].'";');
 							}
 							header('Location: index.php?index=9&rep_common=3');
 						}

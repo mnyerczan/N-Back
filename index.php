@@ -1,5 +1,8 @@
 ﻿<?php 	
 	define('APPLICATION', 'Application/');
+	define('URI', explode('?', $_SERVER['REQUEST_URI'])[0]);
+
+	define('APPROOT', '/Thesis_v.2.0/');
 
 	require_once APPLICATION.'application.php';
 

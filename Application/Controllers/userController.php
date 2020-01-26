@@ -1,5 +1,6 @@
 <?php
 
+use DB\EntityGateway;
 use Login\UserEntity;
 use Model\Sessions;
 
@@ -11,18 +12,19 @@ require_once APPLICATION.'Model/indicator.php';
 
 require_once APPLICATION.'Core/controller.php';
 
-class MainController extends Controller
+class userController extends Controller
 {
-    private $user,    
-            $datas;
+    private $user;
+    private $datas;
+    private $database;
 
 
     function __construct($matches)
     {
-
+        
         $action = $matches['action'].'Action';
-       
-
+             
+        $this->database = EntityGateway::getDB();
         $this->user = UserEntity::GetInstance();
         $this->datas = $this->GetDatas();
                 
@@ -33,17 +35,21 @@ class MainController extends Controller
     private function GetDatas()
     {
         return [ 
-            'seria'     => new Seria( $this->user->id ), 
-            'user'      => $this->user, 
-            'home'      => ( new Home() )->getContent() ,           
-            'navbar'    => ( new Navbar( $this->user ) )->getDatas(),
+            'seria' => new Seria( $this->user->id ), 
+            'user'  => $this->user,            
+            'navbar'=> ( new Navbar( $this->user ) )->getDatas(),
             'indicator' => (Indicator::getInstance( new Sessions( $this->user->id, 1 ) ))->getDatas()
         ];
     }
+
+    function signUpAction()
+    {    
+        $this->datas['isAdmin'] = $this->database->getUsersCount()[0]-> num <= 1 ? 0 : 1;
   
-    function Action()
-    {                            
-        $this->View( $this->datas, ['view' => 'main', 'module' => 'Main'] );
+
+        $this->View( $this->datas, [ 'view' => 'signUp', 'module' => 'User'] );
     }
+
+
                  
 }

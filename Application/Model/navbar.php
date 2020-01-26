@@ -29,8 +29,13 @@ class Navbar
         $this->datas['childMenus']  = $this->menus->childMenus; 
         $this->datas['sessions']    = $this->sessions->sessions;
         $this->datas['times']       = $this->sessions->times;
-    
-                               
+        
+        
+        for ($i=0; $i < count($this->datas['sessions']); $i++) 
+        {  
+            $this->datas['sessions'][$i]->endAt = substr($this->datas['sessions'][$i]->timestamp, 11, 5);
+        }
+
     }
 
 

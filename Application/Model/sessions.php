@@ -9,17 +9,33 @@ require_once APPLICATION.'DB/entityGateway.php';
 class Sessions
 {
 
-    private $database,
-            $sessions,
-            $times,
+    private
+            $database,
+            $sessions = [],
+            $times ,
             $userID;
 
-    function __construct( $userID )
+/**
+ * @param $userID   Identificer of user
+ * 
+ * Get last 10 session after 2019-01-01 00:00:00
+ * @param $all      default 0
+ * 
+ */
+    function __construct( $userID, int $all = 0 )
     {
-        $this->database = EntityGateway::getDB();
-        $this->userID = $userID;
 
-        $this->getSessions();
+        $this->database = EntityGateway::getDB();
+        $this->userID   = $userID;
+
+        if ( $all === 1 )
+        {
+            $this->sessions = $this->getAllSessions();
+        }        
+        else
+        {
+            $this->sessions = $this->getSessions();
+        }
         $this->getTimes();
     }   
 
@@ -28,25 +44,88 @@ class Sessions
     {
         switch ( $name )
         {
-            case 'sessions': return $this->sessions; break;
-            case 'times': return $this->times; break;
+            case 'sessions':    return $this->sessions; break;
+            case 'times':       return $this->times; break;
         }
     }
 
-    private function getSessions()
+/**
+ * @return array of stdClass object(s)
+ */
+    private function getSessions(): array
     {
-        $sessions = $this->database->getSessions( $this->userID );
+        /**
+         * Only one day after from yesterday
+         */
+        $sessions = $this->database->getSessions( $this->userID );                
 
-        for ($i=0; $i < count( $sessions ); $i++) 
-        { 
-            $sessions[$i]->percent = round(
-                $sessions[$i]->correct_hit * 100 / ($sessions[$i]->wrong_hit + $sessions[$i]->correct_hit));
+        return $this->Load( $sessions );
+        
+    }
 
-            unset($sessions[$i]->correct_hit);
-            unset($sessions[$i]->wrong_hit);
+/**
+ * @return array of stdClass object(s)
+ */
+    private function getAllSessions(): array
+    {
+        /**
+         * Only one day after from yesterday
+         */
+        $sessions = $this->database->getSessions( $this->userID, '2019-01-01 00:00:00' );                
+
+        return $this->Load( $sessions );
+        
+    }
+
+    private function Load( $sessions ): array
+    {       
+        /**
+         * Ezzel a megoldással egyszerre két függvényből hívható le a tábla tartalma.
+         */
+        if ( count( $sessions ) > 0 )
+        {
+            for ($i=0; $i < count( $sessions ); $i++) 
+            { 
+                $sessions[$i]->percent = round(
+                    $sessions[$i]->correctHit * 100 / ($sessions[$i]->wrongHit + $sessions[$i]->correctHit));
+            }
+            return $sessions;
         }
-
-        $this->sessions = $sessions;
+        elseif ( @$_COOKIE['sessionUpload'] )
+        {
+            /**
+             * Még le kell vizsgálni, hogy, ha a navbár is a Sessions-től kapja az adatokat, és egy elmentett régi játékot kap sütiből, azt ne jelenítse meg.
+             */
+            return [
+                (object)[
+                    'sessionLength' => $_COOKIE['sessionLength'] ,
+                    'result'        => 0,
+                    'wrongHit'      => $_COOKIE['wrongHit'] ,
+                    'correctHit'    => $_COOKIE['correctHit'],
+                    'level'         => $_COOKIE['level'],
+                    'gameMode'      => $_COOKIE['gameMode'],
+                    'ip'            => $_SERVER['REMOTE_ADDR'],
+                    'timestamp'     => '1970-01-01 00:00:00',
+                    'percent'       => round( (int)$_COOKIE['correctHit'] * 100 / (int)($_COOKIE['wrongHit'] + (int)$_COOKIE['correctHit']) )
+                ]
+            ];
+        }
+        else
+        {        
+            return [
+                (object)[
+                    'sessionLength' => '--',
+                    'result'        => 0,
+                    'wrongHit'      => '--',
+                    'correctHit'    => '--',
+                    'level'         => 1,
+                    'gameMode'      => 'Position',
+                    'ip'            => $_SERVER['REMOTE_ADDR'],
+                    'timestamp'     => '1970-01-01 00:00:00',
+                    'percent'       => '--'
+                ]
+            ];
+        }
     }
 
     private function getTimes()

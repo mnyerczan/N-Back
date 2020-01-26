@@ -10,9 +10,9 @@ if(!empty($_POST)) $_post_datas = $_POST;
 
 						   $file = isset($_FILES['file']['error']) && $_FILES['file']['error'] != 0 ? 'none' : $_FILES;
 
-					   $user_id = isset( $_POST['id']) &&  $_POST['id'] != '' ? $_POST['id'] : @$_SESSION['user_datas']['id'] ? $_SESSION['user_datas']['id'] : "0" ;
+					   $userID = isset( $_POST['id']) &&  $_POST['id'] != '' ? $_POST['id'] : @$_SESSION['user_datas']['id'] ? $_SESSION['user_datas']['id'] : "0" ;
 
-					  $img_name = (isset($_GET['file_name'])) ?  $_GET['file_name'] : isset($_SESSION['user_datas']['file_name']) ? $_SESSION['user_datas']['file_name'] : "";
+					  $img_name = (isset($_GET['fileName'])) ?  $_GET['fileName'] : isset($_SESSION['user_datas']['fileName']) ? $_SESSION['user_datas']['fileName'] : "";
 
 						   $exit = -1;
 

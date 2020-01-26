@@ -1,10 +1,8 @@
 <?php  //	$navbar 		?>
-<div class="nav_bar">
+<div class="nav-bar">
 	<div class="navbar-hdr">
-		<a href="/" title="Main page" >			
-			<img id="main_header_img" src="<?=APPLICATION?>img/brain_logo.png" >
-			<h1>N-Back</h1>
-		</a>
+		<img src="<?=APPLICATION?>img/brain_logo.png" >
+		<a href="<?=APPROOT?>" title="Main page" >	N-Back</a>
 	</div>
 	<div class="increase-container">
 	</div>		
@@ -55,22 +53,22 @@
 	</section>
 	<section id="navbar-sessions">
 		<h4>Last 10 sessions:</h4>
-		<?php for($i=0; $i< sizeof($navbar['sessions']); $i++):?>
+		<?php for($i=0; $i < sizeof($navbar['sessions']) && $navbar['sessions'][$i]->timestamp !== '1970-01-01 00:00:00'; $i++):?>
 			<?php for($i=0; $i< sizeof($navbar['sessions']); $i++):?>        
 				<?php if( $navbar['sessions'][$i]->percent >= 80):?>
-					<h6>End at: <?=$navbar['sessions'][$i]->time?>,<br> 
-						<span class="good_trial_nav_not_font"><?=$navbar['sessions'][$i]->percent?>%</span>, 
-						level: <?= $navbar['sessions'][$i]->level?>, <?= ($navbar['sessions'][$i]->manual == 1) ? 'manual' : 'position'?>
+					<h6>End at: <?=$navbar['sessions'][$i]->endAt?>,<br> 
+						<span class="good-trial"><?=$navbar['sessions'][$i]->percent?>%</span>, 
+						level: <?= $navbar['sessions'][$i]->level?>, <?=$navbar['sessions'][$i]->gameMode?>
 					</h6>
 				<?php elseif ($navbar['sessions'][$i]->percent <= 50):?>					
-					<h6>End at:<?= $navbar['sessions'][$i]->time?>,<br>
-						<span class="bad_trial_nav_not_font"><?=$navbar['sessions'][$i]->percent?>%</span>, 
-						level: <?=$navbar['sessions'][$i]->level?>, <?= ($navbar['sessions'][$i]->manual == 1) ? 'manual' : 'position'?>
+					<h6>End at: <?= $navbar['sessions'][$i]->endAt?>,<br>
+						<span class="bad-trial"><?=$navbar['sessions'][$i]->percent?>%</span>, 
+						level: <?=$navbar['sessions'][$i]->level?>, <?=$navbar['sessions'][$i]->gameMode?>
 					</h6>
 				<?php else: ?>
-					<h6>End at: <?=$navbar['sessions'][$i]->time?>,<br>
+					<h6>End at: <?=$navbar['sessions'][$i]->endAt?>,<br>
 						<?=$navbar['sessions'][$i]->percent?>%, 
-						level: <?= $navbar['sessions'][$i]->level?>, <?= ($navbar['sessions'][$i]->manual == 1) ? 'manual' : 'position'?>
+						level: <?= $navbar['sessions'][$i]->level?>, <?=$navbar['sessions'][$i]->gameMode?>
 					</h6>					
 				<?php endif?>
 			<?php endfor ?>

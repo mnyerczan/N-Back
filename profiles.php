@@ -98,22 +98,22 @@ if(isset($_SESSION['user_datas']['id'])){
 		case '0': {
 				#rendezés teljesítmény szerint
 
-				Calculate_users_datas(Sql_query($sql_profile = 'SELECT u.name AS nev, u.id as uid, substr(u.login_datetime, 1, 10) AS registry, n.level AS szint, u.file_name AS profil, online
-				FROM users AS u, n_back_datas as n where u.privilege != "0" and u.id = n.user_id LIMIT  '.$limit.' OFFSET  '.( $offset * $limit ).';'));
+				Calculate_users_datas(Sql_query($sql_profile = 'SELECT u.name AS nev, u.id as uid, substr(u.loginDatetime, 1, 10) AS registry, n.level AS szint, u.fileName AS profil, online
+				FROM users AS u, nbackDatas as n where u.privilege != "0" and u.id = n.userID LIMIT  '.$limit.' OFFSET  '.( $offset * $limit ).';'));
 		}break;
 		case '1':{
-				Calculate_users_datas(Sql_query($sql_profile = 'SELECT u.name AS nev, u.id as uid, substr(u.login_datetime, 1, 10) AS registry, n.level AS szint, u.file_name AS profil, online
-				FROM users AS u, n_back_datas as n where u.privilege != "0" and u.id = n.user_id LIMIT  '.$limit.' OFFSET  '.( $offset * $limit ).';'));
+				Calculate_users_datas(Sql_query($sql_profile = 'SELECT u.name AS nev, u.id as uid, substr(u.loginDatetime, 1, 10) AS registry, n.level AS szint, u.fileName AS profil, online
+				FROM users AS u, nbackDatas as n where u.privilege != "0" and u.id = n.userID LIMIT  '.$limit.' OFFSET  '.( $offset * $limit ).';'));
 
 		} break;
 		case '2':{
-				Calculate_users_datas(Sql_query($sql_profile = 'SELECT u.name AS nev, u.id as uid, substr(u.login_datetime, 1, 10) AS registry, n.level AS szint, u.file_name AS profil, online
-				FROM users AS u, n_back_datas as n where u.privilege != "0" and u.id = n.user_id ORDER BY name DESC LIMIT  '.$limit.' OFFSET  '.( $offset * $limit ).' ;'));
+				Calculate_users_datas(Sql_query($sql_profile = 'SELECT u.name AS nev, u.id as uid, substr(u.loginDatetime, 1, 10) AS registry, n.level AS szint, u.fileName AS profil, online
+				FROM users AS u, nbackDatas as n where u.privilege != "0" and u.id = n.userID ORDER BY name DESC LIMIT  '.$limit.' OFFSET  '.( $offset * $limit ).' ;'));
 		}break;
 		case '3':{
 				$search_string = $_GET['s'];
-				Calculate_users_datas(Sql_query($sql_profile = 'SELECT u.name AS nev, u.id as uid, substr(u.login_datetime, 1, 10) AS registry, n.level AS szint, u.file_name AS profil, online
-				FROM users AS u, n_back_datas as n WHERE u.privilege != "0" AND u.id = n.user_id AND (u.name LIKE "%'.$search_string.'%" OR  substr(u.login_datetime, 1, 10) LIKE "%'.$search_string.'%"
+				Calculate_users_datas(Sql_query($sql_profile = 'SELECT u.name AS nev, u.id as uid, substr(u.loginDatetime, 1, 10) AS registry, n.level AS szint, u.fileName AS profil, online
+				FROM users AS u, nbackDatas as n WHERE u.privilege != "0" AND u.id = n.userID AND (u.name LIKE "%'.$search_string.'%" OR  substr(u.loginDatetime, 1, 10) LIKE "%'.$search_string.'%"
 				OR n.level LIKE "%'.$search_string.'%" ) LIMIT  '.$limit.' OFFSET  '.( $offset * $limit ).' ;'));
 		}break;
 	}
@@ -196,8 +196,8 @@ function Calculate_users_datas($users_query){
 
 		for($i = 0; $i < count($users_query); $i++){
 
-			$sql_statistic = 'select substr(timestamp, 1, 10) as date, sum(correct_hit) as correct_hit, sum(wrong_hit) as wrong_hit, max(manual) as manual from n_back_sessions
-			where user_id="'.$users_query[$i]['uid'].'" group by date ORDER BY date DESC LIMIt 30;';
+			$sql_statistic = 'select substr(timestamp, 1, 10) as date, sum(correctHit) as correctHit, sum(wrongHit) as wrongHit, max(gameMode) as gameMode from nbackSessions
+			where userID="'.$users_query[$i]['uid'].'" group by date ORDER BY date DESC LIMIt 30;';
 
 			$t = Sql_query($sql_statistic);
 			$stat = User_tatistic($t);

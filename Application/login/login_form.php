@@ -11,7 +11,7 @@
 			<form  method="POST" _action="index.php" id="login_form" onsubmit="return Login_validate()">
 				<tr>
 					<td><label for="loggin_name"><b>User name:</b></label></td>
-					<td><input type="text" name="login_u_name" id="loggin_name" placeholder="" autocomplete="off" onClick="login_form_message_change()" autofocus required></td>
+					<td><input type="text" name="login_userName" id="loggin_name" placeholder="" autocomplete="off" onClick="login_form_message_change()" autofocus required></td>
 				</tr>
 				<tr>
 					<td><label for="login_form_pass"><b>Password:</b></label></td>

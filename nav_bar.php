@@ -44,7 +44,7 @@ function S_datas(p, q, r, s ){
 LogLn(0, "[NAVBAR] *** START ***");
 
 LogLn(1, "[NAVBAR][GETPARENTITEMS]***START***");
-	$nav_bar_links = Sql_query('SELECT * FROM menus WHERE parent_id = "none" ORDER BY child ASC, name ASC;');
+	$nav_bar_links = Sql_query('SELECT * FROM menus WHERE parentID = "none" ORDER BY child ASC, name ASC;');
 LogLn(1, "[NAVBAR][GETPARENTITEMS] ***END***");
 
 $index = 0;
@@ -60,7 +60,7 @@ for($i = 0; $i < sizeof($nav_bar_links); $i++)
 
 	$child_links_index_array = 0;
 
-	if($nav_bar_links[$i]['parent_id'] == 'none' )
+	if($nav_bar_links[$i]['parentID'] == 'none' )
 	{
 		echo    '<div id="nav_bar_child_links_container_'.$nav_bar_links[$i]['id'].'">';
 
@@ -106,7 +106,7 @@ for($i = 0; $i < sizeof($nav_bar_links); $i++)
 				LogLn(1, "[NAVBAR][GETNONPARENTITEMSTO: ".$nav_bar_links[$i]['id']."]***START***");
 
 				$nav_bar_child_links = Sql_query($sql = '
-	SELECT * FROM menus where parent_id = '.$nav_bar_links[$i]['id'].';');
+	SELECT * FROM menus where parentID = '.$nav_bar_links[$i]['id'].';');
 
 
 				LogLn(1, "[NAVBAR][GETNONPARENTITEMSTO: ".$nav_bar_links[$i]['id']."] ***END***");
@@ -128,7 +128,7 @@ for($i = 0; $i < sizeof($nav_bar_links); $i++)
 								<a class="nav_bar_links" style="cursor:pointer;" onclick="S_datas(<?php echo "'",$nav_bar_child_links[$j]['path'], "','"
 										,$nav_bar_child_links[$j]['id'],"','",$nav_bar_child_links[$j]['name'],"','",$nav_bar_child_links[$j]['privilege'], "'"; ?>)">
 						<?php
-						echo   '<p class="nav_bar_paragraph_child" id="parent_id_'.$nav_bar_child_links[$j]['parent_id'].'">
+						echo   '<p class="nav_bar_paragraph_child" id="parentID_'.$nav_bar_child_links[$j]['parentID'].'">
 										'.$child_name.'
 									'.($nav_bar_child_links[$j]['ikon'] != 'none' ? '<img src="'.$nav_bar_child_links[$j]['ikon'].'" class="header_button_img" style="width: 20px;">' : '').'
 									</p>
@@ -206,78 +206,78 @@ LogLn(1, "[NAVBAR][GETMENUS] *** END ***");
 
 			$was_eighty_percent = 0;
 			$was_under_than_fifty_percent=0;
-			$manual = 0; 	//???
+			$gameMode = 0; 	//???
 
 			if(isset($_SESSION['user_datas']['id']) && $_SESSION['user_datas']['id'] != ''){
 
 				$sql_time	='select
-								substr(SEC_TO_TIME(ceil(sum(time_length) / 1000)), 4, 7) as "last_day",
+								substr(SEC_TO_TIME(ceil(sum(sessionLength) / 1000)), 4, 7) as "last_day",
 								(select
-									substr(SEC_TO_TIME(ceil(sum(time_length) / 1000)), 4, 7)
-								from n_back_sessions
-								where user_id = "'.$_SESSION['user_datas']['id'].'"
+									substr(SEC_TO_TIME(ceil(sum(sessionLength) / 1000)), 4, 7)
+								from nbackSessions
+								where userID = "'.$_SESSION['user_datas']['id'].'"
 								and timestamp > current_date) as "today",
 								(select
-									substr(SEC_TO_TIME(ceil(sum(time_length) / 1000)), 4, 7)
-								from `n_back_sessions`
-								where `user_id` = "'.$_SESSION['user_datas']['id'].'"
+									substr(SEC_TO_TIME(ceil(sum(sessionLength) / 1000)), 4, 7)
+								from `nbackSessions`
+								where `userID` = "'.$_SESSION['user_datas']['id'].'"
 								and `timestamp` > current_date
-								and `manual` = 0) as "today_position"
-							from n_back_sessions
-							where user_id = "'.$_SESSION['user_datas']['id'].'"
+								and `gameMode` = 0) as "today_position"
+							from nbackSessions
+							where userID = "'.$_SESSION['user_datas']['id'].'"
 							and timestamp >"'.date("Y-m-d H:i:s", mktime(date('H'), date('i'), date('s'), date('m'), date('d') - 1, date('Y'))).'";';
 
 // 	'select
-// 	concat( case when floor(sum(time_length) / 1000 / 3600) > 0 then concat(floor(sum(time_length) / 1000 / 3600),":") else "" end,
-// 	case when floor((sum(time_length) / 1000 % 3600) / 60) > 0 then
-// 	case when LENGTH(floor( (sum(time_length) / 1000 % 3600) / 60)) < 2 then concat("0", floor( (sum(time_length) / 1000 % 3600) / 60))
-// 	else floor( (sum(time_length) / 1000 % 3600) / 60) end else "00" end, ":",
-// 	case when floor((sum(time_length) / 1000 % 3600) % 60) > 0 then
-// 	case when LENGTH(floor((sum(time_length) / 1000 % 3600) % 60)) < 2 then concat("0", floor((sum(time_length) / 1000 % 3600) % 60)) else
-// 	floor((sum(time_length) / 1000 % 3600) % 60) end else "00" end) as "last_day",
+// 	concat( case when floor(sum(sessionLength) / 1000 / 3600) > 0 then concat(floor(sum(sessionLength) / 1000 / 3600),":") else "" end,
+// 	case when floor((sum(sessionLength) / 1000 % 3600) / 60) > 0 then
+// 	case when LENGTH(floor( (sum(sessionLength) / 1000 % 3600) / 60)) < 2 then concat("0", floor( (sum(sessionLength) / 1000 % 3600) / 60))
+// 	else floor( (sum(sessionLength) / 1000 % 3600) / 60) end else "00" end, ":",
+// 	case when floor((sum(sessionLength) / 1000 % 3600) % 60) > 0 then
+// 	case when LENGTH(floor((sum(sessionLength) / 1000 % 3600) % 60)) < 2 then concat("0", floor((sum(sessionLength) / 1000 % 3600) % 60)) else
+// 	floor((sum(sessionLength) / 1000 % 3600) % 60) end else "00" end) as "last_day",
 // 	(select
-// 	concat( case when floor(sum(time_length) / 1000 / 3600) > 0 then concat(floor(sum(time_length) / 1000 / 3600),":") else "" end,
-// 	case when floor((sum(time_length) / 1000 % 3600) / 60) > 0 then
-// 	case when LENGTH(floor( (sum(time_length) / 1000 % 3600) / 60)) < 2 then concat("0", floor( (sum(time_length) / 1000 % 3600) / 60))
-// 	else floor( (sum(time_length) / 1000 % 3600) / 60) end else "00" end, ":",
-// 	case when floor((sum(time_length) / 1000 % 3600) % 60) > 0 then case
-// 	when LENGTH(floor((sum(time_length) / 1000 % 3600) % 60)) < 2 then concat("0", floor((sum(time_length) / 1000 % 3600) % 60)) else
-// 	floor((sum(time_length) / 1000 % 3600) % 60) end else "00" end)
-// 	from n_back_sessions
-// 	where user_id = "'.$_SESSION['user_datas']['id'].'"
+// 	concat( case when floor(sum(sessionLength) / 1000 / 3600) > 0 then concat(floor(sum(sessionLength) / 1000 / 3600),":") else "" end,
+// 	case when floor((sum(sessionLength) / 1000 % 3600) / 60) > 0 then
+// 	case when LENGTH(floor( (sum(sessionLength) / 1000 % 3600) / 60)) < 2 then concat("0", floor( (sum(sessionLength) / 1000 % 3600) / 60))
+// 	else floor( (sum(sessionLength) / 1000 % 3600) / 60) end else "00" end, ":",
+// 	case when floor((sum(sessionLength) / 1000 % 3600) % 60) > 0 then case
+// 	when LENGTH(floor((sum(sessionLength) / 1000 % 3600) % 60)) < 2 then concat("0", floor((sum(sessionLength) / 1000 % 3600) % 60)) else
+// 	floor((sum(sessionLength) / 1000 % 3600) % 60) end else "00" end)
+// 	from nbackSessions
+// 	where userID = "'.$_SESSION['user_datas']['id'].'"
 // 	and timestamp > current_date) as "today"
-// 	from n_back_sessions
-// 	where user_id = "'.$_SESSION['user_datas']['id'].'"
+// 	from nbackSessions
+// 	where userID = "'.$_SESSION['user_datas']['id'].'"
 // 	and timestamp >"'.date("Y-m-d H:i:s", mktime(date('H'), date('i'), date('s'), date('m'), date('d') - 1, date('Y'))).'";';
 // + 	and ip = "'.$_SERVER['REMOTE_ADDR'].'" for "today" , 	and ip = "'.$_SERVER['REMOTE_ADDR'].'".
 
 	$SQL_sessions="
 	select case when timestamp < current_date then concat('Yesterday ', substr(timestamp,12, 5)) else substr(timestamp, 12, 5) end as
-	time,result, wrong_hit,correct_hit, level, manual, ip from n_back_sessions where user_id='".$_SESSION['user_datas']['id'] ."'
+	time,result, wrongHit,correctHit, level, gameMode, ip from nbackSessions where userID='".$_SESSION['user_datas']['id'] ."'
 	and timestamp > '".date("Y-m-d H:i:s", mktime(date('H'), date('i'), date('s'), date('m'), date('d') - 1, date('Y')))."'  order by timestamp desc limit 10";
 			}
 			else{
 
 				$sql_time ='select
-								SEC_TO_TIME(ceil(sum(`time_length`) / 1000)) as "last_day",
+								SEC_TO_TIME(ceil(sum(`sessionLength`) / 1000)) as "last_day",
 								(select
-									SEC_TO_TIME(ceil(sum(`time_length`) / 1000))
-								from `n_back_sessions`
-								where `user_id` = 0000001
+									SEC_TO_TIME(ceil(sum(`sessionLength`) / 1000))
+								from `nbackSessions`
+								where `userID` = 0000001
 								and `timestamp` > current_date) as "today",
 								(select
-									SEC_TO_TIME(ceil(sum(`time_length`) / 1000))
-								from `n_back_sessions`
-								where `user_id` = 0000001
+									SEC_TO_TIME(ceil(sum(`sessionLength`) / 1000))
+								from `nbackSessions`
+								where `userID` = 0000001
 								and `timestamp` > current_date
-								and `manual` = 0) as "today_position"
-							from `n_back_sessions`
-							where `user_id` = 0000001
+								and `gameMode` = 0) as "today_position"
+							from `nbackSessions`
+							where `userID` = 0000001
 							and `timestamp` >"'.date("Y-m-d H:i:s", mktime(date('H'), date('i'), date('s'), date('m'), date('d') - 1, date('Y'))).'";';
 
 				$SQL_sessions="
 	select case when timestamp < current_date then concat('Yesterday ', substr(timestamp,12, 5)) else substr(timestamp, 12, 5) end as
-	time,result, wrong_hit,correct_hit, level, manual, ip from n_back_sessions where user_id= '1'
+	time,result, wrongHit,correctHit, level, gameMode, ip from nbackSessions where userID= '1'
 	and timestamp > '".date("Y-m-d H:i:s", mktime(date('H'), date('i'), date('s'), date('m'), date('d') - 1, date('Y')))."'  order by timestamp desc limit 10";
 			}
 
@@ -300,26 +300,26 @@ LogLn(1, "[NAVBAR][GETMENUS] *** END ***");
 
 
 			for($i=0; $i< sizeof($row); $i++){
-				if($row[$i]['correct_hit'] != '0' ){
+				if($row[$i]['correctHit'] != '0' ){
 				////////////////////////////////////////////////////////////////////////////////////////////
 				//	Az eredmények kiírásáért felelős rész. Ha nagyobb mint 80% legyen az érték színe zöld.//
 				//	Ha kisebb 50 legyen piros, egyébként fekete.										  //
 				//  Nem jó! ha csak az utolsó 24 órát vizsgálok fals az eredmény.						  //
 				////////////////////////////////////////////////////////////////////////////////////////////
-					if(round($row[$i]['correct_hit'] / (($row[$i]['wrong_hit'] + $row[$i]['correct_hit']) / 100)) >= 80){
-						echo '<h6>End at: ', $row[$i]['time'], ',<br> <span id="good_trial_nav_not_font">'.round($row[$i]['correct_hit'] / (($row[$i]['wrong_hit'] + $row[$i]['correct_hit']) / 100)).'%</span>, level: ', $row[$i]['level'],', ', ($row[$i]['manual'] == 1) ? 'manual' : 'position', '</h6>';
+					if(round($row[$i]['correctHit'] / (($row[$i]['wrongHit'] + $row[$i]['correctHit']) / 100)) >= 80){
+						echo '<h6>End at: ', $row[$i]['time'], ',<br> <span id="good_trial_nav_not_font">'.round($row[$i]['correctHit'] / (($row[$i]['wrongHit'] + $row[$i]['correctHit']) / 100)).'%</span>, level: ', $row[$i]['level'],', ', ($row[$i]['gameMode'] == 1) ? 'gameMode' : 'position', '</h6>';
 					}
-					else if(round($row[$i]['correct_hit'] / (($row[$i]['wrong_hit'] + $row[$i]['correct_hit']) / 100)) <= 50){
-						echo '<h6>End at: ', $row[$i]['time'], ',<br> <span id="bad_trial_nav_not_font">'.round($row[$i]['correct_hit'] / (($row[$i]['wrong_hit'] + $row[$i]['correct_hit']) / 100)).'%</span>, level: ', $row[$i]['level'],', ', ($row[$i]['manual'] == 1) ? 'manual' : 'position', '</h6>';
+					else if(round($row[$i]['correctHit'] / (($row[$i]['wrongHit'] + $row[$i]['correctHit']) / 100)) <= 50){
+						echo '<h6>End at: ', $row[$i]['time'], ',<br> <span id="bad_trial_nav_not_font">'.round($row[$i]['correctHit'] / (($row[$i]['wrongHit'] + $row[$i]['correctHit']) / 100)).'%</span>, level: ', $row[$i]['level'],', ', ($row[$i]['gameMode'] == 1) ? 'gameMode' : 'position', '</h6>';
 					}
 					else{
-						echo '<h6>End at: ', $row[$i]['time'], ',<br>'.round($row[$i]['correct_hit'] / (($row[$i]['wrong_hit'] + $row[$i]['correct_hit']) / 100)).'%, level: ', $row[$i]['level'],', ', ($row[$i]['manual'] == 1) ? 'manual' : 'position', '</h6>';
+						echo '<h6>End at: ', $row[$i]['time'], ',<br>'.round($row[$i]['correctHit'] / (($row[$i]['wrongHit'] + $row[$i]['correctHit']) / 100)).'%, level: ', $row[$i]['level'],', ', ($row[$i]['gameMode'] == 1) ? 'gameMode' : 'position', '</h6>';
 					}
 				}
 				else{
-					echo '<h6>End at: ', $row[$i]['time'], ',<br><span id="bad_trial_nav_not_font">', str_repeat('&nbsp;', 2), '0%</span>, level: ', $row[$i]['level'],', ', ($row[$i]['manual'] == 1) ? 'manual' : 'position', '</h6>';
+					echo '<h6>End at: ', $row[$i]['time'], ',<br><span id="bad_trial_nav_not_font">', str_repeat('&nbsp;', 2), '0%</span>, level: ', $row[$i]['level'],', ', ($row[$i]['gameMode'] == 1) ? 'gameMode' : 'position', '</h6>';
 				}
-				if($row[$i]['manual'] == '0'){
+				if($row[$i]['gameMode'] == '0'){
 					#n-back increase
 					if($row[$i]['result'] == 1){
 						$was_eighty_percent++;
@@ -335,21 +335,21 @@ LogLn(1, "[NAVBAR][GETMENUS] *** END ***");
 								setcookie ('level',1);
 							}
 							#SESSION / Csak ha van felhasználó!
-							if(isset($_SESSION['n_back_datas']['level'])){
+							if(isset($_SESSION['nbackDatas']['level'])){
 
-								$_SESSION['n_back_datas']['level']++;
+								$_SESSION['nbackDatas']['level']++;
 								/*Update*/
 								LogLn(1, "[NAVBAR][SETLEVELANDRESULT][START]");
 
-								Sql_execute_query('update n_back_datas set level = '.$_SESSION['n_back_datas']['level'].', trials = "'.($_SESSION['n_back_datas']['trials'] + 5).'"  where user_id = '.$_SESSION['user_datas']['id'].'; ');
-								Sql_execute_query('update n_back_sessions set result = "0" where user_id = '.$_SESSION['user_datas']['id'].';');
+								Sql_execute_query('update nbackDatas set level = '.$_SESSION['nbackDatas']['level'].', trials = "'.($_SESSION['nbackDatas']['trials'] + 5).'"  where userID = '.$_SESSION['user_datas']['id'].'; ');
+								Sql_execute_query('update nbackSessions set result = "0" where userID = '.$_SESSION['user_datas']['id'].';');
 
 								LogLn(1, "[NAVBAR][SETLEVELANDRESULT][END]");
 								Load_datas();
 							}
 									#Ha nincs felhasználó
 							else{
-								Sql_execute_query('update n_back_sessions set result = "0" where user_id = "1" and ip = "'.$_SERVER['REMOTE_ADDR'].'";');
+								Sql_execute_query('update nbackSessions set result = "0" where userID = "1" and ip = "'.$_SERVER['REMOTE_ADDR'].'";');
 							}
 							header('Location: index.php?index=9&rep_common=4');
 						}
@@ -360,28 +360,28 @@ LogLn(1, "[NAVBAR][GETMENUS] *** END ***");
 						if($was_under_than_fifty_percent == 3){
 							#cookie
 							if(!isset($_COOKIE['level'])){
-								if(isset($_SESSION['n_back_datas']['level'])){
-									setcookie('level', $_SESSION['n_back_datas']['level']);
+								if(isset($_SESSION['nbackDatas']['level'])){
+									setcookie('level', $_SESSION['nbackDatas']['level']);
 								}
 								else{
 									setcookie('level', '1');
 								}
 							}
 							#SESSION / Csak ha van felhasználó!
-							if(isset($_SESSION['n_back_datas']['level'])) {
-								if($_SESSION['n_back_datas']['level'] != '1'){
-									$_SESSION['n_back_datas']['level']--;
+							if(isset($_SESSION['nbackDatas']['level'])) {
+								if($_SESSION['nbackDatas']['level'] != '1'){
+									$_SESSION['nbackDatas']['level']--;
 									/*Update*/
 									LogLn(1, "[NAVBAR][SETLEVEL][START]");
-									Sql_execute_query('update n_back_datas set level = "'.$_SESSION['n_back_datas']['level'].'" , trials = "'.($_SESSION['n_back_datas']['trials'] - 5).'" where user_id = "'.$_SESSION['user_datas']['id'].'"; ');
+									Sql_execute_query('update nbackDatas set level = "'.$_SESSION['nbackDatas']['level'].'" , trials = "'.($_SESSION['nbackDatas']['trials'] - 5).'" where userID = "'.$_SESSION['user_datas']['id'].'"; ');
 									LogLn(1, "[NAVBAR][SETLEVEL][END]");
 								}
-								Sql_execute_query($sql = 'update n_back_sessions set result = "0" where user_id = "'.$_SESSION['user_datas']['id'].'" and ip = "'.$_SERVER['REMOTE_ADDR'].'";');
+								Sql_execute_query($sql = 'update nbackSessions set result = "0" where userID = "'.$_SESSION['user_datas']['id'].'" and ip = "'.$_SERVER['REMOTE_ADDR'].'";');
 								Load_datas();
 							}
 									#Ha nincs felhasználó
 							elseif( $_COOKIE['level'] !=1 ){
-								Sql_execute_query('update n_back_sessions set result = "0" where user_id = "1" and ip = "'.$_SERVER['REMOTE_ADDR'].'";');
+								Sql_execute_query('update nbackSessions set result = "0" where userID = "1" and ip = "'.$_SERVER['REMOTE_ADDR'].'";');
 							}
 							header('Location: index.php?index=9&rep_common=3');
 						}

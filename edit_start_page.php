@@ -6,7 +6,7 @@ $get_doc_datas = Sql_query($sql_get_start_page = 'SELECT * FROM documents WHERE 
 
 if(count($get_doc_datas) == 0){
 
-	Sql_execute_query('INSERT INTO `documents`(user_id, title, content, privilege) VALUES ("00000002","start_page","","3") ;');
+	Sql_execute_query('INSERT INTO `documents`(userID, title, content, privilege) VALUES ("00000002","start_page","","3") ;');
 	$is_start_page = false;
 }
 $case = $_GET['choose'];

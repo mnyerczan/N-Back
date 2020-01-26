@@ -1,0 +1,10 @@
+SQLSTATE[HY000] [1049] Unknown database 'testDB' in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 275SQLSTATE[HY000] [1049] Unknown database 'testDB' in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 275SQLSTATE[HY000] [1049] Unknown database 'testDB' in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 275SQLSTATE[HY000] [1049] Unknown database 'testDB' in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 275SQLSTATE[HY000] [1049] Unknown database 'testDB' in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 275SQLSTATE[HY000] [1049] Unknown database 'testDB' in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 275
+SQLSTATE[HY000] [1049] Unknown database 'testDB' in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 275
+SQLSTATE[HY000] [1049] Unknown database 'testNB' in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 276
+SQLSTATE[HY000] [1049] Unknown database 'testNB' in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 294
+SQLSTATE[HY000] [1049] Unknown database 'testNB' in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 294
+SQLSTATE[HY000] [1049] Unknown database 'testNB' in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 294
+Database breaked. Count of tables not enough  in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 50
+Database breaked. Count of tables not enough  in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 48
+Database breaked. Count of tables not enough  in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 48
+Database breaked. Count of tables not enough  in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 48

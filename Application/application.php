@@ -7,7 +7,7 @@ require_once APPLICATION.'Model/userEntity.php';
 require_once APPLICATION.'Interfaces/DBInterface.php';
 require_once APPLICATION.'DB/MySql.php';
 require_once APPLICATION.'DB/entityGateway.php';
-require_once APPLICATION.'Core/controller.php';
+
 
 require_once "_globals.php";
 
@@ -16,48 +16,50 @@ require_once APPLICATION."functions.php";
 
 final class Application
 {
-    private $user;
-
-
-    function __construct()
-    {
-
-    /**
-     * Create user object
-     */
-        $this->user = new UserEntity();  
-        $this->user->Load();
-        
-       
-    }
+    private $user,
+            $routes;   
 
     function route()
-    {
-        $page = '';
-        
-
-        if(preg_match( '%^/$%', $_SERVER['REQUEST_URI'] ))
-            $page = 'main';
-        else
-            $page = '_404';
+    {                 
+        $this->addRoute( $this->Path( APPROOT.'(?<action>)' ), 'mainController' );
+        $this->addRoute( $this->Path( APPROOT.'(?<action>user)' ), 'userController' );
+        $this->addRoute( $this->Path( APPROOT.'(?<action>signUp)' ), 'userController' );
+        $this->addRoute( $this->Path( APPROOT.'(?<action>signIn)' ), 'userController' );        
 
         
-        require_once APPLICATION."Controllers/{$page}Controller.php";
 
-        $controller = $page.'Controller';
+        foreach( $this->routes as $pattern => $controller )
+        {
+            if( preg_match( $pattern, URI, $matches ) )
+            {
+                require_once APPLICATION."Controllers/{$controller}.php";
+                new $controller($matches);
+                die;
+            }
+        }
 
-
-        new $controller($this->user);
+        require_once APPLICATION."Controllers/_404Controller.php";
+        new _404Controller();
+                        
     }    
 
+    private function addRoute( string $action, string $controller )
+    {
+        $this->routes[$action] = $controller;
+    }
 
+
+    private function Path( string $path ): string
+    {
+        return "`^{$path}$`";
+    }
 
     function Session()
     {    
 
         if(isset($_GET['exit']))
         {				
-            $result = ( EntityGateway::getDB() )->Select("UPDATE users SET `online` = 0 WHERE u_name = :name ", [':name' => $_SESSION['u_name']]);
+            $result = ( EntityGateway::getDB() )->Select("UPDATE users SET `online` = 0 WHERE userName = :name ", [':name' => $_SESSION['userName']]);
     
             if( !$result && @$_COOKIE[session_name()])
             {
@@ -69,9 +71,9 @@ final class Application
         }
         else
         {				
-            if( @$_SESSION['u_name'] )
+            if( @$_SESSION['userName'] )
             {			
-                $this->user->Load( $_SESSION['u_name'], $_SESSION['password'] );
+                $this->user->Load( $_SESSION['userName'], $_SESSION['password'] );
             }					
         }
     }

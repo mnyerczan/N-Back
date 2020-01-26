@@ -47,7 +47,7 @@ if($_SESSION['user_datas']['privilege'] == 3){
 
 
 
-				$sql_get_menus = 'SELECt m.id, m.name, (select name FROM menus WHERE id = m.parent_id) as parent, m.ikon, m.privilege, (SELECT count(*) FROM logs where menu_id = m.id) as logs FROM menus as m WHERE parent_id = 00000001 and name != "Edit"';
+				$sql_get_menus = 'SELECt m.id, m.name, (select name FROM menus WHERE id = m.parentID) as parent, m.ikon, m.privilege, (SELECT count(*) FROM logs where menuID = m.id) as logs FROM menus as m WHERE parentID = 00000001 and name != "Edit"';
 				$get_menus = Sql_query($sql_get_menus);
 
 				for($i=0;$i<count($get_menus); $i++){
@@ -121,7 +121,7 @@ if($_SESSION['user_datas']['privilege'] == 3){
  			$path =  'img/forum_ikons' ;
 
  			$escaped_forum_name = Escape_special_characters($_POST['create_forum_name']);
-			$path_file_name = $_FILES['file']['name'] != '' ?  $path.'/'.$escaped_forum_name . '_'. $_FILES['file']['name'] : 'none';
+			$path_fileName = $_FILES['file']['name'] != '' ?  $path.'/'.$escaped_forum_name . '_'. $_FILES['file']['name'] : 'none';
 			$privilege = $_POST['create_forum_privilege'] != '' ?  $_POST['create_forum_privilege'] : '1';
 			$name = $_POST['create_forum_name'] != '' ?  $_POST['create_forum_name'] : 'Anonimus room';
 
@@ -130,17 +130,17 @@ if($_SESSION['user_datas']['privilege'] == 3){
 
 
  			if($_POST['modify_forum_items_id'] != 0){
-				if($path_file_name == 'none'){
+				if($path_fileName == 'none'){
 					$sql_menu_item = 'Update menus SET name="'.$escaped_forum_name.'", privilege="'.$privilege.'" WHERE id = "'.$_POST['modify_forum_items_id'].'";';
 				}
 				else{
-					$sql_menu_item = 'Update menus SET name="'.$escaped_forum_name.'", privilege="'.$privilege.'", ikon ="'.$path_file_name.'" WHERE id = "'.$_POST['modify_forum_items_id'].'";';
+					$sql_menu_item = 'Update menus SET name="'.$escaped_forum_name.'", privilege="'.$privilege.'", ikon ="'.$path_fileName.'" WHERE id = "'.$_POST['modify_forum_items_id'].'";';
 				}
 			}
 			else{
 				$sql_menu_item =
-				'INSERT INTO menus (name,parent_id, path, ikon, privilege, child) VALUES ("'.$escaped_forum_name.'","00000001","?index=7&offset=0",
-				"'.$path_file_name.'","'.$_POST['create_forum_privilege'].'","0");';
+				'INSERT INTO menus (name,parentID, path, ikon, privilege, child) VALUES ("'.$escaped_forum_name.'","00000001","?index=7&offset=0",
+				"'.$path_fileName.'","'.$_POST['create_forum_privilege'].'","0");';
 			}
 
 			if(Sql_execute_query($sql_menu_item) == 0){
@@ -163,15 +163,15 @@ if($_SESSION['user_datas']['privilege'] == 3){
 				}
 
 
-				if($path_file_name != 'none'){
-					if ( !file_exists($path_file_name)) {
+				if($path_fileName != 'none'){
+					if ( !file_exists($path_fileName)) {
 
-						move_uploaded_file($file["file"]["tmp_name"], $path_file_name);
+						move_uploaded_file($file["file"]["tmp_name"], $path_fileName);
 						echo '<h2 style="text-align: center;">Upload is successful</h2>';
 
 					}
 					else{
-						echo '<h2 style=" text-align: center;">',$path_file_name . ' already exists. </h2>';
+						echo '<h2 style=" text-align: center;">',$path_fileName . ' already exists. </h2>';
 					}
 				}
 

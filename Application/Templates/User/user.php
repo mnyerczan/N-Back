@@ -24,15 +24,15 @@ if(isset($_POST['id']) && $_POST["id"] != '')
 	u.id,
 	u.birth,
 	u.email,
-	u.login_datetime,
-	u.u_name,
-	u.pw_length,
+	u.loginDatetime,
+	u.userName,
+	u.passwordLength,
 	u.privilege,
-	u.file_name,
+	u.fileName,
 	u.password,
 	nb.level,
-	nb.manual
-	FROM n_back_datas nb, users u WHERE u.id = "'.$_POST['id'].'" and u.id = nb.user_id;';
+	nb.gameMode
+	FROM nbackDatas nb, users u WHERE u.id = "'.$_POST['id'].'" and u.id = nb.userID;';
 
 	$result_user = Sql_query($sql_get_user_datas);
 }
@@ -41,19 +41,19 @@ else{
 	$result_user[0]['level'] = $user->level;
 	$result_user[0]['seconds'] = $user->seconds;
 	$result_user[0]['trials'] = $user->trials;
-	$result_user[0]['event_length'] = $user->event_length;
+	$result_user[0]['eventLength'] = $user->eventLength;
 	$result_user[0]['color'] = $user->color;
 
 	$result_user[0]['name'] = $user->name;
 	$result_user[0]['birth'] = $user->birth;
 	$result_user[0]['email'] = $user->email;
-	$result_user[0]['login_datetime'] = $user->login_datetime;
-	$result_user[0]['u_name'] = $user->u_name;
-	$result_user[0]['pw_length'] = $user->pw_length;
+	$result_user[0]['loginDatetime'] = $user->loginDatetime;
+	$result_user[0]['userName'] = $user->userName;
+	$result_user[0]['passwordLength'] = $user->passwordLength;
 
 
 
-	$result_user[0]['manual'] = $user->manual;
+	$result_user[0]['gameMode'] = $user->gameMode;
 	$result_user[0]['level'] = $user->level;
 
 }
@@ -69,14 +69,14 @@ var_dump($result_user);
 var id = "<?php echo $result_user[0]['id']; ?>";
 
 function delete_img_from_srv(){
-	document.getElementById("img_user_id").value = id;
+	document.getElementById("img_userID").value = id;
 	document.getElementById("del_img").value = 1;
 	document.getElementById("delete_user_profile_image").action="index.php?index=6";
 	document.getElementById("delete_user_profile_image").submit();
 }
 </script>
 <form method="POST" id="delete_user_profile_image"  hidden>
-	<input name="img_user_id" id="img_user_id" type="text" hidden />
+	<input name="img_userID" id="img_userID" type="text" hidden />
 	<input name="del_img" id="del_img" type="text" value="none" hidden />
 </form>
 <?php
@@ -89,72 +89,7 @@ switch($user_case){
 		//		Create user																//
 		//////////////////////////////////////////////////////////////////////////////_//
 		?>
-			<div id="cu_div">
-				<h2 align="center">
-					<?php
-					$users_count = Sql_query('SELECT COUNT(*) as num FROM users;');
-					if(count($users_count) == 1 && $users_count[0]['num'] == 1) $admin =1;
-					echo  isset($admin) ? 'Please create the admin user!' :
-					( !isset($_GET['error']) ? 'To create a new profile, please fill out the form below'   : 'The user may exists!');?>
-				</h2>
-				<img id="create_user_img" src="img/edit_1.png">
-			</div>
-			<div id="create_user_form" >
-				<form method="POST" action="index.php?index=2" name="create_user_form" onsubmit="return Validation()" enctype="multipart/form-data">
-					<div>
-					<label><p id="cu_lbl_1">Name:</p></label>
-						<input  id="cu_1" type="text"  name="create_user_name" class="create_user_input" placeholder="" autofocus autocomplete="off" _required>
-					</div>
-					<div><label><p id="cu_lbl_3">E-mail:</p></label>
-						<input id="cu_3" type="email"  name="create_user_email" class="create_user_input" autocomplete="off" >
-					</div>
-					<div><label><p id="cu_lbl_4">Date of birth:</p></label>
-						<input id="cu_4" type="date"   name="create_user_birth" class="create_user_input" autocomplete="off" >
-					</div>
-					<br><br>
-					<div><label><p id="cu_lbl_5">Login name:</p></label>
-						<input id="cu_5" type="text"   name="create_user_user" class="create_user_input" autocomplete="off"  _required>
-					</div>
-					<div><label><p id="cu_lbl_6">Password:</p></label>
-						<input id="cu_6" type="password" name="create_user_pass" minlength="4" name="create_user_pass" class="create_user_input" _required>
-					</div>
-					<div class="wrap" >
-						<div id="file_text"></div>
-						<label for="cu_file" class="file_lbl" id="cu_lbl_7" >
-							<input type="text" name="max_filesize" value="200000" readonly hidden>
-							<input id="cu_file" type="file" name="file" class="inputfile" onchange="read_url(this, '#user_profile_image', '<?php echo $main_theme; ?>'); Modify_create_user_pic();" accept="image/*">
-							Choose a file
-						</label>
-					</div>
-					<input name="case" type="text" value="create_user" readonly hidden>
-					<div for="create_user_add_img" id="create_user_add_box" >
-						<div id="create_user_remove_img" onclick="Delete();" data-placement="left"  title="Delete datas"></div>
-						<div style="float: right; width: 50%;">
-							<button type="submit" name="create_user_submit" value="Save" id="create_user_submit_id" title="Save">
-								<img class="user_modify_img" src="img/save_datas.png">
-							</button>
-						</div>
-					</div>
-				</form>
-			</div>
-			<div id="create_user_pic" >
-				<img style="float:rigth;" id="user_profile_image">
-			</div>
-			<script type="text/javascript">
-				function Modify_create_user_pic(){
-
-					document.getElementById("create_user_pic").style.height = "600px";
-					document.getElementById("create_user_pic").style.width = "400px";
-					document.getElementById("create_user_pic").style.margin = "15px"
-
-					if(theme == 'black') {
-						document.getElementById("create_user_pic").style.backgroundImage = 'radial-gradient( white, black)';
-					}
-					else{
-						document.getElementById("create_user_pic").style.backgroundImage = 'none';
-					}
-				}
-			</script>
+			
 	<?php
 	} break;
 
@@ -203,16 +138,16 @@ switch($user_case){
 					</tr>
 					<tr>
 						<td class="td_label"><span>Registration date: </span></td>
-						<td><?=$result_user[0]['login_datetime']?></td>
+						<td><?=$result_user[0]['loginDatetime']?></td>
 					</tr>
 					<tr>
 						<td class="td_label"><span>Login name: </span></td>
-						<td><?=Include_special_characters($result_user[0]['u_name'])?></td>
+						<td><?=Include_special_characters($result_user[0]['userName'])?></td>
 					</tr>
 					<tr>
 						<td class="td_label"><span>Password: </span></td>
 						<td>
-						<?php for($i=0; $i< $result_user[0]['pw_length']; $i++):?> 
+						<?php for($i=0; $i< $result_user[0]['passwordLength']; $i++):?> 
 							*						
 						<?php endfor ?>
 						</td>
@@ -227,8 +162,8 @@ switch($user_case){
 						<td><?=$result_user[0]['level']?></td>
 					</tr>
 					<tr>
-						<td  class="td_label"><span>Manual mode: </span></td>
-						<td><?=$result_user[0]['manual']?></td>
+						<td  class="td_label"><span>Position mode: </span></td>
+						<td><?=$result_user[0]['gameMode']?></td>
 					</tr>
 					<tr>
 						<td  class="td_label"><span>Progression in last 7 days:</span></td>
@@ -236,11 +171,11 @@ switch($user_case){
 				<?php if($error_level >0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][USERS][GETUSERSGAMESTAT]***START***\n" , $log_param_1);
 				$sql_get_last_week_stat = '
 	select
-	concat(round(100 -(select (sum(level) / count(level)) + (sum(correct_hit) /( sum(correct_hit) + sum(wrong_hit))) as cw_stat from n_back_sessions
-	where timestamp < DATE_ADD(curdate(), INTERVAL -6 DAY) and timestamp > DATE_ADD(curdate(), INTERVAL -14 DAY)  and user_id = '.$user_id.')
+	concat(round(100 -(select (sum(level) / count(level)) + (sum(correctHit) /( sum(correctHit) + sum(wrongHit))) as cw_stat from nbackSessions
+	where timestamp < DATE_ADD(curdate(), INTERVAL -6 DAY) and timestamp > DATE_ADD(curdate(), INTERVAL -14 DAY)  and userID = '.$userID.')
 	/
-	(select (sum(level) / count(level)) + (sum(correct_hit) /( sum(correct_hit) + sum(wrong_hit))) as cw_stat from n_back_sessions
-	where timestamp >DATE_ADD(curdate(), INTERVAL -6 DAY) and user_id = '.$user_id.')
+	(select (sum(level) / count(level)) + (sum(correctHit) /( sum(correctHit) + sum(wrongHit))) as cw_stat from nbackSessions
+	where timestamp >DATE_ADD(curdate(), INTERVAL -6 DAY) and userID = '.$userID.')
 	*100), " %") as stat;';
 
 				$last_week_stat = Sql_query($sql_get_last_week_stat)[0]['stat'];
@@ -252,8 +187,8 @@ switch($user_case){
 					</tr>
 				</table>
 						<img id="profil_pics" 
-				<?= ((isset($result_user[0]['file_name']) && $result_user[0]['file_name'] != 'none') ?
-				'src="users/'. $result_user[0]['id']. '/'.Include_special_characters($result_user[0]['file_name']).'" ' : 'src="img/default_user_black.png'.'"')?> >
+				<?= ((isset($result_user[0]['fileName']) && $result_user[0]['fileName'] != 'none') ?
+				'src="users/'. $result_user[0]['id']. '/'.Include_special_characters($result_user[0]['fileName']).'" ' : 'src="img/default_user_black.png'.'"')?> >
 
 			</div>
 
@@ -307,19 +242,19 @@ switch($user_case){
 							</tr>
 							<tr>
 								<td class="td_label"><span>Registration date: </span></td>
-								<td>'.$result_user[0]['login_datetime'].'</td>
+								<td>'.$result_user[0]['loginDatetime'].'</td>
 							</tr>
 							<tr>
 								<td class="td_label"><span>Login name: </span></td>
 								<td>
-									<input name="u_name" type="text" autocomplete="off" placeholder="'.Include_special_characters($result_user[0]['u_name']).'" >
+									<input name="userName" type="text" autocomplete="off" placeholder="'.Include_special_characters($result_user[0]['userName']).'" >
 									<input name="id" type="text" value="'.$result_user[0]['id'].'"  readonly hidden>
 								</td>
 							</tr>
 							<tr>
 								<td class="td_label"><span>Password: </span></td>
 								<td><input name="pass" type="password" autocomplete="off" placeholder="';
-									for($i=0; $i< $result_user[0]['pw_length']; $i++) echo '*';
+									for($i=0; $i< $result_user[0]['passwordLength']; $i++) echo '*';
 							echo '" minlength="4"></td>
 									</tr><tr>';
 							if(isset($_POST['id']) && isset($_SESSION['user_datas']['id']) && $_POST['id'] !=  $_SESSION['user_datas']['id']  && $_SESSION['user_datas']['privilege'] > 2)
@@ -344,22 +279,22 @@ switch($user_case){
 
 						echo '</table>
 						<input name="mail_original" type="mail" value="'.$result_user[0]['email'].'" hidden/>
-						<input name="pw_length_original" type="text" value="'.$result_user[0]['pw_length'].'" hidden/>
-						<input name="u_name_original" type="text"  value="'.Include_special_characters($result_user[0]['u_name']).'" hidden>
+						<input name="passwordLength_original" type="text" value="'.$result_user[0]['passwordLength'].'" hidden/>
+						<input name="userName_original" type="text"  value="'.Include_special_characters($result_user[0]['userName']).'" hidden>
 						<input name="pass_original" value="'.$result_user[0]['password'].'"  hidden>
 						<input name="update" value="1" type="text" form="edit_user_form" hidden>
 					</form>
 				</div>
 				<div style="margin: auto;">
 					<div style="float: right; width: 200px; padding: 20px; display: block;">'.
-					((!isset($result_user[0]['file_name']) || $result_user[0]['file_name'] == 'none')
+					((!isset($result_user[0]['fileName']) || $result_user[0]['fileName'] == 'none')
 						?
 					'
 						<div class="wrap" style="pointer-events: auto;">
 							<div id="file_text" style="width: 150px;"></div>
 							<label for="edit_user_image" class="file_lbl" id="edit_user_file_lbl" style="font-size: 14px">
 								<input type="text" name="max_filesize" value="200000" readonly hidden>
-								<input form="edit_user_form" name="file" type="text" value="'.Include_special_characters($result_user[0]['file_name']).'" readonly hidden>
+								<input form="edit_user_form" name="file" type="text" value="'.Include_special_characters($result_user[0]['fileName']).'" readonly hidden>
 								<input form="edit_user_form" id="edit_user_image" accept="image/*" type="file" name="file" class="inputfile" onchange="read_url(this, '.(true ? "'#user_img'" : '').');">
 								Select image
 							</label>
@@ -376,8 +311,8 @@ switch($user_case){
 					<div id = "user_img_nav_container">
 
 						<img id="user_img" style=" width: 200px;" '.
-					((isset($result_user[0]['file_name']) && $result_user[0]['file_name'] != 'none') ?
-						' src="users/'. $result_user[0]['id']. '/'.Include_special_characters($result_user[0]['file_name']).'" style="width: 300px;"' :
+					((isset($result_user[0]['fileName']) && $result_user[0]['fileName'] != 'none') ?
+						' src="users/'. $result_user[0]['id']. '/'.Include_special_characters($result_user[0]['fileName']).'" style="width: 300px;"' :
 						'src="img/default_user_black.png"'
 						).' >
 					</div>
@@ -442,7 +377,7 @@ if(isset($_POST['modify']) && $_POST['modify'] != 'none') echo
 				if( document.getElementById("edit_user_image").value == null  && boolen){
 
 					if( document.forms["edit_user_form"]["mail"].value.length < 1  &&
-						document.forms["edit_user_form"]["u_name"].value.length < 1 &&
+						document.forms["edit_user_form"]["userName"].value.length < 1 &&
 						document.forms["edit_user_form"]["pass"].value.length < 1){
 
 						document.getElementById("user_modify_error_label").innerHTML = "Fill at least one field!";

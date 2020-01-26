@@ -74,7 +74,7 @@ if(isset($_SESSION['user_datas']['id']) && isset($_POST['rp']) && $privilege >= 
 
 			params.append("uname", "<?php echo $_SESSION['user_datas']['name'];?>");
 			params.append("msg", msg);
-			params.append("menu_id", "<?php echo $rid;?>");
+			params.append("menuID", "<?php echo $rid;?>");
 			params.append("uid", "<?php echo $_SESSION['user_datas']['id'];?>");
 			params.append("title", title);
 			params.append("limit", limit);
@@ -150,7 +150,7 @@ if(isset($_SESSION['user_datas']['id']) && isset($_POST['rp']) && $privilege >= 
 		});
 	</script>
 	<div id="forum_header">
-		<div id="num_of_logs"><?php $sql = 'SELECT count(*) count FROM logs l, users u where u.id = l.user_id and  menu_id='.$rid.';'; $rows_count = Sql_query($sql); echo '#',$rows_count['0']['count'];?></div>
+		<div id="num_of_logs"><?php $sql = 'SELECT count(*) count FROM logs l, users u where u.id = l.userID and  menuID='.$rid.';'; $rows_count = Sql_query($sql); echo '#',$rows_count['0']['count'];?></div>
 		<div id="num_of_items_container" style="float: left;">
 			Num of notes:
 			<input type="text" name="num_of_items" id="num_of_items" placeholder="<?php echo $limit; ?>" style="width: 30px;"

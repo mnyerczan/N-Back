@@ -11,8 +11,10 @@ class _404Controller extends ErrorController
     {              
         $num = count(explode( '/' , URI ) ) - 2;
 
-        
-        for ( $i = 0; $i < $num; $i++ )
+        /**
+         * A számlálás 1-től indul, mert az explode a /Thesis_v.2.0/error stringet 3 részre szeleteli.
+         */
+        for ( $i = 1; $i < $num; $i++ )
         {
             $this->backFromCurrentPath.= '../';
         }

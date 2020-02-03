@@ -1,8 +1,23 @@
 ﻿<?php 	
-	define('APPLICATION', 'Application/');
 	define('URI', explode('?', $_SERVER['REQUEST_URI'])[0]);
 
+	$num = count(explode( '/' , URI ) ) - 2;
+	$backFromCurrentPath = '';
+	/**
+	 * A számlálás 1-től indul, mert az explode a /Thesis_v.2.0/error stringet 3 részre szeleteli.
+	 */
+	for ( $i = 1; $i < $num; $i++ )
+	{
+		$backFromCurrentPath.= '../';
+	}  
+
+	define('RELPATH', $backFromCurrentPath);
+
+	define('APPLICATION', 'Application/');
+
+
 	define('APPROOT', '/Thesis_v.2.0/');
+	//define('APPROOT', '/');
 
 	require_once APPLICATION.'application.php';
 
@@ -28,13 +43,13 @@
 /**
  * Set error logging
  */
-	ini_set('error_log', 'log/error.log');
+	ini_set('error_log', 'Log/error.log');
 	ini_set("log_errors", 1);
 
 
 
 	//ob_start();
-	session_start();
+
 
 
 
@@ -42,38 +57,5 @@
 	/* if($user->id > 1) 
 		header("refresh: 1440; url=http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"); */
 
-/**
- * initialize log files
- */
-	//require_once APPLICATION.'log/logHandler.php';
-
-
-	#Ezekhez a változókhoz szükség van a $_SESSION változóira.
-	//require_once("imp_var.php");
-	
-	
-	
-
-
-	//$main_theme = $user->theme ? $user->theme : (@$_cookie_datas['theme'] ? $_cookie_datas['theme'] : 'white');
-	
-
-/**
- * Set body arguments
- */
-	/* $bodyParams = "";
-
-	if( isset($_GET['nb_common']) && $_GET['nb_common'] == 1)
-	{
-		$bodyParams .= "onload='Session();'";
-	}			
-	$bodyParams .= ' onkeydown="key_event(event)" ';
-
-	if($main_theme == 'white' ) 
-		$bodyParams .= ' style="color:black;';
-	if(strpos($_SERVER["HTTP_USER_AGENT"], "Chrome") || strpos($_SERVER["HTTP_USER_AGENT"], "Chromium"))
-		$bodyParams .= "font-weight: bold;";
-	
-	$bodyParams .= '"'; */
 
 	(new Application())->route();		

@@ -57,7 +57,7 @@ else{
 	$result_user[0]['level'] = $user->level;
 
 }
-var_dump($result_user);
+
 ?>
 <form method="POST" id="post_form"  hidden>
 	<input name="id" id="id" type="text" hidden readonly>

@@ -19,15 +19,13 @@ class MainController extends Controller
 
     function __construct($matches)
     {
-
-        $action = $matches['action'].'Action';
-       
+               
 
         $this->user = UserEntity::GetInstance();
         $this->datas = $this->GetDatas();
                 
 
-        $this->$action();
+        $this->Action();
     }
 
     private function GetDatas()
@@ -37,9 +35,12 @@ class MainController extends Controller
             'user'      => $this->user, 
             'home'      => ( new Home() )->getContent() ,           
             'navbar'    => ( new Navbar( $this->user ) )->getDatas(),
-            'indicator' => (Indicator::getInstance( new Sessions( $this->user->id, 1 ) ))->getDatas()
+            'indicator' => (Indicator::getInstance( 
+                new Sessions( $this->user->id, 1 ),
+                $this->user->gameMode
+            ))->getDatas()
         ];
-    }
+    }    
   
     function Action()
     {                            

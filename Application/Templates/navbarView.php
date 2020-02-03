@@ -10,7 +10,7 @@
 		<?php for($i = 0; $i < count($navbar['menus']); $i++):?>
 			<?php if ( $navbar['menus'][$i]->child ): ?>
 				<section class="hidden-section" tabindex="<?=$i?>">
-					<a href="#">
+					<a href="#" class="hidden-anchor">
 						<span><?= $navbar['menus'][$i]->name ?></span>					
 						<img src="<?=APPLICATION?>img/down_white.png" class="nav-lnks-arrow">				
 						<?php if ($navbar['menus'][$i]->ikon != 'none'): ?>

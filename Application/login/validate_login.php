@@ -19,7 +19,7 @@ require_once $documentRoot."special_characters_handler.php";
 require_once $documentRoot."functions.php";
 
 
-$logfile = $documentRoot."log/thesis.log";
+$logfile = $documentRoot."Log/thesis.log";
 
 
 $user = new UserEntity( EntityGateway::getDB() );

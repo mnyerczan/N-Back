@@ -1,5 +1,6 @@
 body{
     margin:0;
+    background-color: #f7f7f7;
 }
 /* All button */
 
@@ -110,8 +111,32 @@ body{
 }
 .ms-404-msg{
     padding:0 50px;  
-    background-color: #f7f7f7;
 }
 .ms-404-btn-container{
     padding: 50px;
+}
+
+.ms-error-img {
+    width: 1300px;
+    height: 800px;
+}
+@media ( max-width:1350px ), ( max-height: 900px ) {
+    .ms-error-img {
+        width: 1000px;
+        height: 600px;
+    }
+}
+
+@media ( max-width:1000px ), ( max-height: 750px ) {
+    .ms-error-img {
+        width: 600px;
+        height: 400px;
+    }
+}
+
+@media ( max-width:700px ), ( max-height: 500px ) {
+    .ms-error-img {
+        width: 200px;
+        height: 130px;
+    }
 }

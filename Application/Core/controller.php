@@ -2,15 +2,17 @@
 
 class Controller
 {    
-    protected function View (array $datas = [], array $view = [])
+
+    protected function View (array $datas = [], array $viewModule = [])
     {             
         extract( $datas );   
-        extract( $view );   
-           
-
-/*         $module = str_replace('Controller', '', get_class($this));
-        $module = strtoupper(substr($module, 0, 1)).substr($module,1); */
+        extract( $viewModule ); 
+        
+        
+        unset( $datas ); 
+        unset( $viewModule );    
+            
 
         require_once APPLICATION."Templates/_layout.php";     
-    }
+    }    
 }

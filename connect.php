@@ -9,11 +9,13 @@
 
 		$conn_pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $user, $pass);
 	}
-	catch( PDOException $e ){
+    catch( PDOException $e )
+    {
 		die("<h1 style='font-family:Comic Sans MS, sans-serif; text-align: center; color: red; '>PDO: ".$e->getMessage()."<h1>");
-	}
-    $conn = mysqli_connect($host,$user,$pass,$database);
+    }
+    
 
+    $conn = mysqli_connect($host,$user,$pass,$database);
 
     //a kapcsolat ellenőrzése
     if(!$conn)

@@ -358,8 +358,8 @@ function Insert_nb_sessions(){
 	if(isset($_cookie_datas['sessionUpload']) && $_cookie_datas['sessionUpload'] == '0' && Sql_execute_query($sql_insert_session) === 0)
 	{
 		if($error_level >0) file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][Insert_nb_sessions] SQL : ", $sql_insert_session."\n", $log_param_1);
-		setCookie('sessionUpload','1');
-		setCookie('lastModified',date("Y.m.d H:i:s "));
+		setCookie('sessionUpload','1', time() * 60 * 60 *24 * 365, APPROOT);
+		setCookie('lastModified',date("Y.m.d H:i:s "), time() * 60 * 60 *24 * 365, APPROOT);
 		$exit = 0;
 
 	}
@@ -569,13 +569,13 @@ function Update_nback_datas(){
 	}
 	else {
 
-			setCookie("gameMode", $_post_datas["gameMode"]);
-			setCookie('level', $_post_datas['level']);
-			setCookie('seconds', $_post_datas['seconds']);
-			setCookie('trial', $trials);
-			setCookie('eventLength', $_post_datas['eventLength']);
-			setCookie('color', $_post_datas['color']);
-			setCookie('lastModified',date("Y.m.d H:i:s "));
+			setCookie("gameMode", $_post_datas["gameMode"], time() * 60 * 60 *24 * 365, APPROOT);
+			setCookie('level', $_post_datas['level'], time() * 60 * 60 *24 * 365, APPROOT);
+			setCookie('seconds', $_post_datas['seconds'], time() * 60 * 60 *24 * 365, APPROOT);
+			setCookie('trial', $trials, time() * 60 * 60 *24 * 365, APPROOT);
+			setCookie('eventLength', $_post_datas['eventLength'], time() * 60 * 60 *24 * 365, APPROOT);
+			setCookie('color', $_post_datas['color'], time() * 60 * 60 *24 * 365, APPROOT);
+			setCookie('lastModified',date("Y.m.d H:i:s "), time() * 60 * 60 *24 * 365, APPROOT);
 
 // echo "post-Position: ", $_post_datas['gameMode'],"\n";
 // echo "cookie-Position: ", $_COOKIE["gameMode"],"\n";

@@ -14,7 +14,7 @@ if(isset($_COOKIE['plimit']))
 	$limit = $_COOKIE['plimit'];
 else {
 	$limit = 6;
-	setcookie("plimit", 6 );
+	setcookie("plimit", 6 , time() * 60 * 60 *24 * 365, APPROOT);
 }
 $profiles_count =  ($count  / $limit) > 0 ? $count : 1;
 

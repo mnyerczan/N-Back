@@ -9,53 +9,58 @@ use DB\EntityGateway;
 class UserEntity
 {
 	private static 
+			$INSTANCE = NULL;
+	private
 			$loged,
-			$dbObject,
-	 		$INSTANCE = NULL,
+			$dbObject,	 		
 			$datas = [];			
 
 
 	public static function GetInstance(): object
     {
-        if ( self::$INSTANCE == NULL )
+		if ( self::$INSTANCE == NULL )		
         {
+			session_start();
+
 			self::$INSTANCE = new self();    
-			self::$INSTANCE->Load();         						
+
+			self::$INSTANCE->Load( $_SESSION['userId'] ?? 1 );         						
+						
         }               
         return self::$INSTANCE;
     }
 
 	private function __construct()
     {
-		self::$dbObject = EntityGateway::getDB();
+		$this->dbObject = EntityGateway::getDB();
 		
-		self::$datas['id'] 				= 1;
-		self::$datas['name'] 			= 'Guest';
-		self::$datas['userName'] 		= 'Guest';
-		self::$datas['email'] 			= NULL;
-		self::$datas['loginDatetime']	= NULL;
-		self::$datas['privilege'] 		= 0;
-		self::$datas['birth'] 			= NULL;
-		self::$datas['passwordLength'] 	= NULL;
-		self::$datas['fileName'] 		= NULL;
-		self::$datas['theme'] 			= $_COOKIE['theme'] 		?? 'white';
-		self::$datas['refresh'] 		= NULL;
+		$this->datas['id'] 				= 1;
+		$this->datas['name'] 			= 'Guest';
+		$this->datas['userName'] 		= 'Guest';
+		$this->datas['email'] 			= NULL;
+		$this->datas['loginDatetime']	= NULL;
+		$this->datas['privilege'] 		= 0;
+		$this->datas['birth'] 			= NULL;
+		$this->datas['passwordLength'] 	= NULL;
+		$this->datas['fileName'] 		= NULL;
+		$this->datas['theme'] 			= $_COOKIE['theme'] 		?? 'white';
+		$this->datas['refresh'] 		= NULL;
 
 		// NOT IMPLEMENTED FEATUTRE
-		self::$datas['online'] 			= NULL;
+		$this->datas['online'] 			= NULL;
 		//--------------------------------------------------------------------------------------------
 		
-		self::$datas['gameMode'] 			= $_COOKIE['gameMode'] 		?? 'Position';
+		$this->datas['gameMode'] 		= $_COOKIE['gameMode'] 		?? 'Position';
 		// Game level
-		self::$datas['level'] 			= $_COOKIE['level'] 		?? 1;
+		$this->datas['level'] 			= $_COOKIE['level'] 		?? 1;
 		// Tim between two event in seconds
-		self::$datas['seconds'] 		= $_COOKIE['seconds'] 		?? 3;
+		$this->datas['seconds'] 		= $_COOKIE['seconds'] 		?? 3;
 		// Min trial has 25 events
-		self::$datas['trials'] 			= $_COOKIE['trials'] 		?? 25;
+		$this->datas['trials'] 			= $_COOKIE['trials'] 		?? 25;
 		// One event length in seconds 
-		self::$datas['eventLength']	= $_COOKIE['eventLength'] 	?? 0.75;
+		$this->datas['eventLength']		= $_COOKIE['eventLength'] 	?? 0.75;
 		// Event's color
-		self::$datas['color'] 			= $_COOKIE['color'] 		?? 'blue';
+		$this->datas['color'] 			= $_COOKIE['color'] 		?? 'blue';
     }
 
 
@@ -63,59 +68,59 @@ class UserEntity
     {
         switch($name)
         {
-			case 'loged': 			return self::$loged; 					break;
+			case 'loged': 			return $this->loged; 					break;
 
-			case 'id': 				return self::$datas['id']; 				break;
-			case 'name': 			return self::$datas['name']; 			break;
-			case 'userName': 			return self::$datas['userName']; 			break;
-			case 'email': 			return self::$datas['email']; 			break;
-			case 'loginDatetime': 	return self::$datas['loginDatetime']; 	break;
-			case 'privilege': 		return self::$datas['privilege']; 		break;
-			case 'birth': 			return self::$datas['birth']; 			break;
-			case 'passwordLength': 		return self::$datas['passwordLength']; 		break;
-			case 'fileName': 		return self::$datas['fileName']; 		break;
-			case 'theme': 			return self::$datas['theme']; 			break;
-			case 'refresh': 		return self::$datas['refresh']; 		break;
-			case 'online': 			return self::$datas['online']; 			break;
+			case 'id': 				return $this->datas['id']; 				break;
+			case 'name': 			return $this->datas['name']; 			break;
+			case 'userName': 		return $this->datas['userName']; 		break;
+			case 'email': 			return $this->datas['email']; 			break;
+			case 'loginDatetime': 	return $this->datas['loginDatetime']; 	break;
+			case 'privilege': 		return $this->datas['privilege']; 		break;
+			case 'birth': 			return $this->datas['birth']; 			break;
+			case 'passwordLength': 	return $this->datas['passwordLength']; 	break;
+			case 'fileName': 		return $this->datas['fileName']; 		break;
+			case 'theme': 			return $this->datas['theme']; 			break;
+			case 'refresh': 		return $this->datas['refresh']; 		break;
+			case 'online': 			return $this->datas['online']; 			break;
 
-			case 'gameMode': 			return self::$datas['gameMode']; 			break;
-			case 'level': 			return self::$datas['level']; 			break;			
-			case 'seconds': 		return self::$datas['seconds']; 		break;
-			case 'trials': 			return self::$datas['trials']; 			break;
-			case 'eventLength': 	return self::$datas['eventLength']; 	break;
-			case 'color': 			return self::$datas['color']; 			break;
+			case 'gameMode': 		return $this->datas['gameMode']; 		break;
+			case 'level': 			return $this->datas['level']; 			break;			
+			case 'seconds': 		return $this->datas['seconds']; 		break;
+			case 'trials': 			return $this->datas['trials']; 			break;
+			case 'eventLength': 	return $this->datas['eventLength']; 	break;
+			case 'color': 			return $this->datas['color']; 			break;
         }
     }
     
 
-	function Load( $name = 'default', $pass = NULL ): string
+	function Load( $userId ): string
     {			
-		$result = self::$dbObject->getUser( [ ":name" => $name, ":pass" => $pass ]  );	
+		$result = $this->dbObject->getUser( [ ':userId' => $userId ]  );	
 			
 
 		if( 1 == count( $result ))
 		{		
-			self::SetUser( $result );			
+			$this->SetUser( $result );			
 	
-			return self::$loged = "TRUE";
+			return $this->loged = "TRUE";
 		}        		
 
-		return self::$loged = "FALSE";
+		return $this->loged = "FALSE";
 	}
 
     function Login( string $name, string $pass ): string
     {		
-		$result = self::$dbObject->getUser( [ ":name" => $name, ":pass" => md5( "salt".md5( $pass ) ) ]  );			
+		$result = $this->dbObject->getUser( [ ":name" => $name, ":pass" => md5( "salt".md5( $pass ) ) ]  );			
 
 		if( 1 == count( $result ))
 		{		
-			self::SetUser( $result );			
-			self::SetSession( $result );	
+			$this->SetUser( $result );			
+			$this->SetSession( $result );	
 	
-			return self::$loged = "TRUE";
+			return $this->loged = "TRUE";
 		}        		
 
-		return self::$loged = "FALSE";
+		return $this->loged = "FALSE";
 	
 	}
 
@@ -123,36 +128,37 @@ class UserEntity
 	{
 		session_start();
 
-		$_SESSION['userName']				= Include_special_characters($result[0]['userName']);
-		$_SESSION['password']			= $result[0]['password'];
+		$_SESSION['userId']		= $result['id'];
+		//$_SESSION['userName']	= Include_special_characters($result[0]['userName']);
+		//$_SESSION['password']	= $result[0]['password'];
 	}
 
 
 
 	private function SetUser( $result )
 	{		
-		self::$datas['id'] 				= $result[0]['id'];
-		self::$datas['email']			= Include_special_characters($result[0]['email']);
-		self::$datas['loginDatetime']	= $result[0]['loginDatetime'];
-		self::$datas['name']			= Include_special_characters($result[0]['name']);
-		self::$datas['userName']			= Include_special_characters($result[0]['userName']);
-		self::$datas['privilege']		= $result[0]['privilege'];
-		self::$datas['birth']			= $result[0]['birth'];
-		self::$datas['passwordLength']		= $result[0]['passwordLength'];
-		self::$datas['fileName']		= $result[0]['fileName'];
-		self::$datas['theme']			= $result[0]['theme'];
-		self::$datas['refresh'] 		= $result[0]['refresh'];
+		$this->datas['id'] 				= $result[0]['id'];
+		$this->datas['email']			= Include_special_characters($result[0]['email']);
+		$this->datas['loginDatetime']	= $result[0]['loginDatetime'];
+		$this->datas['name']			= Include_special_characters($result[0]['name']);
+		$this->datas['userName']		= Include_special_characters($result[0]['userName']);
+		$this->datas['privilege']		= $result[0]['privilege'];
+		$this->datas['birth']			= $result[0]['birth'];
+		$this->datas['passwordLength']	= $result[0]['passwordLength'];
+		$this->datas['fileName']		= $result[0]['fileName'];
+		$this->datas['theme']			= $result[0]['theme'];
+		$this->datas['refresh'] 		= $result[0]['refresh'];
 
 		// NOT IMPLEMENTED FEATUTRE
-		self::$datas['online'] 			= $result[0]['online'];			
+		$this->datas['online'] 			= $result[0]['online'];			
 
 		//--------------------------------------------------------------------------------------------
 		
-		self::$datas['gameMode'] 			= $result[0]['gameMode'];
-		self::$datas['level'] 			= $result[0]['level'];
-		self::$datas['seconds']			= $result[0]['seconds'];
-		self::$datas['trials'] 			= $result[0]['trials'];
-		self::$datas['eventLength']	= $result[0]['eventLength'];
-		self::$datas['color'] 			= $result[0]['color'];
+		$this->datas['gameMode'] 		= $result[0]['gameMode'];
+		$this->datas['level'] 			= $result[0]['level'];
+		$this->datas['seconds']			= $result[0]['seconds'];
+		$this->datas['trials'] 			= $result[0]['trials'];
+		$this->datas['eventLength']		= $result[0]['eventLength'];
+		$this->datas['color'] 			= $result[0]['color'];
 	}
 }

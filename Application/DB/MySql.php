@@ -45,7 +45,7 @@ class MySql extends baseDbApi implements DBInterface
         } 
         catch ( RuntimeException $e ) 
         {
-            error_log( $e->getMessage()." in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'log/dberror.log' );
+            error_log( $e->getMessage()." in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
 
             die('Sorry! Something is wrong while load page!');
         }
@@ -157,12 +157,23 @@ class MySql extends baseDbApi implements DBInterface
      */
     public function getUser( array $params ): array
     {
-        $sql=
+        if ( array_key_exists( ':userId', $params ) )
+        {
+            $sql=
 		   "SELECT `users`.*, `nbackDatas`.*, current_timestamp AS refresh 
 			FROM `users` JOIN `nbackDatas` 
 				ON `users`.`id` = `nbackDatas`.`userID` 
-			WHERE `userName` = :name 
-            AND `password` = :pass ";
+			WHERE `users`.`id` = :userId";
+        }
+        else
+        {
+            $sql=
+            "SELECT `users`.*, `nbackDatas`.*, current_timestamp AS refresh 
+             FROM `users` JOIN `nbackDatas` 
+                 ON `users`.`id` = `nbackDatas`.`userID` 
+             WHERE `userName` = :name 
+             AND `password` = :pass ";
+        }        
             
         return $this->Select( $sql, $params );
     }
@@ -276,7 +287,7 @@ class MySql extends baseDbApi implements DBInterface
 
 
             $keys = array_keys( $params );
-            var_dump($params);
+           
             for ($i=0; $i < count( $keys ); $i++) 
             {           
                 $statement->bindParam( $keys[$i], $params[$keys[$i]] );                
@@ -314,7 +325,7 @@ class MySql extends baseDbApi implements DBInterface
         }
         catch( PDOException $e ) 
         {           
-            error_log( $e->getMessage()." in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'log/dberror.log' );
+            error_log( $e->getMessage()." in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
             die; 
         }
     }

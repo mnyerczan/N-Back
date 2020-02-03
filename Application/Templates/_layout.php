@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="<?=APPLICATION?>Style/common-new.css" />
-    <link rel="stylesheet" type="text/css" href="<?=APPLICATION?>Style/white.css" />
-	<link rel="stylesheet" type="text/css" href="<?=APPLICATION?>Style/black.css" />
-    <title>Document</title>
+    <link rel="icon" type="image/png" href="<?= RELPATH ?><?=APPLICATION?>Images/favicon.png">
+    <link rel="stylesheet" type="text/css" href="<?= RELPATH ?><?=APPLICATION?>Style/common-new.css" />
+    <link rel="stylesheet" type="text/css" href="<?= RELPATH ?><?=APPLICATION?>Style/white.css" />
+    <link rel="stylesheet" type="text/css" href="<?= RELPATH ?><?=APPLICATION?>Style/black.css" />
+    <title>Nback - <?=$view?></title>
 </head>
 <body>
     <!-- Header -->
-    <?php require_once APPLICATION."Templates/headerView.php";  ?>
+    <?php if ( $seria )  require_once APPLICATION."Templates/headerView.php";  ?>
 	<!-- Info label -->
-    <?php //require_once APPLICATION.'Templates/infoLabelView.php';?>
+    <?php if ( $indicator )  require_once APPLICATION.'Templates/infoLabelView.php';?>
 	<!-- Nav bar -->
-	<?php require_once APPLICATION.'Templates/navbarView.php'; ?>
-	<!--Center Box-->
-    <main id="main-main"  tabindex="-1" <?= @$_GET['nb_common'] == 1 ? 'style="pointer-events: none;"' : ""?>>
-    <?php //require_once APPLICATION."Templates/{$module}/{$view}View.php";?>
-    </main>
+	<?php if ( $navbar ) require_once APPLICATION.'Templates/navbarView.php'; ?>
+	<!--Center Box-->    
+    <?php require_once APPLICATION."Templates/{$module}/{$view}View.php";?>    
 </body>
 </html>

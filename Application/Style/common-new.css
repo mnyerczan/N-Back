@@ -2,9 +2,19 @@ body{
     padding:0;
 	margin:0;   
 	font-size:16px; 
+	background-color: #f9f9f9;
 }
 a {
     text-decoration: none;
+}
+
+/*
+* Helpers
+*/
+
+.btn , label, #show-file-path {
+	font-size: 12px;
+	display: block;
 }
 /*
 * HEADER SECTION
@@ -173,7 +183,7 @@ a {
 	display: none;
 	transition: display 2s ease-in-out;
 }
-.hidden-section:hover .nav-hidden{
+.hidden-anchor:focus + .nav-hidden {
 	display: block;		
 }
 /*---- navbar info section ----*/
@@ -286,4 +296,99 @@ a {
 	.nav_bar{
 		width: 11vw;;
 	}
+}
+
+/*
+* SignUp 
+*/
+
+.usr-crt-frm {	
+	margin: 100px auto;
+	width: 300px;
+	padding: 20px;
+	display: table;
+	background-color: white;
+}
+
+
+.usr-crt-frm input:not([type="submit"]) {	
+	padding: 10px;
+	margin-bottom: 20px;
+	border: 1px solid rgb(219, 219, 219);	
+	border-radius: 4px;
+	background-color: #fffcc8;	
+}
+.usr-crt-frm input[type="file"] {
+	border: none;
+	display: none;
+	padding: 0;	
+}
+.usr-crt-frm input:not([type='submit']) {
+	width: 300px;	
+}
+#show-file-path {
+	overflow: hidden;
+	word-break: break-all;	
+	width: 300px;	
+
+}
+/*
+* Buttons
+*/
+.btn {
+	border: none;
+	padding: 10px 0;
+	margin: 5px 0;
+	
+	border-radius: 4px;
+	width: 100%;
+	cursor: pointer;
+	text-align: center;
+	font-weight: bold;
+	user-select: none;
+}
+.btn:active {
+	margin-top: 6px;
+	padding-bottom: 9px;
+}
+
+.btn-gldnrd {		
+	background-image: linear-gradient(to bottom, rgb(197, 169, 97), darkgoldenrod);
+	color:white;	
+}
+.btn-rng {
+	background-image: linear-gradient(to bottom, rgb(235, 190, 134), rgb(199, 157, 107));	
+}
+.btn-save {
+	background-image: linear-gradient(to bottom, #0a0, #060);
+
+	background-color: #080;
+	color: white;
+}
+/*
+* INFO
+*/
+.info-container {
+	width: 70px;
+	height: 150px;
+	display: table;
+	position: absolute;
+	right: 0;
+	top: 100px;
+
+	padding: 10px;
+}
+.info-container span {	
+	display:block;
+	text-align: right;
+	padding: 10px 0;
+	font-style: italic;
+}
+#level-print-container {
+	font-weight: bold;
+	text-align: center;
+}
+.info-container h6 {
+	padding: 5px;
+	margin: 0;
 }

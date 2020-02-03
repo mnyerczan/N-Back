@@ -326,13 +326,13 @@ LogLn(1, "[NAVBAR][GETMENUS] *** END ***");
 						if($was_eighty_percent==2){
 							#cookie
 							if(isset($_COOKIE['level'])){
-								setcookie ('level',settype($_COOKIE['level'], 'integer') + 1);
+								setcookie ('level',settype($_COOKIE['level'], 'integer') + 1, time() * 60 * 60 *24 * 365, APPROOT);
 							}
 							elseif(isset($_SESSION['user_datas']['level'])){
-								setcookie ('level',settype($_SESSION['user_datas']['level'], 'integer') +1);
+								setcookie ('level',settype($_SESSION['user_datas']['level'], 'integer') +1, time() * 60 * 60 *24 * 365, APPROOT);
 							}
 							else{
-								setcookie ('level',1);
+								setcookie ('level',1, time() * 60 * 60 *24 * 365, APPROOT);
 							}
 							#SESSION / Csak ha van felhasználó!
 							if(isset($_SESSION['nbackDatas']['level'])){
@@ -361,10 +361,10 @@ LogLn(1, "[NAVBAR][GETMENUS] *** END ***");
 							#cookie
 							if(!isset($_COOKIE['level'])){
 								if(isset($_SESSION['nbackDatas']['level'])){
-									setcookie('level', $_SESSION['nbackDatas']['level']);
+									setcookie('level', $_SESSION['nbackDatas']['level'], time() * 60 * 60 *24 * 365, APPROOT);
 								}
 								else{
-									setcookie('level', '1');
+									setcookie('level', '1', time() * 60 * 60 *24 * 365, APPROOT);
 								}
 							}
 							#SESSION / Csak ha van felhasználó!

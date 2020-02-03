@@ -21,17 +21,20 @@ final class Application
 
     function route()
     {                 
-        $this->addRoute( $this->Path( APPROOT.'(?<action>)' ), 'mainController' );
-        $this->addRoute( $this->Path( APPROOT.'(?<action>user)' ), 'userController' );
-        $this->addRoute( $this->Path( APPROOT.'(?<action>signUp)' ), 'userController' );
-        $this->addRoute( $this->Path( APPROOT.'(?<action>signIn)' ), 'userController' );        
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>)' ), 'mainController' );
+        //$this->addRoute( $this->Path( APPROOT.'(?<controller>user)' ), 'userController' );
+      
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>signUp)' ), 'signUpController' );
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>signUp)/(?<action>submit)' ), 'signUpController' );
+        //$this->addRoute( $this->Path( APPROOT.'(?<controller>user)/(?<action>signIn)' ), 'userController' );
 
         
 
         foreach( $this->routes as $pattern => $controller )
-        {
+        {    
             if( preg_match( $pattern, URI, $matches ) )
-            {
+            {      
+
                 require_once APPLICATION."Controllers/{$controller}.php";
                 new $controller($matches);
                 die;
@@ -63,7 +66,7 @@ final class Application
     
             if( !$result && @$_COOKIE[session_name()])
             {
-                setcookie(session_name(), '', time()-42000, '/');
+                setcookie(session_name(), '', time()-42000, APPROOT);
             }
     
             header("Location: index.php?");

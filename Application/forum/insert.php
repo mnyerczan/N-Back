@@ -16,7 +16,7 @@ mysqli_set_charset($conn, "utf8");
  $privilege =	$_POST['privilege'];
  $user_priv	=	$_POST['user_priv'];
  $main_theme= 	$_POST['main_theme'];
- $logfile   =   ".././log/thesis.log";
+ $logfile   =   ".././Log/thesis.log";
 
 if($error_level >0) file_put_contents($logfile, "\n[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."][FORUM][GETROOMNAMEBYID] *** START ***\n", $log_param_1);
 if(count($get_name = sql_query("SELECT name, privilege FROM menus WHERE id = ".$menuID." and parentID = '00000001';")) > 0 ){

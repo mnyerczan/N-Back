@@ -21,9 +21,10 @@ class Navbar
         $this->datas['childMenus'] = [];
 
         $this->user     = $user;
+        
  
         $this->sessions = new Sessions( $this->user->id );
-        $this->menus    = new Menus( $this->user->id );
+        $this->menus    = new Menus( $this->user->privilege );
 
         $this->datas['menus']       = $this->menus->menus;
         $this->datas['childMenus']  = $this->menus->childMenus; 
@@ -36,6 +37,7 @@ class Navbar
             $this->datas['sessions'][$i]->endAt = substr($this->datas['sessions'][$i]->timestamp, 11, 5);
         }
 
+
     }
 
 
@@ -46,9 +48,5 @@ class Navbar
     }
 
 
-    private function Render()
-    {
-
-    }
     
 }

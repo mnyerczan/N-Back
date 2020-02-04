@@ -27,6 +27,8 @@ class ValidateUser extends Validator
             $this->setError('Username is too long');
             return;
         }
+
+        
     }
 }
 ?>

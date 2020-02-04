@@ -3,12 +3,13 @@
     RewriteCond %{REQUEST_FILNAME} !-f
     RewriteCond %{REQUEST_FILNAME} !-d
     #kivétel adása a szabályhoz, hogy a 
-    #http://localhost/School/web-project-1/application/style/style.css kérést kiszolgálja a szerver.
+    #http://localhost/Style/style.css kérést kiszolgálja a szerver.
     RewriteCond %{REQUEST_URI} !/Style
     RewriteCond %{REQUEST_URI} !/Script
     RewriteCond %{REQUEST_URI} !/img
     RewriteCond %{REQUEST_URI} !/Images
     RewriteCond %{REQUEST_URI} !/Templates/User/signUp.js
+    RewriteCond %{REQUEST_URI} !/Templates/User/signIn.js
     RewriteRule ^ index.php [L]
 </IFModule>
 # A minusszal kiakapcsoljuk a könyvtárak kilistázásának lehetőségét.

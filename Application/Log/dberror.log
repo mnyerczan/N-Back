@@ -8,3 +8,23 @@ Database breaked. Count of tables not enough  in /home/m_/source/Thesis_v.2.0/Ap
 Database breaked. Count of tables not enough  in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 48
 Database breaked. Count of tables not enough  in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 48
 Database breaked. Count of tables not enough  in /home/m_/source/Thesis_v.2.0/Application/DB/MySql.php at 48
+2020-02-03 10:56:16 - Incorrect date value: 'Admin' for column 'birth' at row 1 with INSERT INTO `users` ( `email`, `userName`, `password`, `birth` ) VALUES (  :email, :userName, :password, :dateOfBirth ) in /var/www/html/Thesis_v.2.0/Application/DB/MySql.php at 3242020-02-03 10:56:54 - Incorrect date value: 'Admin' for column 'birth' at row 1 with INSERT INTO `users` ( `email`, `userName`, `password`, `birth` ) VALUES (  :email, :userName, :password, :dateOfBirth ) in /var/www/html/Thesis_v.2.0/Application/DB/MySql.php at 3242020-02-03 10:57:35 - Incorrect date value: 'Admin' for column 'birth' at row 1 with INSERT INTO `users` ( `email`, `userName`, `password`, `birth` ) VALUES (  :email, :userName, :password, :dateOfBirth ) in /var/www/html/Thesis_v.2.0/Application/DB/MySql.php at 323
+2020-02-03 10:57:40 - Incorrect date value: 'Admin' for column 'birth' at row 1 with INSERT INTO `users` ( `email`, `userName`, `password`, `birth` ) VALUES (  :email, :userName, :password, :dateOfBirth ) in /var/www/html/Thesis_v.2.0/Application/DB/MySql.php at 323
+2020-02-03 10:58:40 - Field 'name' doesn't have a default value with INSERT INTO `users` ( `email`, `userName`, `password`, `birth` ) VALUES (  :email, :userName, :password, :dateOfBirth ) in /var/www/html/Thesis_v.2.0/Application/DB/MySql.php at 323
+2020-02-03 11:03:34 - Duplicate entry 'Admin' for key 'userName' with INSERT INTO `users` ( `email`, `userName`, `password`, `birth` ) VALUES (  :email, :userName, :password, :dateOfBirth ) in /var/www/html/Thesis_v.2.0/Application/DB/MySql.php at 323
+2020-02-03 11:05:07 - Duplicate entry 'Admin' for key 'userName' with INSERT INTO `users` ( `email`, `userName`, `password`, `birth` ) VALUES (  :email, :userName, :password, :dateOfBirth ) in /var/www/html/Thesis_v.2.0/Application/DB/MySql.php at 323
+2020-02-03 12:30:02 -  with SELECT `users`.*, `nbackDatas`.*, current_timestamp AS refresh 
+             FROM `users` JOIN `nbackDatas` 
+                 ON `users`.`id` = `nbackDatas`.`userID` 
+             WHERE `email` = :email 
+             AND `password` = :password  in /var/www/html/Thesis_v.2.0/Application/DB/MySql.php at 274
+2020-02-03 12:30:22 -  with SELECT `users`.*, `nbackDatas`.*, current_timestamp AS refresh 
+             FROM `users` JOIN `nbackDatas` 
+                 ON `users`.`id` = `nbackDatas`.`userID` 
+             WHERE `email` = :email 
+             AND `password` = :password  in /var/www/html/Thesis_v.2.0/Application/DB/MySql.php at 274
+2020-02-03 01:08:16 -  with INSERT INTO `users` ( `email`, `userName`, `password`, `birth` ) VALUES (  :email, :userName, :password, :dateOfBirth ) in /var/www/html/Thesis_v.2.0/Application/DB/MySql.php at 324
+2020-02-03 01:08:24 -  with INSERT INTO `users` ( `email`, `userName`, `password`, `birth` ) VALUES (  :email, :userName, :password, :dateOfBirth ) in /var/www/html/Thesis_v.2.0/Application/DB/MySql.php at 324
+2020-02-03 01:09:32 -  with INSERT INTO `users` ( `email`, `userName`, `password`, `birth` ) VALUES (  :email, :userName, :password, :dateOfBirth ) in /var/www/html/Thesis_v.2.0/Application/DB/MySql.php at 325
+2020-02-03 01:10:05 -  with INSERT INTO `users` ( `email`, `userName`, `password`, `birth` ) VALUES (  :email, :userName, :password, :dateOfBirth ) in /var/www/html/Thesis_v.2.0/Application/DB/MySql.php at 327
+2020-02-03 01:11:11 - Duplicate entry 'Admin' for key 'userName' with INSERT INTO `users` ( `email`, `userName`, `password`, `birth`, `privilege` ) VALUES (  :email, :userName, :password, :dateOfBirth, :privilege ) in /var/www/html/Thesis_v.2.0/Application/DB/MySql.php at 325

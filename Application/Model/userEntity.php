@@ -19,12 +19,12 @@ class UserEntity
 	public static function GetInstance(): object
     {
 		if ( self::$INSTANCE == NULL )		
-        {
+        {			
 			session_start();
 
 			self::$INSTANCE = new self();    
 
-			self::$INSTANCE->Load( $_SESSION['userId'] ?? 1 );         						
+			self::$INSTANCE->Load( $_SESSION['userId'] ?? 1 );    		
 						
         }               
         return self::$INSTANCE;
@@ -34,8 +34,7 @@ class UserEntity
     {
 		$this->dbObject = EntityGateway::getDB();
 		
-		$this->datas['id'] 				= 1;
-		$this->datas['name'] 			= 'Guest';
+		$this->datas['id'] 				= 1;		
 		$this->datas['userName'] 		= 'Guest';
 		$this->datas['email'] 			= NULL;
 		$this->datas['loginDatetime']	= NULL;
@@ -70,8 +69,7 @@ class UserEntity
         {
 			case 'loged': 			return $this->loged; 					break;
 
-			case 'id': 				return $this->datas['id']; 				break;
-			case 'name': 			return $this->datas['name']; 			break;
+			case 'id': 				return $this->datas['id']; 				break;			
 			case 'userName': 		return $this->datas['userName']; 		break;
 			case 'email': 			return $this->datas['email']; 			break;
 			case 'loginDatetime': 	return $this->datas['loginDatetime']; 	break;
@@ -100,65 +98,67 @@ class UserEntity
 
 		if( 1 == count( $result ))
 		{		
-			$this->SetUser( $result );			
+			$this->SetUser( $result[0] );			
 	
-			return $this->loged = "TRUE";
+			return $this->loged = true;
 		}        		
 
-		return $this->loged = "FALSE";
+		return $this->loged = false;
 	}
 
-    function Login( string $name, string $pass ): string
+    function Login( string $email, string $password ): string
     {		
-		$result = $this->dbObject->getUser( [ ":name" => $name, ":pass" => md5( "salt".md5( $pass ) ) ]  );			
+		$result = $this->dbObject->getUser( [ ":email" => $email, ":password" => md5( "salt".md5( $password ) ) ]  );					
 
 		if( 1 == count( $result ))
 		{		
-			$this->SetUser( $result );			
-			$this->SetSession( $result );	
+			//$this->SetUser( $result[0] );			
+			$this->SetSession( $result[0] );	
 	
-			return $this->loged = "TRUE";
+			return $this->loged = true;
 		}        		
 
-		return $this->loged = "FALSE";
+		return $this->loged = false;
 	
 	}
 
 	private function SetSession( $result )
 	{
-		session_start();
 
-		$_SESSION['userId']		= $result['id'];
-		//$_SESSION['userName']	= Include_special_characters($result[0]['userName']);
-		//$_SESSION['password']	= $result[0]['password'];
+		$_SESSION['userId']		= $result->id;
+		//$_SESSION['userName']	= Include_special_characters($result->['userName']);
+		//$_SESSION['password']	= $result->['password'];
 	}
 
 
 
 	private function SetUser( $result )
 	{		
-		$this->datas['id'] 				= $result[0]['id'];
-		$this->datas['email']			= Include_special_characters($result[0]['email']);
-		$this->datas['loginDatetime']	= $result[0]['loginDatetime'];
-		$this->datas['name']			= Include_special_characters($result[0]['name']);
-		$this->datas['userName']		= Include_special_characters($result[0]['userName']);
-		$this->datas['privilege']		= $result[0]['privilege'];
-		$this->datas['birth']			= $result[0]['birth'];
-		$this->datas['passwordLength']	= $result[0]['passwordLength'];
-		$this->datas['fileName']		= $result[0]['fileName'];
-		$this->datas['theme']			= $result[0]['theme'];
-		$this->datas['refresh'] 		= $result[0]['refresh'];
+		$this->datas['id'] 				= $result->id;
+		$this->datas['email']			= Include_special_characters($result->email);
+		$this->datas['loginDatetime']	= $result->loginDatetime;		
+		$this->datas['userName']		= Include_special_characters($result->userName);
+		$this->datas['privilege']		= $result->privilege;
+		$this->datas['birth']			= $result->birth;
+		$this->datas['passwordLength']	= $result->passwordLength;
+
+		$fileName = $result->fileName == 'none' ? 'user_blue.png' : explode('_', $result->fileName)[0].'/'.$result->fileName;
+
+
+		$this->datas['fileName']		= $fileName;
+		$this->datas['theme']			= $result->theme;
+		$this->datas['refresh'] 		= $result->refresh;
 
 		// NOT IMPLEMENTED FEATUTRE
-		$this->datas['online'] 			= $result[0]['online'];			
+		$this->datas['online'] 			= $result->online;
 
 		//--------------------------------------------------------------------------------------------
 		
-		$this->datas['gameMode'] 		= $result[0]['gameMode'];
-		$this->datas['level'] 			= $result[0]['level'];
-		$this->datas['seconds']			= $result[0]['seconds'];
-		$this->datas['trials'] 			= $result[0]['trials'];
-		$this->datas['eventLength']		= $result[0]['eventLength'];
-		$this->datas['color'] 			= $result[0]['color'];
+		$this->datas['gameMode'] 		= $result->gameMode;
+		$this->datas['level'] 			= $result->level;
+		$this->datas['seconds']			= $result->seconds;
+		$this->datas['trials'] 			= $result->trials;
+		$this->datas['eventLength']		= $result->eventLength;
+		$this->datas['color'] 			= $result->color;
 	}
 }

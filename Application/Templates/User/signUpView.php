@@ -1,9 +1,11 @@
-<script sr c="<?= RELPATH ?><?=APPLICATION?>Templates/User/signUp.js"></script>
+<script src="<?= RELPATH ?><?=APPLICATION?>Templates/User/signUp.js"></script>
 <main class="usr-crt-frm" >
     <div>
         <h3 align="center">
             <?php if ( $isAdmin ): ?> 
-                Please create the admin user!              
+                Please create the admin user! 
+            <?php else: ?>             
+                Please fill out the form
             <?php endif ?>
         </h3>
     </div>
@@ -20,6 +22,14 @@
     
         <label for="cu-pass"><?= $passwordLabel ?></label>
         <input id="cu-pass" type="password" name="create-user-pass" minlength="4" name="create-user-pass" autocomplete="off" >
+
+
+        <?php if ( $user->userName == 'Admin' ): ?>
+
+        <label for="cu-privilege"><?= $privilegeLabel ?></label>
+        <input id="cu-privilege" type="number" name="create-user-privilege" minlength="4" name="create-user-privilege" value="0" step="1" max="3" min="1" >    
+
+        <?php endif ?>
 
         <div id="show-file-path"></div>        
 

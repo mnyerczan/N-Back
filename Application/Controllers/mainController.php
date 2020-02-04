@@ -23,7 +23,11 @@ class MainController extends Controller
 
         $this->user = UserEntity::GetInstance();
         $this->datas = $this->GetDatas();
-                
+                      
+
+        //var_dump($this->user);
+        //var_dump($_SESSION);
+        //die;
 
         $this->Action();
     }

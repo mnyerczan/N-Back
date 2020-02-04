@@ -1,40 +1,53 @@
 <?php  //	$navbar 		?>
-<div class="nav-bar">
+<aside class="nav-bar">
 	<div class="navbar-hdr">
-		<img src="<?=APPLICATION?>img/brain_logo.png" >
+		<img src="<?= APPROOT ?><?=APPLICATION?>img/brain_logo.png" >
 		<a href="<?=APPROOT?>" title="Main page" >	N-Back</a>
 	</div>
 	<div class="increase-container">
 	</div>		
 	<nav class="nav-lnks">
 		<?php for($i = 0; $i < count($navbar['menus']); $i++):?>
-			<?php if ( $navbar['menus'][$i]->child ): ?>
+			<?php if ( $navbar['menus'][$i]->child && $user->privilege > 0 ): ?>
 				<section class="hidden-section" tabindex="<?=$i?>">
 					<a href="#" class="hidden-anchor">
-						<span><?= $navbar['menus'][$i]->name ?></span>					
-						<img src="<?=APPLICATION?>img/down_white.png" class="nav-lnks-arrow">				
-						<?php if ($navbar['menus'][$i]->ikon != 'none'): ?>
-							<img src="<?= APPLICATION.$navbar['menus'][$i]->ikon ?>"  class="nav-lnks-ikn">
-						<?php endif ?>
+						<div class="nav-bar-btn">
+							<span><?= $navbar['menus'][$i]->name ?></span>					
+							<img src="<?= APPROOT ?><?=APPLICATION?>img/down_white.png" class="nav-lnks-arrow">				
+							<?php if ($navbar['menus'][$i]->ikon != 'none'): ?>
+								<img src="<?= APPROOT ?><?= APPLICATION.$navbar['menus'][$i]->ikon ?>"  class="nav-lnks-ikn">
+							<?php endif ?>
+						</div>
 					</a>
 					<nav class="nav-hidden">
 						<?php foreach( $navbar['childMenus'][ $navbar['menus'][$i]->id ]  as $child ): ?>
 						<a href="<?=$child->path ?>">
-							<span><?= $child->name ?></span>														
-							<?php if ($child->ikon != 'none'): ?>
-								<img src="<?= APPLICATION.$child->ikon ?>"  class="nav-lnks-ikn">
-							<?php endif ?>
+							<div class="nav-bar-btn">
+								<span><?= $child->name ?></span>														
+								<?php if ($child->ikon != 'none'): ?>
+									<img src="<?= APPROOT ?><?= APPLICATION.$child->ikon ?>"  class="nav-lnks-ikn">
+								<?php endif ?>
+							</div>
 						</a>
 						<?php endforeach ?>
 					</nav>
 				</section>
+			<?php elseif($user->privilege > 0): ?>
+				<a href="<?= $navbar['menus'][$i]->path?>">
+					<div class="nav-bar-btn">
+						<span><?= $navbar['menus'][$i]->name ?></span>					
+						<?php if ($navbar['menus'][$i]->ikon != 'none'): ?>
+							<img src="<?= APPROOT ?><?= APPLICATION.$navbar['menus'][$i]->ikon ?>"  class="nav-lnks-ikn">
+						<?php endif ?>
+					</div>					
+				</a>				
 			<?php else: ?>
-				<a href="<?=$navbar['menus'][$i]->path?>">
+				<div class="nav-bar-btn">
 					<span><?= $navbar['menus'][$i]->name ?></span>					
 					<?php if ($navbar['menus'][$i]->ikon != 'none'): ?>
-						<img src="<?= APPLICATION.$navbar['menus'][$i]->ikon ?>"  class="nav-lnks-ikn">
+						<img src="<?= APPROOT ?><?= APPLICATION.$navbar['menus'][$i]->ikon ?>"  class="nav-lnks-ikn">
 					<?php endif ?>
-				</a>
+					</div>
 			<?php endif ?>
 		<?php endfor ?>		
 	</nav>
@@ -74,4 +87,4 @@
 			<?php endfor ?>
 		<?php endfor ?>
 	</section>
-</div>
+</aside>

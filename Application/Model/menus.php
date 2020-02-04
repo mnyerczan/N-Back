@@ -15,6 +15,7 @@ class Menus
     {
         $this->database = EntityGateway::getDB(); 
         $this->userPrivilege = $userPrivilege;
+        
 
         $this->LoadMenus();
         $this->LoadChildMenus();      

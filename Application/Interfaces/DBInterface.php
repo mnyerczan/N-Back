@@ -16,6 +16,6 @@ interface DBInterface
     function getSeria(): array;
 
     //function Select( string $script, array $params = [] ): array;
-    //function Execute( string $script, array $params = [] ): bool;
+    //function Execute( string $script, array $params = [] ); 
     
 }

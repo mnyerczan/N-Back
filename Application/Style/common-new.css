@@ -20,50 +20,73 @@ a {
 * HEADER SECTION
 *
 */
-.main-header {
-    width: calc( 90vw - 30px); 
+.main-header {  
     padding: 15px;
     float: right;
-    color: #eee;
-    background-color: #111;
+	color: #eee;
+	width: calc( 100vw - 100px - 30px);
+	background-color: rgba(255, 255, 255, 0.8);	
     user-select: none;
 }
+.main-header, .hdr-coordinate-bx a {
+	color: black;
+}
 .main-header .radio-box {
-    width: 150px;
+    width: 100px;
     float: left;
+}
+.main-header img {
+	width: 15px;
+	padding: 2px 5px;
+	display: block;
+	float: right;
 }
 
 .hdr-coordinate-bx {
-    width: 300px;   
+   	min-width: 300px;   
     float: right;
 }
 .hdr-coordinate-bx a {
     display: block;
     padding: 0 10px;
-    width: 100px;
+    min-width: 0;
     float: right;
-    color: #eee;
+	border-left: 1px solid #555;
+}
+.hdr-coordinate-bx a:last-child {
+	border: none;
 }
 .hdr-coordinate-bx a:hover {
-    color: rgb(160, 160, 160);
+	color: #888;
+}
+
+@media ( max-width: 600px ) {
+	.main-header {
+		width: 100vw;
+		min-width: 350px;
+	}
 }
 
 /*---- header radios ----*/
+
 .radio-box .radio-container {
-    cursor: pointer;
+	cursor: pointer;
+	padding: 5px;
+	width: calc( 50% - 10px);
+	float: left;
 }
 .radio-box .radio-container input{
     display: none;
 }
 .radio-box .radio-container .circle{
-    display: inline-block;
-    width: 12px;
-    height: 12px;
+	display: inline-block;
+    width: 10px;
+    height: 10px;
     border-radius: 20%;
     background-color: #aaa;
 }
 .radio-box .radio-container:hover .circle{
-    background-color: #baf;
+    background-color: #777;
 }
 .radio-box .radio-container input:checked + .circle{
     background: rgb(70, 60, 30);
@@ -79,33 +102,47 @@ a {
 		display: none;
 	}
 }
-@media ( max-width: 1000px ) {
-	.nav-bar {
-		width: 100px !important;
-	}
-	.main-header {
-		width: calc( 100vw - 100px - 30px );
-	}
-}
+
 /*
 * Navbar section
 * 
 */
 .nav-bar {
     overflow: hidden;	
-	height: 100vh;
-	width: 10vw;	
-			
+	height: 100vh;	
+	min-width: 100px;
 	margin:0;
 	display: block;
 
 	position: fixed;
-	top:0;
-	left:0;
+
     color: white;
     z-index: 1;
     background-color: #111
 }
+@media ( min-width: 600px ) {
+	.nav-bar {
+		top:0;
+		left:0;		
+	}
+}
+@media ( min-width: 1000px ) {
+	.nav-bar {
+		width:10vw;	
+	}
+	.main-header {
+		width: calc( 90vw - 30px);
+	}
+}
+@media ( max-width: 600px ) {
+	.nav-bar {
+		height: 50px;
+		width: 100vw;
+
+		bottom: 0;
+	}
+}
+
 /*---- navbar header ----*/
 .navbar-hdr{
 	float: left;            
@@ -140,8 +177,10 @@ a {
 		text-align: center;
 	}
 }
+
+
 /*---- navbar links ----*/
-.nav-lnks{
+.nav-lnks {
 	width: calc( 100% - 20px);
 	height: 120px;
 	position:absolute;
@@ -152,22 +191,22 @@ a {
 	background-color: #111;	
 	z-index: 10001;
 }
-.nav-lnks a{
+
+.nav-bar-btn {
 	width: calc( 100% - 20px );	
 	padding: 10px;
 	margin: 3px auto;
 	display: block;	
 	border-radius: 2px;
 	font-weight: bold;
-    color: #eee;
+	color: #eee;
+	cursor: pointer;
 	background-color: rgb(32, 32, 32);
 }
-.nav-lnks a:hover{
-	color: #999;
+.nav-bar-btn:hover {
+	color: #bbb;
 }
-.nav-lnks a:active {
-	background-color: #080;
-}
+
 .nav-lnks-arrow {
 	width: 10px;
 	display: block;
@@ -186,6 +225,8 @@ a {
 .hidden-anchor:focus + .nav-hidden {
 	display: block;		
 }
+
+
 /*---- navbar info section ----*/
 #navbar-infos {
 	position: absolute;
@@ -299,7 +340,7 @@ a {
 }
 
 /*
-* SignUp 
+* SignUp / SignIn
 */
 
 .usr-crt-frm {	
@@ -308,8 +349,16 @@ a {
 	padding: 20px;
 	display: table;
 	background-color: white;
+
+	-webkit-user-select: none !important; /* Safari 3.1+ */
+    -moz-user-select: none !important; /* Firefox 2+ */
+    -ms-user-select: none !important; /* IE 10+ */
+    user-select: none !important; /* Standard syntax */
 }
 
+.usr-crt-frm h3 {
+	text-align: center;
+}
 
 .usr-crt-frm input:not([type="submit"]) {	
 	padding: 10px;
@@ -332,6 +381,18 @@ a {
 	width: 300px;	
 
 }
+
+@media ( max-width: 400px ) {
+	.usr-crt-frm input:not([type="submit"]),
+	.usr-crt-frm {
+		width: 80vw;
+	}	
+}
+
+.error-span {
+	color: darkred;
+}
+
 /*
 * Buttons
 */
@@ -391,4 +452,56 @@ a {
 .info-container h6 {
 	padding: 5px;
 	margin: 0;
+}
+
+@media ( max-width: 600px ) {
+	.info-container {
+		display: none;
+	}
+}
+
+/*
+* MAIN HOME 
+*/
+.main-home {
+	width: 80vw;
+	margin: 100px auto;
+	text-align: center;
+}
+
+#empty-wellcome {
+	font-size: 50px;
+}
+
+/*---- inspectors  ----*/
+.inspector-container {
+	position: fixed;
+	right: 20px;
+	bottom: 100px;
+	display: table;
+	padding: 10px;
+	box-shadow: 0 0 5px #eee;
+}
+.inspector-btn {
+	display: block;
+	width: 30px;
+	height: 30px;	
+	margin: 20px 0;
+}
+
+#play-inspector {
+	background-image: url('../img/n_back_start_black.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+#options-inspector {
+	background-image: url('../img/n_back_edit_black.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+#document-inspector {
+	background-image: url('../img/book_black.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }

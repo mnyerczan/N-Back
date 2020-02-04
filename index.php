@@ -3,10 +3,12 @@
 
 	$num = count(explode( '/' , URI ) ) - 2;
 	$backFromCurrentPath = '';
+
 	/**
 	 * A számlálás 1-től indul, mert az explode a /Thesis_v.2.0/error stringet 3 részre szeleteli.
+	 * Ha projektmappát használunk, akkor a $i-nek 1-től kell indulnia!! Gyökérből 0-tól.
 	 */
-	for ( $i = 1; $i < $num; $i++ )
+	for ( $i = 0; $i < $num; $i++ )
 	{
 		$backFromCurrentPath.= '../';
 	}  
@@ -16,10 +18,10 @@
 	define('APPLICATION', 'Application/');
 
 
-	define('APPROOT', '/Thesis_v.2.0/');
-	//define('APPROOT', '/');
+	//define('APPROOT', '/Thesis_v.2.0/');
+	define('APPROOT', '/');
 
-	require_once APPLICATION.'application.php';
+	require_once APPLICATION.'Core/application.php';
 
 	header("Expires: Tue, 03 Jul 2001 06:00:00 GMT");
     header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");

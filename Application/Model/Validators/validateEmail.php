@@ -1,4 +1,5 @@
 <?php
+
 class ValidateEmail extends Validator 
 {
 
@@ -13,7 +14,7 @@ class ValidateEmail extends Validator
     public function validate() 
     {        
 
-        if ( !preg_match( "%^\w+@\w+\.\w{2,}$%", $this->email ) )
+        if ( !preg_match( "%^[a-zA-Z]{0,}[a-zA-z0-9.]{0,}@[a-zA-z0-9.]{0,}[a-zA-Z]{0,}\.\D{2,}$%", $this->email ) )
         {
             $this->setError( 'Invalid email address' );
             return;
@@ -25,5 +26,3 @@ class ValidateEmail extends Validator
         }
     }
 }
-    
-?>

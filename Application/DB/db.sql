@@ -3,17 +3,16 @@ create database NBackDB;
 use NBackDB;
 
 create table users (
-    id int(8) zerofill unsigned auto_increment primary key, -- unsigned mezőben nem lehet nulla az érték
-    name varchar(255) not null,
-    email varchar(255) not null,
-    loginDatetime DATETIME default current_timestamp not null,
-    userName varchar(255) not null,
+    `id` int(8) zerofill unsigned auto_increment primary key, -- unsigned mezőben nem lehet nulla az érték
+    `userName` varchar(255) not null,
+    `email` varchar(255) not null,
+    `loginDatetime` DATETIME default current_timestamp not null,
     `password` varchar(33), -- A default user miatt
     `privilege` int(2) default '1' not null,
-    birth date default '1899-01-01',
-    passwordLength varchar(255) default 0 not null,
-    fileName varchar(255) default 'none' not null,
-    theme varchar(5) default 'white' not null,
+    `birth` date default '1899-01-01',
+    `passwordLength` varchar(255) default 0 not null,
+    `fileName` varchar(255) default 'none' not null,
+    `theme` varchar(5) default 'white' not null,
     `online` int(1) default 0 not null,
     unique (userName),
     index users_id_idx(id)
@@ -21,8 +20,8 @@ create table users (
 
 -- Default user
 
-insert into users (id, name, email, userName, `privilege`) values
-('1', 'default', 'd@d.hu','default', '0');
+insert into users ( `id`, `userName`, `email`, `privilege`) values
+('1', 'default', 'd@d.hu', '0');
 
 
 -- A userekhez tartozó játék beállítások
@@ -77,7 +76,7 @@ create table `menus` (
 )default charset utf8;
 
 
-insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Forum','?index=7','none','none','1','1');
+insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Forum','?index=7','none','none','0','1');
 insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Edit','?index=10','none','none','3','1');
 insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Edit Start page','?index=11&choose=1','00000002','none','1','0');
 insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Edit forum ', '?index=10&choose=0' , '00000002','img/edit_blue_16.png','3','0');

@@ -37,7 +37,7 @@ abstract class Validator{
 
     public function setError( $err )
     {
-        $this->errorMsg = $err;
+        $this->errorMsg = "<span class='error-span'>{$err}</span>";
     }
 }
 

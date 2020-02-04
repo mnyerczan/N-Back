@@ -51,16 +51,6 @@ class MySql extends baseDbApi implements DBInterface
         }
     }
 
-    //-----------------------------------------------------------------------------
-
-    /**
-     * User module
-     */
-
-    public function getUsersCount(): array
-    {
-        return $this->Select('SELECT COUNT(*) as num FROM users');
-    }
 
     //-----------------------------------------------------------------------------
 
@@ -71,7 +61,7 @@ class MySql extends baseDbApi implements DBInterface
     {
         $sql = 'SELECT * FROM menus where parentID = :menuid AND privilege <= :privilege';
 
-        return $this->Select( $sql, [ ':menuid' => $menuid, ':privilege' => 3 ] ) ;        
+        return $this->Select( $sql, [ ':menuid' => $menuid, ':privilege' => $privilege ] ) ;        
 
     }
 
@@ -131,10 +121,10 @@ class MySql extends baseDbApi implements DBInterface
     }
 
     public function getMenus( $privilege )
-    {
+    {        
         $sql = 'SELECT * FROM menus WHERE parentID = "none" AND privilege <= :privilege ORDER BY child ASC, name ASC';
 
-        return $this->Select( $sql, [ ':privilege' => 3 ] );
+        return $this->Select( $sql, [ ':privilege' => $privilege ] );
     }    
 
     //-----------------------------------------------------------------------------           
@@ -155,6 +145,12 @@ class MySql extends baseDbApi implements DBInterface
     /**
      * User module
      */
+
+    public function getUsersCount(): array
+    {
+        return $this->Select('SELECT COUNT(*) as num FROM users');
+    }
+
     public function getUser( array $params ): array
     {
         if ( array_key_exists( ':userId', $params ) )
@@ -171,12 +167,21 @@ class MySql extends baseDbApi implements DBInterface
             "SELECT `users`.*, `nbackDatas`.*, current_timestamp AS refresh 
              FROM `users` JOIN `nbackDatas` 
                  ON `users`.`id` = `nbackDatas`.`userID` 
-             WHERE `userName` = :name 
-             AND `password` = :pass ";
+             WHERE `email` = :email 
+             AND `password` = :password ";
         }        
             
         return $this->Select( $sql, $params );
     }
+
+    public function userRegistry( array $params )
+    {        
+
+        $sql= "INSERT INTO `users` ( `email`, `userName`, `password`, `birth`, `privilege` ) VALUES (  :email, :userName, :password, :dateOfBirth, :privilege )";        
+
+        return $this->Execute( $sql, $params );
+    }
+
 
     //-----------------------------------------------------------------------------       
 
@@ -253,7 +258,6 @@ class MySql extends baseDbApi implements DBInterface
             {
                 $statement->bindParam( $keys[$i], $params[$keys[$i]] );
             } 
-
         }
          
         try
@@ -268,18 +272,17 @@ class MySql extends baseDbApi implements DBInterface
         }
         catch( RuntimeException $e )
         {
-            error_log( $e->getMessage()." with {$script} in ".__FILE__." at ".__LINE__ );
-        }
+            error_log( date('Y-m-d h:i:s').' - '.$e->getMessage()." with {$script} in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );        }
 
         return $params;
     }
     
 
     private function Execute( string $script, array $params = [] ): bool
-    {        
+    {    
+    
         try
         {
-
             if ( !$statement =  self::$connect->prepare( $script ) )
             {
                 throw new PDOException( $statement->errorInfo()[2] );
@@ -287,24 +290,40 @@ class MySql extends baseDbApi implements DBInterface
 
 
             $keys = array_keys( $params );
-           
-            for ($i=0; $i < count( $keys ); $i++) 
-            {           
-                $statement->bindParam( $keys[$i], $params[$keys[$i]] );                
+            /**
+             * A LIMIT és OFFSET esetében, az sql integer számot vár, egyébként olyan hibát dob vissza,
+             * amely még a kivételobjektumban sem került definiálásra (WTF??). 
+             * 
+             * A PDO::PARAM_INT konstans értéke tulajdonképpen 1, amivel integer értékűre állítjuk a kapott 
+             * adat feldolgozását.
+             * https://phpdelusions.net/pdo#limit
+             * 
+             * Debug:  $statement->debugDumpParams();
+             */          
+            for ( $i = 0; $i < count( $keys ); $i++ )
+            { 
+                if ( $keys[$i] === ':limit' || $keys[$i] === ':offset' )
+                {
+                    $statement->bindParam( $keys[$i], $params[$keys[$i]], PDO::PARAM_INT );
+                }
+                else
+                {
+                    $statement->bindParam( $keys[$i], $params[$keys[$i]] );
+                } 
             }
 
 
             if( !$statement->execute() )
-            {
-                throw new RuntimeException( $statement->errorInfo()[2] );
+            {             
+                throw new RuntimeException( $statement->errorInfo()[2] );                
             }
 
             return TRUE;
         }
         catch( RuntimeException $e )
         {
-            error_log( $e->getMessage()." with {$script} in ".__FILE__." at ".__LINE__ );
-
+            error_log( date('Y-m-d h:i:s').' - '.$e->getMessage()." with {$script} in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
+            
             return FALSE;
         }
     }
@@ -325,7 +344,7 @@ class MySql extends baseDbApi implements DBInterface
         }
         catch( PDOException $e ) 
         {           
-            error_log( $e->getMessage()." in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
+            error_log( date('Y-m-d h:i:s').' - '.$e->getMessage()." in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
             die; 
         }
     }

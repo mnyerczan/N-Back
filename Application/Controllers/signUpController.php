@@ -32,6 +32,7 @@ class signUpController extends Controller
         if ( @$matches['action'] )
         {
             $action = $matches['action'].'Action';
+            
             $this->$action();
         }
         else
@@ -41,6 +42,11 @@ class signUpController extends Controller
         
     }
 
+    function AdminAction()
+    {
+        $this->Action();
+    }
+
     function Action()
     {    
         $this->SetDatas();
@@ -48,7 +54,8 @@ class signUpController extends Controller
         $this->datas['nameLabel'] = 'Name';
         $this->datas['emailLabel'] = 'E-mail';
         $this->datas['dateLabel'] = 'Date of birth';
-        $this->datas['passwordLabel'] = 'Password';
+        $this->datas['passwordLabel'] = 'Password'; 
+        $this->datas['privilegeLabel'] = 'Privilege';
         
 
 
@@ -60,14 +67,14 @@ class signUpController extends Controller
 
         $mail = new ValidateEmail( $_POST['create-user-mail'] );
         $pass = new ValidatePassword( $_POST['create-user-pass'] );
-        $name = new ValidateUser( $_POST['create-user-name'] );
+        $user = new ValidateUser( $_POST['create-user-name'] );
+        //$date = $_POST['create-user-name'];
 
-
-        if ( $mail->errorMsg || $pass->errorMsg || $name->errorMsg )
+        if ( $mail->errorMsg || $pass->errorMsg || $user->errorMsg )
         {      
             $this->SetDatas();
 
-            $this->datas['nameLabel'] = $name->errorMsg;
+            $this->datas['nameLabel'] = $user->errorMsg;
             $this->datas['emailLabel'] = $mail->errorMsg;
             $this->datas['dateLabel'] = 'Date of birth'; //$mail->errorMsg;
             $this->datas['passwordLabel'] = $pass->errorMsg;
@@ -77,14 +84,31 @@ class signUpController extends Controller
             return;
         }
 
+        $privilege = $_POST['create-user-name'] == 'Admin' ? 3 : 1;
 
-        var_dump( $mail );
-        var_dump( $name );
-        var_dump( $pass );
+        $result = $this->database->userRegistry( 
+            [            
+                ':email'        => trim( $_POST['create-user-mail'] ),
+                ':userName'     => trim( $_POST['create-user-name'] ),
+                ':password'     => md5( 'salt'.md5(trim( $_POST['create-user-pass'] ) ) ),
+                ':dateOfBirth'  => trim( $_POST['create-user-date'] ),
+                ':privilege'    => $privilege
+            ]
+        );
 
+        if ( !$result )
+        {
+            $this->SetDatas();
 
-        var_dump( $_POST );
-        die;
+            $this->datas['nameLabel'] = $user->errorMsg;
+            $this->datas['emailLabel'] = $mail->errorMsg;
+            $this->datas['dateLabel'] = 'Date of birth'; //$mail->errorMsg;
+            $this->datas['passwordLabel'] = $pass->errorMsg;
+
+            $this->View( $this->datas, [ 'view' => 'signUp', 'module' => 'User'] );
+        
+            return;
+        }        
 
         header("Location: ".APPROOT);
     }

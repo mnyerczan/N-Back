@@ -21,15 +21,15 @@
 		</div>
 	<?php endif; ?>
 	<div class="hdr-coordinate-bx">
-	<?php if( $user->id !== 1 ):?>				
-        <a href="<?=APPROOT?>exit" onclick="return confirm('Are you sure?')">
+	<?php if( $user->id != 1 ):?>				
+        <a href="<?=APPROOT?>logUot" onclick="return confirm('Are you sure?')">
             Logout<img src="<?= RELPATH ?><?=APPLICATION?>img/logout_white.png" class="header_button_img" style="width:20px;height:17px;">									
         </a>
         <a href="<?=APPROOT?>user" title="Go to profile">					
-            <?=$user->name?><img src="<?= RELPATH ?><?=APPLICATION?>users/<?=explode('_', $user->fileName)[0]?>/<?= $user->fileName?>"
-            class="header_button_img" id="header_user_pics" ></b>
+            <?=$user->userName?><img src="<?= RELPATH ?><?=APPLICATION?>/img/<?=$user->fileName ?>"
+            class="header_button_img" id="header_user_pics" >
         </a>
-        <?php if($user->privilege == $admin_privilege):?>						
+        <?php if($user->privilege == 3 ):?>						
             <a href="<?=APPROOT?>signUp/admin">
                 New account
             </a>				
@@ -45,8 +45,5 @@
             Sign Up
         </a>
 	<?php endif ?>			
-	</div>
-	<div class="tooltip" id="chat_tooltip" style="width: 120px; float: right;" ></div>
-	    <div class="clear"></div>
 	</div>
 </header>

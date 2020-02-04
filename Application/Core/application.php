@@ -22,11 +22,30 @@ final class Application
     function route()
     {                 
         $this->addRoute( $this->Path( APPROOT.'(?<controller>)' ), 'mainController' );
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>)/' ), 'mainController' );
         //$this->addRoute( $this->Path( APPROOT.'(?<controller>user)' ), 'userController' );
       
         $this->addRoute( $this->Path( APPROOT.'(?<controller>signUp)' ), 'signUpController' );
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>signUp)/' ), 'signUpController' );                
         $this->addRoute( $this->Path( APPROOT.'(?<controller>signUp)/(?<action>submit)' ), 'signUpController' );
-        //$this->addRoute( $this->Path( APPROOT.'(?<controller>user)/(?<action>signIn)' ), 'userController' );
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>signUp)/(?<action>admin)' ), 'signUpController' );
+
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>signIn)' ), 'signInController' );        
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>signIn)/' ), 'signInController' );
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>signIn)/(?<action>submit)' ), 'signInController' );
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>logUot)' ), 'logUotController' );
+
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>user)' ), 'userController' );
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>user)/' ), 'userController' );
+
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>settings)' ), 'settingsController' );
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>settings)/' ), 'settingsController' );
+
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>nBack)' ), 'nBackController' );
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>nBack)/' ), 'nBackController' );
+
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>documents)' ), 'documentsController' );
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>documents)/' ), 'documentsController' );
 
         
 
@@ -36,7 +55,7 @@ final class Application
             {      
 
                 require_once APPLICATION."Controllers/{$controller}.php";
-                new $controller($matches);
+                new $controller( $matches );
                 die;
             }
         }

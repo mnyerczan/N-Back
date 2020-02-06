@@ -1,21 +1,25 @@
-<script src="<?= RELPATH ?><?=APPLICATION?>Templates/User/signUp.js"></script>
+<script src="<?= RELPATH ?><?=APPLICATION?>Templates/User/signUp.js?v=<?= CURRENT_TIMESTAMP ?>"></script>
 <main class="usr-crt-frm" >
     <div>
         <h3 align="center">
-            <?php if ( $isAdmin ): ?> 
-                Please create the admin user! 
-            <?php else: ?>             
-                Please fill out the form
+            <?php if ( !$errorMessage ): ?>
+                <?php if ( !$isAdmin ): ?> 
+                    Please create the admin user! 
+                <?php else: ?>             
+                    Please fill out the form
+                <?php endif ?>
+            <?php else: ?>
+                <?= $errorMessage ?>
             <?php endif ?>
         </h3>
     </div>
     <form method="POST" id="create-user-form" action="<?= RELPATH ?>signUp/submit" name="createUserForm"  enctype="multipart/form-data">
 
         <label for="cu-name"><?= $nameLabel ?></label>
-        <input id="cu-name" type="text" name="create-user-name" value="<?=$isAdmin?>" <?= $enableNameInput ?> autofocus autocomplete="off" >
+        <input id="cu-name" type="text" name="create-user-name" value="<?=$userNameValue?>" <?= $enableNameInput ?> autofocus autocomplete="off" >
 
         <label for="cu-mail"><?= $emailLabel ?></label>
-        <input id="cu-mail" type="email" name="create-user-mail" autocomplete="off" >
+        <input id="cu-mail" type="email" name="create-user-email" value="<?=$userEmailValue?>" autocomplete="off" >
 
         <label for="cu-date"><?= $dateLabel ?></label>
         <input id="cu-date" type="date" name="create-user-date"  autocomplete="off" >
@@ -27,7 +31,7 @@
         <?php if ( $user->userName == 'Admin' ): ?>
 
         <label for="cu-privilege"><?= $privilegeLabel ?></label>
-        <input id="cu-privilege" type="number" name="create-user-privilege" minlength="4" name="create-user-privilege" value="0" step="1" max="3" min="1" >    
+        <input id="cu-privilege" type="number" name="create-user-privilege" minlength="4" name="create-user-privilege" value="1" step="1" max="3" min="1" >    
 
         <?php endif ?>
 

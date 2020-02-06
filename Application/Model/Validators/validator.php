@@ -1,6 +1,7 @@
 <?php
 
-abstract class Validator{
+abstract class Validator
+{
     
     private $errorMsg;
 
@@ -16,8 +17,8 @@ abstract class Validator{
     {        
         $this->validate();    
     }
-    
         
+
     public function validate(){}
 
     public function isValid()
@@ -30,10 +31,6 @@ abstract class Validator{
         return FALSE;      
     }
 
-    public function getError () 
-    {
-        return [ $this->errorMsg ];
-    }
 
     public function setError( $err )
     {

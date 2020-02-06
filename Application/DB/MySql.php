@@ -82,10 +82,10 @@ class MySql extends baseDbApi implements DBInterface
                 where userID= :uid
                 and timestamp > :timestamp  
                 order by timestamp desc 
-                limit 10";
+                limit 10";        
         
         $timestamp = $anytime ?? date("Y-m-d H:i:s", mktime(date('H'), date('i'), date('s'), date('m'), date('d') - 1, date('Y')));
-
+        
         $param = [ ':uid' => $uid, ':timestamp' => $timestamp ];
 
         return $this->Select( $sql, $param );
@@ -122,7 +122,7 @@ class MySql extends baseDbApi implements DBInterface
 
     public function getMenus( $privilege )
     {        
-        $sql = 'SELECT * FROM menus WHERE parentID = "none" AND privilege <= :privilege ORDER BY child ASC, name ASC';
+        $sql = 'SELECT * FROM `menus` WHERE `parentID` = "none" AND `privilege` <= :privilege ORDER BY `child` ASC, `name` ASC';
 
         return $this->Select( $sql, [ ':privilege' => $privilege ] );
     }    
@@ -188,7 +188,7 @@ class MySql extends baseDbApi implements DBInterface
     /**
      * Seria module
      */
-    public function getSeria(): array
+    public function getSeria( $uid ): array
     {
         #Ez a script lekéri a timestamp mezők date tagjának intécastolt értékét GROUP BY-olva, hozzá az összevonás számát
         #pusztán szemléltetésnek, és az aznapi összes időt. A WHILE függvény pedíg addig meg, míg az aktuális napi és az
@@ -205,15 +205,15 @@ class MySql extends baseDbApi implements DBInterface
         count(*) as session,
         round(sum(sessionLength) / 1000 /60, 1) as minutes
         from nbackSessions
-        where userID= \"{$this->uid}\"
-        and ip =\"{$_SERVER["REMOTE_ADDR"]}\"
+        where userID= :uid
+        and ip = :REMOTE_ADDRESS
         and gameMode = 0
         group by intDate
         having round(sum(sessionLength) / 1000 /60, 1) >= 20
         order by intDate DESC, session ASC
         LIMIT 30)";   
 
-        return $this->Select( $script );
+        return $this->Select( $script, [ ':uid' => $uid , ':REMOTE_ADDRESS' => $_SERVER["REMOTE_ADDR"] ]);
     }
 
     //-----------------------------------------------------------------------------
@@ -260,21 +260,24 @@ class MySql extends baseDbApi implements DBInterface
             } 
         }
          
+        $statement->execute();
+
         try
         {
-            if ( !$statement->execute() )
+            if( !$statement->execute() )
             {
                 throw new RuntimeException( $statement->errorInfo()[2] );
             }
             
-            return $statement->fetchAll( PDO::FETCH_CLASS );
+            return $statement->fetchAll( PDO::FETCH_CLASS );        
             
         }
         catch( RuntimeException $e )
         {
-            error_log( date('Y-m-d h:i:s').' - '.$e->getMessage()." with {$script} in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );        }
+            error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '{$script}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
+        }
 
-        return $params;
+        return [];
     }
     
 
@@ -322,7 +325,7 @@ class MySql extends baseDbApi implements DBInterface
         }
         catch( RuntimeException $e )
         {
-            error_log( date('Y-m-d h:i:s').' - '.$e->getMessage()." with {$script} in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
+            error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '{$script}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
             
             return FALSE;
         }

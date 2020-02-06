@@ -3,7 +3,7 @@
 class ValidateEmail extends Validator 
 {
 
-    var $email;
+    private $email;
 
     function __construct( $email )
     {
@@ -11,6 +11,12 @@ class ValidateEmail extends Validator
 
         parent::__construct();
     }
+
+    function getEmail($name)
+    {
+        if ( $name == 'email' ) return $this->email;
+    }
+
     public function validate() 
     {        
 

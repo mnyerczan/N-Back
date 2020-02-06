@@ -16,27 +16,29 @@ class Sessions
             $userID;
 
 /**
- * @param $userID   Identificer of user
+ * @param int $userID   Identificer of user
  * 
  * Get last 10 session after 2019-01-01 00:00:00
- * @param $all      default 0
+ * @param int $askAllSession      default 0
  * 
  */
-    function __construct( $userID, int $all = 0 )
+    function __construct( int $userID, int $askAllSession = 0 )
     {
 
         $this->database = EntityGateway::getDB();
         $this->userID   = $userID;
 
-        if ( $all === 1 )
+        if ( $askAllSession === 1 )
         {
-            $this->sessions = $this->getAllSessions();
+            $sessions   = $this->getAllSessions();
         }        
         else
         {
-            $this->sessions = $this->getSessions();
+            $sessions   = $this->getSessions();
         }
-        $this->getTimes();
+       
+        $this->sessions = $this->Load( $sessions );
+        $this->times    = $this->getTimes();
     }   
 
 
@@ -53,13 +55,11 @@ class Sessions
  * @return array of stdClass object(s)
  */
     private function getSessions(): array
-    {
+    {      
         /**
          * Only one day after from yesterday
          */
-        $sessions = $this->database->getSessions( $this->userID );                
-
-        return $this->Load( $sessions );
+        return $this->database->getSessions( $this->userID );                
         
     }
 
@@ -67,21 +67,22 @@ class Sessions
  * @return array of stdClass object(s)
  */
     private function getAllSessions(): array
-    {
+    {    
         /**
          * Only one day after from yesterday
          */
-        $sessions = $this->database->getSessions( $this->userID, '2019-01-01 00:00:00' );                
-
-        return $this->Load( $sessions );
+        return $this->database->getSessions( $this->userID, '2019-01-01 00:00:00' );                        
         
     }
 
-    private function Load( $sessions ): array
+/**
+ * @param array of stdClass object(s)
+ */
+    private function Load( array $sessions ): array
     {       
         /**
          * Ezzel a megoldással egyszerre két függvényből hívható le a tábla tartalma.
-         */
+         */        
         if ( count( $sessions ) > 0 )
         {
             for ($i=0; $i < count( $sessions ); $i++) 
@@ -97,7 +98,7 @@ class Sessions
              * Még le kell vizsgálni, hogy, ha a navbár is a Sessions-től kapja az adatokat, és egy elmentett régi játékot kap sütiből, azt ne jelenítse meg.
              */
             return [
-                (object)[
+                (object) [
                     'sessionLength' => $_COOKIE['sessionLength'] ,
                     'result'        => 0,
                     'wrongHit'      => $_COOKIE['wrongHit'] ,
@@ -113,7 +114,7 @@ class Sessions
         else
         {        
             return [
-                (object)[
+                (object) [
                     'sessionLength' => '--',
                     'result'        => 0,
                     'wrongHit'      => '--',
@@ -136,7 +137,7 @@ class Sessions
         $times->today = $times->today == NULL ? 0 : $times->today;
         $times->today_position = $times->today_position == NULL ? 0 : $times->today_position;
 
-        $this->times = $times;
+        return $times;
     }
     
 }

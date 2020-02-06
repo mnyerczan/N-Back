@@ -1,8 +1,3 @@
-function _$(id)
-{
-    return document.getElementById(id);
-}
-
 function showImage()
 {
     if( this.value )    

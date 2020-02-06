@@ -6,13 +6,20 @@ class ValidateUser extends Validator
 
     public function __construct( $userName )
     {
-
         $this->user = $userName;
+        
         parent::__construct();
     }
+
+    function getName($name)
+    {
+        if ( $name == 'user' ) return $this->user;
+    }
+
+
     function validate() 
     {
-        if (!preg_match('/^[a-zA-Z0-9_]+$/',$this->user )) 
+        if (!preg_match('/^\D+$/',$this->user )) 
         {
             $this->setError('Username contains invalid characters');
             return;

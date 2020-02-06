@@ -35,12 +35,12 @@
             </a>				
         <?php endif ?>
     <?php endif ?>
-	<?php if( !$user->loginDatetime && (!isset($_GET['index']) || $_GET['index'] != '1' )): ?>		
+	<?php if( !$user->loginDatetime ): ?>		
         <a href='<?=APPROOT?>signIn'>
             Sign in
         </a>			
 	<?php endif ?>	
-	<?php if( !$user->loginDatetime && (  !isset($_GET['index']) || $_GET['index'] != 6 ) ): ?> 				
+	<?php if( !$user->loginDatetime ): ?> 				
         <a href='<?=APPROOT?>signUp'>
             Sign Up
         </a>

@@ -1,10 +1,3 @@
-function _$(id)
-{
-    return document.getElementById(id);
-}
-
-
-
 function Validattor(e)
 {                
     if ( !CheckMail() ) e.preventDefault();

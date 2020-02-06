@@ -3,11 +3,15 @@ body{
 	margin:0;   
 	font-size:16px; 
 	background-color: #f9f9f9;
+	min-height: 100vh;
 }
+
 a {
     text-decoration: none;
 }
-
+:focus, :active { 
+	outline: none; 
+}
 /*
 * Helpers
 */
@@ -46,18 +50,28 @@ a {
    	min-width: 300px;   
     float: right;
 }
-.hdr-coordinate-bx a {
+.hdr-coordinate-bx li {
     display: block;
     padding: 0 10px;
     min-width: 0;
     float: right;
 	border-left: 1px solid #555;
+	cursor: pointer;
+	position: relative;
 }
-.hdr-coordinate-bx a:last-child {
+.hdr-coordinate-bx ul {
+	margin: 0;
+}
+.hdr-coordinate-bx li:last-child {
 	border: none;
 }
-.hdr-coordinate-bx a:hover {
-	color: #888;
+.hdr-coordinate-bx li:hover {
+	-color: #888;
+}
+
+.hdr-icons {
+	width: 10px;
+	height: 15px;
 }
 
 @media ( max-width: 600px ) {
@@ -65,6 +79,37 @@ a {
 		width: 100vw;
 		min-width: 350px;
 	}
+}
+
+/*---- dropdown menu ----*/
+
+.drop-down-container {
+	background-color: #fff;
+	border-radius: 5px;
+	border: 1px solid #eee;
+
+	display: none;
+
+	position: absolute;
+	right:10px;
+	top: 20px;
+
+	padding: 5px 0;
+
+	z-index: 10001;
+
+}
+
+.drop-down-container a {
+	min-width: 100px;
+	display: block;
+	padding: 10px 20px;
+}
+.drop-down-container a:hover {
+	background-color: #aaf;
+}
+.drop-down-container hr {
+	color: #fff;
 }
 
 /*---- header radios ----*/

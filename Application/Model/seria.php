@@ -3,18 +3,17 @@ use DB\EntityGateway;
 
 class Seria
 {
-    private $dbObject,
-            $uid,
+    private $dbObject,   
             $result,
             $seria = 0;    
 
     public function __construct( int $uid )
     {
-        $this->dbObject = EntityGateway::getDB(); 
-        $this->uid = $uid;                  
+        $this->dbObject = EntityGateway::getDB();                   
 
-        $this->GetResult();
-        $this->CalculateSeria();         
+        $this->result = $this->GetResult( $uid );
+        $this->seria  = $this->CalculateSeria();      
+          
     }
 
     public function __get( $name )
@@ -27,22 +26,20 @@ class Seria
     }
 
 
-    protected function GetResult()
+    private function GetResult( int $uid ): array
     {                                   
-        $this->result = $this->dbObject->getSeria();
-    
-                
+        return $this->dbObject->getSeria( $uid );            
     }
 
-    protected function CalculateSeria()
+    private function CalculateSeria(): int
     {      
         /**
          *  If today or yesterday is complete day. 
          */ 
-        
-        if( count( $this->result ) > 1 && (int)$this->result[0]['intDate'] < (int)$this->result[1]['intDate'] + 2 )
-        {                       
+        $seria = 0;
 
+        if( count( $this->result ) > 1 && (int)$this->result[0]['intDate'] < (int)$this->result[1]['intDate'] + 2 )
+        {                                               
             for( $i = 1; (int)$this->result[$i]['intDate'] === (int)$this->result[$i + 1]['intDate'] + 1 && $i < count( $this->result ) -1; $i++ )
             {                       
                 if( $this->result[$i]['session'] != -1 )
@@ -70,11 +67,12 @@ class Seria
                             date('m') == "11") 
                             &&  (int)$this->result[$i]['intDate'] === (int)($this->result[$i + 1]['intDate']) + 7 )
                     ){                  
-                        $this->seria ++;
+                        $seria ++;
                     }                
                 }                
             } 
                                 
-        }                
+        }        
+        return $seria;        
     }
 }

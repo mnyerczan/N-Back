@@ -21,9 +21,8 @@ class Navbar
         $this->datas['childMenus'] = [];
 
         $this->user     = $user;
-        
- 
-        $this->sessions = new Sessions( $this->user->id );
+                
+        $this->sessions = new Sessions( $this->user->id ); 
         $this->menus    = new Menus( $this->user->privilege );
 
         $this->datas['menus']       = $this->menus->menus;

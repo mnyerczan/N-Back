@@ -14,7 +14,7 @@ create table users (
     `fileName` varchar(255) default 'none' not null,
     `theme` varchar(5) default 'white' not null,
     `online` int(1) default 0 not null,
-    unique (userName),
+    unique ( `email` ),
     index users_id_idx(id)
 )default charset utf8;
 
@@ -76,12 +76,12 @@ create table `menus` (
 )default charset utf8;
 
 
-insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Forum','?index=7','none','none','0','1');
-insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Edit','?index=10','none','none','3','1');
-insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Edit Start page','?index=11&choose=1','00000002','none','1','0');
-insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Edit forum ', '?index=10&choose=0' , '00000002','img/edit_blue_16.png','3','0');
-insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Profiles','?index=8&choose=0','none','img/users_colorful.png','1','0');
-insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Communal room','?index=7&offset=0 ','00000001','none','1','0');
+insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Forum','?#','none','none','0','1');
+insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Edit','/forum/edit','none','none','3','1');
+insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Edit Start page','/main/eidt','00000002','none','1','0');
+insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Edit forum ', '/forum/edit' , '00000002','img/edit_blue_16.png','3','0');
+insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Profiles','/profiles','none','img/users_colorful.png','1','0');
+insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Communal room','/forum/common','00000001','none','1','0');
 
 
 -- A játék meneteit rögzítő tábla.

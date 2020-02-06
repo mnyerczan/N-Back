@@ -6,10 +6,11 @@ class ValidatePassword extends Validator
     
     public function __construct( $pass ) 
     {
-        $this->pass=$pass;        
+        $this->pass = $pass;        
 
         parent::__construct();
     }
+
     public function validate() 
     {
         if (strlen($this->pass) < 6 ) 
@@ -30,5 +31,3 @@ class ValidatePassword extends Validator
     }
 }
     
-
-?>

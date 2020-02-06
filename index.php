@@ -1,13 +1,15 @@
 ﻿<?php 	
 	define('URI', explode('?', $_SERVER['REQUEST_URI'])[0]);
+	define('CURRENT_TIMESTAMP', date('s') );
+
 
 	$num = count(explode( '/' , URI ) ) - 2;
 	$backFromCurrentPath = '';
 
-	/**
-	 * A számlálás 1-től indul, mert az explode a /Thesis_v.2.0/error stringet 3 részre szeleteli.
-	 * Ha projektmappát használunk, akkor a $i-nek 1-től kell indulnia!! Gyökérből 0-tól.
-	 */
+/**
+ * A számlálás 1-től indul, mert az explode a /Thesis_v.2.0/error stringet 3 részre szeleteli.
+ * Ha projektmappát használunk, akkor a $i-nek 1-től kell indulnia!! Gyökérből 0-tól.
+ */
 	for ( $i = 0; $i < $num; $i++ )
 	{
 		$backFromCurrentPath.= '../';
@@ -45,11 +47,14 @@
 /**
  * Set error logging
  */
-	ini_set('error_log', 'Log/error.log');
-	ini_set("log_errors", 1);
+	ini_set('error_log', APPLICATION.'Log/error.log');
+	ini_set("log_errors", 0);
 
 
-
+/**
+ * Ennek a függvénynek a hatása, hogy a kimenetet nem írja bele egyből a HTTP üzenettőrzsbe, 
+ * hanem be-cache-eli, és csak az ob_end() után írja bele. A fejléctartalma kiírásakor lehet hasznos.
+ */
 	//ob_start();
 
 

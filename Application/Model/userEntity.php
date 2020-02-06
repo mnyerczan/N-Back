@@ -28,7 +28,17 @@ class UserEntity
 						
         }               
         return self::$INSTANCE;
-    }
+	}
+	
+	public function getUsersCount()
+	{
+		return $this->dbObject->getUsersCount()[0];
+	}
+
+	public function userRegistry( $datas )
+	{
+		return $this->dbObject->userRegistry( $datas );
+	}
 
 	private function __construct()
     {
@@ -41,7 +51,7 @@ class UserEntity
 		$this->datas['privilege'] 		= 0;
 		$this->datas['birth'] 			= NULL;
 		$this->datas['passwordLength'] 	= NULL;
-		$this->datas['fileName'] 		= NULL;
+		$this->datas['fileName'] 		= 'user_blue.png';
 		$this->datas['theme'] 			= $_COOKIE['theme'] 		?? 'white';
 		$this->datas['refresh'] 		= NULL;
 

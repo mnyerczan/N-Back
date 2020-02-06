@@ -1,0 +1,11 @@
++--------------------+
+| Tables_in_testDB   |
+|--------------------|
+| documents          |
+| logs               |
+| menus              |
+| nbackDatas         |
+| nbackSessions      |
+| users              |
++--------------------+
+6 rows in set

@@ -1,4 +1,4 @@
-<script src="<?= RELPATH ?><?=APPLICATION?>Templates/User/signIn.js"></script>
+<script src="<?= RELPATH ?><?=APPLICATION?>Templates/User/signIn.js?v=<?= CURRENT_TIMESTAMP ?>"></script>
 <main class="usr-crt-frm" >
     <div>
         <h3>

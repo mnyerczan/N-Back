@@ -5,11 +5,7 @@ use DB\EntityGateway;
 use Login\UserEntity;
 use Model\Sessions;
 
-require_once APPLICATION.'Model/sessions.php';
-require_once APPLICATION.'Model/seria.php';
-require_once APPLICATION.'Model/home.php';
-require_once APPLICATION.'Model/navbar.php';
-require_once APPLICATION.'Model/indicator.php';
+
 require_once APPLICATION.'Model/Validators/validator.php';
 require_once APPLICATION.'Model/Validators/validateEmail.php';
 require_once APPLICATION.'Model/Validators/validateUser.php';
@@ -20,14 +16,14 @@ require_once APPLICATION.'Core/controller.php';
 
 class signInController extends Controller
 {
-    private $user;
-    private $datas;
-
 
     function __construct( $matches )
     {                 
-        $this->user = UserEntity::GetInstance();  
-                
+
+        parent::__construct();
+        
+        $this->SetDatas();
+        $this->datas['email'] = $_POST['signIn-email'] ?? '';
  
 
         if ( @$matches['action'] )
@@ -48,8 +44,7 @@ class signInController extends Controller
         $pass = new ValidatePassword( $_POST['signIn-pass'] );
 
         if ( $email->errorMsg || $pass->errorMsg )
-        {
-            $this->SetDatas();
+        {            
 
             $this->datas['emailLabel']      = $email->errorMsg ?? 'email';
             $this->datas['passwordLabel']   = $pass->errorMsg ?? 'password';
@@ -63,7 +58,6 @@ class signInController extends Controller
 
         if ( !$this->user->Login( $_POST['signIn-email'], $_POST['signIn-pass'] ) )
         {
-            $this->SetDatas();
 
             $this->datas['emailLabel']      = $email->errorMsg ?? 'email';
             $this->datas['passwordLabel']   = $pass->errorMsg ?? 'password';
@@ -80,30 +74,11 @@ class signInController extends Controller
 
     function Action()
     {    
-        $this->SetDatas();
 
         $this->datas['emailLabel'] = 'E-mail';
         $this->datas['passwordLabel'] = 'Password';
         $this->datas['message']         = 'Sign In';
 
         $this->View( $this->datas, [ 'view' => 'signIn', 'module' => 'User'] );
-    }
-
-    private function SetDatas()
-    {        
-
-        $this->datas = [ 
-            'seria' => new Seria( $this->user->id ), 
-            'user'  => $this->user,            
-            'navbar'=> ( new Navbar( $this->user ) )->getDatas(),
-            'indicator' => (
-                Indicator::getInstance(
-                    new Sessions( $this->user->id, 1 ),
-                    $this->user->gameMode 
-                )
-            )->getDatas(),
-            'email' => $_POST['signIn-email'] ?? ''
-        ];
-        
     }
 }

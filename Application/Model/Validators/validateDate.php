@@ -11,9 +11,9 @@ class ValidateDate extends Validator
         parent::__construct();
     }
 
-    function getDate($name)
+    function getDate()
     {
-        if ( $name == 'date' ) return $this->date;
+        return $this->date;
     }
 
     public function validate() 

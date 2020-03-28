@@ -1,18 +1,40 @@
-﻿Jogosulságok beállítása szükséges sz alábbi könyvtárakra, hogy a képfeltöltés működjön..
+﻿#Jogosulságok beállítása szükséges sz alábbi könyvtárakra, hogy a képfeltöltés működjön..
 
-/img/forum_ikons
-/users
-/users/forum_images
+sudo chmod -R 777 /img/forum_ikons
+sudo chmod -R 777 /users
+sudo chmod -R 777 /users/forum_images
 
-/log
+sudo chmod -R 777 /log
 
-Linuxon:
+#Linuxon:
 
 #sudo chmod 777 /path/directory [ /file ]
 -sudo chown -R www-data:www-data /users
 -sudo chown -R www-data:www-data /log
 
-Modulok:
+#Modulok:
 
--Képfeltöltéshez: php7.2-mysql, php7.2-gd (akt verz.)
--PDO: pkg-php-tools
+#Képfeltöltéshez: 
+#(akt verz.)
+
+sudo apt -y install php7.2-mysql
+sudo apt -y install php7.2-gd 
+#-PDO: 
+sudo apt -y install pkg-php-tools
+
+
+#Apache rewrite engedélyezése
+
+sudo a2enmod rewrite
+
+#.htaccess fájl engedélyezés
+sudo nano /etc/apache2/sites-available/000-default.conf
+
+#    <Directory /var/www/html>
+#            Options Indexes FollowSymLinks MultiViews
+#            AllowOverride All
+#            Require all granted
+#    </Directory>
+
+
+systemctl restart apache2

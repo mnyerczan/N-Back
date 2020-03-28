@@ -12,9 +12,9 @@ class ValidateEmail extends Validator
         parent::__construct();
     }
 
-    function getEmail($name)
+    function getEmail()
     {
-        if ( $name == 'email' ) return $this->email;
+        return $this->email;
     }
 
     public function validate() 

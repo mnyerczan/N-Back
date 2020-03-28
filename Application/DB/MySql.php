@@ -23,7 +23,7 @@ class MySql extends baseDbApi implements DBInterface
                 $host       = "localhost",
                 $user       = "root",
                 $pass       = "1024",
-                $database   = "testDB";
+                $database   = "NBackDB";
 
     //-----------------------------------------------------------------------------
         

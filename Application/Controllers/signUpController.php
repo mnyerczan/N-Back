@@ -54,24 +54,31 @@ class signUpController extends Controller
         $date   = new ValidateDate (    $_POST['create-user-date']  );
         
 
+    
 
         if ( $email->errorMsg || $pass->errorMsg || $user->errorMsg || $date->errorMsg )
         {      
             $this->setValues( $user, $email, $pass, $date);
 
-            $this->View( $this->datas, [ 'view' => 'signUp', 'module' => 'User'] );
+            $this->View( 
+                $this->datas, 
+                [ 
+                    'view' => 'signUp', 
+                    'module' => 'User'
+                ]
+            );
         
             return;
         }
-
+        
         $privilege = $_POST['create-user-name'] == 'Admin' ? 3 : 1;
 
         $result = $this->user->userRegistry( 
             [            
-                ':email'        => trim( $email->email ),
-                ':userName'     => trim( $user->user ),
-                ':password'     => md5( 'salt'.md5( trim( $pass->pass ) ) ),
-                ':dateOfBirth'  => trim( $date->date ),
+                ':email'        => trim( $email->getEmail() ),
+                ':userName'     => trim( $user->getUser() ),
+                ':password'     => md5( 'salt'.md5( trim( $pass->getPass() ) ) ),
+                ':dateOfBirth'  => trim( $date->getDate() ),
                 ':privilege'    => $privilege
             ]
         );
@@ -82,11 +89,10 @@ class signUpController extends Controller
 
             $this->datas['errorMessage'] = 'Email is alredy exists!';
             $this->datas['userEmailValue'] = null;
-            $this->View( $this->datas, [ 'view' => 'signUp', 'module' => 'User'] );
-        
+            $this->View( $this->datas, [ 'view' => 'signUp', 'module' => 'User'] );        
             return;
         }        
-
+ 
         header("Location: ".APPROOT);
     }
 

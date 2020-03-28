@@ -11,9 +11,9 @@ class ValidateUser extends Validator
         parent::__construct();
     }
 
-    function getName($name)
+    function getUser()
     {
-        if ( $name == 'user' ) return $this->user;
+        return $this->user;
     }
 
 

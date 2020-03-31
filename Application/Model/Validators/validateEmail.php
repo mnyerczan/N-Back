@@ -5,6 +5,9 @@ class ValidateEmail extends Validator
 
     private $email;
 
+
+
+
     function __construct( $email )
     {
         $this->email = $email;
@@ -12,10 +15,15 @@ class ValidateEmail extends Validator
         parent::__construct();
     }
 
+    
+
+
     function getEmail()
     {
         return $this->email;
     }
+
+
 
     public function validate() 
     {        

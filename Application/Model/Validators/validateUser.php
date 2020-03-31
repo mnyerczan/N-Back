@@ -2,7 +2,10 @@
 
 class ValidateUser extends Validator
 {
+
     private $user;
+
+
 
     public function __construct( $userName )
     {
@@ -11,10 +14,14 @@ class ValidateUser extends Validator
         parent::__construct();
     }
 
+
+
     function getUser()
     {
         return $this->user;
     }
+
+
 
 
     function validate() 
@@ -33,9 +40,8 @@ class ValidateUser extends Validator
         {
             $this->setError('Username is too long');
             return;
-        }
-
-        
+        }    
     }
+
+
 }
-?>

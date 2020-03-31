@@ -32,7 +32,7 @@
                         <b><?=$header->userName?></b>
                     </a>
                     <?php if($header->privilege == 3 && $view !== 'signUp' ):?>						
-                        <a href="<?=APPROOT?>signUp/admin">
+                        <a href="<?=APPROOT?>signUp">
                             New account
                         </a>				
                     <?php endif ?>                    

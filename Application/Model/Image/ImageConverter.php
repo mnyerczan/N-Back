@@ -99,8 +99,7 @@ class ImageConverter
             if ($mime)
             {
                 if ($error = $this->compressImage())            
-                {
-                    var_dump($error);
+                {                 
                     throw new InvalidArgumentException($error);
                     return false;
                 }                

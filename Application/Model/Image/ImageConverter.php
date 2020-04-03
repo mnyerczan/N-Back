@@ -34,8 +34,19 @@ class ImageConverter
             case 'origin':  return $this->origin; break;
         }
     }
-            
-    private function compressImage()
+          
+    /**
+     * ComressImage
+     * 
+     * @return int 0 if compressing is successfull or else if unsuccessful
+     * 
+     * errno:
+     * 
+     *  1   Can't create file on APPLICATION/TMP_PATH/
+     *  2   Unlink unsuccesfull
+     *  3   Mime type is invalid
+     */
+    private function CompressImage()
     {      
         $compressedImage = null;
 
@@ -56,19 +67,19 @@ class ImageConverter
             
             //Tömörítés. Sajnos csak file létrehozással tudom eddig.
             if (!imagejpeg($compressedImage, $this->tmp.$fileName, $this->requiredSize)) 
-                return 'Can\'t create file on '.$this->tmp.$fileName.'!';
+                return 1;
 
             //létrehozott tömörített állomány beolvasása.
             $this->cmpBin = file_get_contents($this->tmp.$fileName);
                                 
             //tömörített állomány törlése a fájlrendszerből
             if(!unlink($this->tmp.$fileName))
-                return 'Unlink unsuccesfull';
+                return 2;
             
             return 0;
         }
 
-        return 'Mime type is invalid';
+        return 3;
     }
 
     /**
@@ -98,7 +109,7 @@ class ImageConverter
 
             if ($mime)
             {
-                if ($error = $this->compressImage())            
+                if ($error = $this->CompressImage())            
                 {                 
                     throw new InvalidArgumentException($error);
                     return false;
@@ -109,11 +120,13 @@ class ImageConverter
         return true;
     }
     
+
+
     /**
      * Static method
      * @param $binary 
      * 
-     * return base64 coded fife
+     * @return base64 coded fife
      */
     public static function BTB64($binary)
     {

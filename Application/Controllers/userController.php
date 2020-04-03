@@ -1,8 +1,10 @@
 <?php
 
 use Login\UserEntity;
+use Model\Image\ImageConverter;
 
 require_once APPLICATION.'Core/controller.php';
+require_once APPLICATION.'Model/Image/ImageConverter.php';
 
 
 class userController extends Controller
@@ -19,8 +21,7 @@ class userController extends Controller
 
 
     private function Action()
-    {
-
+    {   
         $this->View( $this->datas, ['view' => 'profile', 'module' => 'User' ]  );
     }
 }

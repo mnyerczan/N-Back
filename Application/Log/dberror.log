@@ -35,3 +35,115 @@ Database breaked. Count of tables not enough  in /var/www/html/Application/DB/My
 2020-03-28 18:51:24 - Incorrect date value: '' for column 'birth' at row 1 with: 'INSERT INTO `users` ( `email`, `userName`, `password`, `birth`, `privilege` ) VALUES (  :email, :userName, :password, :dateOfBirth, :privilege )' in /var/www/html/Application/DB/MySql.php at 328
 2020-03-28 19:02:05 - Incorrect date value: '' for column 'birth' at row 1 with: 'INSERT INTO `users` ( `email`, `userName`, `password`, `birth`, `privilege` ) VALUES (  :email, :userName, :password, :dateOfBirth, :privilege )' in /var/www/html/Application/DB/MySql.php at 328
 2020-03-28 19:03:04 - Incorrect date value: '' for column 'birth' at row 1 with: 'INSERT INTO `users` ( `email`, `userName`, `password`, `birth`, `privilege` ) VALUES (  :email, :userName, :password, :dateOfBirth, :privilege )' in /var/www/html/Application/DB/MySql.php at 328
+Database breaked. Count of tables not enough  in /var/www/html/Application/DB/MySql.php at 48
+Database breaked. Count of tables not enough  in /var/www/html/Application/DB/MySql.php at 48
+Database breaked. Count of tables not enough  in /var/www/html/Application/DB/MySql.php at 48
+2020-04-02 22:16:47 - Duplicate entry 'mnyerczan@outlook.hu' for key 'email' with: 'INSERT INTO `users` ( `email`, `userName`, `password`, `birth`, `privilege` ) VALUES (  :email, :userName, :password, :dateOfBirth, :privilege )' in /var/www/html/Application/DB/MySql.php at 336
+2020-04-02 22:52:22 -  with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :image)' in /var/www/html/Application/DB/MySql.php at 341
+2020-04-02 22:53:21 - Incorrect string value: '\xFF\xD8\xFF\xE0\x00\x10...' for column 'fileData' at row 1 with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :image)' in /var/www/html/Application/DB/MySql.php at 341
+2020-04-02 22:55:18 - Incorrect string value: '\xFF\xD8\xFF\xE0\x00\x10...' for column 'fileData' at row 1 with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :image)' in /var/www/html/Application/DB/MySql.php at 341
+2020-04-02 22:58:04 - Incorrect string value: '\xFF\xD8\xFF\xE0\x00\x10...' for column 'fileData' at row 1 with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :image)' in /var/www/html/Application/DB/MySql.php at 341
+2020-04-02 23:00:51 -  with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :image)' in /var/www/html/Application/DB/MySql.php at 345
+2020-04-02 23:01:30 -  with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :image)' in /var/www/html/Application/DB/MySql.php at 346
+2020-04-02 23:01:43 -  with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :image)' in /var/www/html/Application/DB/MySql.php at 346
+2020-04-02 23:02:45 - Incorrect string value: '\xFF\xD8\xFF\xE0\x00\x10...' for column 'fileData' at row 1 with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :binary)' in /var/www/html/Application/DB/MySql.php at 346
+2020-04-02 23:06:59 - Incorrect string value: '\xFF\xD8\xFF\xE0\x00\x10...' for column 'fileData' at row 1 with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :binary)' in /var/www/html/Application/DB/MySql.php at 346
+2020-04-02 23:16:03 - Incorrect string value: '\xFF\xD8\xFF\xE0\x00\x10...' for column 'fileData' at row 1 with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :binary)' in /var/www/html/Application/DB/MySql.php at 356
+2020-04-02 23:16:54 - Table 'NBackDB.images' doesn't exist with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :binary)' in /var/www/html/Application/DB/MySql.php at 356
+2020-04-02 23:18:11 - Incorrect string value: '\xFF\xD8\xFF\xE0\x00\x10...' for column 'fileData' at row 1 with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :binary)' in /var/www/html/Application/DB/MySql.php at 356
+2020-04-02 23:19:28 - Incorrect string value: '\xFF\xD8\xFF\xE0\x00\x10...' for column 'fileData' at row 1, 1366 with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :binary)' in /var/www/html/Application/DB/MySql.php at 356
+2020-04-02 23:20:08 - Errorno: 1366 - Incorrect string value: '\xFF\xD8\xFF\xE0\x00\x10...' for column 'fileData' at row 1 with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :binary)' in /var/www/html/Application/DB/MySql.php at 356
+2020-04-02 23:20:20 - Errno: 1366 - Incorrect string value: '\xFF\xD8\xFF\xE0\x00\x10...' for column 'fileData' at row 1 with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :binary)' in /var/www/html/Application/DB/MySql.php at 356
+2020-04-02 23:24:05 - Errno: 1366 - Incorrect string value: '\xFF\xD8\xFF\xE0\x00\x10...' for column 'fileData' at row 1 with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :binary)' in /var/www/html/Application/DB/MySql.php at 352
+2020-04-02 23:30:08 - Errno: 1062 - Duplicate entry '00000007' for key 'PRIMARY' with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :binary)' in /var/www/html/Application/DB/MySql.php at 354
+2020-04-02 23:30:27 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'email` = 'mnyerczan@outlook.hu' 
+             AND `password` = 'ce136a7b654f043e' at line 4 with: 'SELECT `users`.*, `nbackDatas`.*, current_timestamp AS refresh 
+             FROM `users` JOIN `nbackDatas` 
+                 ON `users`.`id` = `nbackDatas`.`userID` JOIN `images`
+                ON `users`.`id` = `images`.`userId
+             WHERE `email` = :email 
+             AND `password` = :password ' in /var/www/html/Application/DB/MySql.php at 301
+2020-04-02 23:30:46 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'email` = 'mnyerczan@outlook.hu' 
+             AND `password` = 'ce136a7b654f043e' at line 4 with: 'SELECT `users`.*, `nbackDatas`.*, current_timestamp AS refresh 
+             FROM `users` JOIN `nbackDatas` 
+                 ON `users`.`id` = `nbackDatas`.`userID` JOIN `images`
+                ON `users`.`id` = `images`.`userId
+             WHERE `email` = :email 
+             AND `password` = :password ' in /var/www/html/Application/DB/MySql.php at 301
+2020-04-02 23:36:25 - Unknown table 'fileData' with: 'SELECT `users`.*, `nbackDatas`.*, `fileData`.*, current_timestamp AS refresh 
+			FROM `users` JOIN `nbackDatas` 
+				ON `users`.`id` = `nbackDatas`.`userID` JOIN `images` 
+                ON `users`.`id` = `images`.`userId`            
+			WHERE `users`.`id` = :userId' in /var/www/html/Application/DB/MySql.php at 301
+2020-04-02 23:36:49 - Unknown table 'fileData' with: 'SELECT `users`.*, `nbackDatas`.*, `fileData`.*, current_timestamp AS refresh 
+			FROM `users` JOIN `nbackDatas` 
+				ON `users`.`id` = `nbackDatas`.`userID` JOIN `images` 
+                ON `users`.`id` = `images`.`userId`            
+			WHERE `users`.`id` = :userId' in /var/www/html/Application/DB/MySql.php at 301
+2020-04-02 23:36:51 - Unknown table 'fileData' with: 'SELECT `users`.*, `nbackDatas`.*, `fileData`.*, current_timestamp AS refresh 
+			FROM `users` JOIN `nbackDatas` 
+				ON `users`.`id` = `nbackDatas`.`userID` JOIN `images` 
+                ON `users`.`id` = `images`.`userId`            
+			WHERE `users`.`id` = :userId' in /var/www/html/Application/DB/MySql.php at 301
+2020-04-02 23:36:56 - Unknown table 'fileData' with: 'SELECT `users`.*, `nbackDatas`.*, `fileData`.*, current_timestamp AS refresh 
+			FROM `users` JOIN `nbackDatas` 
+				ON `users`.`id` = `nbackDatas`.`userID` JOIN `images` 
+                ON `users`.`id` = `images`.`userId`            
+			WHERE `users`.`id` = :userId' in /var/www/html/Application/DB/MySql.php at 301
+2020-04-02 23:36:56 - Unknown table 'fileData' with: 'SELECT `users`.*, `nbackDatas`.*, `fileData`.*, current_timestamp AS refresh 
+             FROM `users` JOIN `nbackDatas` 
+                 ON `users`.`id` = `nbackDatas`.`userID` JOIN `images` 
+                ON `users`.`id` = `images`.`userId`
+             WHERE `email` = :email 
+             AND `password` = :password ' in /var/www/html/Application/DB/MySql.php at 301
+2020-04-02 23:39:01 - Unknown column 'images.fileData' in 'field list' with: 'SELECT `users`.*, `nbackDatas`.*, `images`.`fileData`, current_timestamp AS refresh 
+			FROM `users` JOIN `nbackDatas` 
+				ON `users`.`id` = `nbackDatas`.`userID` JOIN `images` 
+                ON `users`.`id` = `images`.`userId`            
+			WHERE `users`.`id` = :userId' in /var/www/html/Application/DB/MySql.php at 301
+2020-04-02 23:39:01 - Unknown table 'images.fileData' with: 'SELECT `users`.*, `nbackDatas`.*, `images`.`fileData`.*, current_timestamp AS refresh 
+             FROM `users` JOIN `nbackDatas` 
+                 ON `users`.`id` = `nbackDatas`.`userID` JOIN `images` 
+                ON `users`.`id` = `images`.`userId`
+             WHERE `email` = :email 
+             AND `password` = :password ' in /var/www/html/Application/DB/MySql.php at 301
+2020-04-02 23:39:05 - Unknown column 'images.fileData' in 'field list' with: 'SELECT `users`.*, `nbackDatas`.*, `images`.`fileData`, current_timestamp AS refresh 
+			FROM `users` JOIN `nbackDatas` 
+				ON `users`.`id` = `nbackDatas`.`userID` JOIN `images` 
+                ON `users`.`id` = `images`.`userId`            
+			WHERE `users`.`id` = :userId' in /var/www/html/Application/DB/MySql.php at 301
+2020-04-02 23:39:16 - Unknown column 'images.fileData' in 'field list' with: 'SELECT `users`.*, `nbackDatas`.*, `images`.`fileData`, current_timestamp AS refresh 
+			FROM `users` JOIN `nbackDatas` 
+				ON `users`.`id` = `nbackDatas`.`userID` JOIN `images` 
+                ON `users`.`id` = `images`.`userId`            
+			WHERE `users`.`id` = :userId' in /var/www/html/Application/DB/MySql.php at 301
+2020-04-02 23:39:21 - Unknown column 'images.fileData' in 'field list' with: 'SELECT `users`.*, `nbackDatas`.*, `images`.`fileData`, current_timestamp AS refresh 
+			FROM `users` JOIN `nbackDatas` 
+				ON `users`.`id` = `nbackDatas`.`userID` JOIN `images` 
+                ON `users`.`id` = `images`.`userId`            
+			WHERE `users`.`id` = :userId' in /var/www/html/Application/DB/MySql.php at 301
+2020-04-02 23:39:21 - Unknown table 'images.fileData' with: 'SELECT `users`.*, `nbackDatas`.*, `images`.`fileData`.*, current_timestamp AS refresh 
+             FROM `users` JOIN `nbackDatas` 
+                 ON `users`.`id` = `nbackDatas`.`userID` JOIN `images` 
+                ON `users`.`id` = `images`.`userId`
+             WHERE `email` = :email 
+             AND `password` = :password ' in /var/www/html/Application/DB/MySql.php at 301
+2020-04-02 23:40:48 - Errno: 1054 - Unknown column 'fileData' in 'field list' with: 'INSERT INTO `images`(`userID`,`fileData`) VALUES (:userId, :binary)' in /var/www/html/Application/DB/MySql.php at 354
+2020-04-03 00:15:33 - Table 'NBackDB.imgBin' doesn't exist with: 'SELECT `users`.*, `nbackDatas`.*, `images`.`bin`.*, current_timestamp AS refresh 
+             FROM `users` JOIN `nbackDatas` 
+                 ON `users`.`id` = `nbackDatas`.`userID` JOIN `imgBin` 
+                ON `users`.`id` = `images`.`userId`
+             WHERE `email` = :email 
+             AND `password` = :password ' in /var/www/html/Application/DB/MySql.php at 301
+2020-04-03 00:16:21 - Unknown table 'images.bin' with: 'SELECT `users`.*, `nbackDatas`.*, `images`.`bin`.*, current_timestamp AS refresh 
+             FROM `users` JOIN `nbackDatas` 
+                 ON `users`.`id` = `nbackDatas`.`userID` JOIN `images` 
+                ON `users`.`id` = `images`.`userId`
+             WHERE `email` = :email 
+             AND `password` = :password ' in /var/www/html/Application/DB/MySql.php at 301
+2020-04-03 00:17:30 - Unknown column 'images.bin' in 'field list' with: 'SELECT `users`.*, `nbackDatas`.*, `images`.`bin`, current_timestamp AS refresh 
+             FROM `users` JOIN `nbackDatas` 
+                 ON `users`.`id` = `nbackDatas`.`userID` JOIN `images` 
+                ON `users`.`id` = `images`.`userId`
+             WHERE `email` = :email 
+             AND `password` = :password ' in /var/www/html/Application/DB/MySql.php at 301

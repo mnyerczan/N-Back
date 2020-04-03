@@ -1,6 +1,10 @@
 <?php
 
 use Login\UserEntity;
+use Model\Image\ImageConverter;
+
+require_once APPLICATION.'Model/Image/ImageConverter.php';
+
 
 class Header 
 {
@@ -22,7 +26,7 @@ class Header
     }
 
     private function setDatas()
-    {
+    {     
         $datas = [];
 
         $datas['userName']          = $this->user->userName;
@@ -30,8 +34,11 @@ class Header
         $datas['userId']            = $this->user->id;
         $datas['privilege']         = $this->user->privilege;
         $datas['loginDatetime']     = $this->user->loginDatetime;
+        
+        // Ha nincs beloginolva felhasználó, az imgBin null értéket ad.
+        $datas['imgBin']            = ImageConverter::BTB64($this->user->imgBin);
 
-        $datas['userIconPath']      = RELPATH.APPLICATION.'img/'.$this->user->fileName;
+        //$datas['userIconPath']      = RELPATH.APPLICATION.'img/'.$this->user->fileName;
         $datas['logoutIconPath']    = RELPATH.APPLICATION."img/logout.png";
         $datas['seriaIconPath']     = RELPATH.APPLICATION."img/fat_flame_red.png";
         $datas['javaScript']        = RELPATH.APPLICATION."Templates/Header/header.js";

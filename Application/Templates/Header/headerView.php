@@ -25,8 +25,8 @@
     <?php if( $header->userId > 1 ):?>	
         
         <ul id="header-list">
-            <li title="Go to profile">					
-                <img src="<?= $header->userIconPath ?>" class="hdr-icons">
+            <li title="Go to profile">					                
+                <img src="data:image/*;base64,<?= $header->imgBin?>">
                 <section class="drop-down-container">    
                     <a href="<?=APPROOT?>user" title="Go to profile">					
                         <b><?=$header->userName?></b>

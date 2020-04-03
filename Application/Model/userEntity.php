@@ -54,6 +54,7 @@ class UserEntity
 		$this->datas['fileName'] 		= 'user_blue.png';
 		$this->datas['theme'] 			= $_COOKIE['theme'] 		?? 'white';
 		$this->datas['refresh'] 		= NULL;
+		$this->datas['imgBin'] 			= NULL;
 
 		// NOT IMPLEMENTED FEATUTRE
 		$this->datas['online'] 			= NULL;
@@ -90,6 +91,7 @@ class UserEntity
 			case 'theme': 			return $this->datas['theme']; 			break;
 			case 'refresh': 		return $this->datas['refresh']; 		break;
 			case 'online': 			return $this->datas['online']; 			break;
+			case 'imgBin': 			return $this->datas['imgBin']; 			break;
 
 			case 'gameMode': 		return $this->datas['gameMode']; 		break;
 			case 'level': 			return $this->datas['level']; 			break;			
@@ -143,7 +145,8 @@ class UserEntity
 
 
 	private function SetUser( $result )
-	{		
+	{				
+
 		$this->datas['id'] 				= $result->id;
 		$this->datas['email']			= Include_special_characters($result->email);
 		$this->datas['loginDatetime']	= $result->loginDatetime;		
@@ -152,10 +155,7 @@ class UserEntity
 		$this->datas['birth']			= $result->birth;
 		$this->datas['passwordLength']	= $result->passwordLength;
 
-		$fileName = $result->fileName == 'none' ? 'user_blue.png' : explode('_', $result->fileName)[0].'/'.$result->fileName;
-
-
-		$this->datas['fileName']		= $fileName;
+		$this->datas['imgBin']			= $result->imgBin;		
 		$this->datas['theme']			= $result->theme;
 		$this->datas['refresh'] 		= $result->refresh;
 

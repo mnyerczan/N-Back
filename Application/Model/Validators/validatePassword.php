@@ -4,7 +4,7 @@ class ValidatePassword extends Validator
 {
     private $pass;
     
-    public function __construct( $pass ) 
+    public function __construct( $pass = null) 
     {
         $this->pass = $pass;        
 

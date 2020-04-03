@@ -1,6 +1,17 @@
 ﻿<?php 	
 	define('URI', explode('?', $_SERVER['REQUEST_URI'])[0]);
-	define('CURRENT_TIMESTAMP', date('s') );
+
+	//Aktuális idő konstans
+	define('CURRENT_TIMESTAMP'	, date('s') );
+
+	// Program mappa
+	define('APPLICATION'		, 'Application/');
+
+	// Program gyökér mappa
+	define('APPROOT'			, '/');
+	
+	// Temp file útvonal
+	define('TMP_PATH'			, APPLICATION.'Tmp/');
 
 
 	$num = count(explode( '/' , URI ) ) - 2;
@@ -17,11 +28,7 @@
 
 	define('RELPATH', $backFromCurrentPath);
 
-	define('APPLICATION', 'Application/');
-
-
-	//define('APPROOT', '/Thesis_v.2.0/');
-	define('APPROOT', '/');
+	
 
 	require_once APPLICATION.'Core/application.php';
 

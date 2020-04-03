@@ -25,6 +25,10 @@ class MySql extends baseDbApi implements DBInterface
                 $pass       = "1024",
                 $database   = "NBackDB";
 
+
+
+    
+
     //-----------------------------------------------------------------------------
         
     private static function CheckDatabase()
@@ -151,28 +155,34 @@ class MySql extends baseDbApi implements DBInterface
         return $this->Select('SELECT COUNT(*) as num FROM users');
     }
 
+
+
     public function getUser( array $params ): array
     {
         if ( array_key_exists( ':userId', $params ) )
         {
             $sql=
-		   "SELECT `users`.*, `nbackDatas`.*, current_timestamp AS refresh 
+		   "SELECT `users`.*, `nbackDatas`.*, `images`.`imgBin`, current_timestamp AS refresh 
 			FROM `users` JOIN `nbackDatas` 
-				ON `users`.`id` = `nbackDatas`.`userID` 
+				ON `users`.`id` = `nbackDatas`.`userID` JOIN `images` 
+                ON `users`.`id` = `images`.`userId`            
 			WHERE `users`.`id` = :userId";
         }
         else
         {
             $sql=
-            "SELECT `users`.*, `nbackDatas`.*, current_timestamp AS refresh 
+            "SELECT `users`.*, `nbackDatas`.*, `images`.`imgBin`, current_timestamp AS refresh 
              FROM `users` JOIN `nbackDatas` 
-                 ON `users`.`id` = `nbackDatas`.`userID` 
+                 ON `users`.`id` = `nbackDatas`.`userID` JOIN `images` 
+                ON `users`.`id` = `images`.`userId`
              WHERE `email` = :email 
              AND `password` = :password ";
         }        
             
         return $this->Select( $sql, $params );
     }
+
+
 
     public function userRegistry( array $params )
     {        
@@ -181,6 +191,20 @@ class MySql extends baseDbApi implements DBInterface
 
         return $this->Execute( $sql, $params );
     }
+
+
+    public function InsertImageFromSignUp($imageBin)
+    {
+        $getUserIdSql = 'SELECT MAX(`id`) userId FROM `users`';
+        $insertImageSql = 'INSERT INTO `images`(`userID`,`imgBin`) VALUES (:userId, :binary)';
+        
+
+        if (!$result = $this->Select($getUserIdSql)[0])
+            return false;
+        
+        return $this->Execute( $insertImageSql, [ ':userId' => $result->userId, ':binary' => $imageBin] );
+    }
+
 
 
     //-----------------------------------------------------------------------------       
@@ -274,7 +298,7 @@ class MySql extends baseDbApi implements DBInterface
         }
         catch( RuntimeException $e )
         {
-            error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '{$script}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
+            error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '{addslashes($script)}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
         }
 
         return [];
@@ -283,7 +307,7 @@ class MySql extends baseDbApi implements DBInterface
 
     private function Execute( string $script, array $params = [] ): bool
     {    
-    
+            
         try
         {
             if ( !$statement =  self::$connect->prepare( $script ) )
@@ -310,24 +334,24 @@ class MySql extends baseDbApi implements DBInterface
                     $statement->bindParam( $keys[$i], $params[$keys[$i]], PDO::PARAM_INT );
                 }
                 else
-                {
+                {                    
                     $statement->bindParam( $keys[$i], $params[$keys[$i]] );
-                } 
+                }                 
             }
-
 
             if( !$statement->execute() )
             {             
-                throw new RuntimeException( $statement->errorInfo()[2] );                
+                throw new PDOException( 'Errno: '.$statement->errorInfo()[1].' - '.$statement->errorInfo()[2] );                
             }
-
-            return TRUE;
-        }
-        catch( RuntimeException $e )
-        {
-            error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '{$script}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
             
-            return FALSE;
+
+            return true;
+        }
+        catch( PDOException $e )
+        {
+            error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '{addslashes($script)}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
+            
+            return false;
         }
     }
     

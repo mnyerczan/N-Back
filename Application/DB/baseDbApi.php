@@ -24,8 +24,8 @@ abstract class baseDbApi
     {
         switch( $name )
         {
-            case "connect": return self::$connect; break;
-            case "id": return $this->id; break;
+            case "connect": return self::$connect;  break;
+            case "id":      return $this->id;       break;
         }
     }
 }

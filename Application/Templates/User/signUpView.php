@@ -1,7 +1,7 @@
 <script src="<?= RELPATH ?><?=APPLICATION?>Templates/User/signUp.js?v=<?= CURRENT_TIMESTAMP ?>"></script>
 <main class="usr-crt-frm" >
     <div>
-        <h3 align="center">
+        <h3 style="text-align:center">
             <?php if ( !$errorMessage ): ?>
                 <?php if ( !$isAdmin ): ?> 
                     Please create the admin user! 

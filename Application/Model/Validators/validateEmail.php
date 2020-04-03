@@ -8,7 +8,7 @@ class ValidateEmail extends Validator
 
 
 
-    function __construct( $email )
+    function __construct( $email = null )
     {
         $this->email = $email;
 

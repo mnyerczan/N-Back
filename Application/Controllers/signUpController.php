@@ -1,17 +1,19 @@
 <?php
 
+use Model\Image\ImageConverter;
+use DB\EntityGateway;
+
 require_once APPLICATION.'Model/Validators/validator.php';
 require_once APPLICATION.'Model/Validators/validateEmail.php';
 require_once APPLICATION.'Model/Validators/validateUser.php';
 require_once APPLICATION.'Model/Validators/validatePassword.php';
 require_once APPLICATION.'Model/Validators/validateDate.php';
-
+require_once APPLICATION.'Model/Image/ImageConverter.php';
 
 require_once APPLICATION.'Core/controller.php';
 
 class signUpController extends Controller
 {
-
 
     function __construct($matches)
     {                 
@@ -42,21 +44,29 @@ class signUpController extends Controller
 
 
 
-
+    /**
+     * @return mixed true if successful or integer if is error
+     * 
+     * errno:  
+     *  1   bad method or user don't sent form
+     *  2   invalid values
+     *  3   database error(user datas)
+     *  4   database erroe(image data)
+     */
     private function submitAction()
-    {
-        //Ha nincsenek POST adatok
-        if(!$_POST) 
+    {          
+        //Ha nem POST metódussal hívja a kontrollert, rewrite.
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || @!$_POST['cu-submit']) 
         {
             header("Location: ".APPROOT); 
-            return;
-        }
+            return 1;
+        } 
 
 
-        $email  = new ValidateEmail(    $_POST['create-user-email'] );
-        $pass   = new ValidatePassword( $_POST['create-user-pass']  );
-        $user   = new ValidateUser(     $_POST['create-user-name']  );
-        $date   = new ValidateDate (    $_POST['create-user-date']  );                
+        $email  = new ValidateEmail(    @$_POST['create-user-email'] );
+        $pass   = new ValidatePassword( @$_POST['create-user-pass']  );
+        $user   = new ValidateUser(     @$_POST['create-user-name']  );
+        $date   = new ValidateDate (    @$_POST['create-user-date']  );                
     
         //Ha valamelyik adat nem felel meg a mintának
         if ( $email->errorMsg || $pass->errorMsg || $user->errorMsg || $date->errorMsg )
@@ -71,17 +81,15 @@ class signUpController extends Controller
                 ]
             );
         
-            return;
+            return 2;
         }
+    
+     
 
-        var_dump(file_get_contents($_FILES['create-user-file']['tmp_name']));
-        var_dump($_POST);
+        // Beállitásra kerül a jogosultség.
+        $privilege  = $_POST['create-user-name'] == 'Admin'     ? 3 : 1;
 
-        die;
-
-        //különben beállitásra kerül a jogosultség
-        $privilege = $_POST['create-user-name'] == 'Admin' ? 3 : 1;
-
+       
         //és a userEntity userRegistry függvényén keresztül beírásra kerül az adatbázisba az új felhasználó.
         $result = $this->user->userRegistry( 
             [            
@@ -89,11 +97,11 @@ class signUpController extends Controller
                 ':userName'     => trim( $user->getUser() ),
                 ':password'     => md5( 'salt'.md5( trim( $pass->getPass() ) ) ),
                 ':dateOfBirth'  => trim( $date->getDate() ),
-                ':privilege'    => $privilege
+                ':privilege'    => $privilege                
             ]
         );
 
-        // Sikertelen reg esetén hibaüzenet és vissza a signUpView-ra
+        // Sikertelen registry esetén hiba üzenet és vissza a signUpView-ra
         if ( !$result )
         {
             $this->datas['errorMessage'] = 'Email is alredy exists!';
@@ -102,15 +110,29 @@ class signUpController extends Controller
             $this->setValues( $user, $email, $pass, $date);
             $this->View( $this->datas, [ 'view' => 'signUp', 'module' => 'User'] );        
 
-            return;
-        }        
+            return 3;
+        }   
+        
+
+        // Konverter osztály paraméterei értékének megállapítása.
+        $image      = @$_FILES['create-user-file']['tmp_name']  ? $_FILES['create-user-file']['tmp_name'] : APPLICATION.'Images/user_blue.png';
+        $mime       = @$_FILES['create-user-file']['type']      ? $_FILES['create-user-file']['type'] : 'image/png';
+
+        // Példányositásra kerül a konverter és a DB osztály.
+        $converter  = new ImageConverter( $image, $mime );
+        $db         = EntityGateway::getDB();
+
+       
+        var_dump($db->InsertImageFromSignUp($converter->cmpBin));
  
         header("Location: ".APPROOT);
+
+        return 0;
     }
 
 
 
-    
+
 
 
 

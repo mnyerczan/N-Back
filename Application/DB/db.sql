@@ -1,8 +1,8 @@
-﻿drop database if exists NBackDB;
-create database NBackDB;
-use NBackDB;
+﻿drop database if exists `NBackDB`;
+create database `NBackDB`;
+use `NBackDB`;
 
-create table users (
+create table IF NOT EXISTS `users` (
     `id` int(8) zerofill unsigned auto_increment primary key, -- unsigned mezőben nem lehet nulla az érték
     `userName` varchar(255) not null,
     `email` varchar(255) not null,
@@ -11,17 +11,30 @@ create table users (
     `privilege` int(2) default '1' not null,
     `birth` date default '1899-01-01',
     `passwordLength` varchar(255) default 0 not null,
-    `fileName` varchar(255) default 'none' not null,
-    `theme` varchar(5) default 'white' not null,
+    -- `fileName` varchar(255) default 'none' not null,
+    `theme` varchar(5) default 'white' not null, 
     `online` int(1) default 0 not null,
     unique ( `email` ),
     index users_id_idx(id)
 )default charset utf8;
 
+
+-- Images
+CREATE TABLE `images`(
+    `userID` INT(8) zerofill unsigned primary key,
+    `imgBin` blob,
+    `update` DATETIME,
+    `create` TIMESTAMP NOT NULL DEFAULT current_timestamp,
+    CONSTRAINT FOREIGN KEY(`userID`) REFERENCES `users`(`id`)
+) ROW_FORMAT=DYNAMIC;
+
 -- Default user
 
 insert into users ( `id`, `userName`, `email`, `privilege`) values
 ('1', 'default', 'd@d.hu', '0');
+
+insert into `images` ( `userId`, `imgBin`) values
+('1', 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7EAAAOxAGVKw4bAAACIUlEQVRYhb3XT4hNYRjH8c9IkiYLSdk4s0DZiJoFC+VuJIqSvRU5WVFkUqxkw8KfnAUbfxIWk5TSpI6FpjAhSVneaZqFhCZpmm43i3PPdHGd+55zr/vbnc5znt/3/XOe93mHlFQtro/gMHZhBE3M4jlupEn0sUy+oRLGcALnsfwfYQ1cxJk0iZoheZeEAuAsLhWYw1KcRhKaNGgGanF9FC+VA96fJtHjbkGhCcdKmuffdFXXGajF9WX4hhUlAZpYmybR56KgkFFtrGCe594SEtRNqyqYB38bAtDoAWChHwAzPQAUrn8owDS+VDBv4F3PAGkSwUQFgMk0iX70DNDSnQoAt0KCQgEm8KGE+Szu9Q2gdbCcLAEwlibRfN8AWhBPcTMg9BFuh+YtW9+P4X3B+2kcam3c/gOkSbSABwUhz9IkmiuTs+wMwIaCd6XPjDId0WocxTlZ49FJ87LNejdNou99AajF9c2tpAcVd0Pt+olxXE6TaKoSQC2ur8cFHFBtqXJNyH7LN0EAtbi+BKdkUx064m5q4ooO9eE3gFpcH5bt8j19Mv5Tr7A3TaLFw20RoDXyJ9j9n8xzTWFHPhPta7tvAOYwiiP5QzvA9gGY59raCaCXnV5Z7aavB+j7thPAQ1wbgPl9XM8fOtWBnTguu/32qw408AJXMd5+WhZVwmFsk10uNmEd1mAlhv19HjRkJXhO1sTO4JOsMZ1Mk+hrJ59f04WC509KSqIAAAAASUVORK5CYII=');
 
 
 -- A userekhez tartozó játék beállítások

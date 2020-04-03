@@ -4,7 +4,7 @@ class ValidateDate extends Validator
 {
     private $date;
     
-    public function __construct( $date ) 
+    public function __construct( $date = null ) 
     {
         $this->date = $date;        
 

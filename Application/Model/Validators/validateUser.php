@@ -7,7 +7,7 @@ class ValidateUser extends Validator
 
 
 
-    public function __construct( $userName )
+    public function __construct( $userName = null)
     {
         $this->user = $userName;
         

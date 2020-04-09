@@ -33,10 +33,6 @@ CREATE TABLE `images`(
 insert into users ( `id`, `userName`, `email`, `privilege`) values
 ('1', 'default', 'd@d.hu', '0');
 
-insert into `images` ( `userId`, `imgBin`) values
-('1', 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7EAAAOxAGVKw4bAAACIUlEQVRYhb3XT4hNYRjH8c9IkiYLSdk4s0DZiJoFC+VuJIqSvRU5WVFkUqxkw8KfnAUbfxIWk5TSpI6FpjAhSVneaZqFhCZpmm43i3PPdHGd+55zr/vbnc5znt/3/XOe93mHlFQtro/gMHZhBE3M4jlupEn0sUy+oRLGcALnsfwfYQ1cxJk0iZoheZeEAuAsLhWYw1KcRhKaNGgGanF9FC+VA96fJtHjbkGhCcdKmuffdFXXGajF9WX4hhUlAZpYmybR56KgkFFtrGCe594SEtRNqyqYB38bAtDoAWChHwAzPQAUrn8owDS+VDBv4F3PAGkSwUQFgMk0iX70DNDSnQoAt0KCQgEm8KGE+Szu9Q2gdbCcLAEwlibRfN8AWhBPcTMg9BFuh+YtW9+P4X3B+2kcam3c/gOkSbSABwUhz9IkmiuTs+wMwIaCd6XPjDId0WocxTlZ49FJ87LNejdNou99AajF9c2tpAcVd0Pt+olxXE6TaKoSQC2ur8cFHFBtqXJNyH7LN0EAtbi+BKdkUx064m5q4ooO9eE3gFpcH5bt8j19Mv5Tr7A3TaLFw20RoDXyJ9j9n8xzTWFHPhPta7tvAOYwiiP5QzvA9gGY59raCaCXnV5Z7aavB+j7thPAQ1wbgPl9XM8fOtWBnTguu/32qw408AJXMd5+WhZVwmFsk10uNmEd1mAlhv19HjRkJXhO1sTO4JOsMZ1Mk+hrJ59f04WC509KSqIAAAAASUVORK5CYII=');
-
-
 -- A userekhez tartozó játék beállítások
 
 

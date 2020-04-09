@@ -366,8 +366,15 @@ class MySql extends baseDbApi implements DBInterface
         {
             /**
              * baseDbApi::$connect
+             * 
+             * ARRR_PERSISTENT -> állandó adatbázis kapcsolat fenntartása új szálak generálása helyett. Gyorsabb.
              */
-            self::$connect = new PDO( "mysql:host=".self::$host.";dbname=".self::$database.";charset=utf8", self::$user, self::$pass );            
+            self::$connect = new PDO( 
+                "mysql:host=".self::$host.";dbname=2".self::$database.";charset=utf8", 
+                self::$user, 
+                self::$pass,
+                [PDO::ATTR_PERSISTENT => true]
+            );
         }
         catch( PDOException $e ) 
         {           

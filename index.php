@@ -1,4 +1,8 @@
 ﻿<?php 	
+
+
+
+
 	define('URI', explode('?', $_SERVER['REQUEST_URI'])[0]);
 
 	//Aktuális idő konstans
@@ -12,6 +16,7 @@
 	
 	// Temp file útvonal
 	define('TMP_PATH'			, APPLICATION.'Tmp/');
+
 
 
 	$num = count(explode( '/' , URI ) ) - 2;

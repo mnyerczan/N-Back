@@ -1,7 +1,7 @@
 <?php
 use DB\EntityGateway;
 
-require_once APPLICATION.'DB/entityGateway.php';
+require_once APPLICATION.'DB/EntityGateway.php';
 
 class Menus
 {
@@ -13,7 +13,7 @@ class Menus
 
     function __construct( $userPrivilege )
     {
-        $this->database = EntityGateway::getDB(); 
+        $this->database = EntityGateway::GetInstance(); 
         $this->userPrivilege = $userPrivilege;
         
 

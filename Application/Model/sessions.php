@@ -4,7 +4,7 @@ namespace Model;
 
 use DB\EntityGateway;
 
-require_once APPLICATION.'DB/entityGateway.php';
+require_once APPLICATION.'DB/EntityGateway.php';
 
 class Sessions
 {
@@ -25,7 +25,7 @@ class Sessions
     function __construct( int $userID, int $askAllSession = 0 )
     {
 
-        $this->database = EntityGateway::getDB();
+        $this->database = EntityGateway::GetInstance();
         $this->userID   = $userID;
 
         if ( $askAllSession === 1 )

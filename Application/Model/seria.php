@@ -9,7 +9,7 @@ class Seria
 
     public function __construct( int $uid )
     {
-        $this->dbObject = EntityGateway::getDB();                   
+        $this->dbObject = EntityGateway::GetInstance();                   
 
         $this->result = $this->GetResult( $uid );
         $this->seria  = $this->CalculateSeria();      

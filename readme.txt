@@ -17,8 +17,8 @@ sudo chmod -R 777 /log
 #Képfeltöltéshez: 
 #(akt verz.)
 
-sudo apt -y install php7.2-mysql
-sudo apt -y install php7.2-gd 
+sudo apt -y install php7.3-mysql
+sudo apt -y install php7.3-gd 
 #-PDO: 
 sudo apt -y install pkg-php-tools
 

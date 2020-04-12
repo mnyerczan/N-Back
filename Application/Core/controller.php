@@ -15,11 +15,13 @@ class Controller
 {    
     // osztály invariáns - az osztály lehetéges állapotait írja le
     protected   $user,
-                $datas;
+                $datas,
+                $db;                
 
     function __construct()
     {
         $this->user = UserEntity::GetInstance();  
+        $this->db   = EntityGateway::GetInstance();
     }
 
 /**

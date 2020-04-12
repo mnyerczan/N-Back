@@ -30,16 +30,12 @@
 
         <?php if ( $user->userName == 'Admin' ): ?>
 
-        <label for="cu-privilege"><?= $privilegeLabel ?></label>
-        <input id="cu-privilege" type="number" name="create-user-privilege" minlength="4" name="create-user-privilege" value="1" step="1" max="3" min="1" >    
+            <label for="cu-privilege"><?= $privilegeLabel ?></label>
+            <input id="cu-privilege" type="number" name="create-user-privilege" minlength="4" name="create-user-privilege" value="1" step="1" max="3" min="1" >    
 
         <?php endif ?>
 
-        <div id="show-file-path"></div>        
-
-        <input id="cu-file" type="file" name="create-user-file"  accept="image/*">         
-        <label for="cu-file" id="cu-file-lbl" class="btn btn-rng " >Choose an image</label>
-
+    
         <input type="submit" name="cu-submit" id="cu-submit" value="Save" class="btn btn-save" title="Save">                
     </form>
 </main>

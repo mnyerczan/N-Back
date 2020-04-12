@@ -883,8 +883,7 @@ function LogLn($level, $message)
 			$logfile,
 			$now;
 
-	if($error_level >$level) 
-		file_put_contents($logfile, "[".$now->format("Y-m-d H:i:s.u")."][".$_SERVER['REMOTE_ADDR']."]".$message.PHP_EOL, $log_param_1);
+	if($error_level > $level) 
+		file_put_contents(APPLICATION.$logfile, "[".date("Y-m-d H:i:s")."][{$_SERVER['REMOTE_ADDR']}]".$message.PHP_EOL, $log_param_1);
 }
 
-?>

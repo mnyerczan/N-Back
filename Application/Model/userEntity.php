@@ -12,7 +12,7 @@ class UserEntity
 			$INSTANCE = NULL;
 	private
 			$loged,
-			$dbObject,	 		
+			$object,	 		
 			$datas = [];			
 
 
@@ -23,7 +23,7 @@ class UserEntity
 			session_start();
 
 			self::$INSTANCE = new self();    
-
+			
 			self::$INSTANCE->Load( $_SESSION['userId'] ?? 1 );    		
 						
         }               
@@ -32,17 +32,13 @@ class UserEntity
 	
 	public function getUsersCount()
 	{
-		return $this->dbObject->getUsersCount()[0];
+		return $this->object->getUsersCount()[0];
 	}
 
-	public function userRegistry( $datas )
-	{
-		return $this->dbObject->userRegistry( $datas );
-	}
 
 	private function __construct()
     {
-		$this->dbObject = EntityGateway::getDB();
+		$this->object = EntityGateway::GetInstance();
 		
 		$this->datas['id'] 				= 1;		
 		$this->datas['userName'] 		= 'Guest';
@@ -103,24 +99,19 @@ class UserEntity
     }
     
 
-	function Load( $userId ): string
+	function Load( int $userId ): string
     {			
-		$result = $this->dbObject->getUser( [ ':userId' => $userId ]  );	
-			
-
-		if( 1 == count( $result ))
-		{		
-			$this->SetUser( $result[0] );			
-	
-			return $this->loged = true;
-		}        		
-
-		return $this->loged = false;
+		$result = $this->object->getUser( [ ':userId' => $userId ]  );	
+				
+		$this->SetUser( $result[0] );			
+					     		
+		return $this->loged = true;
 	}
 
     function Login( string $email, string $password ): string
     {		
-		$result = $this->dbObject->getUser( [ ":email" => $email, ":password" => md5( "salt".md5( $password ) ) ]  );					
+		$result = $this->object->getUser( [ ":email" => $email, ":password" => md5( "salt".md5( $password ) ) ]  );					
+	
 
 		if( 1 == count( $result ))
 		{		
@@ -155,7 +146,7 @@ class UserEntity
 		$this->datas['birth']			= $result->birth;
 		$this->datas['passwordLength']	= $result->passwordLength;
 
-		$this->datas['imgBin']			= $result->imgBin;		
+		//$this->datas['imgBin']			= $result->imgBin;		
 		$this->datas['theme']			= $result->theme;
 		$this->datas['refresh'] 		= $result->refresh;
 

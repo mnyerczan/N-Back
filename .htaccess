@@ -1,3 +1,4 @@
+#sudo a2enmod rewrite && sudo service apache2 restart
 <IFModule mod_rewrite.c>
     RewriteEngine On
     RewriteCond %{REQUEST_FILNAME} !-f

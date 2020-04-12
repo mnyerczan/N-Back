@@ -11,7 +11,7 @@ class Home
 
     function __construct()
     {
-        $this->database = EntityGateway::getDB();        
+        $this->database = EntityGateway::GetInstance();        
         
     }
 

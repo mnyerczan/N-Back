@@ -43,24 +43,13 @@ class signInController extends Controller
         $email = new ValidateEmail( $_POST['signIn-email'] );
         $pass = new ValidatePassword( $_POST['signIn-pass'] );
 
-        if ( $email->errorMsg || $pass->errorMsg )
-        {            
-
-            $this->datas['emailLabel']      = $email->errorMsg ?? 'email';
-            $this->datas['passwordLabel']   = $pass->errorMsg ?? 'password';
-            $this->datas['message']         = 'Sign In';
-                    
-            $this->View( $this->datas, [ 'view' => 'signIn', 'module' => 'User'] );
-
-            return;
-        }
-
+        
 
         if ( !$this->user->Login( $_POST['signIn-email'], $_POST['signIn-pass'] ) )
         {
 
-            $this->datas['emailLabel']      = $email->errorMsg ?? 'email';
-            $this->datas['passwordLabel']   = $pass->errorMsg ?? 'password';
+            $this->datas['emailLabel']      = $email->errorMsg ?? 'Email';
+            $this->datas['passwordLabel']   = $pass->errorMsg ?? 'Password';
             $this->datas['message']         = 'Email or password is invalid!';
                     
             $this->View( $this->datas, [ 'view' => 'signIn', 'module' => 'User'] );
@@ -75,8 +64,8 @@ class signInController extends Controller
     function Action()
     {    
 
-        $this->datas['emailLabel'] = 'E-mail';
-        $this->datas['passwordLabel'] = 'Password';
+        $this->datas['emailLabel']      = 'E-mail';
+        $this->datas['passwordLabel']   = 'Password';
         $this->datas['message']         = 'Sign In';
 
         $this->View( $this->datas, [ 'view' => 'signIn', 'module' => 'User'] );

@@ -17,6 +17,8 @@ class signUpController extends Controller
 
     function __construct($matches)
     {                 
+        $this->db  = EntityGateway::GetInstance();
+
         parent::__construct();
         $this->SetDatas();        
                    
@@ -54,15 +56,8 @@ class signUpController extends Controller
      *  4   database erroe(image data)
      */
     private function submitAction()
-    {          
-        //Ha nem POST metódussal hívja a kontrollert, rewrite.
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || @!$_POST['cu-submit']) 
-        {
-            header("Location: ".APPROOT); 
-            return 1;
-        } 
-
-
+    {                  
+ 
         $email  = new ValidateEmail(    @$_POST['create-user-email'] );
         $pass   = new ValidatePassword( @$_POST['create-user-pass']  );
         $user   = new ValidateUser(     @$_POST['create-user-name']  );
@@ -87,11 +82,12 @@ class signUpController extends Controller
      
 
         // Beállitásra kerül a jogosultség.
-        $privilege  = $_POST['create-user-name'] == 'Admin'     ? 3 : 1;
+        $privilege  = $_POST['create-user-name'] == 'Admin' ? 3 : 1;
 
-       
+               
+        //$this->db->StartTransaction();
         //és a userEntity userRegistry függvényén keresztül beírásra kerül az adatbázisba az új felhasználó.
-        $result = $this->user->userRegistry( 
+        $result = $this->db->userRegistry( 
             [            
                 ':email'        => trim( $email->getEmail() ),
                 ':userName'     => trim( $user->getUser() ),
@@ -104,6 +100,8 @@ class signUpController extends Controller
         // Sikertelen registry esetén hiba üzenet és vissza a signUpView-ra
         if ( !$result )
         {
+            $this->db->Rollback;
+
             $this->datas['errorMessage'] = 'Email is alredy exists!';
             $this->datas['userEmailValue'] = null;
 
@@ -115,16 +113,24 @@ class signUpController extends Controller
         
 
         // Konverter osztály paraméterei értékének megállapítása.
-        $image      = @$_FILES['create-user-file']['tmp_name']  ? $_FILES['create-user-file']['tmp_name'] : APPLICATION.'Images/user_blue.png';
-        $mime       = @$_FILES['create-user-file']['type']      ? $_FILES['create-user-file']['type'] : 'image/png';
+        //$image      = @$_FILES['create-user-file']['tmp_name']  ? $_FILES['create-user-file']['tmp_name'] : APPLICATION.'Images/user_blue.png';
+        //$mime       = @$_FILES['create-user-file']['type']      ? $_FILES['create-user-file']['type'] : 'image/png';
 
         // Példányositásra kerül a konverter és a DB osztály.
-        $converter  = new ImageConverter( $image, $mime );
-        $db         = EntityGateway::getDB();
+        /*
+        try
+        {
+            $converter  = new ImageConverter( $image, $mime );        
 
-       
-        var_dump($db->InsertImageFromSignUp($converter->cmpBin));
- 
+            if ($this->db->InsertImageFromSignUp($converter->cmpBin))
+                $this->db->Rollback;
+        }        
+        catch (InvalidArgumentException $e)
+        {
+            $this->db->Commit();
+        }
+         
+        */
         header("Location: ".APPROOT);
 
         return 0;

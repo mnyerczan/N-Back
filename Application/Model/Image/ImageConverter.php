@@ -45,6 +45,7 @@ class ImageConverter
      *  1   Can't create file on APPLICATION/TMP_PATH/
      *  2   Unlink unsuccesfull
      *  3   Mime type is invalid
+     *  4   Doesent exists Tmp dir
      */
     private function CompressImage()
     {      
@@ -65,6 +66,14 @@ class ImageConverter
             // ne ugyan azt a fájlt akarja feldolgozni.            
             $fileName = md5(rand(0, 1000000)).'.jpeg';
             
+            # Mappa létezésének leellenőrzése
+            if (!is_dir($this->tmp))
+                if (!mkdir($this->tmp, 0777))
+                {
+                    LogLn(1, 'Do not exists /tmp and cant\'t create it!');
+                    return 4;
+                }            
+
             //Tömörítés. Sajnos csak file létrehozással tudom eddig.
             if (!imagejpeg($compressedImage, $this->tmp.$fileName, $this->requiredSize)) 
                 return 1;
@@ -99,20 +108,18 @@ class ImageConverter
         if ($requiredSize > 100 || $requiredSize < 0)
         {
             throw new InvalidArgumentException('Value of required size argument is invalid');
-            return false;
         }
 
         if (is_file($path))
         {
-            $this->bin          = file_get_contents($this->tmp_name);
-            $this->origin       = addslashes(base64_encode($this->bin));     
+            $this->bin      = file_get_contents($this->tmp_name);
+            $this->origin   = addslashes(base64_encode($this->bin));     
 
             if ($mime)
             {
                 if ($error = $this->CompressImage())            
                 {                 
-                    throw new InvalidArgumentException($error);
-                    return false;
+                    throw new InvalidArgumentException($error);             
                 }                
             }
         }        

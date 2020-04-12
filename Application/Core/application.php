@@ -6,7 +6,7 @@ use Login\UserEntity;
 require_once APPLICATION.'Model/userEntity.php';
 require_once APPLICATION.'Interfaces/DBInterface.php';
 require_once APPLICATION.'DB/MySql.php';
-require_once APPLICATION.'DB/entityGateway.php';
+require_once APPLICATION.'DB/EntityGateway.php';
 
 
 require_once "_globals.php";
@@ -21,28 +21,26 @@ final class Application
 
     function route()
     {                 
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>)/?' ), 'mainController' );    
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>)/?' ), 'mainController' , 'get');    
         //$this->addRoute( $this->Path( APPROOT.'(?<controller>user)' ), 'userController' );
               
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>signUp)/?' ), 'signUpController' );                
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>signUp)/(?<action>submit)' ), 'signUpController' );        
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>signUp)/?' ), 'signUpController' , 'get');                
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>signUp)/(?<action>submit)' ), 'signUpController', 'post' );        
         
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>signIn)/?' ), 'signInController' );
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>signIn)/(?<action>submit)' ), 'signInController' );
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>logUot)' ), 'logUotController' );
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>signIn)/?' ), 'signInController' , 'get');
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>signIn)/(?<action>submit)' ), 'signInController', 'post' );
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>logUot)' ), 'logUotController' , 'get');
         
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>user)/?' ), 'userController' );        
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>settings)/?' ), 'settingsController' );        
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>nBack)/?' ), 'nBackController' );        
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>documents)/?' ), 'documentsController' );
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>user)/?' ), 'userController','get' );
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>settings)/?' ), 'settingsController','get' );        
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>nBack)/?' ), 'nBackController','get' );        
+        $this->addRoute( $this->Path( APPROOT.'(?<controller>documents)/?' ), 'documentsController','get' );
+                        
 
-        
-
-        foreach( $this->routes as $pattern => $controller )
-        {    
+        foreach( $this->routes[$_SERVER['REQUEST_METHOD']] as $pattern => $controller )
+        {                
             if( preg_match( $pattern, URI, $matches ) )
             {      
-
                 require_once APPLICATION."Controllers/{$controller}.php";
                 new $controller( $matches );
                 die;
@@ -54,9 +52,10 @@ final class Application
                         
     }    
 
-    private function addRoute( string $action, string $controller )
+    private function addRoute( string $pattern, string $controller, string $method )
     {
-        $this->routes[$action] = $controller;
+        $method = strtoupper($method);
+        $this->routes[$method][$pattern] = $controller;
     }
 
 

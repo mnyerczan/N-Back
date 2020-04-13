@@ -20,11 +20,11 @@ class ValidateDate extends Validator
     {
         $currentDate    = strtotime(date('Y-m-d'));
         $gettedDate     = strtotime( $this->date );
+                        
 
-
-        if ( $currentDate < $gettedDate ) 
+        if ( !preg_match("%^\d[4]-\d[2]-\d[2]$%", $this->date) || $currentDate < $gettedDate ) 
         {
-            $this->setError('Invalide date! Value must be lower then current date!');
+            $this->setError('Invalide date! Maybe the value is lower then current date.');
 
         }
     }

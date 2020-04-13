@@ -102,7 +102,7 @@ function CheckName()
 
 function init()
 {
-    _$('cu-file').addEventListener( 'change', showImage );
+    //_$('cu-file').addEventListener( 'change', showImage );
     _$('create-user-form').addEventListener( 'submit', Validattor );
     _$('cu-name').addEventListener( 'keyup', CheckName );
     _$('cu-mail').addEventListener( 'keyup', CheckMail );

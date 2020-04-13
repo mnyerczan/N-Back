@@ -1,8 +1,5 @@
 ﻿<?php 	
 
-
-
-
 	define('URI', explode('?', $_SERVER['REQUEST_URI'])[0]);
 
 	//Aktuális idő konstans

@@ -17,6 +17,8 @@ class UserEntity
 			$datas = [];			
 
 
+
+
 	public static function GetInstance(): object
     {
 		if ( self::$INSTANCE == NULL )		
@@ -36,16 +38,24 @@ class UserEntity
         return self::$INSTANCE;
 	}
 	
+
+
+	
+	private function __construct()
+    {		
+		$this->object = EntityGateway::GetInstance();		
+	}
+
+
+
 	public function getUsersCount()
 	{		
 		return $this->object->getUsersCount()[0];
 	}
 
 
-	private function __construct()
-    {		
-		$this->object = EntityGateway::GetInstance();		
-	}
+
+
 	private function LoadAnonim()
 	{		
 		$this->datas['id'] 				= 1;		

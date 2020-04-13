@@ -21,20 +21,19 @@ final class Application
 
     function route()
     {                 
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>)/?' ), 'mainController' , 'get');    
-        //$this->addRoute( $this->Path( APPROOT.'(?<controller>user)' ), 'userController' );
-              
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>signUp)/?' ), 'signUpController' , 'get');                
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>signUp)/(?<action>submit)' ), 'signUpController', 'post' );        
+        $this->addRoute( APPROOT.'(?<controller>)/?' , 'HomeController' , 'get');    
+                      
+        $this->addRoute( APPROOT.'(?<controller>signUp)/?' , 'signUpController' , 'get');                
+        $this->addRoute( APPROOT.'(?<controller>signUp)/(?<action>submit)' , 'signUpController', 'post' );        
         
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>signIn)/?' ), 'signInController' , 'get');
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>signIn)/(?<action>submit)' ), 'signInController', 'post' );
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>logUot)' ), 'logUotController' , 'get');
+        $this->addRoute( APPROOT.'(?<controller>signIn)/?' , 'signInController' , 'get');
+        $this->addRoute( APPROOT.'(?<controller>signIn)/(?<action>submit)' , 'signInController', 'post' );
+        $this->addRoute( APPROOT.'(?<controller>logUot)' , 'logUotController' , 'get');
         
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>user)/?' ), 'userController','get' );
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>settings)/?' ), 'settingsController','get' );        
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>nBack)/?' ), 'nBackController','get' );        
-        $this->addRoute( $this->Path( APPROOT.'(?<controller>documents)/?' ), 'documentsController','get' );
+        $this->addRoute( APPROOT.'(?<controller>user)/?' , 'userController','get' );
+        $this->addRoute( APPROOT.'(?<controller>settings)/?', 'settingsController','get' );        
+        $this->addRoute( APPROOT.'(?<controller>nBack)/?', 'nBackController','get' );        
+        $this->addRoute( APPROOT.'(?<controller>documents)/?' , 'documentsController','get' );
                         
 
         foreach( $this->routes[$_SERVER['REQUEST_METHOD']] as $pattern => $controller )
@@ -55,21 +54,19 @@ final class Application
     private function addRoute( string $pattern, string $controller, string $method )
     {
         $method = strtoupper($method);
-        $this->routes[$method][$pattern] = $controller;
+        $this->routes[$method]["`^{$pattern}$`"] = $controller;
     }
 
 
-    private function Path( string $path ): string
-    {
-        return "`^{$path}$`";
-    }
 
+    /**
+     * Nincs implementálva....
+     */
     function Session()
     {    
-
         if(isset($_GET['exit']))
         {				
-            $result = ( EntityGateway::getDB() )->Select("UPDATE users SET `online` = 0 WHERE userName = :name ", [':name' => $_SESSION['userName']]);
+            $result = ( EntityGateway::GetInstance() )->Select("UPDATE users SET `online` = 0 WHERE userName = :name ", [':name' => $_SESSION['userName']]);
     
             if( !$result && @$_COOKIE[session_name()])
             {

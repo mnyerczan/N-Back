@@ -27,9 +27,9 @@
         <ul id="header-list">
             <li title="Go to profile">		      
                 <?php if ($header->imgBin): ?>          
-                    <img src="data:image/*;base64,<?= $header->imgBin?>">
+                    <img class="profile-img" src="data:image/*;base64,<?= $header->imgBin?>">
                 <?php else: ?>
-                    <img src="<?=APPLICATION?>Images/user_blue.png">
+                    <img class="profile-img" src="<?=APPLICATION?>Images/user_blue.png">
                 <?php endif ?>
                 <section class="drop-down-container">    
                     <a href="<?=APPROOT?>user" title="Go to profile">					

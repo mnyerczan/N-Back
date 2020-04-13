@@ -26,7 +26,7 @@ class ValidateUser extends Validator
 
     function validate() 
     {
-        if (!preg_match('/^\D+$/',$this->user )) 
+        if (!preg_match('/^\w+$/',$this->user )) 
         {
             $this->setError('Username contains invalid characters');
             return;

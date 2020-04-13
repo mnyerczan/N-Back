@@ -11,7 +11,7 @@ require_once APPLICATION.'Model/navbar.php';
 require_once APPLICATION.'Model/indicator.php';
 require_once APPLICATION.'Model/header.php';
 
-class Controller
+class MainController
 {    
     // osztály invariáns - az osztály lehetéges állapotait írja le
     protected   $user,

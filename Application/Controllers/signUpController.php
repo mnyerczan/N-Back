@@ -10,9 +10,10 @@ require_once APPLICATION.'Model/Validators/validatePassword.php';
 require_once APPLICATION.'Model/Validators/validateDate.php';
 require_once APPLICATION.'Model/Image/ImageConverter.php';
 
-require_once APPLICATION.'Core/controller.php';
+require_once APPLICATION.'Core/MainController.php';
 
-class signUpController extends Controller
+
+class signUpController extends MainController
 {
 
     function __construct($matches)
@@ -29,14 +30,14 @@ class signUpController extends Controller
         }
         else
         {
-            $this->Action();
+            $this->FormAction();
         }        
     }
 
 
 
 
-    function Action()
+    function FormAction()
     {     
         $this->setValues();        
         $this->View( $this->datas, [ 'view' => 'signUp', 'module' => 'User'] );
@@ -62,7 +63,8 @@ class signUpController extends Controller
         $pass   = new ValidatePassword( @$_POST['create-user-pass']  );
         $user   = new ValidateUser(     @$_POST['create-user-name']  );
         $date   = new ValidateDate (    @$_POST['create-user-date']  );                
-    
+        
+
         //Ha valamelyik adat nem felel meg a mintának
         if ( $email->errorMsg || $pass->errorMsg || $user->errorMsg || $date->errorMsg )
         {      
@@ -87,7 +89,7 @@ class signUpController extends Controller
                
         //$this->db->StartTransaction();
         //és a userEntity userRegistry függvényén keresztül beírásra kerül az adatbázisba az új felhasználó.
-        $result = $this->user->userRegistry( 
+        $result = $this->db->userRegistry( 
             [            
                 ':email'        => trim( $email->getEmail() ),
                 ':userName'     => trim( $user->getUser() ),
@@ -99,14 +101,14 @@ class signUpController extends Controller
 
         // Sikertelen registry esetén hiba üzenet és vissza a signUpView-ra
         if ( !$result )
-        {
-            $this->db->Rollback;
+        {            
+            //$this->db->Rollback();
 
             $this->datas['errorMessage'] = 'Email is alredy exists!';
             $this->datas['userEmailValue'] = null;
 
             $this->setValues( $user, $email, $pass, $date);
-            $this->View( $this->datas, [ 'view' => 'signUp', 'module' => 'User'] );        
+            $this->FormAction();        
 
             return 3;
         }   
@@ -165,7 +167,7 @@ class signUpController extends Controller
         $this->datas['userEmailValue']  = $crEmail;
 
 
-        $this->datas['enableNameInput'] = $this->datas['userNameValue'] ? 'readonly' : ''; 
+        $this->datas['enableNameInput'] = $this->datas['userNameValue'] === 'Admin' ? 'readonly' : ''; 
 
 
     }

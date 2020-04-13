@@ -3,11 +3,12 @@
 use Login\UserEntity;
 use Model\Image\ImageConverter;
 
-require_once APPLICATION.'Core/controller.php';
+require_once APPLICATION.'Core/MainController.php';
+
 require_once APPLICATION.'Model/Image/ImageConverter.php';
 
 
-class userController extends Controller
+class userController extends MainController
 {
 
     function __construct()

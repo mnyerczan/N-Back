@@ -2,11 +2,9 @@
 
 
 require_once APPLICATION.'Model/home.php';
+require_once APPLICATION.'Core/MainController.php';
 
-
-require_once APPLICATION.'Core/controller.php';
-
-class MainController extends Controller
+class HomeController extends MainController
 {
 
 
@@ -24,7 +22,7 @@ class MainController extends Controller
   
     function Action()
     {                            
-        $this->View( $this->datas, ['view' => 'main', 'module' => 'Main'] );
+        $this->View( $this->datas, ['view' => 'home', 'module' => 'Home'] );
     }
                  
 }

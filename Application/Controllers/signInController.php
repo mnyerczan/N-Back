@@ -11,10 +11,11 @@ require_once APPLICATION.'Model/Validators/validateEmail.php';
 require_once APPLICATION.'Model/Validators/validateUser.php';
 require_once APPLICATION.'Model/Validators/validatePassword.php';
 
-require_once APPLICATION.'Core/controller.php';
+require_once APPLICATION.'Core/MainController.php';
 
 
-class signInController extends Controller
+
+class signInController extends MainController
 {
 
     function __construct( $matches )
@@ -34,7 +35,7 @@ class signInController extends Controller
         }
         else
         {
-            $this->Action();
+            $this->FormAction();
         }                
     }
 
@@ -61,7 +62,7 @@ class signInController extends Controller
         header( "Location: ".APPROOT );        
     }
 
-    function Action()
+    function FormAction()
     {    
 
         $this->datas['emailLabel']      = 'E-mail';

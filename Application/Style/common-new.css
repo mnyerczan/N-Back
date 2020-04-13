@@ -46,6 +46,10 @@ a {
 	display: block;
 	float: right;
 }
+.main-header .profile-img {
+	width: 25px;
+	padding: 0;
+}
 
 .hdr-coordinate-bx {
    	min-width: 300px;   

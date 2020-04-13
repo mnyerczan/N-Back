@@ -103,8 +103,7 @@ class MySql extends baseDbApi
     
 
     public function Execute( string $script, array $params = [] ): bool
-    {    
-            
+    {            
         try
         {
             if ( !$statement =  self::$connect->prepare( $script ) )
@@ -147,8 +146,9 @@ class MySql extends baseDbApi
         catch( PDOException $e )
         {
             error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '{addslashes($script)}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
-            
-            return false;
+                        
+
+            return $statement->errorInfo()[1];
         }
     }
     

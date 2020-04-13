@@ -3,10 +3,6 @@
 use Login\UserEntity;
 use Model\Image\ImageConverter;
 
-require_once APPLICATION.'Core/MainController.php';
-
-require_once APPLICATION.'Models/Image/ImageConverter.php';
-
 
 class userController extends MainController
 {
@@ -23,6 +19,11 @@ class userController extends MainController
 
     private function Action()
     {   
-        $this->View( $this->datas, ['view' => 'profile', 'module' => 'User' ]  );
+        $this->Response( $this->datas, [
+            'view'      => 'profile', 
+            'module'    => 'User',
+            "title"     =>  'User'
+            ]  
+        );
     }
 }

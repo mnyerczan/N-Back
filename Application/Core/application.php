@@ -3,10 +3,6 @@
 use DB\EntityGateway;
 use Login\UserEntity;
 
-require_once APPLICATION.'Models/userEntity.php';
-require_once APPLICATION.'Interfaces/DBInterface.php';
-require_once APPLICATION.'DB/MySql.php';
-require_once APPLICATION.'DB/EntityGateway.php';
 
 
 require_once "_globals.php";
@@ -45,9 +41,8 @@ final class Application
                 die;
             }
         }
-
-        require_once APPLICATION."Controllers/_404Controller.php";
-        new _404Controller();
+        
+        new NotFoundController();
                         
     }    
 

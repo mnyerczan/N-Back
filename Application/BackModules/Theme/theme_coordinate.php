@@ -24,12 +24,12 @@ require_once 'special_characters_handler.php';
 
 
 
-$user = new UserEntity( EntityGateway::getDB() );
+$user = new UserEntity( EntityGateway::getInstance() );
 
 
-$user->Load( $_SESSION['userName'], $_SESSION['password'] );
+$user->LoadUser( $_SESSION['userName'], $_SESSION['password'] );
 
 
-$theme = new Theme( EntityGateway::getDB(), $_GET['theme'] );
+$theme = new Theme( EntityGateway::getInstance(), $_GET['theme'] );
 
 $theme->UpdateTheme( $user->id );

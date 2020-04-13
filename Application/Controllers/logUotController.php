@@ -1,6 +1,7 @@
 <?php
 
-class logUotController
+
+class logUotController extends MainController
 {
     function __construct()
     {
@@ -13,6 +14,6 @@ class logUotController
 
         session_destroy();
 
-        header('Location: '.APPROOT);
+        $this->Response([], ['view' => 'redirect:/']);
     }
 }

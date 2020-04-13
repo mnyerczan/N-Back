@@ -6,12 +6,6 @@ use Login\UserEntity;
 use Model\Sessions;
 
 
-require_once APPLICATION.'Models/Validators/validator.php';
-require_once APPLICATION.'Models/Validators/validateEmail.php';
-require_once APPLICATION.'Models/Validators/validateUser.php';
-require_once APPLICATION.'Models/Validators/validatePassword.php';
-
-require_once APPLICATION.'Core/MainController.php';
 
 
 
@@ -53,13 +47,13 @@ class signInController extends MainController
             $this->datas['passwordLabel']   = $pass->errorMsg ?? 'Password';
             $this->datas['message']         = 'Email or password is invalid!';
                     
-            $this->View( $this->datas, [ 'view' => 'signIn', 'module' => 'User'] );
+            $this->Response( $this->datas, [ 'view' => 'signIn', 'module' => 'User'] );
 
             return;
         }
                 
         
-        header( "Location: ".APPROOT );        
+        $this->Response([], ['view' => 'redirect:/']);
     }
 
     function FormAction()
@@ -69,6 +63,6 @@ class signInController extends MainController
         $this->datas['passwordLabel']   = 'Password';
         $this->datas['message']         = 'Sign In';
 
-        $this->View( $this->datas, [ 'view' => 'signIn', 'module' => 'User'] );
+        $this->Response( $this->datas, [ 'view' => 'signIn', 'module' => 'User'] );
     }
 }

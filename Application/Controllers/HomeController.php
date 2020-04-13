@@ -1,8 +1,6 @@
 <?php
 
 
-require_once APPLICATION.'Models/home.php';
-require_once APPLICATION.'Core/MainController.php';
 
 class HomeController extends MainController
 {
@@ -22,7 +20,7 @@ class HomeController extends MainController
   
     function Action()
     {                            
-        $this->View( $this->datas, ['view' => 'home', 'module' => 'Home'] );
+        $this->Response( $this->datas, ['view' => 'home', 'module' => 'Home'] );
     }
                  
 }

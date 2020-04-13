@@ -4,12 +4,8 @@ use DB\EntityGateway;
 use Login\UserEntity;
 use Model\Sessions;
 
-require_once APPLICATION.'Models/sessions.php';
-require_once APPLICATION.'Models/seria.php';
-require_once APPLICATION.'Models/home.php';
-require_once APPLICATION.'Models/navbar.php';
-require_once APPLICATION.'Models/indicator.php';
-require_once APPLICATION.'Models/header.php';
+
+
 
 class MainController
 {    
@@ -19,7 +15,7 @@ class MainController
 
     function __construct()
     {
-        $this->user = UserEntity::GetInstance();  
+        $this->user = UserEntity::GetInstance();
     }
 
 /**
@@ -28,17 +24,12 @@ class MainController
  * @param array $datas Get datas for render views
  * @param array $viewModule Get name of view and module
  */
-    protected function View (array $datas = [], array $viewModule = []): void // utófeltétel - visszatérési érték, objektum állapot változás
+    protected function Response(array $models = [], array $viewAndModule = []): void 
     {             
-        extract( $datas );   
-        extract( $viewModule ); 
-         
-        
-        unset( $datas ); 
-        unset( $viewModule );    
-            
+        $responseFactory = new ResponseFactory(new ViewRenderer);
+        $response = $responseFactory->createResponse([$viewAndModule, $models]);
 
-        require_once APPLICATION."Templates/_layout.php";     
+        (new ResponseEmitter)->emit($response);        
     }   
     
     protected function SetDatas()

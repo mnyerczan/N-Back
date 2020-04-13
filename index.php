@@ -1,6 +1,14 @@
-﻿<?php 	
+<?php
 
-	define('URI', explode('?', $_SERVER['REQUEST_URI'])[0]);
+    declare(strict_types=1);
+        
+    //$response = new Response('{"body":"22"}', ["content-type" => "application/json"], 200, "Ok");
+    //$emitter  = new ResponseEmitter();
+    //$emitter->emit($response);
+    //die;
+
+
+    define('URI', explode('?', $_SERVER['REQUEST_URI'])[0]);
 
 	//Aktuális idő konstans
 	define('CURRENT_TIMESTAMP'	, date('s') );
@@ -50,21 +58,21 @@
 /**
  * Hibaüzenetek kiírásának futásidejű engedélyezése.
  */
-	ini_set("display_errors", 1);
+	ini_set("display_errors", "1");
 
 
 /**
  * Set error logging
  */
 	ini_set('error_log', APPLICATION.'Log/error.log');
-	ini_set("log_errors", 0);
+	ini_set("log_errors", "0");
 
 
 /**
  * Ennek a függvénynek a hatása, hogy a kimenetet nem írja bele egyből a HTTP üzenettőrzsbe, 
- * hanem be-cache-eli, és csak az ob_end() után írja bele. A fejléctartalma kiírásakor lehet hasznos.
+ * hanem be- "kesseli", és csak az ob_end() után írja bele. A fejléctartalma kiírásakor lehet hasznos.
  */
-	//ob_start();
+	ob_start();
 
 
 
@@ -72,6 +80,35 @@
 # php SESSION_ID lifetime 24p.
 	/* if($user->id > 1) 
 		header("refresh: 1440; url=http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"); */
+                            
+
+    require_once APPLICATION.'Interfaces/DBInterface.php';
+    require_once APPLICATION.'DB/MySql.php';
+    require_once APPLICATION.'DB/EntityGateway.php';
+    require_once APPLICATION.'Models/Image/ImageConverter.php';
+    require_once APPLICATION.'Models/Home/homeViewModel.php';
+    require_once APPLICATION.'Models/userEntity.php';
+    require_once APPLICATION.'Models/sessions.php';
+    require_once APPLICATION.'Models/seria.php';
+    require_once APPLICATION.'Models/home.php';
+    require_once APPLICATION.'Models/navbar.php';
+    require_once APPLICATION.'Models/indicator.php';
+    require_once APPLICATION.'Models/header.php';    
+    require_once APPLICATION.'Models/menus.php';
+    require_once APPLICATION.'Models/ModelAndView.php';
+    require_once APPLICATION.'Models/Validators/validator.php';
+    require_once APPLICATION.'Models/Validators/validateEmail.php';
+    require_once APPLICATION.'Models/Validators/validateUser.php';
+    require_once APPLICATION.'Models/Validators/validateDate.php';
+    require_once APPLICATION.'Models/Validators/validatePassword.php';
+    require_once APPLICATION.'Core/ResponseFactory.php';
+    require_once APPLICATION.'Core/ResponseEmitter.php';
+    require_once APPLICATION.'Core/Response.php';
+    require_once APPLICATION.'Core/ViewRenderer.php';
+    require_once APPLICATION."Core/MainController.php";
+    require_once APPLICATION."Controllers/NotFoundController.php";
+    
+
 
 
 	(new Application())->route();		

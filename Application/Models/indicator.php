@@ -2,9 +2,6 @@
 
 use Login\UserEntity;
 use Model\Sessions;
-
-require_once APPLICATION.'Models/sessions.php';
-
 /**
  * This is a singleton!
  */

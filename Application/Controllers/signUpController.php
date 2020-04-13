@@ -3,14 +3,6 @@
 use Model\Image\ImageConverter;
 use DB\EntityGateway;
 
-require_once APPLICATION.'Models/Validators/validator.php';
-require_once APPLICATION.'Models/Validators/validateEmail.php';
-require_once APPLICATION.'Models/Validators/validateUser.php';
-require_once APPLICATION.'Models/Validators/validatePassword.php';
-require_once APPLICATION.'Models/Validators/validateDate.php';
-require_once APPLICATION.'Models/Image/ImageConverter.php';
-
-require_once APPLICATION.'Core/MainController.php';
 
 
 class signUpController extends MainController
@@ -40,7 +32,7 @@ class signUpController extends MainController
     function FormAction()
     {     
         $this->setValues();        
-        $this->View( $this->datas, [ 'view' => 'signUp', 'module' => 'User'] );
+        $this->Response( $this->datas, [ 'view' => 'signUp', 'module' => 'User'] );
     }
 
 
@@ -70,7 +62,7 @@ class signUpController extends MainController
         {      
             $this->setValues( $user, $email, $pass, $date);
 
-            $this->View( 
+            $this->Response( 
                 $this->datas, 
                 [ 
                     'view' => 'signUp', 

@@ -1,7 +1,6 @@
 <?php
 use DB\EntityGateway;
 
-require_once APPLICATION.'DB/EntityGateway.php';
 
 class Menus
 {

@@ -1,0 +1,5 @@
+[13-Apr-2020 22:50:02 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: ini_set() expects parameter 2 to be string, int given in /var/www/html/index.php:62
+Stack trace:
+#0 /var/www/html/index.php(62): ini_set('log_errors', 0)
+#1 {main}
+  thrown in /var/www/html/index.php on line 62

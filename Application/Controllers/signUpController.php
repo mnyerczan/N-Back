@@ -87,7 +87,7 @@ class signUpController extends Controller
                
         //$this->db->StartTransaction();
         //és a userEntity userRegistry függvényén keresztül beírásra kerül az adatbázisba az új felhasználó.
-        $result = $this->db->userRegistry( 
+        $result = $this->user->userRegistry( 
             [            
                 ':email'        => trim( $email->getEmail() ),
                 ':userName'     => trim( $user->getUser() ),

@@ -12,3 +12,4 @@
 			FROM `users` JOIN `nbackDatas` 
 				ON `users`.`id` = `nbackDatas`.`userID`         
 			WHERE `users`.`id` = :userId)}' in /var/www/html/Application/DB/MySql.php at 99
+2020-04-13 12:44:42 -  with: 'SELECT `imgBin` FROM `images` WHERE `userID` = (SELECT `id` FROM `users` WHERE `email` LiKE :email)' in /var/www/html/Application/DB/MySql.php at 99

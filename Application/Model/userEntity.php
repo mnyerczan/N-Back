@@ -2,6 +2,7 @@
 namespace Login;
 
 use DB\EntityGateway;
+use InvalidArgumentException;
 
 /**
  * UserEntity, this is a singleton
@@ -24,24 +25,31 @@ class UserEntity
 
 			self::$INSTANCE = new self();    
 			
-			self::$INSTANCE->Load( $_SESSION['userId'] ?? 1 );    		
-						
+			// Csak akkor tölt be adatbázisból, ha van bejelentkezés.
+			// Egyébként default + cookie, ha van.
+			if (@$_SESSION['userId'])
+				self::$INSTANCE->LoadUser( $_SESSION['userId'] );
+			else
+			self::$INSTANCE->LoadAnonim();
+							
         }               
         return self::$INSTANCE;
 	}
 	
 	public function getUsersCount()
-	{
+	{		
 		return $this->object->getUsersCount()[0];
 	}
 
 
 	private function __construct()
-    {
-		$this->object = EntityGateway::GetInstance();
-		
+    {		
+		$this->object = EntityGateway::GetInstance();		
+	}
+	private function LoadAnonim()
+	{		
 		$this->datas['id'] 				= 1;		
-		$this->datas['userName'] 		= 'Guest';
+		$this->datas['userName'] 		= 'Anonim';
 		$this->datas['email'] 			= NULL;
 		$this->datas['loginDatetime']	= NULL;
 		$this->datas['privilege'] 		= 0;
@@ -54,24 +62,145 @@ class UserEntity
 
 		// NOT IMPLEMENTED FEATUTRE
 		$this->datas['online'] 			= NULL;
+		//--------------------------------------------------------------------------------------------				
+
+		if (!@$_COOKIE['gameMode']) 
+		{
+			setcookie('gameMode','Position');
+			$this->datas['gameMode'] = 'Position';
+		}			
+		else
+			$this->datas['gameMode'] 		= $_COOKIE['gameMode'];
+		
+
+		// Game level
+		if (!@$_COOKIE['level'])
+		{
+			setcookie('level', 1);
+			$this->datas['level'] = 1;
+		}			
+		else
+			$this->datas['level'] 			= $_COOKIE['level'];
+		
+
+		// Tim between two event in seconds
+		if (!@$_COOKIE['seconds'])
+		{
+			setcookie('seconds', 3);
+			$this->datas['seconds'] = 3;
+		}
+		else
+			$this->datas['seconds'] 		= $_COOKIE['seconds'];
+		
+
+		// Min trial has 25 events
+		if (!@$_COOKIE['trials'])
+		{
+			setcookie('trials', 25);
+			$this->datas['trials'] 	= 25;
+		}
+		else
+			$this->datas['trials'] 			= $_COOKIE['trials'];
+		
+
+		// One event length in seconds 
+		if (!@$_COOKIE['eventLength'])
+		{
+			setcookie('eventLength', 0.75);
+			$this->datas['eventLength'] = 0.75;
+		}
+		else
+			$this->datas['eventLength']		= $_COOKIE['eventLength'];
+		
+
+		// Event's color
+		if (!@$_COOKIE['color'])
+		{
+			setcookie('color','Position');		
+			$this->datas['color'] = 'blue';
+		}
+		else
+			$this->datas['color'] 			= $_COOKIE['color'];
+
+    }
+	
+
+
+	function LoadUser( int $userId ): string
+    {	
+		// Anonim felhasználóhoz nem tartoznak személyes adatok.
+		if ($userId == 1) return false; 
+		
+		// return $user, $image
+		extract($this->object->getUser( [ ':userId' => $userId ]  ));
+
+
+		$this->datas['id'] 				= $user->id;
+		$this->datas['email']			= Include_special_characters($user->email);
+		$this->datas['loginDatetime']	= $user->loginDatetime;		
+		$this->datas['userName']		= Include_special_characters($user->userName);
+		$this->datas['privilege']		= $user->privilege;
+		$this->datas['birth']			= $user->birth;
+		$this->datas['passwordLength']	= $user->passwordLength;
+
+		$this->datas['imgBin']			= $image->imgBin ?? null;		
+		$this->datas['theme']			= $user->theme;
+		$this->datas['refresh'] 		= $user->refresh;
+
+		// NOT IMPLEMENTED FEATUTRE
+		$this->datas['online'] 			= $user->online;
+
 		//--------------------------------------------------------------------------------------------
 		
-		$this->datas['gameMode'] 		= $_COOKIE['gameMode'] 		?? 'Position';
-		// Game level
-		$this->datas['level'] 			= $_COOKIE['level'] 		?? 1;
-		// Tim between two event in seconds
-		$this->datas['seconds'] 		= $_COOKIE['seconds'] 		?? 3;
-		// Min trial has 25 events
-		$this->datas['trials'] 			= $_COOKIE['trials'] 		?? 25;
-		// One event length in seconds 
-		$this->datas['eventLength']		= $_COOKIE['eventLength'] 	?? 0.75;
-		// Event's color
-		$this->datas['color'] 			= $_COOKIE['color'] 		?? 'blue';
-    }
+		$this->datas['gameMode'] 		= $user->gameMode;
+		$this->datas['level'] 			= $user->level;
+		$this->datas['seconds']			= $user->seconds;
+		$this->datas['trials'] 			= $user->trials;
+		$this->datas['eventLength']		= $user->eventLength;
+		$this->datas['color'] 			= $user->color;			
+									
+
+		return $this->loged = true;
+	}
+
+
+
+
+
+
+    function Login( string $email, string $password ): string
+    {		
+		$result = $this->object->getUser( [ ":email" => $email, ":password" => md5( "salt".md5( $password ) ) ]  );					
+	
+
+		if( is_object($result['user']))
+		{		
+			//$this->SetUser( $result[0] );			
+			$this->SetSession( $result['user'] );	
+	
+			return $this->loged = true;
+		}        		
+
+		return $this->loged = false;
+	
+	}
+
+
+
+
+
+	private function SetSession( $result )
+	{
+		$_SESSION['userId']		= $result->id;
+		//$_SESSION['userName']	= Include_special_characters($result->['userName']);
+		//$_SESSION['password']	= $result->['password'];
+	}
+
 
 
     function __get($name)
     {
+		
         switch($name)
         {
 			case 'loged': 			return $this->loged; 					break;
@@ -97,69 +226,4 @@ class UserEntity
 			case 'color': 			return $this->datas['color']; 			break;
         }
     }
-    
-
-	function Load( int $userId ): string
-    {			
-		$result = $this->object->getUser( [ ':userId' => $userId ]  );	
-				
-		$this->SetUser( $result[0] );			
-					     		
-		return $this->loged = true;
-	}
-
-    function Login( string $email, string $password ): string
-    {		
-		$result = $this->object->getUser( [ ":email" => $email, ":password" => md5( "salt".md5( $password ) ) ]  );					
-	
-
-		if( 1 == count( $result ))
-		{		
-			//$this->SetUser( $result[0] );			
-			$this->SetSession( $result[0] );	
-	
-			return $this->loged = true;
-		}        		
-
-		return $this->loged = false;
-	
-	}
-
-	private function SetSession( $result )
-	{
-
-		$_SESSION['userId']		= $result->id;
-		//$_SESSION['userName']	= Include_special_characters($result->['userName']);
-		//$_SESSION['password']	= $result->['password'];
-	}
-
-
-
-	private function SetUser( $result )
-	{				
-
-		$this->datas['id'] 				= $result->id;
-		$this->datas['email']			= Include_special_characters($result->email);
-		$this->datas['loginDatetime']	= $result->loginDatetime;		
-		$this->datas['userName']		= Include_special_characters($result->userName);
-		$this->datas['privilege']		= $result->privilege;
-		$this->datas['birth']			= $result->birth;
-		$this->datas['passwordLength']	= $result->passwordLength;
-
-		//$this->datas['imgBin']			= $result->imgBin;		
-		$this->datas['theme']			= $result->theme;
-		$this->datas['refresh'] 		= $result->refresh;
-
-		// NOT IMPLEMENTED FEATUTRE
-		$this->datas['online'] 			= $result->online;
-
-		//--------------------------------------------------------------------------------------------
-		
-		$this->datas['gameMode'] 		= $result->gameMode;
-		$this->datas['level'] 			= $result->level;
-		$this->datas['seconds']			= $result->seconds;
-		$this->datas['trials'] 			= $result->trials;
-		$this->datas['eventLength']		= $result->eventLength;
-		$this->datas['color'] 			= $result->color;
-	}
 }

@@ -180,23 +180,42 @@ class EntityGateway
     {        
         if ( array_key_exists( ':userId', $params ) )
         {
-            $sql=
+            $userSql=
 		   "SELECT `users`.*, `nbackDatas`.*, current_timestamp AS refresh 
 			FROM `users` JOIN `nbackDatas` 
 				ON `users`.`id` = `nbackDatas`.`userID`         
-			WHERE `users`.`id` = :userId";
+            WHERE `users`.`id` = :userId";
+            
+
+            $image  = $this->object->Select( 
+                "SELECT `imgBin` FROM `images` WHERE `userID` = :userId", 
+                [ ':userId' => $params[':userId']] 
+            )[0] ?? null;       
         }
         else
         {
-            $sql=
+            $userSql =
             "SELECT `users`.*, `nbackDatas`.*, current_timestamp AS refresh 
              FROM `users` JOIN `nbackDatas` 
                  ON `users`.`id` = `nbackDatas`.`userID`
              WHERE `email` = :email 
              AND `password` = :password ";
-        }        
+
+
+            $image  = $this->object->Select( 
+                "SELECT `imgBin` FROM `images` WHERE `userID` = (SELECT `id` FROM `users` WHERE `email` = :email)", 
+                [ ':email' => $params[':email']] 
+            );
+        }               
+      
         
-        return $this->object->Select( $sql, $params );
+        $user   = $this->object->Select( $userSql, $params )[0];
+            
+
+        return [
+            "user" => $user,
+            "image"=> $image ?? null
+        ];
     }
 
 

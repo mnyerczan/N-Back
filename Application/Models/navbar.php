@@ -3,8 +3,8 @@
 use Login\UserEntity;
 use Model\Sessions;
 
-require_once APPLICATION.'Model/sessions.php';
-require_once APPLICATION.'Model/menus.php';
+require_once APPLICATION.'Models/sessions.php';
+require_once APPLICATION.'Models/menus.php';
 
 class Navbar
 {

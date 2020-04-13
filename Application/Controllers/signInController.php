@@ -6,10 +6,10 @@ use Login\UserEntity;
 use Model\Sessions;
 
 
-require_once APPLICATION.'Model/Validators/validator.php';
-require_once APPLICATION.'Model/Validators/validateEmail.php';
-require_once APPLICATION.'Model/Validators/validateUser.php';
-require_once APPLICATION.'Model/Validators/validatePassword.php';
+require_once APPLICATION.'Models/Validators/validator.php';
+require_once APPLICATION.'Models/Validators/validateEmail.php';
+require_once APPLICATION.'Models/Validators/validateUser.php';
+require_once APPLICATION.'Models/Validators/validatePassword.php';
 
 require_once APPLICATION.'Core/MainController.php';
 

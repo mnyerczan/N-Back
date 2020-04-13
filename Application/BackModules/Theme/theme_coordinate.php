@@ -15,10 +15,10 @@ if ( @!$_SESSION['userName'] ) die;
 
 chdir('../../../');
 
-require_once 'Model/seria.php';
+require_once 'Models/seria.php';
 require_once 'theme.php';
 require_once 'DB/entityGateway.php';
-require_once 'Model/userEntity.php';
+require_once 'Models/userEntity.php';
 
 require_once 'special_characters_handler.php';
 

@@ -3,7 +3,7 @@
 use DB\EntityGateway;
 use Login\UserEntity;
 
-require_once APPLICATION.'Model/userEntity.php';
+require_once APPLICATION.'Models/userEntity.php';
 require_once APPLICATION.'Interfaces/DBInterface.php';
 require_once APPLICATION.'DB/MySql.php';
 require_once APPLICATION.'DB/EntityGateway.php';

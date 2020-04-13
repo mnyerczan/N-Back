@@ -3,7 +3,7 @@
 use Login\UserEntity;
 use Model\Image\ImageConverter;
 
-require_once APPLICATION.'Model/Image/ImageConverter.php';
+require_once APPLICATION.'Models/Image/ImageConverter.php';
 
 
 class Header 

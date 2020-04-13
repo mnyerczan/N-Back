@@ -1,7 +1,7 @@
 <?php
 
 
-require_once APPLICATION.'Model/home.php';
+require_once APPLICATION.'Models/home.php';
 require_once APPLICATION.'Core/MainController.php';
 
 class HomeController extends MainController

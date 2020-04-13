@@ -5,7 +5,7 @@ use Model\Image\ImageConverter;
 
 require_once APPLICATION.'Core/MainController.php';
 
-require_once APPLICATION.'Model/Image/ImageConverter.php';
+require_once APPLICATION.'Models/Image/ImageConverter.php';
 
 
 class userController extends MainController

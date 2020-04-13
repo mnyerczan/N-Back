@@ -4,12 +4,12 @@ use DB\EntityGateway;
 use Login\UserEntity;
 use Model\Sessions;
 
-require_once APPLICATION.'Model/sessions.php';
-require_once APPLICATION.'Model/seria.php';
-require_once APPLICATION.'Model/home.php';
-require_once APPLICATION.'Model/navbar.php';
-require_once APPLICATION.'Model/indicator.php';
-require_once APPLICATION.'Model/header.php';
+require_once APPLICATION.'Models/sessions.php';
+require_once APPLICATION.'Models/seria.php';
+require_once APPLICATION.'Models/home.php';
+require_once APPLICATION.'Models/navbar.php';
+require_once APPLICATION.'Models/indicator.php';
+require_once APPLICATION.'Models/header.php';
 
 class MainController
 {    

@@ -14,8 +14,8 @@ class MainController
                 $datas;              
 
     function __construct()
-    {
-        $this->user = UserEntity::GetInstance();
+    {       
+        $this->user = UserEntity::GetInstance();        
     }
 
 /**

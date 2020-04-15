@@ -35,7 +35,7 @@ final class Application
         foreach( $this->routes[$_SERVER['REQUEST_METHOD']] as $pattern => $controller )
         {                
             if( preg_match( $pattern, URI, $matches ) )
-            {      
+            {                      
                 require_once APPLICATION."Controllers/{$controller}.php";
                 new $controller( $matches );
                 die;

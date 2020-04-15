@@ -20,21 +20,21 @@ class UserEntity
 
 
 	public static function GetInstance(): object
-    {
+    {		
 		if ( self::$INSTANCE == NULL )		
         {			
 			session_start();
-
+	
 			self::$INSTANCE = new self();    
 			
 			// Csak akkor tölt be adatbázisból, ha van bejelentkezés.
 			// Egyébként default + cookie, ha van.
-			if (@$_SESSION['userId'])
-				self::$INSTANCE->LoadUser( $_SESSION['userId'] );
-			else
+			if (@$_SESSION['userId'])			
+				self::$INSTANCE->LoadUser( $_SESSION['userId'] );				 
+			else			
 			self::$INSTANCE->LoadAnonim();
 							
-        }               
+		}        		   
         return self::$INSTANCE;
 	}
 	
@@ -42,7 +42,7 @@ class UserEntity
 
 	
 	private function __construct()
-    {		
+    {				 
 		$this->object = EntityGateway::GetInstance();		
 	}
 

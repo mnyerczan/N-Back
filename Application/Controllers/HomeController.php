@@ -7,9 +7,9 @@ class HomeController extends MainController
 
 
     function __construct($matches)
-    {
+    {        
         parent::__construct();
-               
+            
         $this->SetDatas();
                     
         $this->datas['home'] = ( new Home() )->getContent();
@@ -19,7 +19,7 @@ class HomeController extends MainController
   
   
     function Action()
-    {                            
+    {
         $this->Response( $this->datas, ['view' => 'home', 'module' => 'Home'] );
     }
                  

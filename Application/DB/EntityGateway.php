@@ -3,6 +3,7 @@ namespace DB;
 
 use DB\MySql;
 use Exception;
+use RuntimeException;
 
 require_once 'MySql.php';
 
@@ -22,11 +23,11 @@ class EntityGateway
      * @return object of a specified Database class
      */
     public static function getInstance()    
-    {
+    {        
         if (self::$INSTANCE)
             return self::$INSTANCE;
         else
-        {
+        {            
             self::$INSTANCE = new self;            
             return self::$INSTANCE;
         }        
@@ -34,8 +35,12 @@ class EntityGateway
 
     private function __construct()
     {
-        $this->serial = rand(0, 1000000);
+        $this->serial = rand(0, 1000000);        
         $this->object = $this->dbname::GetInstance();
+        
+        if (!$this->object)
+            throw new RuntimeException("Cant connect to database");
+
         $this->CheckDatabase();
         
     }

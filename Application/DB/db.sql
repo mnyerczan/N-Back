@@ -2,6 +2,11 @@
 create database `NBackDB`;
 use `NBackDB`;
 
+-- web felhasználó létrehozása
+create user if not exists `www-data`@`localhost` identified by '0000';
+-- Összes jogosultság adása az adatbázis minden eleméhez
+grant all privileges on NBackDB.* to 'www-data'@'localhost';
+
 create table IF NOT EXISTS `users` (
     `id` int(8) zerofill unsigned auto_increment primary key, -- unsigned mezőben nem lehet nulla az érték
     `userName` varchar(255) not null,

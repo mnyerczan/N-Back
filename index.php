@@ -17,7 +17,7 @@
 	define('APPLICATION'		, 'Application/');
 
 	// Program gyökér mappa
-	define('APPROOT'			, '/');
+	define('APPROOT'			, '');
 	
 	// Temp file útvonal
 	define('TMP_PATH'			, APPLICATION.'Tmp/');

@@ -21,19 +21,21 @@ class MySql extends baseDbApi
     private static 
                 $INSTANCE,
                 $host       = "localhost",
-                $user       = "root",
-                $pass       = "1024",
+                $user       = "www-data",
+                $pass       = "0000",
                 $database   = "NBackDB";
            
     /**
      * DBInterface abstract methods
      */
-    public static function GetInstance(): object
+    public static function GetInstance()
     {
         if ( self::$INSTANCE == NULL )
         {
             self::$INSTANCE = new self(); 
-            self::Connect();                       
+            
+            if (!self::Connect())
+                return false;
         }               
         return self::$INSTANCE;
     }
@@ -157,7 +159,7 @@ class MySql extends baseDbApi
     /**
      * Helper function to get PDO object
      */
-    private static function Connect(): void
+    private static function Connect(): bool
     {    
         try 
         {
@@ -172,11 +174,13 @@ class MySql extends baseDbApi
                 self::$pass,
                 [PDO::ATTR_PERSISTENT => true]
             );
+
+            return true;
         }
         catch( PDOException $e ) 
         {           
             error_log( date('Y-m-d h:i:s').' - '.$e->getMessage()." in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
-            die; 
+            return false;
         }
     }
 }

@@ -176,8 +176,6 @@ class UserEntity
 
 
 
-
-
     function Login( string $email, string $password ): string
     {		
 		$result = $this->object->getUser( [ ":email" => $email, ":password" => md5( "salt".md5( $password ) ) ]  );					
@@ -209,8 +207,7 @@ class UserEntity
 
 
     function __get($name)
-    {
-		
+    {		
         switch($name)
         {
 			case 'loged': 			return $this->loged; 					break;
@@ -222,7 +219,7 @@ class UserEntity
 			case 'privilege': 		return $this->datas['privilege']; 		break;
 			case 'birth': 			return $this->datas['birth']; 			break;
 			case 'passwordLength': 	return $this->datas['passwordLength']; 	break;
-			case 'fileName': 		return $this->datas['fileName']; 		break;
+			//case 'fileName': 		return $this->datas['fileName']; 		break;
 			case 'theme': 			return $this->datas['theme']; 			break;
 			case 'refresh': 		return $this->datas['refresh']; 		break;
 			case 'online': 			return $this->datas['online']; 			break;

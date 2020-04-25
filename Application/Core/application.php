@@ -15,26 +15,26 @@ final class Application
     private $user,
             $routes;   
 
-    function route()
+    function route($cleanedUri)
     {                 
-        $this->addRoute( APPROOT.'(?<controller>)/?' , 'HomeController' , 'get');    
+        $this->addRoute( '(?<controller>)/?' , 'HomeController' , 'get');    
                       
-        $this->addRoute( APPROOT.'(?<controller>signUp)/?' , 'signUpController' , 'get');                
-        $this->addRoute( APPROOT.'(?<controller>signUp)/(?<action>submit)' , 'signUpController', 'post' );        
+        $this->addRoute('(?<controller>signUp)/?' , 'signUpController' , 'get');                
+        $this->addRoute('(?<controller>signUp)/(?<action>submit)' , 'signUpController', 'post' );        
         
-        $this->addRoute( APPROOT.'(?<controller>signIn)/?' , 'signInController' , 'get');
-        $this->addRoute( APPROOT.'(?<controller>signIn)/(?<action>submit)' , 'signInController', 'post' );
-        $this->addRoute( APPROOT.'(?<controller>logUot)' , 'logUotController' , 'get');
+        $this->addRoute('(?<controller>signIn)/?' , 'signInController' , 'get');
+        $this->addRoute('(?<controller>signIn)/(?<action>submit)' , 'signInController', 'post' );
+        $this->addRoute('(?<controller>logUot)' , 'logUotController' , 'get');
         
-        $this->addRoute( APPROOT.'(?<controller>user)/?' , 'userController','get' );
-        $this->addRoute( APPROOT.'(?<controller>settings)/?', 'settingsController','get' );        
-        $this->addRoute( APPROOT.'(?<controller>nBack)/?', 'nBackController','get' );        
-        $this->addRoute( APPROOT.'(?<controller>documents)/?' , 'documentsController','get' );
-                        
-
+        $this->addRoute('(?<controller>user)/?' , 'userController','get' );
+        $this->addRoute('(?<controller>settings)/?', 'settingsController','get' );        
+        $this->addRoute('(?<controller>nBack)/?', 'nBackController','get' );        
+        $this->addRoute('(?<controller>documents)/?' , 'documentsController','get' );
+        
+ 
         foreach( $this->routes[$_SERVER['REQUEST_METHOD']] as $pattern => $controller )
         {                
-            if( preg_match( $pattern, URI, $matches ) )
+            if( preg_match( $pattern, $cleanedUri, $matches ) )
             {                      
                 require_once APPLICATION."Controllers/{$controller}.php";
                 new $controller( $matches );

@@ -1,4 +1,0 @@
-2020-04-16 12:34:25 - SQLSTATE[HY000] [1044] Access denied for user 'www-data'@'localhost' to database 'NBackDB' in /var/www/html/NBack/Application/DB/MySql.php at 178
-2020-04-16 12:35:27 - SQLSTATE[HY000] [1045] Access denied for user 'www-data@localhost'@'localhost' (using password: YES) in /var/www/html/NBack/Application/DB/MySql.php at 178
-2020-04-16 12:44:02 - SQLSTATE[HY000] [1044] Access denied for user 'www-data'@'localhost' to database '-NBackDB' in /var/www/html/NBack/Application/DB/MySql.php at 182
-2020-04-16 12:44:27 - SQLSTATE[HY000] [1044] Access denied for user 'www-data'@'localhost' to database '-NBackDB' in /var/www/html/NBack/Application/DB/MySql.php at 182

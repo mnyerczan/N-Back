@@ -1,4 +1,4 @@
-<script src="<?= RELPATH ?><?=APPLICATION?>Templates/User/signUp.js?v=<?= CURRENT_TIMESTAMP ?>"></script>
+<script src="<?= BACKSTEP ?><?=APPLICATION?>Templates/User/signUp.js?v=<?= CURRENT_TIMESTAMP ?>"></script>
 <main class="usr-crt-frm" >
     <div>
         <h3 style="text-align:center">
@@ -13,7 +13,7 @@
             <?php endif ?>
         </h3>
     </div>
-    <form method="POST" id="create-user-form" action="<?= RELPATH ?>signUp/submit" name="createUserForm"  enctype="multipart/form-data">
+    <form method="POST" id="create-user-form" action="<?= BACKSTEP ?>signUp/submit" name="createUserForm"  enctype="multipart/form-data">
 
         <label for="cu-name"><?= $nameLabel ?></label>
         <input id="cu-name" type="text" name="create-user-name" value="<?=$userNameValue?>" <?= $enableNameInput ?> autofocus autocomplete="off" >

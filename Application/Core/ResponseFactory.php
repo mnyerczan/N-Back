@@ -28,6 +28,7 @@ final class ResponseFactory
         elseif (preg_match("`^_404$`", $controllerResult[0]['view']))
         {
             $modelAndView = new ModelAndView($controllerResult[0], $controllerResult[1]);
+            
             return new Response(
                 $this->viewRenderer->render($modelAndView), 
                 [],

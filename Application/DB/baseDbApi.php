@@ -4,20 +4,20 @@ namespace DB;
 
 abstract class baseDbApi
 {
+
     protected static $connect;    
+
 
     protected function __construct()
     {
         $this->id = rand();
     }
-
     
 
     public function __destruct()
     {
         self::$connect = NULL;
     }
-
     
 
     public function __get( $name )

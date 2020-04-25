@@ -39,25 +39,42 @@ class MySql extends baseDbApi
         }               
         return self::$INSTANCE;
     }
-   
+
+   /**
+    *  START TRANSACTION
+    */
     public function StartTransaction()
     {
         return self::$connect->beginTransaction();
     }
 
+
+    /**
+     * ROLLBACK transaction
+     */
     public function Rollback()
     {
         return self::$connect->rollBack();
     }
 
+
+    /**
+     * COMMIT transaction
+     */
     public function Commit()
     {
         return self::$connect->commit();
     }
 
 
+
+    /**
+     * SELECT query
+     */
     public function Select( string $script, array $params = [] ): array
     {
+        var_dump($script);
+        var_dump($params);
         $statement =  self::$connect->prepare($script);     
      
         $keys = array_keys( $params );
@@ -91,21 +108,29 @@ class MySql extends baseDbApi
             {
                 throw new RuntimeException( $statement->errorInfo()[2] );
             }
-                     
 
-            return $statement->fetchAll( PDO::FETCH_CLASS );        
+            $result = $statement->fetchAll( PDO::FETCH_CLASS );
+
+            $statement = null;     
+
+            return $result;
             
         }
         catch( RuntimeException $e )
         {
             error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '".addslashes($script)."' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
+            $statement = null;
             return [];
         }        
     }
     
 
+
+    /**
+     * EXECUTE query
+     */
     public function Execute( string $script, array $params = [] ): bool
-    {            
+    {                            
         try
         {
             if ( !$statement =  self::$connect->prepare( $script ) )
@@ -141,7 +166,7 @@ class MySql extends baseDbApi
             {             
                 throw new PDOException( 'Errno: '.$statement->errorInfo()[1].' - '.$statement->errorInfo()[2] );                
             }
-            
+            $statement = null;
 
             return true;
         }
@@ -149,13 +174,15 @@ class MySql extends baseDbApi
         {
             error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '{addslashes($script)}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
                         
-
-            return $statement->errorInfo()[1];
+            $statement = null;
+            return false;
         }
     }
     
     //-----------------------------------------------------------------------------                  
 
+
+    
     /**
      * Helper function to get PDO object
      */

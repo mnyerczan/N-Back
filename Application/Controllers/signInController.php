@@ -12,6 +12,8 @@ use Model\Sessions;
 class signInController extends MainController
 {
 
+
+    
     function __construct( $matches )
     {                 
 
@@ -33,16 +35,16 @@ class signInController extends MainController
         }                
     }
 
+
+
+
     function submitAction()
     {
-        $email = new ValidateEmail( $_POST['signIn-email'] );
-        $pass = new ValidatePassword( $_POST['signIn-pass'] );
-
+        $email  = new ValidateEmail( $_POST['signIn-email'] );
+        $pass   = new ValidatePassword( $_POST['signIn-pass'] );
         
-
-        if ( !$this->user->Login( $_POST['signIn-email'], $_POST['signIn-pass'] ) )
+        if ( !$this->user->Login($email->getEmail(), $pass->getPass()) )
         {
-
             $this->datas['emailLabel']      = $email->errorMsg ?? 'Email';
             $this->datas['passwordLabel']   = $pass->errorMsg ?? 'Password';
             $this->datas['message']         = 'Email or password is invalid!';
@@ -50,11 +52,14 @@ class signInController extends MainController
             $this->Response( $this->datas, [ 'view' => 'signIn', 'module' => 'User'] );
 
             return;
-        }
-                
-        
-        $this->Response([], ['view' => 'redirect:/']);
+        }                        
+        $this->Response([], ['view' => 'redirect:'.APPROOT]);
     }
+
+
+
+    
+
 
     function FormAction()
     {    

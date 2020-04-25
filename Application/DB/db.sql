@@ -7,15 +7,19 @@ create user if not exists `www-data`@`localhost` identified by '0000';
 -- Összes jogosultság adása az adatbázis minden eleméhez
 grant all privileges on NBackDB.* to 'www-data'@'localhost';
 
+-------------------------------------------------------------------------
+-- users definition
+-------------------------------------------------------------------------
+
 create table IF NOT EXISTS `users` (
-    `id` int(8) zerofill unsigned auto_increment primary key, -- unsigned mezőben nem lehet nulla az érték
+    `id` int(8) unsigned primary key, -- unsigned mezőben nem lehet nulla az érték
     `userName` varchar(255) not null,
     `email` varchar(255) not null,
     `loginDatetime` DATETIME default current_timestamp not null,
     `password` varchar(33), -- A default user miatt
     `privilege` int(2) default '1' not null,
     `birth` date default '1899-01-01',
-    `passwordLength` varchar(255) default 0 not null,
+    `passwordLength` tinyint default 0 not null,
     -- `fileName` varchar(255) default 'none' not null,
     `theme` varchar(5) default 'white' not null, 
     `online` int(1) default 0 not null,
@@ -23,41 +27,47 @@ create table IF NOT EXISTS `users` (
     index users_id_idx(id)
 )default charset utf8;
 
+-- Default user
+
+insert into users ( `userName`, `email`, `privilege`) values
+( 'default', 'd@d.hu', '0');
+
+
+-------------------------------------------------------------------------
+-- images definition
+-------------------------------------------------------------------------
+
 
 -- Images
-CREATE TABLE `images`(
+CREATE TABLE IF NOT EXISTS `images`(
     `userID` INT(8) zerofill unsigned primary key,
     `imgBin` blob,
     `update` DATETIME,
     `create` TIMESTAMP NOT NULL DEFAULT current_timestamp,
-    CONSTRAINT FOREIGN KEY(`userID`) REFERENCES `users`(`id`)
+    CONSTRAINT FOREIGN KEY(`userID`) REFERENCES `users`(`id`) on delete cascade
 ) ROW_FORMAT=DYNAMIC;
 
--- Default user
 
-insert into users ( `id`, `userName`, `email`, `privilege`) values
-('1', 'default', 'd@d.hu', '0');
+
+
 
 -- A userekhez tartozó játék beállítások
+-- Azért nem elsődleges kulcs a userID, mert akkor nem
+-- hajtódik végre a delete cascade módosító.
 
-
-create table nbackDatas(	
-	userID int(8) zerofill unsigned not null primary key,
-	gameMode varchar(8) default 'Position' not null,
+create table IF NOT EXISTS `nbackDatas`(	
+	`userID` int(8) unsigned not null,
+	`gameMode` varchar(8) default 'Position' not null,
 	`level` int(2) default 1 not null,
-	seconds float(3,2) default 3 not null,
-	trials int(2) default 25 not null,
-	eventLength float(4,3) unsigned default 0.5 not null,
+	`seconds` float(3,2) default 3 not null,
+	`trials` int(2) default 25 not null,
+	`eventLength` float(4,3) unsigned default 0.5 not null,
 	`color` varchar(7) default 'blue' not null,
-	foreign key(userID) references users(id) on delete cascade,
+	foreign key(`userID`) references `users`(`id`) on delete cascade,
 	index nbackDatas_userID_idx(userID)
 )default charset utf8 engine innoDB;
 
-/*
- * Trigger az nbackDatas táblához
- */
 
-CREATE TRIGGER defaultNbackData AFTER INSERT ON users FOR EACH ROW INSERT INTO nbackDatas(userID) VALUES (NEW.`id`);
 
 
 /*
@@ -77,7 +87,7 @@ CREATE TRIGGER defaultNbackData AFTER INSERT ON users FOR EACH ROW INSERT INTO n
 -- A navigációs sávban megjelenő menüpontok
 
 
-create table `menus` (
+create table IF NOT EXISTS `menus` (
 	`id` int(8) zerofill unsigned auto_increment ,
 	`name` varchar(255) not null,
 	`parentID` varchar(255) default 'none' not null,
@@ -100,7 +110,7 @@ insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) va
 
 -- A játék meneteit rögzítő tábla.
 
-CREATE TABLE `nbackSessions` (
+CREATE TABLE IF NOT EXISTS`nbackSessions` (
   `userID` int(8) zerofill unsigned NOT NULL DEFAULT '1',
   `ip` varchar(40) NOT NULL,
   `level` int(2) default 1 NOT NULL,
@@ -156,7 +166,7 @@ CREATE TABLE `nbackSessions` (
 -- Dokumentum tároló tábla
 
 
-CREATE TABLE documents(
+CREATE TABLE IF NOT EXISTS `documents`(
 `id` int(8) zerofill unsigned auto_increment,
 `userID` int(8) zerofill unsigned not null,
 `title` varchar(255) default 'No title' not null,
@@ -172,7 +182,7 @@ foreign key(userID) references users(id)
 
 set @@foreign_key_checks=0;
 
-create table logs(
+create table IF NOT EXISTS `logs`(
 `id` int(12) zerofill unsigned auto_increment primary key,
 `userID` int(8) zerofill unsigned not null,
 `title` varchar(255) default 'none' not null,

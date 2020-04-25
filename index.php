@@ -1,11 +1,7 @@
 <?php
 
     declare(strict_types=1);
-        
-    //$response = new Response('{"body":"22"}', ["content-type" => "application/json"], 200, "Ok");
-    //$emitter  = new ResponseEmitter();
-    //$emitter->emit($response);
-    //die;
+
 
 
     define('URI', explode('?', $_SERVER['REQUEST_URI'])[0]);
@@ -17,14 +13,18 @@
 	define('APPLICATION'		, 'Application/');
 
 	// Program gyökér mappa
-	define('APPROOT'			, '');
+	define('APPROOT'			, "/NBack/");
 	
 	// Temp file útvonal
 	define('TMP_PATH'			, APPLICATION.'Tmp/');
 
 
 
-	$num = count(explode( '/' , URI ) ) - 2;
+    $cleanedUri = str_replace( APPROOT,'', URI);
+    
+    
+
+	$num = count(explode( '/' , $cleanedUri ) ) - 1;
 	$backFromCurrentPath = '';
 
 /**
@@ -36,7 +36,7 @@
 		$backFromCurrentPath.= '../';
 	}  
 
-	define('RELPATH', $backFromCurrentPath);
+	define('BACKSTEP', $backFromCurrentPath);
 
 	
 
@@ -96,11 +96,11 @@
     require_once APPLICATION.'Models/header.php';    
     require_once APPLICATION.'Models/menus.php';
     require_once APPLICATION.'Models/ModelAndView.php';
-    require_once APPLICATION.'Models/Validators/validator.php';
-    require_once APPLICATION.'Models/Validators/validateEmail.php';
-    require_once APPLICATION.'Models/Validators/validateUser.php';
-    require_once APPLICATION.'Models/Validators/validateDate.php';
-    require_once APPLICATION.'Models/Validators/validatePassword.php';
+    require_once APPLICATION.'Classes/validator.php';
+    require_once APPLICATION.'Classes/validateEmail.php';
+    require_once APPLICATION.'Classes/validateUser.php';
+    require_once APPLICATION.'Classes/validateDate.php';
+    require_once APPLICATION.'Classes/validatePassword.php';
     require_once APPLICATION.'Core/ResponseFactory.php';
     require_once APPLICATION.'Core/ResponseEmitter.php';
     require_once APPLICATION.'Core/Response.php';
@@ -111,4 +111,4 @@
 
 
 
-	(new Application())->route();		
+	(new Application())->route($cleanedUri);		

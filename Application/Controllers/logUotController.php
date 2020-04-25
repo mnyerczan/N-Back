@@ -14,6 +14,6 @@ class logUotController extends MainController
 
         session_destroy();
 
-        $this->Response([], ['view' => 'redirect:/']);
+        $this->Response([], ['view' => 'redirect:'.APPROOT]);
     }
 }

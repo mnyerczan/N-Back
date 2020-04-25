@@ -18,11 +18,11 @@ class userController extends MainController
 
 
     private function Action()
-    {   
+    {           
         $this->Response( $this->datas, [
             'view'      => 'profile', 
             'module'    => 'User',
-            "title"     =>  'User'
+            "title"     => 'User'
             ]  
         );
     }

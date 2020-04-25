@@ -39,7 +39,9 @@ class EntityGateway
         $this->object = $this->dbname::GetInstance();
         
         if (!$this->object)
-            throw new RuntimeException("Cant connect to database");
+        {
+            throw new Exception("Cant connect to database");
+        }            
 
         $this->CheckDatabase();
         
@@ -214,37 +216,32 @@ class EntityGateway
         }               
       
         
-        $user   = $this->object->Select( $userSql, $params )[0];
+        $user = $this->object->Select( $userSql, $params )[0];
             
 
         return [
             "user" => $user,
             "image"=> $image ?? null
         ];
-    }
-
+    }    
 
 
     public function userRegistry( array $params )
-    {        
+    {                                                      
 
-        $sql= "INSERT INTO `users` ( `email`, `userName`, `password`, `birth`, `privilege` ) VALUES (  :email, :userName, :password, :dateOfBirth, :privilege )";        
+        $sql = 'CALL gnb(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth, 
+            :privilege, 
+            :passwordLength,
+            :cmpBin)';
 
-        return $this->object->Execute( $sql, $params );
+        return $this->object->Execute($sql, $params);
     }
 
-
-    public function InsertImageFromSignUp($imageBin)
-    {
-        $getUserIdSql = 'SELECT MAX(`id`) userId FROM `users`';
-        $insertImageSql = 'INSERT INTO `images`(`userID`,`imgBin`) VALUES (:userId, :binary)';
-        
-
-        if (!$result = $this->object->Select($getUserIdSql)[0])
-            return false;
-        
-        return $this->object->Execute( $insertImageSql, [ ':userId' => $result->userId, ':binary' => $imageBin] );
-    }
+    
 
 
 
@@ -266,7 +263,7 @@ class EntityGateway
         -1 as minutes
         union all
         (select
-        substr(cast(str_to_date(substr(timestamp, 1 ,10), \"%Y-%m-%d %h:%i%p\" ) as unsigned), 1, 8) as intDate,
+        substr(cast(str_to_date(substr(timestamp, 1 ,10), '%Y-%m-%d %h:%i%p' ) as unsigned), 1, 8) as intDate,
         count(*) as session,
         round(sum(sessionLength) / 1000 /60, 1) as minutes
         from nbackSessions

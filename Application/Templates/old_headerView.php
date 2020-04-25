@@ -16,17 +16,17 @@
     </div>
     <?php if($seria->seria > 0): ?>
 		<div id='seria_text' title= "<?= $seria->seria, $seria->seria > 1 ? " days series" : " day series" ?>">
-			<img src="<?= RELPATH ?><?=APPLICATION?>img/fat_flame_red.png" id="seria_flame_img">
+			<img src="<?= BACKSTEP ?><?=APPLICATION?>img/fat_flame_red.png" id="seria_flame_img">
 			<pre id="serias_left_time"></pre>
 		</div>
 	<?php endif; ?>
 	<div class="hdr-coordinate-bx">
 	<?php if( $user->id != 1 ):?>				
         <a href="<?=APPROOT?>logUot" onclick="return confirm('Are you sure?')">
-            Logout<img src="<?= RELPATH ?><?=APPLICATION?>img/logout_white.png" class="header_button_img" style="width:20px;height:17px;">									
+            Logout<img src="<?= BACKSTEP ?><?=APPLICATION?>img/logout_white.png" class="header_button_img" style="width:20px;height:17px;">									
         </a>
         <a href="<?=APPROOT?>user" title="Go to profile">					
-            <?=$user->userName?><img src="<?= RELPATH ?><?=APPLICATION?>/img/<?=$user->fileName ?>"
+            <?=$user->userName?><img src="<?= BACKSTEP ?><?=APPLICATION?>/img/<?=$user->fileName ?>"
             class="header_button_img" id="header_user_pics" >
         </a>
         <?php if($user->privilege == 3 ):?>						

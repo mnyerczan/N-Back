@@ -28,10 +28,10 @@ class signUpController extends MainController
 
 
 
-
     function FormAction()
     {     
-        $this->setValues();        
+        $this->setValues();                
+        
         $this->Response( $this->datas, [ 'view' => 'signUp', 'module' => 'User'] );
     }
 
@@ -56,7 +56,7 @@ class signUpController extends MainController
         $user   = new ValidateUser(     @$_POST['create-user-name']  );
         $date   = new ValidateDate (    @$_POST['create-user-date']  );                
         
-
+        
         //Ha valamelyik adat nem felel meg a mintának
         if ( $email->errorMsg || $pass->errorMsg || $user->errorMsg || $date->errorMsg )
         {      
@@ -68,28 +68,36 @@ class signUpController extends MainController
                     'view' => 'signUp', 
                     'module' => 'User'
                 ]
-            );
-        
+            );        
             return 2;
-        }
-    
-     
+        }         
 
         // Beállitásra kerül a jogosultség.
         $privilege  = $_POST['create-user-name'] == 'Admin' ? 3 : 1;
+        
+         // Konverter osztály paraméterei értékének megállapítása.
+        $image      = @$_FILES['create-user-file']['tmp_name']  ? $_FILES['create-user-file']['tmp_name'] : APPLICATION.'Images/user_blue.png';
+        $mime       = @$_FILES['create-user-file']['type']      ? $_FILES['create-user-file']['type'] : 'image/png';
+ 
+        // Példányositásra kerül a konverter és a DB osztály.
+         
+        $converter  = new ImageConverter( $image, $mime );
+                 
 
-               
         //$this->db->StartTransaction();
         //és a userEntity userRegistry függvényén keresztül beírásra kerül az adatbázisba az új felhasználó.
         $result = $this->db->userRegistry( 
             [            
-                ':email'        => trim( $email->getEmail() ),
-                ':userName'     => trim( $user->getUser() ),
-                ':password'     => md5( 'salt'.md5( trim( $pass->getPass() ) ) ),
-                ':dateOfBirth'  => trim( $date->getDate() ),
-                ':privilege'    => $privilege                
+                ':email'            => trim( $email->getEmail() ),
+                ':userName'         => trim( $user->getUser() ),
+                ':password'         => md5( 'salt'.md5( trim( $pass->getPass() ) ) ),
+                ':dateOfBirth'      => trim( $date->getDate() ),
+                ':privilege'        => $privilege,
+                ':passwordLength'   => strlen($pass->getPass()),
+                ':cmpBin'           => $converter->cmpBin
             ]
         );
+    
 
         // Sikertelen registry esetén hiba üzenet és vissza a signUpView-ra
         if ( !$result )
@@ -103,28 +111,8 @@ class signUpController extends MainController
             $this->FormAction();        
 
             return 3;
-        }   
+        }                   
         
-
-        // Konverter osztály paraméterei értékének megállapítása.
-        //$image      = @$_FILES['create-user-file']['tmp_name']  ? $_FILES['create-user-file']['tmp_name'] : APPLICATION.'Images/user_blue.png';
-        //$mime       = @$_FILES['create-user-file']['type']      ? $_FILES['create-user-file']['type'] : 'image/png';
-
-        // Példányositásra kerül a konverter és a DB osztály.
-        /*
-        try
-        {
-            $converter  = new ImageConverter( $image, $mime );        
-
-            if ($this->db->InsertImageFromSignUp($converter->cmpBin))
-                $this->db->Rollback;
-        }        
-        catch (InvalidArgumentException $e)
-        {
-            $this->db->Commit();
-        }
-         
-        */
         header("Location: ".APPROOT);
 
         return 0;

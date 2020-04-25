@@ -1,11 +1,11 @@
-<script src="<?= RELPATH ?><?=APPLICATION?>Templates/User/signIn.js?v=<?= CURRENT_TIMESTAMP ?>"></script>
+<script src="<?= BACKSTEP ?><?=APPLICATION?>Templates/User/signIn.js?v=<?= CURRENT_TIMESTAMP ?>"></script>
 <main class="usr-crt-frm" >
     <div>
         <h3>
             <?= $message ?>
         </h3>
     </div>
-    <form method="POST" id="signIn-form" action="<?= RELPATH ?>signIn/submit" name="signInForm" >
+    <form method="POST" id="signIn-form" action="<?= BACKSTEP ?>signIn/submit" name="signInForm" >
 
         <label for="signUp-email"><?= $emailLabel ?></label>
         <input id="signIn-email" type="email" name="signIn-email" value="<?= $email ?>" autofocus>

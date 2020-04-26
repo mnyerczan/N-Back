@@ -28,7 +28,7 @@
             </tr>                               
         </table>
 
-        <img class="big-user-image" src="data:image/*;base64,<?= $imgBin?>">        
+        <img class="big-user-image" src="data:image/*;base64,<?= $user->imgBin?>">        
         <div class="clear"></div>
 
         <div id="show-file-path"></div>        

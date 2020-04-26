@@ -9,8 +9,6 @@
   --------------------------------- 
 */
 
-namespace Model\Image;
-
 use InvalidArgumentException;
 
 class ImageConverter

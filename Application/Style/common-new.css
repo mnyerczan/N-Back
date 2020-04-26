@@ -499,6 +499,7 @@ a {
 /*---- user platform ----*/
 .user-datas-table {
 	width			: 500px;
+	margin			: 0 0 20px 0;
 	color			: #777;
 	float			: left;
 	border-collapse	: separate;
@@ -511,7 +512,7 @@ a {
 	background-color: rgb(153, 153, 253);	
 	color			: white;
 	padding			: 10px;
-	margin			: 10px 0;
+	margin			: 0 10px 10px 10px;
 }
 .user-datas-table tr td:first-child {
 	text-align		: right;

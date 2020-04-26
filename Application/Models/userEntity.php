@@ -1,6 +1,7 @@
 <?php
 namespace Login;
 
+use \ImageConverter;
 use DB\EntityGateway;
 use InvalidArgumentException;
 
@@ -154,7 +155,7 @@ class UserEntity
 		$this->datas['sex']				= $user->sex;
 		$this->datas['passwordLength']	= $user->passwordLength;
 
-		$this->datas['imgBin']			= $image->imgBin ?? null;		
+		$this->datas['imgBin']			= ImageConverter::BTB64 ($image->imgBin);		
 		$this->datas['theme']			= $user->theme;
 		$this->datas['refresh'] 		= $user->refresh;
 

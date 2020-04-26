@@ -1,7 +1,7 @@
 <?php
 
 use Login\UserEntity;
-use Model\Image\ImageConverter;
+
 
 
 class userController extends MainController
@@ -18,12 +18,7 @@ class userController extends MainController
 
 
     private function Action()
-    {   
-        
-
-        $this->datas['imgBin'] = ImageConverter::BTB64($this->user->imgBin);
-       
-    
+    {                       
         $this->Response( $this->datas, [
             'view'      => 'profile', 
             'module'    => 'User',

@@ -2,6 +2,7 @@
 
 use DB\EntityGateway;
 use Login\UserEntity;
+use Model\Image\ImageConverter;
 use Model\Sessions;
 
 

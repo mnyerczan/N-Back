@@ -229,11 +229,12 @@ class EntityGateway
     public function userRegistry( array $params )
     {                                                      
 
-        $sql = 'CALL gnb(
+        $sql = 'CALL CreateNewUserprocedure(
             :userName,
             :email, 
             :password, 
-            :dateOfBirth, 
+            :dateOfBirth,
+            :sex,
             :privilege, 
             :passwordLength,
             :cmpBin)';

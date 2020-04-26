@@ -15,20 +15,14 @@ class signUpController extends MainController
         parent::__construct();
         $this->SetDatas();        
                    
-        if ( @$matches['action'] )
-        {
-            $action = $matches['action'].'Action';            
-            $this->$action();
-        }
-        else
-        {
-            $this->FormAction();
-        }        
+
+        $action = $matches['action'].'Action';            
+        $this->$action();        
     }
 
 
 
-    function FormAction()
+    function formAction()
     {     
         $this->setValues();                
         
@@ -54,7 +48,8 @@ class signUpController extends MainController
         $email  = new ValidateEmail(    @$_POST['create-user-email'] );
         $pass   = new ValidatePassword( @$_POST['create-user-pass']  );
         $user   = new ValidateUser(     @$_POST['create-user-name']  );
-        $date   = new ValidateDate (    @$_POST['create-user-date']  );                
+        $date   = new ValidateDate (    @$_POST['create-user-date']  );  
+        $sex    = $_POST['sex'];
         
         
         //Ha valamelyik adat nem felel meg a mintának
@@ -76,8 +71,16 @@ class signUpController extends MainController
         $privilege  = $_POST['create-user-name'] == 'Admin' ? 3 : 1;
         
          // Konverter osztály paraméterei értékének megállapítása.
-        $image      = @$_FILES['create-user-file']['tmp_name']  ? $_FILES['create-user-file']['tmp_name'] : APPLICATION.'Images/user_blue.png';
-        $mime       = @$_FILES['create-user-file']['type']      ? $_FILES['create-user-file']['type'] : 'image/png';
+        if ($sex == 'male')
+        {
+            $image = APPLICATION.'Images/userMale.jpg';            
+        }
+        else
+        {
+            $image = APPLICATION.'Images/userFemale.jpg';
+        }
+
+        $mime  ='image/jpg';
  
         // Példányositásra kerül a konverter és a DB osztály.
          
@@ -92,13 +95,13 @@ class signUpController extends MainController
                 ':userName'         => trim( $user->getUser() ),
                 ':password'         => md5( 'salt'.md5( trim( $pass->getPass() ) ) ),
                 ':dateOfBirth'      => trim( $date->getDate() ),
+                ':sex'              => $sex,
                 ':privilege'        => $privilege,
                 ':passwordLength'   => strlen($pass->getPass()),
                 ':cmpBin'           => $converter->cmpBin
             ]
         );
     
-
         // Sikertelen registry esetén hiba üzenet és vissza a signUpView-ra
         if ( !$result )
         {            
@@ -108,7 +111,7 @@ class signUpController extends MainController
             $this->datas['userEmailValue'] = null;
 
             $this->setValues( $user, $email, $pass, $date);
-            $this->FormAction();        
+            $this->Response( $this->datas, [ 'view' => 'signUp', 'module' => 'User'] );       
 
             return 3;
         }                   

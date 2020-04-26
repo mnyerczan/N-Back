@@ -84,8 +84,7 @@
 
     require_once APPLICATION.'Interfaces/DBInterface.php';
     require_once APPLICATION.'DB/MySql.php';
-    require_once APPLICATION.'DB/EntityGateway.php';
-    require_once APPLICATION.'Models/Image/ImageConverter.php';
+    require_once APPLICATION.'DB/EntityGateway.php';    
     require_once APPLICATION.'Models/Home/homeViewModel.php';
     require_once APPLICATION.'Models/userEntity.php';
     require_once APPLICATION.'Models/sessions.php';
@@ -96,6 +95,7 @@
     require_once APPLICATION.'Models/header.php';    
     require_once APPLICATION.'Models/menus.php';
     require_once APPLICATION.'Models/ModelAndView.php';
+    require_once APPLICATION.'Classes/ImageConverter.php';
     require_once APPLICATION.'Classes/validator.php';
     require_once APPLICATION.'Classes/validateEmail.php';
     require_once APPLICATION.'Classes/validateUser.php';

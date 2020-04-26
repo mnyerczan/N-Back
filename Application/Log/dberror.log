@@ -1,0 +1,133 @@
+2020-04-26 20:43:38 - Errno: 1305 - PROCEDURE NBackDB.gnb does not exist with: '{addslashes(CALL gnb(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth, 
+            :privilege, 
+            :passwordLength,
+            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 175
+2020-04-26 20:59:02 - Errno: 1305 - PROCEDURE NBackDB.gnb does not exist with: '{addslashes(CALL gnb(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth, 
+            :privilege, 
+            :passwordLength,
+            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 173
+2020-04-26 21:04:28 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex
+            :privilege, 
+            :passwordLength,
+            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 173
+2020-04-26 21:06:08 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex
+            :privilege, 
+            :passwordLength,
+            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 173
+2020-04-26 21:08:02 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex
+            :privilege, 
+            :passwordLength,
+            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 173
+2020-04-26 21:08:28 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex
+            :privilege, 
+            :passwordLength,
+            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 173
+2020-04-26 21:08:43 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex
+            :privilege, 
+            :passwordLength,
+            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 173
+2020-04-26 21:10:06 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex
+            :privilege, 
+            :passwordLength,
+            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 179
+2020-04-26 21:10:35 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex
+            :privilege, 
+            :passwordLength,
+            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 180
+2020-04-26 21:10:54 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex
+            :privilege, 
+            :passwordLength,
+            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 180
+2020-04-26 21:12:47 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex
+            :privilege, 
+            :passwordLength,
+            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 178
+2020-04-26 21:20:21 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex
+            :privilege, 
+            :passwordLength,
+            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 178
+2020-04-26 21:22:21 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex
+            :privilege, 
+            :passwordLength,
+            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 179
+2020-04-26 21:23:08 - Errno: 1318 - Incorrect number of arguments for PROCEDURE NBackDB.CreateNewUserprocedure; expected 8, got 7 with: '{addslashes(CALL CreateNewUserprocedure(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex
+            :privilege, 
+            :passwordLength,
+            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 179
+2020-04-26 21:24:11 - Errno: 1318 - Incorrect number of arguments for PROCEDURE NBackDB.CreateNewUserprocedure; expected 8, got 7 with: '{addslashes(CALL CreateNewUserprocedure(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex
+            :privilege, 
+            :passwordLength,
+            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 181

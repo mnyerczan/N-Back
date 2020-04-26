@@ -72,9 +72,7 @@ class MySql extends baseDbApi
      * SELECT query
      */
     public function Select( string $script, array $params = [] ): array
-    {
-        var_dump($script);
-        var_dump($params);
+    {       
         $statement =  self::$connect->prepare($script);     
      
         $keys = array_keys( $params );
@@ -130,7 +128,7 @@ class MySql extends baseDbApi
      * EXECUTE query
      */
     public function Execute( string $script, array $params = [] ): bool
-    {                            
+    {                    
         try
         {
             if ( !$statement =  self::$connect->prepare( $script ) )
@@ -163,8 +161,13 @@ class MySql extends baseDbApi
             }
 
             if( !$statement->execute() )
-            {             
+            {                        
                 throw new PDOException( 'Errno: '.$statement->errorInfo()[1].' - '.$statement->errorInfo()[2] );                
+            }         
+            if ($statement->rowCount())
+            {
+                $error = $statement->fetch( PDO::FETCH_CLASS);
+                throw new PDOException('Errno: '.$error['message'].', '.$error['errno']);
             }
             $statement = null;
 
@@ -172,7 +175,7 @@ class MySql extends baseDbApi
         }
         catch( PDOException $e )
         {
-            error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '{addslashes($script)}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
+            error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '{$script}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
                         
             $statement = null;
             return false;

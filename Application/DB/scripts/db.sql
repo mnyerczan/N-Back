@@ -21,6 +21,7 @@ create table IF NOT EXISTS `users` (
     `birth` date default '1899-01-01',
     `passwordLength` tinyint default 0 not null,
     -- `fileName` varchar(255) default 'none' not null,
+    `sex` enum('male', 'female') default 'male' not null,
     `theme` varchar(5) default 'white' not null, 
     `online` int(1) default 0 not null,
     unique ( `email` ),

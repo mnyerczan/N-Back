@@ -27,7 +27,24 @@
         <label for="cu-pass"><?= $passwordLabel ?></label>
         <input id="cu-pass" type="password" name="create-user-pass" minlength="4" name="create-user-pass" autocomplete="off" >
 
-
+        <label for="">Sex</label>
+        <div class="sex-container">
+            <div class="radio-box">
+                <label class="radio-container">  
+                    <span class="emoji-container">&#128104;</span>                  
+                    <input type="radio"  name="sex" value="male" checked>                    
+                    <span class="circle" ></span>                    
+                </label>        
+            </div>
+            <div class="radio-box" title="Chose theme">
+                <label class="radio-container">  
+                    <span class="emoji-container">&#128105;</span>                  
+                    <input type="radio"  name="sex" value="female" >                                        
+                    <span class="circle" ></span>                    
+                </label>        
+            </div>
+        </div>        
+              
         <?php if ( $user->userName == 'Admin' ): ?>
 
             <label for="cu-privilege"><?= $privilegeLabel ?></label>

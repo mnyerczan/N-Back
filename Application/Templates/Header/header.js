@@ -6,7 +6,7 @@ function init(e)
 
 function displayMenu(e)
 {
-    if ( e.target.tagName === 'IMG' )
+    if ( e.target.tagName === 'SPAN' )
         e.target.nextElementSibling.style.display = "table";
     e.stopPropagation();
 }

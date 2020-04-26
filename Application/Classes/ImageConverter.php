@@ -55,6 +55,7 @@ class ImageConverter
         switch($this->mime)
         {
             case 'image/jpeg': $compressedImage  = imagecreatefromjpeg($this->tmp_name); break;
+            case 'image/jpg': $compressedImage  = imagecreatefromjpeg($this->tmp_name); break;
             case 'image/png' : $compressedImage  = imagecreatefrompng ($this->tmp_name); break;
             case 'image/gif' : $compressedImage  = imagecreatefromgif ($this->tmp_name); break;
             case 'image/bmp' : $compressedImage  = imagecreatefrombmp ($this->tmp_name); break;
@@ -116,7 +117,7 @@ class ImageConverter
             $this->origin   = addslashes(base64_encode($this->bin));     
 
             if ($mime)
-            {
+            {                
                 if ($error = $this->CompressImage())            
                 {                 
                     throw new InvalidArgumentException($error);             

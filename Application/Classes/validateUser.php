@@ -9,7 +9,7 @@ class ValidateUser extends Validator
 
     public function __construct( $userName = null)
     {
-        $this->user = $userName;
+        $this->value = $userName;
         
         parent::__construct();
     }
@@ -18,7 +18,7 @@ class ValidateUser extends Validator
 
     function getUser()
     {
-        return $this->user;
+        return $this->value;
     }
 
 
@@ -26,17 +26,19 @@ class ValidateUser extends Validator
 
     function validate() 
     {
-        if (!preg_match('/^\w+$/',$this->user )) 
+        if (!$this->value) return;
+
+        if (!preg_match('/^[a-zA-Z0-9 _áéíóöőúüűÁÉÍÓÖŐÚÜŰ]{6,255}$/',$this->value )) 
         {
             $this->setError('Username contains invalid characters');
             return;
         }
-        if (strlen($this->user) < 4 ) 
+        if (strlen($this->value) < 4 ) 
         {
             $this->setError('Username is too short');
             return;
         }
-        if (strlen($this->user) > 20 ) 
+        if (strlen($this->value) > 20 ) 
         {
             $this->setError('Username is too long');
             return;

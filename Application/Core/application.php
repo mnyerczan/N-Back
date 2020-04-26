@@ -19,8 +19,8 @@ final class Application
     {                 
         $this->addRoute( '(?<controller>)/?' , 'HomeController' , 'get');    
                       
-        $this->addRoute('(?<controller>signUp)/?' , 'signUpController' , 'get');                
-        $this->addRoute('(?<controller>signUp)/(?<action>submit)' , 'signUpController', 'post' );        
+        $this->addRoute('(?<controller>signUp)/(?<action>form)/?' , 'signUpController' , 'get');                
+        $this->addRoute('(?<controller>signUp)/(?<action>submit)/?' , 'signUpController', 'post' );        
         
         $this->addRoute('(?<controller>signIn)/?' , 'signInController' , 'get');
         $this->addRoute('(?<controller>signIn)/(?<action>submit)' , 'signInController', 'post' );

@@ -8,15 +8,3 @@
 
 
 </main>
-
-<nav class="inspector-container">	
-	<a href="<?= APPROOT ?>nBack" tabIndex="-1">			
-		<div class="inspector-btn" id="play-inspector" title="Start game"></div>
-	</a>		
-	<a href="<?= APPROOT ?>settings" tabIndex="-1">	
-		<div class="inspector-btn" id="options-inspector" title="Options"></div>	
-	</a>	
-	<a href="<?= APPROOT ?>documents" tabIndex="-1">
-		<div class="inspector-btn" id="document-inspector" title="documents"></div>
-	</a>	
-</nav>

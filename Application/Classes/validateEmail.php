@@ -10,7 +10,7 @@ class ValidateEmail extends Validator
 
     function __construct( $email = null )
     {
-        $this->email = $email;
+        $this->value = $email;
 
         parent::__construct();
     }
@@ -20,20 +20,21 @@ class ValidateEmail extends Validator
 
     function getEmail()
     {
-        return $this->email;
+        return $this->value;
     }
 
 
 
     public function validate() 
-    {        
+    {       
+        if (!$this->value) return; 
 
-        if ( !preg_match( "%^[a-zA-Z]{0,}[a-zA-z0-9.]{0,}@[a-zA-z0-9.]{0,}[a-zA-Z]{0,}\.\D{2,}$%", $this->email ) )
+        if ( !preg_match( "%^[a-zA-Z]{0,}[a-zA-z0-9.]{0,}@[a-zA-z0-9.]{0,}[a-zA-Z]{0,}\.\D{2,}$%", $this->value ) )
         {
             $this->setError( 'Invalid email address' );
             return;
         }
-        if ( strlen( $this->email ) > 100 )
+        if ( strlen( $this->value ) > 100 )
         {
             $this->setError('Address is too long');
             return;

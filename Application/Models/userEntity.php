@@ -151,6 +151,7 @@ class UserEntity
 		$this->datas['userName']		= Include_special_characters($user->userName);
 		$this->datas['privilege']		= $user->privilege;
 		$this->datas['birth']			= $user->birth;
+		$this->datas['sex']				= $user->sex;
 		$this->datas['passwordLength']	= $user->passwordLength;
 
 		$this->datas['imgBin']			= $image->imgBin ?? null;		
@@ -218,6 +219,7 @@ class UserEntity
 			case 'loginDatetime': 	return $this->datas['loginDatetime']; 	break;
 			case 'privilege': 		return $this->datas['privilege']; 		break;
 			case 'birth': 			return $this->datas['birth']; 			break;
+			case 'sex': 			return $this->datas['sex']; 			break;
 			case 'passwordLength': 	return $this->datas['passwordLength']; 	break;
 			//case 'fileName': 		return $this->datas['fileName']; 		break;
 			case 'theme': 			return $this->datas['theme']; 			break;

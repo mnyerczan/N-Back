@@ -6,29 +6,31 @@ class ValidatePassword extends Validator
     
     public function __construct( $pass = null) 
     {
-        $this->pass = $pass;        
+        $this->value = $pass;        
 
         parent::__construct();
     }
 
     public function getPass()
     {
-        return $this->pass;
+        return $this->value;
     }
 
     public function validate() 
     {
-        if (strlen($this->pass) < 6 ) 
+        if (!$this->value) return;
+
+        if (strlen($this->value) < 6 ) 
         {
             $this->setError('Password is too short');
             return;
         }
-        if (!preg_match('/^[a-zA-Z0-9_]+$/',$this->pass )) 
+        if (!preg_match('/^[a-zA-Z0-9_]+$/',$this->value )) 
         {
             $this->setError('Password contains invalid characters');
             return;
         }
-        if (strlen($this->pass) > 20 ) 
+        if (strlen($this->value) > 20 ) 
         {
             $this->setError('Password is too long');
             return;

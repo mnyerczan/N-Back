@@ -6,23 +6,25 @@ class ValidateDate extends Validator
     
     public function __construct( $date = null ) 
     {
-        $this->date = $date;        
+        $this->value = $date;        
 
         parent::__construct();
     }
 
     function getDate()
     {
-        return $this->date;
+        return $this->value;
     }
 
     public function validate() 
     {
+        if (!$this->value) return;
+
         $currentDate    = time();
-        $gettedDate     = strtotime( $this->date );
+        $gettedDate     = strtotime( $this->value );
         
      
-        if ( !preg_match("%^\d{4}-\d{2}-\d{2}$%", $this->date) || $currentDate < $gettedDate ) 
+        if ( !preg_match("%^\d{4}-\d{2}-\d{2}$%", $this->value) || $currentDate < $gettedDate ) 
         {
             $this->setError('Invalide date! Maybe the value is lower then current date.');
         }

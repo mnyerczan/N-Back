@@ -13,10 +13,7 @@ function displayMenu(e)
 
 function hideMenu(e)
 {
-
-    console.log(e);
-
-    if(e.target.className !== 'hdr-icons')
+     if(e.target.className !== 'hdr-icons')
     {
         var elements = document.getElementsByClassName('drop-down-container');
 

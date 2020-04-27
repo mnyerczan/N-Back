@@ -1,9 +1,11 @@
 <?php  //	$navbar 		?>
-<aside class="nav-bar">
-	<div class="navbar-hdr">
-		<img src="<?= APPROOT ?><?=APPLICATION?>img/brain_logo.png" >
-		<a href="<?=APPROOT?>" title="Main page" >	N-Back</a>
-	</div>
+<aside class="nav-bar">	
+	<table class="navbar-hdr">
+		<tr>
+			<td><img src="<?= APPROOT ?><?=APPLICATION?>img/brain_logo.png" ></td>
+			<td><a href="<?=APPROOT?>" title="Main page" >	N-Back</a></td>
+		</tr>
+	</table>					
 	<div class="increase-container">
 	</div>		
 	<nav class="nav-lnks">

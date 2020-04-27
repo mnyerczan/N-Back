@@ -1,7 +1,16 @@
+@import url('profile.css');
+
+
 :root {
 	--mn-font-size	: 16px;
 	--nb-min-width	: 120px;
 	--right-side-mrg: 100px;
+}
+:focus, :active { 
+	outline			: none; 
+}
+:visited {
+	color 			: blue;
 }
 
 body{
@@ -12,12 +21,8 @@ body{
 	min-height		: 100vh;
 	font-family		: Arial;
 }
-
 a {
-    text-decoration: none;
-}
-:focus, :active { 
-	outline: none; 
+	text-decoration	: none;	
 }
 .emoji-container {
 	display			: inline-block;
@@ -176,28 +181,28 @@ a {
 */
 
 /*---- navbar header ----*/
-.navbar-hdr{
-	float			: left;            
-	height			: 40px;
-	width			: calc( 100% - 20px );
+:root {
+	--navbar-padding: 10px;	
+}
+.navbar-hdr{	          
+	width			: calc( 100% - 2 * var(--navbar-padding));
 	padding			: 10px;
 	overflow		: hidden;
 	user-select		: none;
-	display			: block;
+	display			: table;
 }
-.navbar-hdr a {
-	float			: right;
-	margin			: 5px;
-	padding			: 0 10px;
+.navbar-hdr td:first-child {
+	width			: 30%;
+}		
+.navbar-hdr a {	
+	display			: block;
+	padding			: 0 10px;	
 	font-size		: 20px;
 	font-style		: italic;
 	font-family		: Geneva;	
 }
 .navbar-hdr img{
-	display			: block;
-	width			: 40px;
-	padding			: 0 10px;
-	float			: left;
+	width			: 40px;	
 }
 @media ( max-height: 600px ), ( max-width: 1440px ) {
 	.navbar-hdr img{
@@ -440,10 +445,6 @@ a {
 	font-weight: bold;
 	user-select: none;
 }
-.btn:active {
-	margin-top: 6px;
-	padding-bottom: 9px;
-}
 
 .btn-gldnrd {		
 	background-image: linear-gradient(to bottom, rgb(197, 169, 97), darkgoldenrod);
@@ -453,11 +454,14 @@ a {
 	background-image: linear-gradient(to bottom, rgb(235, 190, 134), rgb(199, 157, 107));	
 }
 .btn-save {
-	background-image: linear-gradient(to bottom, #0a0, #060);
-
-	background-color: #080;
+	background-image: linear-gradient(to bottom, #0a0, #060);	
 	color: white;
 }
+.btn-gray {
+	background-image: linear-gradient(to bottom, rgb(233, 233, 233), rgb(194, 194, 194));	
+	color: black;
+}
+
 /*
 * INFO
 */
@@ -495,42 +499,6 @@ a {
 	font-size: 50px;
 }
 
-
-/*---- user platform ----*/
-.user-datas-table {
-	width			: 500px;
-	margin			: 0 0 20px 0;
-	color			: #777;
-	float			: left;
-	border-collapse	: separate;
-	border-spacing	: 5px;
-}
-.user-datas-table td {
-	line-height		: 25px;
-}
-.user-datas-table caption {
-	background-color: rgb(153, 153, 253);	
-	color			: white;
-	padding			: 10px;
-	margin			: 0 10px 10px 10px;
-}
-.user-datas-table tr td:first-child {
-	text-align		: right;
-	font-weight		: bold;	
-}
-.user-datas-table tr td:first-child::after {
-	content			: ": ";
-}
-.big-user-image {
-	width 			: 300px;
-	height 			: 300px;
-	float			: right;
-}
-/*---- inspector ----*/
-.inspector-container a {
-	display			: inline-block;
-	margin			: 0 5px;
-}
 
 /*---- main structure ----*/
 .nav-bar {
@@ -597,6 +565,11 @@ a {
 	top				: 100px;
 
 	padding			: 10px;
+}
+/*---- inspector ----*/
+.inspector-container a {
+	display			: inline-block;
+	margin			: 0 5px;
 }
 .inspector-container {		
 	display			: table;		

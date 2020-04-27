@@ -1,0 +1,86 @@
+:root {
+    --img-container-padding : 10px;
+}
+/*---- user platform ----*/
+.user-profile-structure {
+    margin			: auto;
+    color			: #777;
+	max-width		: 1000px;
+	min-width		: 800px;
+	display			: grid;
+	height			: 300px;
+	grid-gap		: 10px;
+    grid-template	: 
+        "main-title main-title"     50px
+        "user-datas-tbl user-image" 300px
+        "d user-img-chng-cell"      30px
+        "line line "                10px
+		/ 1fr 300px;
+}
+.user-profile-structure > div {
+    overflow        : hidden;
+}
+
+.user-profile-structure .title:first-child {
+    grid-area       : main-title;
+    font-weight     : bold;
+}
+.user-datas-tbl {
+	grid-area: user-datas-tbl;	
+}
+.user-image {
+    grid-area: user-image;
+}
+.user-img-chng-cell {
+    grid-area: user-img-chng-cell ;
+}
+.d {
+    grid-template   : d;
+}
+
+.line {
+    grid-area       : line;
+    border-bottom   : 1px solid #ddd;
+}
+
+
+
+
+
+#update-img + label {
+    width           : 200px;
+    margin          : auto;
+}
+.user-datas-table {
+	width			: 500px;	
+	float			: left;
+	border-collapse	: separate;
+	border-spacing	: 5px;
+}
+.user-datas-table td {
+	line-height		: 25px;
+}
+.user-datas-table caption {
+	background-color: rgb(153, 153, 253);	
+	color			: white;
+	padding			: 10px;	
+}
+.user-datas-table tr td:first-child {
+	-text-align		: right;
+	font-weight		: bold;	
+}
+.user-datas-table tr td:first-child::after {
+	content			: ": ";
+}
+.big-user-image {	 
+    margin          : auto;
+    display         : block;   
+    max-width       : 100%;  
+    max-height      : 100%; 
+}
+
+
+/*---- modify ----*/
+#update-img {
+    display         : none;
+}

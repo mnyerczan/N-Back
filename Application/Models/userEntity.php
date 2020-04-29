@@ -2,8 +2,7 @@
 namespace Login;
 
 use \ImageConverter;
-use DB\EntityGateway;
-use InvalidArgumentException;
+use DB\DB;
 
 /**
  * UserEntity, this is a singleton
@@ -23,8 +22,7 @@ class UserEntity
 	public static function GetInstance(): object
     {		
 		if ( self::$INSTANCE == NULL )		
-        {			
-			session_start();
+        {						
 	
 			self::$INSTANCE = new self();    
 			
@@ -44,14 +42,14 @@ class UserEntity
 	
 	private function __construct()
     {				 
-		$this->object = EntityGateway::GetInstance();		
+		$this->db = DB::GetInstance();		
 	}
 
 
 
 	public function getUsersCount()
 	{		
-		return $this->object->getUsersCount()[0];
+		return $this->db->Select('CALL `GetUserCount`()')[0];
 	}
 
 
@@ -142,10 +140,17 @@ class UserEntity
 		// Anonim felhasználóhoz nem tartoznak személyes adatok.
 		if ($userId == 1) return false; 
 		
-		// return $user, $image
-		extract($this->object->getUser( [ ':userId' => $userId ]  ));
+		$sql = 'CALL GetUser(:inUId, :inEmail, :inPass)';
 
+		$params = [
+			':inUId' => $userId,
+			':inEmail' => '', 			
+			':inPass' => ''
+			];
 
+		$user = $this->db->Select($sql,$params)[0]; 
+				
+		
 		$this->datas['id'] 				= $user->id;
 		$this->datas['email']			= Include_special_characters($user->email);
 		$this->datas['loginDatetime']	= $user->loginDatetime;		
@@ -155,7 +160,7 @@ class UserEntity
 		$this->datas['sex']				= $user->sex;
 		$this->datas['passwordLength']	= $user->passwordLength;
 
-		$this->datas['imgBin']			= ImageConverter::BTB64 ($image->imgBin);		
+		$this->datas['imgBin']			= ImageConverter::BTB64 ($user->imgBin);		
 		$this->datas['theme']			= $user->theme;
 		$this->datas['refresh'] 		= $user->refresh;
 
@@ -180,13 +185,21 @@ class UserEntity
 
     function Login( string $email, string $password ): string
     {		
-		$result = $this->object->getUser( [ ":email" => $email, ":password" => md5( "salt".md5( $password ) ) ]  );					
-	
+		$sql = 'CALL GetUser(:inUId, :inEmail, :inPass)';
 
-		if( is_object($result['user']))
-		{		
-			//$this->SetUser( $result[0] );			
-			$this->SetSession( $result['user'] );	
+		$params = [
+			':inUId' => null,
+			':inEmail' => $email, 			
+			':inPass' => md5("salt".md5($password ))
+		];
+
+		$user = $this->db->Select($sql,$params);
+			
+		if (!is_array($user)) return false;
+		
+		if(count($user))
+		{							
+			$this->SetSession( $user[0] );	
 	
 			return $this->loged = true;
 		}        		
@@ -202,8 +215,6 @@ class UserEntity
 	private function SetSession( $result )
 	{
 		$_SESSION['userId']		= $result->id;
-		//$_SESSION['userName']	= Include_special_characters($result->['userName']);
-		//$_SESSION['password']	= $result->['password'];
 	}
 
 
@@ -221,8 +232,7 @@ class UserEntity
 			case 'privilege': 		return $this->datas['privilege']; 		break;
 			case 'birth': 			return $this->datas['birth']; 			break;
 			case 'sex': 			return $this->datas['sex']; 			break;
-			case 'passwordLength': 	return $this->datas['passwordLength']; 	break;
-			//case 'fileName': 		return $this->datas['fileName']; 		break;
+			case 'passwordLength': 	return $this->datas['passwordLength']; 	break;			
 			case 'theme': 			return $this->datas['theme']; 			break;
 			case 'refresh': 		return $this->datas['refresh']; 		break;
 			case 'online': 			return $this->datas['online']; 			break;

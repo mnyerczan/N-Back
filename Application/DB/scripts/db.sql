@@ -49,7 +49,8 @@ CREATE TABLE IF NOT EXISTS `images`(
 ) ROW_FORMAT=DYNAMIC;
 
 
-
+INSERT INTO `images` VALUES 
+('1',null,null,current_timestamp );
 
 
 -- A userekhez tartozó játék beállítások

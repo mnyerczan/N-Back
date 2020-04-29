@@ -5,13 +5,11 @@ class logUotController extends MainController
 {
     function __construct()
     {
-        $this->logOut();
+        $this->Action();
     }
 
-    function logOut()
-    {
-        session_start( [] );
-
+    function Action()
+    {        
         session_destroy();
 
         $this->Response([], ['view' => 'redirect:'.APPROOT]);

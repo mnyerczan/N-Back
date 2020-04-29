@@ -2,6 +2,7 @@
 namespace DB;
 
 use DB\DBInterface;
+use InvalidArgumentException;
 use PDOException;
 use RuntimeException;
 use PDO;
@@ -13,17 +14,20 @@ require_once APPLICATION.'DB/baseDbApi.php';
 /**
  * MySql This is a singleton
  */
-class MySql extends baseDbApi
+class DB extends baseDbApi
 {
     public                      
                 $id;
 
     private static 
-                $INSTANCE,
-                $host       = "localhost",
-                $user       = "www-data",
-                $pass       = "0000",
-                $database   = "NBackDB";
+                $INSTANCE;
+
+    private static               
+                $host,
+                $user,
+                $pass,
+                $database,
+                $DBMS;
            
     /**
      * DBInterface abstract methods
@@ -38,6 +42,22 @@ class MySql extends baseDbApi
                 return false;
         }               
         return self::$INSTANCE;
+    }
+
+
+    private function __construct()
+    {  
+        if (!$params = getConfig())
+            throw new InvalidArgumentException('Can\'t access /config.json file!!');
+
+        extract($params);
+
+        self::$host     = $hostName;
+        self::$user     = $userName;
+        self::$pass     = $password;
+        self::$database = $database;
+        self::$DBMS     = $DBMS;
+
     }
 
    /**
@@ -96,9 +116,7 @@ class MySql extends baseDbApi
             {
                 $statement->bindParam( $keys[$i], $params[$keys[$i]] );
             } 
-        }
-         
-        $statement->execute();
+        }            
 
         try
         {
@@ -166,7 +184,7 @@ class MySql extends baseDbApi
             }         
             if ($statement->rowCount())
             {
-                $error = $statement->fetch( PDO::FETCH_CLASS);
+                $error = $statement->fetch( PDO::FETCH_ASSOC);
                 throw new PDOException('Errno: '.$error['message'].', '.$error['errno']);
             }
             $statement = null;
@@ -190,7 +208,7 @@ class MySql extends baseDbApi
      * Helper function to get PDO object
      */
     private static function Connect(): bool
-    {    
+    {            
         try 
         {
             /**
@@ -199,7 +217,7 @@ class MySql extends baseDbApi
              * ARRR_PERSISTENT -> állandó adatbázis kapcsolat fenntartása új szálak generálása helyett. Gyorsabb.
              */
             self::$connect = new PDO( 
-                "mysql:host=".self::$host.";dbname=".self::$database.";charset=utf8", 
+                self::$DBMS.":host=".self::$host.";dbname=".self::$database.";charset=utf8", 
                 self::$user, 
                 self::$pass,
                 [PDO::ATTR_PERSISTENT => true]

@@ -12,7 +12,7 @@
 	grid-gap		: 10px;
     grid-template	: 
         "main-title main-title"     50px
-        "user-datas-tbl user-image" 300px
+        "user-datas-tbl user-image" 320px
         "d user-img-chng-cell"      30px
         "line line "                10px
 		/ 1fr 300px;
@@ -25,8 +25,8 @@
     grid-area       : main-title;
     font-weight     : bold;
 }
-.user-datas-tbl {
-	grid-area: user-datas-tbl;	
+.user-datas-tbl { 
+    grid-area       : user-datas-tbl;	
 }
 .user-image {
     grid-area: user-image;
@@ -43,19 +43,30 @@
     border-bottom   : 1px solid #ddd;
 }
 
-
-
-
-
 #update-img + label {
     width           : 200px;
     margin          : auto;
 }
+/*---- user table ----*/
 .user-datas-table {
-	width			: 500px;	
+    width			: 500px;    	
 	float			: left;
 	border-collapse	: separate;
-	border-spacing	: 5px;
+    border-spacing	: 5px;
+    padding         : 10px;
+}
+.user-datas-table input {
+    border          : none;
+    padding         : 5px;
+    width           : 100%;    
+    cursor          : pointer;
+}
+.user-datas-table input.persona-data-input {
+    background-color: #f9f9f9;
+    width           : calc(100% - 10px); 
+}
+input.controlInputs {
+    display         : none;
 }
 .user-datas-table td {
 	line-height		: 25px;
@@ -69,16 +80,27 @@
 	-text-align		: right;
 	font-weight		: bold;	
 }
-.user-datas-table tr td:first-child::after {
-	content			: ": ";
-}
 .big-user-image {	 
     margin          : auto;
     display         : block;   
     max-width       : 100%;  
     max-height      : 100%; 
 }
-
+/*---- modal ----*/
+.modal {
+    position        : fixed;
+    width           : 100%;
+    height          : 100%;
+    z-index         : 1;
+    background-color: rgba(0, 0, 0, 0.281);
+    display         : none;
+}
+.model-content-container {   
+    z-index         : 20002;
+    background-color: #f9f9f9;
+    display         : table;
+    position: fixed;
+}
 
 /*---- modify ----*/
 #update-img {

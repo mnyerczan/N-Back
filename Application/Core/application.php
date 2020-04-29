@@ -15,8 +15,13 @@ final class Application
     private $user,
             $routes;   
 
+    function __construct()
+    {
+        session_start();
+    }
+
     function route($cleanedUri)
-    {                 
+    {                                
         $this->addRoute( '(?<controller>)/?' , 'HomeController' , 'get');    
                       
         $this->addRoute('(?<controller>signUp)/(?<action>form)/?' , 'signUpController' , 'get');                
@@ -26,19 +31,22 @@ final class Application
         $this->addRoute('(?<controller>signIn)/(?<action>submit)' , 'signInController', 'post' );
         $this->addRoute('(?<controller>logUot)' , 'logUotController' , 'get');
         
-        $this->addRoute('(?<controller>user)/?' , 'userController','get' );
+        $this->addRoute('(?<controller>user)/?' , 'userController','get', true );
         $this->addRoute('(?<controller>settings)/?', 'settingsController','get' );        
         $this->addRoute('(?<controller>nBack)/?', 'nBackController','get' );        
         $this->addRoute('(?<controller>documents)/?' , 'documentsController','get' );
         
- 
-        foreach( $this->routes[$_SERVER['REQUEST_METHOD']] as $pattern => $controller )
+
+        foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $pattern => $params)
         {                
-            if( preg_match( $pattern, $cleanedUri, $matches ) )
+            if (preg_match( $pattern, $cleanedUri, $matches ))
             {                      
-                require_once APPLICATION."Controllers/{$controller}.php";
-                new $controller( $matches );
-                die;
+                if ($params['logged'] && $_SESSION['userId'] || !$params['logged'])
+                {                       
+                    require_once APPLICATION."Controllers/{$params['controller']}.php";
+                    new $params['controller']($matches);
+                    die;
+                }                
             }
         }
         
@@ -46,16 +54,23 @@ final class Application
                         
     }    
 
-    private function addRoute( string $pattern, string $controller, string $method )
+    private function addRoute( string $pattern, string $controller, string $method, $logged = false )
     {
         $method = strtoupper($method);
-        $this->routes[$method]["`^{$pattern}$`"] = $controller;
+
+        $this->routes[$method]["`^{$pattern}$`"] = [ 
+            'controller'    => $controller,
+            'logged'        => $logged
+        ];
     }
 
 
 
     /**
      * Nincs implementálva....
+     * 
+     * 
+     * 
      */
     function Session()
     {    

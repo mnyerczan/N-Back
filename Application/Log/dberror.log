@@ -1,133 +1,16 @@
-2020-04-26 20:43:38 - Errno: 1305 - PROCEDURE NBackDB.gnb does not exist with: '{addslashes(CALL gnb(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth, 
-            :privilege, 
-            :passwordLength,
-            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 175
-2020-04-26 20:59:02 - Errno: 1305 - PROCEDURE NBackDB.gnb does not exist with: '{addslashes(CALL gnb(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth, 
-            :privilege, 
-            :passwordLength,
-            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 173
-2020-04-26 21:04:28 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth,
-            :sex
-            :privilege, 
-            :passwordLength,
-            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 173
-2020-04-26 21:06:08 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth,
-            :sex
-            :privilege, 
-            :passwordLength,
-            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 173
-2020-04-26 21:08:02 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth,
-            :sex
-            :privilege, 
-            :passwordLength,
-            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 173
-2020-04-26 21:08:28 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth,
-            :sex
-            :privilege, 
-            :passwordLength,
-            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 173
-2020-04-26 21:08:43 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth,
-            :sex
-            :privilege, 
-            :passwordLength,
-            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 173
-2020-04-26 21:10:06 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth,
-            :sex
-            :privilege, 
-            :passwordLength,
-            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 179
-2020-04-26 21:10:35 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth,
-            :sex
-            :privilege, 
-            :passwordLength,
-            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 180
-2020-04-26 21:10:54 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth,
-            :sex
-            :privilege, 
-            :passwordLength,
-            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 180
-2020-04-26 21:12:47 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth,
-            :sex
-            :privilege, 
-            :passwordLength,
-            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 178
-2020-04-26 21:20:21 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth,
-            :sex
-            :privilege, 
-            :passwordLength,
-            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 178
-2020-04-26 21:22:21 - Errno:  -  with: '{addslashes(CALL CreateNewUserprocedure(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth,
-            :sex
-            :privilege, 
-            :passwordLength,
-            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 179
-2020-04-26 21:23:08 - Errno: 1318 - Incorrect number of arguments for PROCEDURE NBackDB.CreateNewUserprocedure; expected 8, got 7 with: '{addslashes(CALL CreateNewUserprocedure(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth,
-            :sex
-            :privilege, 
-            :passwordLength,
-            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 179
-2020-04-26 21:24:11 - Errno: 1318 - Incorrect number of arguments for PROCEDURE NBackDB.CreateNewUserprocedure; expected 8, got 7 with: '{addslashes(CALL CreateNewUserprocedure(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth,
-            :sex
-            :privilege, 
-            :passwordLength,
-            :cmpBin))}' in /var/www/html/NBack/Application/DB/MySql.php at 181
+2020-04-29 15:52:41 - Query was empty with: '' in /var/www/html/NBack/Application/DB/DB.php at 137
+2020-04-29 15:53:07 - Query was empty with: '' in /var/www/html/NBack/Application/DB/DB.php at 137
+2020-04-29 16:07:35 - Incorrect number of arguments for PROCEDURE NBackDB.GetUser; expected 3, got 0 with: 'CALL GetUser()' in /var/www/html/NBack/Application/DB/DB.php at 137
+2020-04-29 16:07:37 - Incorrect number of arguments for PROCEDURE NBackDB.GetUser; expected 3, got 0 with: 'CALL GetUser()' in /var/www/html/NBack/Application/DB/DB.php at 137
+2020-04-29 16:09:11 -  with: 'CALL GetUser(:id, :email, :pass)' in /var/www/html/NBack/Application/DB/DB.php at 137
+2020-04-29 16:09:53 - Errno:  -  with: 'CALL GetUser(:id, :email, :pass)' in /var/www/html/NBack/Application/DB/DB.php at 196
+2020-04-29 16:10:09 - Errno:  -  with: 'CALL GetUser(:id, :email, :pass)' in /var/www/html/NBack/Application/DB/DB.php at 196
+2020-04-29 16:11:44 - Errno: 1054 - Unknown column 'userID' in 'field list' with: 'CALL GetUser(:userId, :email, :pass)' in /var/www/html/NBack/Application/DB/DB.php at 196
+2020-04-29 16:12:30 - Errno: 1054 - Unknown column 'userID' in 'field list' with: 'CALL GetUser(:inUId, :inEmail, :inPass)' in /var/www/html/NBack/Application/DB/DB.php at 196
+2020-04-29 16:12:35 - Errno: 1054 - Unknown column 'userID' in 'field list' with: 'CALL GetUser(:inUId, :inEmail, :inPass)' in /var/www/html/NBack/Application/DB/DB.php at 196
+2020-04-29 16:13:50 - Errno: 1054 - Unknown column 'userID' in 'field list' with: 'CALL GetUser(:inUId, :inEmail, :inPass)' in /var/www/html/NBack/Application/DB/DB.php at 196
+2020-04-29 16:14:04 - Errno: 1305 - PROCEDURE NBackDB.GetUser does not exist with: 'CALL GetUser(:inUId, :inEmail, :inPass)' in /var/www/html/NBack/Application/DB/DB.php at 196
+2020-04-29 16:15:34 - Errno: 1054 - Unknown column 'userID' in 'field list' with: 'CALL GetUser(:inUId, :inEmail, :inPass)' in /var/www/html/NBack/Application/DB/DB.php at 196
+2020-04-29 16:16:12 - Errno: ,  with: 'CALL GetUser(:inUId, :inEmail, :inPass)' in /var/www/html/NBack/Application/DB/DB.php at 196
+2020-04-29 16:19:30 - Errno: ,  with: 'CALL GetUser(:inUId, :inEmail, :inPass)' in /var/www/html/NBack/Application/DB/DB.php at 196
+2020-04-29 16:25:02 - Errno: ,  with: 'CALL GetUser(:inUId, :inEmail, :inPass)' in /var/www/html/NBack/Application/DB/DB.php at 196

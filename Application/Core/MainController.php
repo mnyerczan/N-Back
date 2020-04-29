@@ -1,8 +1,6 @@
 <?php
 
-use DB\EntityGateway;
 use Login\UserEntity;
-use Model\Image\ImageConverter;
 use Model\Sessions;
 
 
@@ -19,12 +17,14 @@ class MainController
         $this->user = UserEntity::GetInstance();        
     }
 
-/**
- * Előfeltétel - bemeneti paraméterek
- * 
- * @param array $datas Get datas for render views
- * @param array $viewModule Get name of view and module
- */
+
+
+    /**
+     * Előfeltétel - bemeneti paraméterek
+     * 
+     * @param array $datas Get datas for render views
+     * @param array $viewModule Get name of view and module
+     */
     protected function Response(array $models = [], array $viewAndModule = []): void 
     {             
         $responseFactory = new ResponseFactory(new ViewRenderer);
@@ -32,6 +32,9 @@ class MainController
 
         (new ResponseEmitter)->emit($response);        
     }   
+    
+    
+    
     
     protected function SetDatas()
     {        

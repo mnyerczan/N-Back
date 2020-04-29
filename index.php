@@ -15,8 +15,11 @@
 	// Program gyökér mappa
 	define('APPROOT'			, "/NBack/");
 	
-	// Temp file útvonal
-	define('TMP_PATH'			, APPLICATION.'Tmp/');
+	// Temp mappa útvonal
+    define('TMP_PATH'			, APPLICATION.'Tmp/');
+    
+    // Config path
+	define('CONF_PATH'			, 'config.json');
 
 
 
@@ -83,7 +86,7 @@
                             
 
     require_once APPLICATION.'Interfaces/DBInterface.php';
-    require_once APPLICATION.'DB/MySql.php';
+    require_once APPLICATION.'DB/DB.php';
     require_once APPLICATION.'DB/EntityGateway.php';    
     require_once APPLICATION.'Models/Home/homeViewModel.php';
     require_once APPLICATION.'Models/userEntity.php';

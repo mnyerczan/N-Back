@@ -18,7 +18,10 @@ body{
 	margin			: 0;   
 	font-size		: var(--mn-font-size); 
 	background-color: #f9f9f9;
+	position		: absolute;
+	top				: 0;
 	min-height		: 100vh;
+	width			: 100vw;
 	font-family		: Arial;
 }
 a {
@@ -183,6 +186,7 @@ a {
 /*---- navbar header ----*/
 :root {
 	--navbar-padding: 10px;	
+	--nb-color		: #333;
 }
 .navbar-hdr{	          
 	width			: calc( 100% - 2 * var(--navbar-padding));
@@ -232,15 +236,16 @@ a {
 	width			: calc( 100% - 20px );	
 	padding			: 10px;
 	margin			: 3px auto;
+	border-bottom	: 1px solid #ddd;
 	display			: block;	
 	border-radius	: 2px;
 	font-weight		: bold;
-	color			: black;
+	color			: var(--nb-color);
 	cursor			: pointer;
 	background-color: #f1f1f1;
 }
 .nav-bar-btn:hover {
-	color			: #bbb;
+	background-color: #e6e6e6;
 }
 
 .nav-lnks-arrow {
@@ -444,6 +449,8 @@ a {
 	text-align: center;
 	font-weight: bold;
 	user-select: none;
+
+	box-shadow		: 1px 1px 5px #ddd;
 }
 
 .btn-gldnrd {		
@@ -454,7 +461,7 @@ a {
 	background-image: linear-gradient(to bottom, rgb(235, 190, 134), rgb(199, 157, 107));	
 }
 .btn-save {
-	background-image: linear-gradient(to bottom, #0a0, #060);	
+	background-image: linear-gradient(to bottom, rgb(123, 196, 123), rgb(52, 146, 52));	
 	color: white;
 }
 .btn-gray {

@@ -5,7 +5,7 @@ use DB\MySql;
 use Exception;
 use RuntimeException;
 
-require_once 'MySql.php';
+require_once 'DB.php';
 
 
 class EntityGateway
@@ -13,7 +13,7 @@ class EntityGateway
     public static $INSTANCE;
 
     private 
-            $dbname = 'DB\MySql',
+            $dbname = 'DB\DB',
             $serial,
             $object;
 
@@ -171,59 +171,10 @@ class EntityGateway
     }
 
     //-----------------------------------------------------------------------------
-           
-    /**
-     * User module
-     */
-
-    public function getUsersCount(): array
-    {
-        return $this->object->Select('SELECT COUNT(*) as num FROM users');
-    }
 
 
 
-    public function getUser( array $params ): array
-    {        
-        if ( array_key_exists( ':userId', $params ) )
-        {
-            $userSql=
-		   "SELECT `users`.*, `nbackDatas`.*, current_timestamp AS refresh 
-			FROM `users` JOIN `nbackDatas` 
-				ON `users`.`id` = `nbackDatas`.`userID`         
-            WHERE `users`.`id` = :userId";
-            
-
-            $image  = $this->object->Select( 
-                "SELECT `imgBin` FROM `images` WHERE `userID` = :userId", 
-                [ ':userId' => $params[':userId']] 
-            )[0] ?? null;       
-        }
-        else
-        {
-            $userSql =
-            "SELECT `users`.*, `nbackDatas`.*, current_timestamp AS refresh 
-             FROM `users` JOIN `nbackDatas` 
-                 ON `users`.`id` = `nbackDatas`.`userID`
-             WHERE `email` = :email 
-             AND `password` = :password ";
-
-
-            $image  = $this->object->Select( 
-                "SELECT `imgBin` FROM `images` WHERE `userID` = (SELECT `id` FROM `users` WHERE `email` = :email)", 
-                [ ':email' => $params[':email']] 
-            );
-        }               
-      
-        
-        $user = $this->object->Select( $userSql, $params )[0];
-            
-
-        return [
-            "user" => $user,
-            "image"=> $image ?? null
-        ];
-    }    
+    
 
 
     public function userRegistry( array $params )

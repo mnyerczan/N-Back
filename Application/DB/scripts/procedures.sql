@@ -42,3 +42,42 @@ BEGIN
 
     COMMIT; 
 END;
+
+-------------------------------------------------------------
+-- Procedure for get user
+-------------------------------------------------------------
+CREATE PROCEDURE `GetUser`(
+    IN `inUId` INT,
+    IN `inEmail` VARCHAR(255),
+    IN `inPass` VARCHAR(33)
+)
+BEGIN
+    IF `inUId` IS NOT NULL THEN
+        SELECT 
+            `u`.*, `i`.*,`n`.*, CURRENT_TIMESTAMP 
+        FROM 
+            `users` AS `u` JOIN `images` AS `i` JOiN `nbackDatas` AS n
+        WHERE 
+            `u`.`id` = `i`.`userID`         AND
+            `u`.`id` = `n`.`userID`         AND
+            `u`.`id` = `inUId`;
+    ELSE
+        SELECT 
+            `u`.*, `i`.*, `n`.*, CURRENT_TIMESTAMP 
+        FROM 
+            `users` AS `u` JOIN `images` AS `i` JOiN `nbackDatas` AS n
+        WHERE 
+            `u`.`id` = `i`.`userID`         AND
+            `u`.`id` = `n`.`userID`         AND
+            `u`.`email` LiKE `inEmail`      AND
+            `u`.`password` LIKE `inPass`;
+    END IF;
+END;
+
+-------------------------------------------------------------
+-- Procedure for get users count
+-------------------------------------------------------------
+CREATE PROCEDURE `GetUserCount`()
+BEGIN
+    SELECT COUNT(*) AS num FROM `users`;
+END;

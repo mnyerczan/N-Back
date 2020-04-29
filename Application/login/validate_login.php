@@ -12,7 +12,7 @@ $documentRoot = ".././";
 
 require_once $documentRoot.'Models/userEntity.php';
 require_once $documentRoot.'Interfaces/DBInterface.php';
-require_once $documentRoot.'DB/MySql.php';
+require_once $documentRoot.'DB/DB.php';
 require_once $documentRoot.'DB/entityGateway.php';
 
 require_once $documentRoot."special_characters_handler.php";

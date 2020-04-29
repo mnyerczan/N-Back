@@ -149,7 +149,7 @@ class UserEntity
 			];
 
 		$user = $this->db->Select($sql,$params)[0]; 
-				
+
 		
 		$this->datas['id'] 				= $user->id;
 		$this->datas['email']			= Include_special_characters($user->email);
@@ -162,7 +162,7 @@ class UserEntity
 
 		$this->datas['imgBin']			= ImageConverter::BTB64 ($user->imgBin);		
 		$this->datas['theme']			= $user->theme;
-		$this->datas['refresh'] 		= $user->refresh;
+	
 
 		// NOT IMPLEMENTED FEATUTRE
 		$this->datas['online'] 			= $user->online;

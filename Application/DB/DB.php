@@ -9,18 +9,19 @@ use PDO;
 
 
 require_once APPLICATION.'Interfaces/DBInterface.php';
-require_once APPLICATION.'DB/baseDbApi.php';
+
 
 /**
  * MySql This is a singleton
  */
-class DB extends baseDbApi
+class DB
 {
     public                      
                 $id;
 
     private static 
-                $INSTANCE;
+                $INSTANCE,
+                $connect;
 
     private static               
                 $host,
@@ -36,14 +37,11 @@ class DB extends baseDbApi
     {
         if ( self::$INSTANCE == NULL )
         {
-            self::$INSTANCE = new self(); 
-            
-            if (!self::Connect())
-                return false;
+            self::$INSTANCE = new self();                        
         }               
         return self::$INSTANCE;
     }
-
+ 
 
     private function __construct()
     {  
@@ -57,36 +55,18 @@ class DB extends baseDbApi
         self::$pass     = $password;
         self::$database = $database;
         self::$DBMS     = $DBMS;
+     
+        if (!self::Connect()) return false;
 
+        return $this->CheckDatabase();
     }
 
-   /**
-    *  START TRANSACTION
-    */
-    public function StartTransaction()
+    public function __destruct()
     {
-        return self::$connect->beginTransaction();
+        self::$connect = NULL;
     }
 
-
-    /**
-     * ROLLBACK transaction
-     */
-    public function Rollback()
-    {
-        return self::$connect->rollBack();
-    }
-
-
-    /**
-     * COMMIT transaction
-     */
-    public function Commit()
-    {
-        return self::$connect->commit();
-    }
-
-
+    
 
     /**
      * SELECT query
@@ -133,7 +113,7 @@ class DB extends baseDbApi
             
         }
         catch( RuntimeException $e )
-        {
+        {     
             error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '".addslashes($script)."' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
             $statement = null;
             return [];
@@ -205,7 +185,7 @@ class DB extends baseDbApi
 
     
     /**
-     * Helper function to get PDO object
+     * Get PDO Connection
      */
     private static function Connect(): bool
     {            
@@ -230,5 +210,13 @@ class DB extends baseDbApi
             error_log( date('Y-m-d h:i:s').' - '.$e->getMessage()." in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
             return false;
         }
+    }
+
+    private function CheckDatabase()
+    {                                                
+        if ( count( self::Select('SHOW TABLES') ) < 6 )
+        {
+            throw new \Exception('Database breaked. Count of tables not enough!');
+        }                        
     }
 }

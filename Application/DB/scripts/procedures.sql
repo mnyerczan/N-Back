@@ -1,3 +1,7 @@
+-- ##########################################################
+-- USER SECTION
+-- ##########################################################
+
 -------------------------------------------------------------
 -- Procedure for create user
 -------------------------------------------------------------
@@ -80,4 +84,111 @@ END;
 CREATE PROCEDURE `GetUserCount`()
 BEGIN
     SELECT COUNT(*) AS num FROM `users`;
+END;
+
+-- ##########################################################
+-- HOME PAGE SECTION
+-- ##########################################################
+
+-------------------------------------------------------------
+-- Procedure for get home contents
+-------------------------------------------------------------
+CREATE PROCEDURE `GetHomeContent`(
+    IN `inPrivilege` INT
+)
+BEGIN
+    SELECT 
+        `content` 
+    FROM 
+        `documents` 
+    WHERE 
+        `title` = "start_page" AND 
+        `privilege` = `inPrivilege`;
+END;
+
+-- ##########################################################
+-- NAVBAR SECTION
+-- ##########################################################
+
+-------------------------------------------------------------
+-- Procedure for get parent menu items
+-------------------------------------------------------------
+CREATE PROCEDURE `GetMenus`(
+
+    IN `inPrivilege` INT
+)
+BEGIN
+    DECLARE errno INT; 
+
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+            BEGIN
+                GET CURRENT DIAGNOSTICS CONDITION 1 errno = MYSQL_ERRNO;
+                SELECT errno AS MYSQL_ERROR;
+                ROLLBACK;
+            END;
+
+    SELECT 
+        * 
+    FROM 
+        `menus`        
+    WHERE 
+        `parentID` = "none" AND 
+        `privilege` <= `inPrivilege`
+    ORDER BY 
+        `child` ASC, `name` ASC;
+END;
+
+
+-------------------------------------------------------------
+-- Procedure for get child menu items
+-------------------------------------------------------------
+
+CREATE PROCEDURE `GetChildMenus`(
+    IN `inMenuId` INT,
+    IN `inPrivilege` INT
+)
+BEGIN
+    SELECT 
+        * 
+    FROM 
+        `menus`
+    where 
+        `parentID` = `inMenuId` AND 
+        `privilege` <= `inPrivilege`;
+END;
+
+-- ##########################################################
+-- sERIA SECTION
+-- ##########################################################
+
+-------------------------------------------------------------
+-- Procedure for get user's seria
+-------------------------------------------------------------
+CREATE PROCEDURE `GetSeria`(
+    IN `inRemoteAddress` varchar(30),
+    IN `inUserId` INT
+)
+BEGIN
+    -- Ez a script lekéri a timestamp mezők date tagjának inté castolt értékét GROUP BY-olva, hozzá az összevonás számát
+    -- pusztán szemléltetésnek, és az aznapi összes időt.
+    
+    select
+        cast(current_date as unsigned) as `intDate`,
+        -1 as `session`,
+        -1 as `minutes`
+        union all (
+            select
+                substr(cast(str_to_date(substr(`timestamp`, 1 ,10), '%Y-%m-%d %h:%i%p' ) as unsigned), 1, 8) as `intDate`,
+                count(*) as `session`,
+                round(sum(sessionLength) / 1000 /60, 1) as `minutes`
+            from nbackSessions
+            where 
+                userID = `inUserId`  and 
+                ip = `inRemoteAddress` and 
+                gameMode = 0
+            group by intDate
+            having `minutes` >= 20
+            order by `intDate` DESC, `session` ASC
+            LIMIT 30
+        );
 END;

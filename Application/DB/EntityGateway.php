@@ -32,6 +32,7 @@ class EntityGateway
             return self::$INSTANCE;
         }        
     }
+  
 
     private function __construct()
     {
@@ -84,16 +85,6 @@ class EntityGateway
 
     //-----------------------------------------------------------------------------
 
-    /**
-     * Navbar Module
-     */
-    public function getChildMenus( $menuid, $privilege )
-    {
-        $sql = 'SELECT * FROM menus where parentID = :menuid AND privilege <= :privilege';
-
-        return $this->object->Select( $sql, [ ':menuid' => $menuid, ':privilege' => $privilege ] ) ;        
-
-    }
 
     public function getSessions( $uid, string $anytime = NULL )
     {
@@ -150,31 +141,7 @@ class EntityGateway
 
     }
 
-    public function getMenus( $privilege )
-    {        
-        $sql = 'SELECT * FROM `menus` WHERE `parentID` = "none" AND `privilege` <= :privilege ORDER BY `child` ASC, `name` ASC';
 
-        return $this->object->Select( $sql, [ ':privilege' => $privilege ] );
-    }    
-
-    //-----------------------------------------------------------------------------           
-
-    /**
-     * Home Module
-     */
-    public function getHomeContent(): string
-    {
-        $sql = 'SELECT content FROM documents WHERE title = "start_page" AND privilege = 3';
-        
-
-        return $this->object->Select( $sql )[0]->content ?? '';
-    }
-
-    //-----------------------------------------------------------------------------
-
-
-
-    
 
 
     public function userRegistry( array $params )
@@ -194,40 +161,4 @@ class EntityGateway
     }
 
     
-
-
-
-    //-----------------------------------------------------------------------------       
-
-    /**
-     * Seria module
-     */
-    public function getSeria( $uid ): array
-    {
-        #Ez a script lekéri a timestamp mezők date tagjának intécastolt értékét GROUP BY-olva, hozzá az összevonás számát
-        #pusztán szemléltetésnek, és az aznapi összes időt. A WHILE függvény pedíg addig meg, míg az aktuális napi és az
-        # egyel korábbi ineger értéke megegyezik. minen loopban nö egyel a seria száma így jön ki a végeredmény.
-
-        $script = "
-        select
-        cast(current_date as unsigned) as intDate,
-        -1 as session,
-        -1 as minutes
-        union all
-        (select
-        substr(cast(str_to_date(substr(timestamp, 1 ,10), '%Y-%m-%d %h:%i%p' ) as unsigned), 1, 8) as intDate,
-        count(*) as session,
-        round(sum(sessionLength) / 1000 /60, 1) as minutes
-        from nbackSessions
-        where userID= :uid
-        and ip = :REMOTE_ADDRESS
-        and gameMode = 0
-        group by intDate
-        having round(sum(sessionLength) / 1000 /60, 1) >= 20
-        order by intDate DESC, session ASC
-        LIMIT 30)";   
-
-        return $this->object->Select( $script, [ ':uid' => $uid , ':REMOTE_ADDRESS' => $_SERVER["REMOTE_ADDR"] ]);
-    }
-
 }

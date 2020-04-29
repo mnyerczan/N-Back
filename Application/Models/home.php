@@ -1,21 +1,27 @@
 <?php
 
-use DB\EntityGateway;
+use DB\DB;
 
 
 class Home
 {
     private 
-            $database;            
+            $db;            
 
     function __construct()
     {
-        $this->database = EntityGateway::GetInstance();        
+        $this->db = DB::GetInstance();        
         
     }
 
     function getContent()
-    {                            
-        return new HomeViewModel( $this->database->getHomeContent());
+    {   
+        $sql        = 'CALL `GetHomeContent`(:inPrivilege)';
+        $params     = [':inPrivilege' => 3];     
+
+        $content    = $this->db->Select($sql, $params);
+
+
+        return new HomeViewModel($content[0] ?? '');
     }
 }

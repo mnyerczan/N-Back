@@ -17,7 +17,7 @@
 	<!-- Info label -->
     <?php if ( @$indicator )//require_once APPLICATION.'Templates/infoLabelView.php';?>
 	<!-- Nav bar -->
-	<?php if ( @$navbar )   //require_once APPLICATION.'Templates/navbarView.php'; ?>
+	<?php if ( @$navbar )   require_once APPLICATION.'Templates/navbarView.php'; ?>
 	<!--Center-->    
     <?php require_once APPLICATION."Templates/{$module}/{$view}View.php";?>    
 </body>

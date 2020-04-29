@@ -1,5 +1,5 @@
 <?php
-use DB\EntityGateway;
+use DB\DB;
 
 
 class Menus
@@ -8,11 +8,11 @@ class Menus
             $childMenus,
             $userPrivilege;
 
-    private $database;
+    private $db;
 
     function __construct( $userPrivilege )
     {
-        $this->database = EntityGateway::GetInstance(); 
+        $this->db = DB::GetInstance(); 
         $this->userPrivilege = $userPrivilege;
         
 
@@ -33,10 +33,13 @@ class Menus
     function LoadChildMenus()
     {
         $childMenu = [];
+        $sql = 'CALL GetChildMenus(:inMenuId, :inPrivilege)';
+        
 
         for( $i = 0; $i < count( $this->menus ); $i++ )
         {
-            $childMenu = $this->database->getChildMenus( $this->menus[$i]->id, $this->userPrivilege );
+            $params = [ 'inMenuId' => $this->menus[$i]->id, 'inPrivilege' =>  $this->userPrivilege];
+            $childMenu = $this->db->Select($sql, $params);
 
             if( count( $childMenu ) > 0 )
             {
@@ -48,8 +51,11 @@ class Menus
 
 
     function LoadMenus()
-    {        
-        $this->menus = $this->database->getMenus( $this->userPrivilege );
+    {   
+        $sql    = "CALL GetMenus(:inPrivilege)";
+        $params = [ ':inPrivilege' => $this->userPrivilege ];     
+
+        $this->menus = $this->db->Select($sql, $params);
 
         for ( $i=0; $i < count( $this->menus ); $i++ ) 
         { 

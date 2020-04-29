@@ -1,15 +1,15 @@
 <?php 
-use DB\EntityGateway;
+use DB\DB;
 
 class Seria
 {
-    private $dbObject,   
+    private $db,   
             $result,
             $seria = 0;    
 
     public function __construct( int $uid )
     {
-        $this->dbObject = EntityGateway::GetInstance();                   
+        $this->db = DB::GetInstance();                   
 
         $this->result = $this->GetResult( $uid );
         $this->seria  = $this->CalculateSeria();      
@@ -27,8 +27,15 @@ class Seria
 
 
     private function GetResult( int $uid ): array
-    {                                   
-        return $this->dbObject->getSeria( $uid );            
+    {   
+        // A WHILE függvény pedíg addig meg, míg az aktuális napi és az
+        // egyel korábbi ineger értéke megegyezik. minen loopban nö egyel a seria száma így jön ki a végeredmény.   
+    
+        $sql = 'CALL GetSeria(:inRemoteAddress, :inUserId)';                                
+        $params = [':inRemoteAddress' => $_SERVER['REMOTE_ADDR'], ':inUserId' => $uid];
+  
+
+        return ( $this->db->Select($sql, $params));
     }
 
     private function CalculateSeria(): int

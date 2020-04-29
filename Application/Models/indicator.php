@@ -41,12 +41,12 @@ class Indicator
     }
 
 
-    public static function GetInstance( Sessions $sessions, string $gameMode ): object
+    public static function GetInstance( Sessions $session, string $gameMode ): object
     {
         if ( self::$INSTANCE == NULL )
         {
             self::$INSTANCE = new self();  
-            self::$session  = $sessions;
+            self::$session  = $session;
             self::$gameMode = $gameMode;
             
             

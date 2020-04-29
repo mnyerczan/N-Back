@@ -2,7 +2,7 @@
 
 namespace Model;
 
-use DB\EntityGateway;
+use DB\DB;
 
 require_once APPLICATION.'DB/EntityGateway.php';
 
@@ -10,7 +10,7 @@ class Sessions
 {
 
     private
-            $database,
+            $db,
             $sessions = [],
             $times ,
             $userID;
@@ -25,12 +25,12 @@ class Sessions
     function __construct( int $userID, int $askAllSession = 0 )
     {
 
-        $this->database = EntityGateway::GetInstance();
+        $this->db = DB::GetInstance();
         $this->userID   = $userID;
 
         if ( $askAllSession === 1 )
         {
-            $sessions   = $this->getAllSessions();
+            $sessions   = $this->getSessions('2019-01-01 00:00:00');
         }        
         else
         {
@@ -54,30 +54,18 @@ class Sessions
 /**
  * @return array of stdClass object(s)
  */
-    private function getSessions(): array
+    private function getSessions($datetime = null): array
     {      
-        /**
-         * Only one day after from yesterday
-         */
-        return $this->database->getSessions( $this->userID );                
-        
-    }
+        $sql    = 'CALL GetSessions(:inUserId,:inTimestamp)';
+        $params = [ ':inUserId' => $this->userID, ':inTimestamp' => $datetime ];
 
-/**
- * @return array of stdClass object(s)
- */
-    private function getAllSessions(): array
-    {    
-        /**
-         * Only one day after from yesterday
-         */
-        return $this->database->getSessions( $this->userID, '2019-01-01 00:00:00' );                        
-        
-    }
 
-/**
- * @param array of stdClass object(s)
- */
+        return $this->db->Select( $this->userID );                
+    }  
+  
+    /**
+     * @param array of stdClass object(s)
+     */
     private function Load( array $sessions ): array
     {       
         /**
@@ -131,7 +119,11 @@ class Sessions
 
     private function getTimes()
     {        
-        $times = $this->database->getTimes( $this->userID )[0];
+        $sql    = 'CALL GetTimes(:inUserId)';
+        $params = [':inUserId' => $this->userID];
+
+        $times = $this->db->Select($sql, $params)[0];
+        
 
         $times->last_day = $times->last_day == NULL ? 0 : $times->last_day;
         $times->today = $times->today == NULL ? 0 : $times->today;

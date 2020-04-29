@@ -25,6 +25,8 @@ class Seria
         }
     }
 
+    
+
 
     private function GetResult( int $uid ): array
     {   

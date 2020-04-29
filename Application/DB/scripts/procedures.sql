@@ -158,7 +158,7 @@ BEGIN
 END;
 
 -- ##########################################################
--- sERIA SECTION
+-- SERIA SECTION
 -- ##########################################################
 
 -------------------------------------------------------------
@@ -171,7 +171,7 @@ CREATE PROCEDURE `GetSeria`(
 BEGIN
     -- Ez a script lekéri a timestamp mezők date tagjának inté castolt értékét GROUP BY-olva, hozzá az összevonás számát
     -- pusztán szemléltetésnek, és az aznapi összes időt.
-    
+
     select
         cast(current_date as unsigned) as `intDate`,
         -1 as `session`,
@@ -191,4 +191,78 @@ BEGIN
             order by `intDate` DESC, `session` ASC
             LIMIT 30
         );
+END;
+
+
+-- ##########################################################
+-- SESSIONS SECTION
+-- ##########################################################
+
+-------------------------------------------------------------
+-- Procedure for get sessions
+-------------------------------------------------------------
+
+-- Ha null értéket kapunk az inTimestamp-re, akkor 
+-- beállítjuk egy nappal a mai előtti napfordulóra.
+
+CREATE PROCEDURE `GetSessions`(
+    IN `inUserId` INT,
+    IN `inTimestamp` DATETIME
+)
+BEGIN  
+    IF `inTimestamp` IS NULL THEN 
+        SET `inTimestamp` = DATE_SUB(CONCAT(CURDATE(), ' 00:00:00'), INTERVAL 1 DAY); 
+    END IF; 
+    
+    SELECT        
+        `n`.*,
+        -- CASE 
+        --     WHEN `n`.`timestamp` < current_date THEN concat('Yesterday ', substr(`n`.`timestamp`,12, 5)) 
+        --     ELSE substr(`timestamp`, 12, 5) 
+        -- END `time`
+        substr(`timestamp`, 12, 5) `time`
+    FROM `nbackSessions` AS `n`
+    WHERE 
+        `n`.`userID` = `inUserId` AND 
+        `n`.`timestamp` > `inTimestamp` 
+    ORDER BY 
+        `n`.`timestamp` DESC
+    LIMIT 10;
+END;
+
+
+-------------------------------------------------------------
+-- Procedure for get times of sessions of today 
+-- and last 24 hours
+-------------------------------------------------------------
+
+CREATE PROCEDURE `GetTimes`(
+    IN `inUserId` INT
+)
+BEGIN
+    DECLARE `lastDate` datetime;
+    SET `lastDate` = DATE_SUB(CONCAT(CURDATE(), ' 00:00:00'), INTERVAL 1 DAY);
+
+    SELECT
+        SEC_TO_TIME(CEIL(SUM(`sessionLength`) / 1000)) AS "last_day", (
+            SELECT
+                SEC_TO_TIME(CEIL(SUM(`sessionLength`) / 1000))
+            FROM 
+                `nbackSessions`
+            WHERE 
+                `userID` = `inUserId` AND 
+                `timestamp` > current_date
+        ) AS "today", (
+            SELECT
+                SEC_TO_TIME(CEIL(SUM(`sessionLength`) / 1000))
+            FROM 
+                `nbackSessions`
+            WHERE 
+                `userID` = `inUserId` AND 
+                `timestamp` > CURRENT_DATE AND 
+                `gameMode` = 0
+            ) AS "today_position"
+    FROM `nbackSessions`
+    WHERE `userID` = `inUserId`
+    AND `timestamp` > `lastDate`;
 END;

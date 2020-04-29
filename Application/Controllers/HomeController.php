@@ -13,7 +13,7 @@ class HomeController extends MainController
         $this->SetDatas();
                     
         $this->datas['home'] = ( new Home() )->getContent();
-
+        
         $this->Action();
     }
   

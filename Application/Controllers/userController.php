@@ -7,17 +7,17 @@ use Login\UserEntity;
 class userController extends MainController
 {
 
-    function __construct()
+    function __construct($matches)
     {        
-        parent::__construct();
+        parent::__construct($matches);
 
         $this->setDatas();
 
-        $this->Action();
+        $this->SearchAction();
     }
 
 
-    private function Action()
+    protected function Action()
     {                       
         $this->Response( $this->datas, [
             'view'      => 'profile', 

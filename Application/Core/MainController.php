@@ -10,14 +10,32 @@ class MainController
 {    
     // osztály invariáns - az osztály lehetéges állapotait írja le
     protected   $user,
-                $datas;              
+                $datas;
+    
+    private $action;
 
-    function __construct()
+    function __construct($matches = null)
     {       
-        $this->user = UserEntity::GetInstance();        
+        $this->user = UserEntity::GetInstance(); 
+
+        if (array_key_exists('action', $matches))      
+            $this->action = $matches['action'];
     }
 
 
+    protected function SearchAction()
+    {
+        foreach (get_class_methods($this) as $function) 
+        {
+            if ($function == $this->action)
+            {
+                $function();
+                return true;
+            }                
+        }        
+        return $this->Action();
+    }
+  
 
     /**
      * Előfeltétel - bemeneti paraméterek
@@ -40,7 +58,7 @@ class MainController
     {        
 
         $this->datas = [ 
-            'seria' => new Seria( $this->user->id ), 
+            'seria' => (new Seria( $this->user->id ))->seria, 
             'user'  => $this->user,            
             'navbar'=> ( new Navbar( $this->user ) )->getDatas(),
             'indicator' => (

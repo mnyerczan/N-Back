@@ -41,7 +41,7 @@ final class Application
         {                
             if (preg_match( $pattern, $cleanedUri, $matches ))
             {                      
-                if ($params['logged'] && $_SESSION['userId'] || !$params['logged'])
+                if ($params['logged'] && isset($_SESSION['userId']) || !$params['logged'])
                 {                       
                     require_once APPLICATION."Controllers/{$params['controller']}.php";
                     new $params['controller']($matches);

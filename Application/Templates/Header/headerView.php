@@ -9,8 +9,8 @@
             <span class="circle" ></span>            
         </label>        
     </div>
-    <?php if($seria->seria > 0): ?>
-		<div id='seria_text' title= "<?= $seria->seria ?> day series">
+    <?php if(@$seria): ?>
+		<div id='seria_text' title= "<?= $seria ?> day series">
 			<img src="<?= $header->seriaIconPath ?>" id="seria_flame_img">
 			<pre id="serias_left_time"></pre>
 		</div>

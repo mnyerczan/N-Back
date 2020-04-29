@@ -60,7 +60,7 @@ class Sessions
         $params = [ ':inUserId' => $this->userID, ':inTimestamp' => $datetime ];
 
 
-        return $this->db->Select( $this->userID );                
+        return $this->db->Select( $sql, $params );                
     }  
   
     /**

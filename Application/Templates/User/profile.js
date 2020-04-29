@@ -15,10 +15,25 @@ function init()
     $('update-img').addEventListener('change', changeImageOnUserForm);    
     $('opn-usr-mdl').addEventListener('click', openModal);
     window.addEventListener('click',closeModal);
-    $('usr-mdl-content').addEventListener('click', (e)=>{e.stopPropagation();}); 
+    $('usr-mdl-content').addEventListener('click', (e)=>{e.stopPropagation();});
+    $('show-pw').addEventListener('click', changePasswordSeems)
 }
 
+function changePasswordSeems()
+{
+    input = $('update-user-pw');
 
+    if (input.type == 'password')
+    {
+        $('show-pw').style.color = 'blue';
+        input.type = 'text';
+    }        
+    else
+    {
+        $('show-pw').style.color = 'inherit';
+        input.type = 'password';
+    }        
+}
 
 function openModal(e)
 {
@@ -43,7 +58,6 @@ function setInputs()
 {
     var dataInputs = document.getElementsByClassName('persona-data-input');
     var controlInputs = document.getElementsByClassName('controlInputs');
-    var isReadOnly = false;
 
     for (let i = 0; i < dataInputs.length; i++) 
     {              
@@ -52,6 +66,11 @@ function setInputs()
             isReadOnly = false;
             dataInputs[i].readOnly = true;
             dataInputs[i].style.backgroundColor = 'transparent';
+
+            if (dataInputs[i].type == 'password')
+            {            
+                dataInputs[i].value = passValue;                
+            }
         }                    
         else
         {
@@ -61,10 +80,23 @@ function setInputs()
                 dataInputs[i].readOnly = false;
                 dataInputs[i].style.backgroundColor = '#fffcc8';
             }
+            if (dataInputs[i].type == 'password')
+            {
+                passValue = dataInputs[i].value;
+                dataInputs[i].value = '';                
+            }
         }    
                 
     }
 
+    if (isReadOnly) 
+    {
+        $('show-pw').style.display = 'block';        
+    }
+    else
+    {
+        $('show-pw').style.display = 'none';
+    }
 
     for (let i = 0; i < controlInputs.length; i++) 
     {

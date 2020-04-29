@@ -25,13 +25,14 @@ final class Application
         $this->addRoute( '(?<controller>)/?' , 'HomeController' , 'get');    
                       
         $this->addRoute('(?<controller>signUp)/(?<action>form)/?' , 'signUpController' , 'get');                
-        $this->addRoute('(?<controller>signUp)/(?<action>submit)/?' , 'signUpController', 'post' );        
+        $this->addRoute('(?<controller>signUp)/(?<action>submit)/?' , 'signUpController', 'POST' );        
         
         $this->addRoute('(?<controller>signIn)/?' , 'signInController' , 'get');
-        $this->addRoute('(?<controller>signIn)/(?<action>submit)' , 'signInController', 'post' );
+        $this->addRoute('(?<controller>signIn)/(?<action>submit)' , 'signInController', 'POST' );
         $this->addRoute('(?<controller>logUot)' , 'logUotController' , 'get');
         
         $this->addRoute('(?<controller>user)/?' , 'userController','get', true );
+        $this->addRoute('(?<controller>user)/(?<action>update)/?' , 'userController','POST', true );
         $this->addRoute('(?<controller>settings)/?', 'settingsController','get' );        
         $this->addRoute('(?<controller>nBack)/?', 'nBackController','get' );        
         $this->addRoute('(?<controller>documents)/?' , 'documentsController','get' );

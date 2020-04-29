@@ -114,7 +114,8 @@ class DB
         }
         catch( RuntimeException $e )
         {     
-            error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '".addslashes($script)."' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
+            var_dump($e); die;
+            error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '".$script."' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
             $statement = null;
             return [];
         }        

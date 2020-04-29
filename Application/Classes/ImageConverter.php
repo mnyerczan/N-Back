@@ -8,6 +8,7 @@
     -- 2020.04.02 -- 
   --------------------------------- 
 */
+namespace Classes;
 
 use InvalidArgumentException;
 

@@ -1,7 +1,7 @@
 <?php
 namespace Login;
 
-use \ImageConverter;
+use Classes\ImageConverter;
 use DB\DB;
 
 /**

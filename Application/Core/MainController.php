@@ -14,28 +14,13 @@ class MainController
     
     private $action;
 
-    function __construct($matches = null)
+    function __construct()
     {       
-        $this->user = UserEntity::GetInstance(); 
-
-        if (array_key_exists('action', $matches))      
-            $this->action = $matches['action'];
+        $this->user = UserEntity::GetInstance();    
     }
 
 
-    protected function SearchAction()
-    {
-        foreach (get_class_methods($this) as $function) 
-        {
-            if ($function == $this->action)
-            {
-                $function();
-                return true;
-            }                
-        }        
-        return $this->Action();
-    }
-  
+
 
     /**
      * Előfeltétel - bemeneti paraméterek
@@ -56,7 +41,6 @@ class MainController
     
     protected function SetDatas()
     {        
-
         $this->datas = [ 
             'seria' => (new Seria( $this->user->id ))->seria, 
             'user'  => $this->user,            
@@ -67,7 +51,7 @@ class MainController
                     $this->user->gameMode 
                 )
             )->getDatas(),
-            'header' => (new Header( $this->user ))->datas
+            'header' => (new Header( $this->user ))->getDatas()
         ];       
            
     }

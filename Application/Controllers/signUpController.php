@@ -1,6 +1,6 @@
 <?php
 
-use Model\Image\ImageConverter;
+use Classes\ImageConverter;
 use DB\EntityGateway;
 
 
@@ -8,13 +8,14 @@ use DB\EntityGateway;
 class signUpController extends MainController
 {
 
+    
     function __construct($matches)
     {                 
         $this->db  = EntityGateway::GetInstance();
 
         parent::__construct();
         $this->SetDatas();        
-                   
+                       
 
         $action = $matches['action'].'Action';            
         $this->$action();        

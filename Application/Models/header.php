@@ -1,6 +1,6 @@
 <?php
 
-
+use Classes\ImageConverter;
 use Login\UserEntity;
 
 
@@ -20,9 +20,9 @@ class Header
     }
 
 
-    public function __get($name)
+    public function getDatas()
     {
-        if( $name === 'datas' ) return (object)$this->datas;
+        return (object)$this->datas;
     }
 
     private function setDatas()

@@ -1,9 +1,24 @@
 <?php
 
-class nBackController
+class nBackController extends GameController
 {
     function __construct()
     {
-        echo 'Hello N-back';
+        parent::__construct();
+        $this->SetDatas();
+
+        $this->Action();
     }
+
+    private function Action()
+    {      
+        
+        $this->Response( $this->datas, [
+            'view'      => 'nback', 
+            'module'    => 'Nback',
+            "title"     => 'Nback',            
+            ]  
+        );
+    }
+
 }

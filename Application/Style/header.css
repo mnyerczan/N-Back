@@ -1,0 +1,65 @@
+
+/*
+* HEADER SECTION
+*
+*/
+.main-header {  
+    padding			: 15px;
+    float			: right;
+	color			: #eee;
+	width			: calc( 100vw - 100px - 30px);
+	background-color: rgba(255, 255, 255, 0.8);	
+	user-select		: none;	
+}
+.main-header, .hdr-coordinate-bx a {
+	color			: black;
+}
+.main-header .radio-box {
+    width			: 100px;
+    float			: left;
+}
+.main-header img {
+	width: 15px;
+	padding: 2px 5px;
+	display: block;
+	float: right;
+}
+.main-header .profile-img {
+	width: 25px;
+	padding: 0;
+}
+
+.hdr-coordinate-bx {
+   	min-width: 300px;   
+    float: right;
+}
+.hdr-coordinate-bx li {
+    display: block;
+    padding: 0 10px;
+    min-width: 0;
+    float: right;
+	border-left: 1px solid #555;
+	cursor: pointer;
+	position: relative;
+}
+.hdr-coordinate-bx ul {
+	margin: 0;
+}
+.hdr-coordinate-bx li:last-child {
+	border: none;
+}
+.hdr-coordinate-bx li:hover {
+	-color: #888;
+}
+
+.hdr-icons {
+	width: 10px;
+	height: 15px;
+}
+
+@media ( max-width: 600px ) {
+	.main-header {
+		width: 100vw;
+		min-width: 350px;
+	}
+}

@@ -1,44 +1,14 @@
 <?php
 
-use Login\UserEntity;
+
 use Model\Sessions;
 
 
 
 
-class MainController
+class MainController extends BaseController
 {    
-    // osztály invariáns - az osztály lehetéges állapotait írja le
-    protected   $user,
-                $datas;
-    
-    private $action;
-
-    function __construct()
-    {       
-        $this->user = UserEntity::GetInstance();    
-    }
-
-
-
-
-    /**
-     * Előfeltétel - bemeneti paraméterek
-     * 
-     * @param array $datas Get datas for render views
-     * @param array $viewModule Get name of view and module
-     */
-    protected function Response(array $models = [], array $viewAndModule = []): void 
-    {             
-        $responseFactory = new ResponseFactory(new ViewRenderer);
-        $response = $responseFactory->createResponse([$viewAndModule, $models]);
-
-        (new ResponseEmitter)->emit($response);        
-    }   
-    
-    
-    
-    
+            
     protected function SetDatas()
     {        
         $this->datas = [ 

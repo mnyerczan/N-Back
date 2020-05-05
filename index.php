@@ -108,7 +108,9 @@
     require_once APPLICATION.'Core/ResponseEmitter.php';
     require_once APPLICATION.'Core/Response.php';
     require_once APPLICATION.'Core/ViewRenderer.php';
+    require_once APPLICATION."Core/BaseController.php";
     require_once APPLICATION."Core/MainController.php";
+    require_once APPLICATION."Core/GameController.php";
     require_once APPLICATION."Controllers/NotFoundController.php";
     
 

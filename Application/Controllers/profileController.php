@@ -4,7 +4,7 @@ use Login\UserEntity;
 
 
 
-class userController extends MainController
+class profileController extends MainController
 {
 
     function __construct($matches)

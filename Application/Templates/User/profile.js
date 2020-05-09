@@ -77,7 +77,7 @@ function setInputs()
                     dataInputs[i].type = 'password'
                 }                    
                 /** Ha a jelszó csupa csillag karakter, állítsa az értéket  */
-                if (/\*+|[ ]+/.test(dataInputs[i].value))
+                if (/[ ]+/.test(dataInputs[i].value))
                 {
                     dataInputs[i].value = passValue;                
                 }                

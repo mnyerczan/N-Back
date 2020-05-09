@@ -31,13 +31,12 @@ final class Application
         $this->addRoute('(?<controller>signIn)/(?<action>submit)' , 'signInController', 'POST' );
         $this->addRoute('(?<controller>logUot)' , 'logUotController' , 'get');
         
-        $this->addRoute('(?<controller>user)/?' , 'userController','get', true );
-        $this->addRoute('(?<controller>user)/(?<action>update)/?' , 'userController','POST', true );
+        $this->addRoute('(?<controller>profile)/?' , 'profileController','get', true );
+        $this->addRoute('(?<controller>profile)/(?<action>update)/?' , 'profileController','POST', true );
         $this->addRoute('(?<controller>settings)/?', 'settingsController','get' );        
         $this->addRoute('(?<controller>nBack)/?', 'nBackController','get' );        
         $this->addRoute('(?<controller>documents)/?' , 'documentsController','get' );
-        
-
+           
         foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $pattern => $params)
         {                
             if (preg_match( $pattern, $cleanedUri, $matches ))

@@ -60,7 +60,7 @@
                         <tr>
                             <td>Password</td>
                             <td>                         
-                                <input name="update-user-password" class="persona-data-input" type="password" value="<?php for($i=0;$i<$user->passwordLength;$i++){echo '*';} ?>" id="update-user-pw" readonly required>
+                                <input name="update-user-password" class="persona-data-input" type="password" placeholder="<?php for($i=0;$i<$user->passwordLength;$i++){echo '*';} ?>" id="update-user-pw" readonly required>
                             </td>
                         </tr> 
                         <tr> 

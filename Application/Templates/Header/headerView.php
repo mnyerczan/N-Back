@@ -24,7 +24,7 @@
                 <span class="emoji-container">&#9776;</span>
                     <!--img class="profile-img" src="data:image/*;base64,<?= $header->imgBin?>"-->              
                 <section class="drop-down-container">    
-                    <a href="<?=APPROOT?>user" title="Go to profile">					
+                    <a href="<?=APPROOT?>profile" title="Go to profile">					
                         <b><?=$header->userName?></b>
                     </a>
                     <?php if($header->privilege == 3 && $view !== 'signUp' ):?>						

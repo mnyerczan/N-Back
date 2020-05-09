@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `images`(
     `update` DATETIME,
     `create` TIMESTAMP NOT NULL DEFAULT current_timestamp,
     CONSTRAINT FOREIGN KEY(`userID`) REFERENCES `users`(`id`) on delete cascade
-) ROW_FORMAT=DYNAMIC;
+) ROW_FORMAT=DYNAMIC ENGINE = MEMORY;
 
 
 INSERT INTO `images` VALUES 

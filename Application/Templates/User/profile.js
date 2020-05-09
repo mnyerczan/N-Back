@@ -59,31 +59,51 @@ function setInputs()
     var dataInputs = document.getElementsByClassName('persona-data-input');
     var controlInputs = document.getElementsByClassName('controlInputs');
 
+
     for (let i = 0; i < dataInputs.length; i++) 
     {              
         if (dataInputs[i].readOnly === false)
         {
+            /** inputok kikapcsolása */
             isReadOnly = false;
             dataInputs[i].readOnly = true;
+            dataInputs[i].style.cursor = 'auto';
             dataInputs[i].style.backgroundColor = 'transparent';
 
-            if (dataInputs[i].type == 'password')
-            {            
-                dataInputs[i].value = passValue;                
+            if (dataInputs[i].id == "update-user-pw")
+            {   
+                if (dataInputs[i].type !== 'password')
+                {
+                    dataInputs[i].type = 'password'
+                }                    
+                /** Ha a jelszó csupa csillag karakter, állítsa az értéket  */
+                if (/\*+|[ ]+/.test(dataInputs[i].value))
+                {
+                    dataInputs[i].value = passValue;                
+                }                
             }
         }                    
         else
         {
             isReadOnly = true;
+            /** inputok bekapcsolása */
             if (dataInputs[i].value != 'Admin') 
             {                        
                 dataInputs[i].readOnly = false;
+                dataInputs[i].style.cursor = 'pointer';
                 dataInputs[i].style.backgroundColor = '#fffcc8';
             }
-            if (dataInputs[i].type == 'password')
+
+            
+            /** password input értékének visszaállítása */           
+            if (dataInputs[i].id == "update-user-pw")
             {
                 passValue = dataInputs[i].value;
-                dataInputs[i].value = '';                
+                /** Ha a jelszó csupa csillag karakter, állítsa az értéket üresre */
+                if (/\*+/.test(dataInputs[i].value))
+                {
+                    dataInputs[i].value = '';                
+                }                
             }
         }    
                 

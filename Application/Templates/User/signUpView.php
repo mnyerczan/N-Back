@@ -1,9 +1,9 @@
-<script src="<?= BACKSTEP ?><?=APPLICATION?>Templates/User/signUp.js?v=<?= CURRENT_TIMESTAMP ?>"></script>
+<script src="<?= BACKSTEP ?><?=APPLICATION?>Templates/ User/signUp.js?v=<?= CURRENT_TIMESTAMP ?>"></script>
 <main class="usr-crt-frm" >
     <div>
         <h3 style="text-align:center">
             <?php if ( !$errorMessage ): ?>
-                <?php if ( !$isAdmin ): ?> 
+                <?php if ( $isAdmin ): ?> 
                     Please create the admin user! 
                 <?php else: ?>             
                     Please fill out the form

@@ -11,9 +11,9 @@ class nBackController extends GameController
     }
 
     private function Action()
-    {      
-        
-        $this->Response( $this->datas, [
+    {          
+        $this->Response( 
+            $this->datas, [
             'view'      => 'nback', 
             'module'    => 'Nback',
             "title"     => 'Nback',            

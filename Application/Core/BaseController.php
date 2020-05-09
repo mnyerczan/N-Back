@@ -7,11 +7,10 @@ class BaseController
     // osztály invariáns - az osztály lehetéges állapotait írja le
     protected   $user,
                 $datas;
-    
-    private $action;
+       
 
     function __construct()
-    {       
+    {
         $this->user = UserEntity::GetInstance();    
     }
 

@@ -48,7 +48,7 @@ class signUpController extends MainController
  
         $email  = new ValidateEmail(    @$_POST['create-user-email'] );
         $pass   = new ValidatePassword( @$_POST['create-user-pass']  );
-        $user   = new ValidateUser(     @$_POST['create-user-name']  );
+        $user   = new ValidateUser(     @$_POST['create-user-name'], @$_SESSION['adminAuthenticate'] );
         $date   = new ValidateDate (    @$_POST['create-user-date']  );  
         $sex    = $_POST['sex'];
         
@@ -115,7 +115,7 @@ class signUpController extends MainController
             $this->Response( $this->datas, [ 'view' => 'signUp', 'module' => 'User'] );       
 
             return 3;
-        }                   
+        }                       
         
         header("Location: ".APPROOT);
 
@@ -143,15 +143,24 @@ class signUpController extends MainController
         $this->datas['dateLabel']       = $date->errorMsg  ?? 'Date of birth';
         $this->datas['passwordLabel']   = $pass->errorMsg  ?? 'Password';
         $this->datas['privilegeLabel']  = 'Privilege';
-
-        $this->datas['isAdmin']         = $this->user->getUsersCount()->num > 1;
+        
+        $this->datas['isAdmin']         = $this->user->getUsersCount()->num <= 1;
         $this->datas['errorMessage']    = null;
 
-        $this->datas['userNameValue']   = $this->datas['isAdmin']  ?  $crName : 'Admin';
+        $this->datas['userNameValue']   = $this->datas['isAdmin']  ?  'Admin' : $crName;
         $this->datas['userEmailValue']  = $crEmail;
+     
+        if ($this->datas['isAdmin'])
+        {
+            // autentikációs azonosító létrehozása az Admin név ismétlődésének elkerüléséhez
+            $_SESSION['adminAuthenticate'] = 1;
+        }
+        else if (@$_SESSION['adminAuthenticate'])
+        {
+            unset($_SESSION['adminAuthenticate']);
+        } 
 
-
-        $this->datas['enableNameInput'] = $this->datas['userNameValue'] === 'Admin' ? 'readonly' : ''; 
+        $this->datas['enableNameInput'] = @$_SESSION['adminAuthenticate'] ? 'readonly' : ''; 
 
 
     }

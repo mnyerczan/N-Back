@@ -5,7 +5,7 @@
 -------------------------------------------------------------
 -- Procedure for create user
 -------------------------------------------------------------
-CREATE DEFINER=`ms`@`%` PROCEDURE `CreateNewUserprocedure`(
+CREATE PROCEDURE `CreateNewUserprocedure`(
     IN userName varchar(255),  
     IN email varchar(255),     
     IN password varchar(33),   

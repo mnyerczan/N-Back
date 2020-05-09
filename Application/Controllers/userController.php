@@ -19,14 +19,16 @@ class userController extends MainController
             $this->$action();
         }            
         else
+        {
             $this->Action();
+        }            
     }
 
 
     private function Action()
-    {      
-        
-        $this->Response( $this->datas, [
+    {              
+        $this->Response( 
+            $this->datas, [
             'view'      => 'profile', 
             'module'    => 'User',
             "title"     => 'User',            
@@ -35,8 +37,13 @@ class userController extends MainController
     }
 
     private function updateAction()
-    {                       
-        var_dump($_POST);
+    {                               
+        $this->user->UpdateUser( 
+            new ValidateDate($_POST['update-user-birth']),
+            new ValidateUser($_POST['update-user-name']),
+            new ValidateEmail($_POST['update-user-email']),
+            new ValidatePassword($_POST['update-user-password'])
+        );
     }
 
 }

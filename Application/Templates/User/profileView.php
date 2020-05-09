@@ -9,27 +9,59 @@
                     <table class="user-datas-table">
                         <caption>Your personal datas</caption>     
                         <tr>
+                            <td colspan="2">
+                                <label for="update-user-name" id="update-user-name-lbl"></label>
+                            </td>
+                        </tr>   
+                        <tr>
                             <td>Name</td>
-                            <td><input name="update-user-name" class="persona-data-input" type="text" value="<?=$user->userName?>" readonly></td>
-                        </tr>            
+                            <td>
+                                <input name="update-user-name" class="persona-data-input" type="text" value="<?=$user->userName?>" readonly>
+                            </td>
+                        </tr>   
+                        <tr>
+                            <td colspan="2">
+                                <label  for="update-user-email" id="update-user-email-lbl"></label>
+                            </td>
+                        </tr>         
                         <tr>
                             <td>E-mail</td>
-                            <td><input name="update-user-email" class="persona-data-input" type="email" value="<?=$user->email?>" readonly></td>
-                        </tr>            
+                            <td>                                
+                                <input name="update-user-email" class="persona-data-input" type="email" value="<?=$user->email?>" readonly>
+                            </td>
+                        </tr>                          
                         <tr>
                             <td>Login date</td>
-                            <td><?=$user->loginDatetime?></td>
-                        </tr>            
+                            <td>                          
+                                <?=$user->loginDatetime?>
+                            </td>
+                        </tr> 
+                        <tr>
+                            <td colspan="2">
+                                <label for="update-user-birth" id="update-user-birth-lbl"></label>
+                            </td>
+                        </tr>              
                         <tr>
                             <td>Birth</td>
-                            <td><input name="update-user-birth" class="persona-data-input" type="date" value="<?=$user->birth?>" readonly></td>
+                            <td>                         
+                                <input name="update-user-birth" class="persona-data-input" type="date" value="<?=$user->birth?>" readonly>
+                            </td>
                         <tr>
                             <td>Sex</td>
-                            <td><input name="update-user-sex" class="persona-data-input" type="text" value="<?=$user->sex?>" readonly></td>
-                        </tr>          
+                            <td>                                
+                                <input name="update-user-sex" class="persona-data-input" type="text" value="<?=$user->sex?>" readonly>
+                            </td>
+                        </tr>  
+                        <tr>
+                            <td colspan="2">
+                                <label for="update-user-password" id="update-user-password-lbl"></label>
+                            </td>
+                        </tr>           
                         <tr>
                             <td>Password</td>
-                            <td><input name="update-user-password" class="persona-data-input" type="password" value="<?php for($i=0;$i<$user->passwordLength;$i++){echo '*';} ?>" id="update-user-pw" readonly></td>
+                            <td>                         
+                                <input name="update-user-password" class="persona-data-input" type="password" value="<?php for($i=0;$i<$user->passwordLength;$i++){echo '*';} ?>" id="update-user-pw" readonly required>
+                            </td>
                         </tr> 
                         <tr> 
                             <td></td>                           

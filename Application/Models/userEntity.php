@@ -3,6 +3,10 @@ namespace Login;
 
 use Classes\ImageConverter;
 use DB\DB;
+use ValidateDate;
+use ValidateEmail;
+use ValidatePassword;
+use ValidateUser;
 
 /**
  * UserEntity, this is a singleton
@@ -53,6 +57,22 @@ class UserEntity
 	}
 
 
+	public function UpdateUser(ValidateDate $date, ValidateUser $user, ValidateEmail $email, ValidatePassword $pass)
+	{
+		if ( !($email->isValid() && $user->isValid() && $pass->isValid() && $date->isValid()))
+		{
+			var_dump($email->errorMsg);
+			var_dump($email->getEmail());
+			var_dump($user->errorMsg);
+			var_dump($user->getUser());
+			var_dump($pass->errorMsg);
+			var_dump($pass->getPass());
+			var_dump($date->errorMsg);
+			var_dump($date->getDate());
+		}
+
+		var_dump($_POST);
+	}
 
 
 	private function LoadAnonim()

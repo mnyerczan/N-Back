@@ -95,7 +95,7 @@ a {
 .radio-box .radio-container input{
     display			: none;
 }
-.  .radio-container .circle{
+.radio-container .circle{
 	display			: inline-block;
     width			: 10px;
     height			: 10px;

@@ -2,14 +2,14 @@
 
 class ValidateUser extends Validator
 {
-
-    private $user;
-
+    private $isAdminAtuhentic;
 
 
-    public function __construct( $userName = null)
+
+    public function __construct( $userName = null, $isAdminAtuhentic = null)
     {
         $this->value = $userName;
+        $this->admin = $isAdminAtuhentic;
         
         parent::__construct();
     }
@@ -27,21 +27,35 @@ class ValidateUser extends Validator
     function validate() 
     {
         if (!$this->value) return;
-
-        if (!preg_match('/^[a-zA-Z0-9 _áéíóöőúüűÁÉÍÓÖŐÚÜŰ]{6,255}$/',$this->value )) 
+        
+        if (!preg_match('/^[a-zA-Z0-9 _áéíóöőúüűÁÉÍÓÖŐÚÜŰ]+$/',$this->value ))
+        {                                    
+            $this->setError('Username contains invalid characters!');            
+            return false;
+        }
+        if (strlen($this->value) > 255)
         {
-            $this->setError('Username contains invalid characters');
-            return;
+            $this->setError('Username is too long!');
+        }                
+        if (!$this->isAdminAtuhentic && preg_match('/^admin$/i',$this->value))
+        {            
+            $this->setError('Username cannot be Admin');
+            return false;
+
+        }
+        if (strlen($this->value) < 6)
+        {
+            $this->setError('Username is too short!');
         }
         if (strlen($this->value) < 4 ) 
         {
             $this->setError('Username is too short');
-            return;
+            return false;
         }
         if (strlen($this->value) > 20 ) 
         {
             $this->setError('Username is too long');
-            return;
+            return false;
         }    
     }
 

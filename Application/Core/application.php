@@ -17,7 +17,7 @@ final class Application
 
     function __construct()
     {
-        session_start();
+        session_start();       
     }
 
     function route($cleanedUri)
@@ -63,36 +63,5 @@ final class Application
             'controller'    => $controller,
             'logged'        => $logged
         ];
-    }
-
-
-
-    /**
-     * Nincs implementálva....
-     * 
-     * 
-     * 
-     */
-    function Session()
-    {    
-        if(isset($_GET['exit']))
-        {				
-            $result = ( EntityGateway::GetInstance() )->Select("UPDATE users SET `online` = 0 WHERE userName = :name ", [':name' => $_SESSION['userName']]);
-    
-            if( !$result && @$_COOKIE[session_name()])
-            {
-                setcookie(session_name(), '', time()-42000, APPROOT);
-            }
-    
-            header("Location: index.php?");
-            die;
-        }
-        else
-        {				
-            if( @$_SESSION['userName'] )
-            {			
-                $this->user->Load( $_SESSION['userName'], $_SESSION['password'] );
-            }					
-        }
     }
 }

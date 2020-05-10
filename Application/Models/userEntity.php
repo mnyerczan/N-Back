@@ -57,21 +57,9 @@ class UserEntity
 	}
 
 
-	public function UpdateUser(ValidateDate $date, ValidateUser $user, ValidateEmail $email, ValidatePassword $pass)
+	public function UpdateUser(string $date, string $user, string $email, string $pass)
 	{
-		if ( !($email->isValid() && $user->isValid() && $pass->isValid() && $date->isValid()))
-		{
-			var_dump($email->errorMsg);
-			var_dump($email->getEmail());
-			var_dump($user->errorMsg);
-			var_dump($user->getUser());
-			var_dump($pass->errorMsg);
-			var_dump($pass->getPass());
-			var_dump($date->errorMsg);
-			var_dump($date->getDate());
-		}
-
-		var_dump($_POST);
+		
 	}
 
 
@@ -79,6 +67,7 @@ class UserEntity
 	{		
 		$this->datas['id'] 				= 1;		
 		$this->datas['userName'] 		= 'Anonim';
+		$this->datas['isAdmin']			= false;
 		$this->datas['email'] 			= NULL;
 		$this->datas['loginDatetime']	= NULL;
 		$this->datas['privilege'] 		= 0;
@@ -175,6 +164,7 @@ class UserEntity
 		$this->datas['email']			= Include_special_characters($user->email);
 		$this->datas['loginDatetime']	= $user->loginDatetime;		
 		$this->datas['userName']		= Include_special_characters($user->userName);
+		$this->datas['isAdmin']			= $this->datas['userName'] == 'Admin' ? true : false;
 		$this->datas['privilege']		= $user->privilege;
 		$this->datas['birth']			= $user->birth;
 		$this->datas['sex']				= $user->sex;
@@ -247,6 +237,7 @@ class UserEntity
 
 			case 'id': 				return $this->datas['id']; 				break;			
 			case 'userName': 		return $this->datas['userName']; 		break;
+			case 'isAdmin': 		return $this->datas['isAdmin']; 		break;
 			case 'email': 			return $this->datas['email']; 			break;
 			case 'loginDatetime': 	return $this->datas['loginDatetime']; 	break;
 			case 'privilege': 		return $this->datas['privilege']; 		break;

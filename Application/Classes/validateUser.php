@@ -2,14 +2,14 @@
 
 class ValidateUser extends Validator
 {
-    private $isAdminAtuhentic;
+    private $isAdmin;
 
 
 
-    public function __construct( $userName = null, $isAdminAtuhentic = null)
+    public function __construct( $userName = null, $isAdmin = null)
     {
         $this->value = $userName;
-        $this->admin = $isAdminAtuhentic;
+        $this->isAdmin = $isAdmin;
         
         parent::__construct();
     }
@@ -36,12 +36,11 @@ class ValidateUser extends Validator
         if (strlen($this->value) > 255)
         {
             $this->setError('Username is too long!');
-        }                
-        if (!$this->isAdminAtuhentic && preg_match('/^admin$/i',$this->value))
+        }                       
+        if (!$this->isAdmin && preg_match('/^admin$/i',$this->value))
         {            
             $this->setError('Username cannot be Admin');
             return false;
-
         }
         if (strlen($this->value) < 6)
         {

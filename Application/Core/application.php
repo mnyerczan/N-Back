@@ -20,7 +20,7 @@ final class Application
         session_start();       
     }
 
-    function route($cleanedUri)
+    function route($cleanedUri): void
     {                                
         $this->addRoute( '(?<controller>)/?' , 'HomeController' , 'get');    
                       
@@ -31,12 +31,14 @@ final class Application
         $this->addRoute('(?<controller>signIn)/(?<action>submit)' , 'signInController', 'POST' );
         $this->addRoute('(?<controller>logUot)' , 'logUotController' , 'get');
         
-        $this->addRoute('(?<controller>profile)/?' , 'profileController','get', true );
-        $this->addRoute('(?<controller>profile)/(?<action>update)/?' , 'profileController','POST', true );
+        $this->addRoute('(?<controller>account)/?' , 'accountController','get', true );
+        $this->addRoute('(?<controller>account)/(?<action>personalForm)/?' , 'accountController','get', true );
+        $this->addRoute('(?<controller>account)/(?<action>personalUpdate)/?' , 'accountController','POST', true );
+
         $this->addRoute('(?<controller>settings)/?', 'settingsController','get' );        
         $this->addRoute('(?<controller>nBack)/?', 'nBackController','get' );        
         $this->addRoute('(?<controller>documents)/?' , 'documentsController','get' );
-           
+    //var_dump($this->routes); die;
         foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $pattern => $params)
         {                
             if (preg_match( $pattern, $cleanedUri, $matches ))
@@ -54,7 +56,7 @@ final class Application
                         
     }    
 
-    private function addRoute( string $pattern, string $controller, string $method, $logged = false )
+    private function addRoute( string $pattern, string $controller, string $method, $logged = false ): void
     {
         $method = strtoupper($method);
 

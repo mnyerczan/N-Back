@@ -11,7 +11,7 @@
     RewriteCond %{REQUEST_URI} !/Images
     RewriteCond %{REQUEST_URI} !/Templates/User/signUp.js
     RewriteCond %{REQUEST_URI} !/Templates/User/signIn.js
-    RewriteCond %{REQUEST_URI} !/Templates/User/profile.js
+    RewriteCond %{REQUEST_URI} !/Templates/User/account.js
     RewriteCond %{REQUEST_URI} !/Templates/Header/header.js    
     RewriteRule ^ index.php [L]
 </IFModule>

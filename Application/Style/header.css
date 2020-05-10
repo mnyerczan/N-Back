@@ -1,15 +1,19 @@
-
 /*
 * HEADER SECTION
 *
 */
 .main-header {  
-    padding			: 15px;
+	padding			: 15px;	
+	line-height		: var(--main-hdr-height);
     float			: right;
 	color			: #eee;
-	width			: calc( 100vw - 100px - 30px);
+	height			: var(--main-hdr-height);
+	width			: calc( 100vw - var(--nb-min-width) - 30px);
 	background-color: rgba(255, 255, 255, 0.8);	
 	user-select		: none;	
+	position		: fixed;
+	right			: 0;
+	top				: 0;
 }
 .main-header, .hdr-coordinate-bx a {
 	color			: black;

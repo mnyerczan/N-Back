@@ -41,17 +41,13 @@ class ValidateUser extends Validator
         {            
             $this->setError('Username cannot be Admin');
             return false;
-        }
-        if (strlen($this->value) < 6)
-        {
-            $this->setError('Username is too short!');
-        }
-        if (strlen($this->value) < 4 ) 
+        }      
+        if ( !$this->isAdmin && strlen($this->value) < 6 ) 
         {
             $this->setError('Username is too short');
             return false;
         }
-        if (strlen($this->value) > 20 ) 
+        if (strlen($this->value) > 255 ) 
         {
             $this->setError('Username is too long');
             return false;

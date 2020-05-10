@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="<?=BACKSTEP?><?=APPLICATION?>Style/account.css?v=<?= CURRENT_TIMESTAMP ?>">
 <div class="modal" id="usr-modal"></div>
 <main class="main-body">    
     <section class="user-profile-structure"> 
@@ -18,7 +19,6 @@
             <p><?php for($i=0;$i<$user->passwordLength;$i++){echo '*';} ?></p>                                                        
         </div>            
         <div class="user-c" id="user-profile-image"><img class="big-user-image" id="output" src="data:image/*;base64,<?= $user->imgBin?>"></div>  
-        <div class="user-d">Change your privates datas whenever you want! <a href="<?=APPROOT?>account/personalForm" id="opn-usr-mdl"> Change</a></div>                    
         <div class="user-f"></div> 
     </section>
 </main>        

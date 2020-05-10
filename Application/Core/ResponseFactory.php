@@ -13,14 +13,15 @@ final class ResponseFactory
 
 
     public function createResponse($controllerResult)
-    {
+    {   
+
         if (! is_array($controllerResult)) return false;
         
         if (preg_match("`^redirect:`", $controllerResult[0]['view']))
         {
             return new Response(
                 '', 
-                ["location" => substr($controllerResult[0]['view'], 9)], 
+                ["location" => 'http://localhost'.APPROOT.substr($controllerResult[0]['view'], 9)], 
                 302, 
                 'Found'
             );

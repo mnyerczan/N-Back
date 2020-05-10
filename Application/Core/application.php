@@ -31,11 +31,12 @@ final class Application
         $this->addRoute('(?<controller>signIn)/(?<action>submit)' , 'signInController', 'POST' );
         $this->addRoute('(?<controller>logUot)' , 'logUotController' , 'get');
         
-        $this->addRoute('(?<controller>account)/?' , 'accountController','get', true );
-        $this->addRoute('(?<controller>account)/(?<action>personalForm)/?' , 'accountController','get', true );
-        $this->addRoute('(?<controller>account)/(?<action>personalUpdate)/?' , 'accountController','POST', true );
-
-        $this->addRoute('(?<controller>settings)/?', 'settingsController','get' );        
+        $this->addRoute('(?<controller>account)/?' , 'AccountController','get', true );
+        $this->addRoute('(?<controller>settings)/?', 'SettingsController','get' ); 
+        $this->addRoute('(?<controller>settings)/(?<action>personal)/?' , 'SettingsController','get', true );
+        $this->addRoute('(?<controller>settings)/(?<action>nback)/?' , 'SettingsController','get', true );
+        $this->addRoute('(?<controller>settings)/(?<action>personalUpdate)/?' , 'SettingsController','POST', true );
+               
         $this->addRoute('(?<controller>nBack)/?', 'nBackController','get' );        
         $this->addRoute('(?<controller>documents)/?' , 'documentsController','get' );
     //var_dump($this->routes); die;

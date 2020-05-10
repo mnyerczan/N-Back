@@ -1,0 +1,164 @@
+:root {
+    --img-container-padding : 10px;
+}
+
+/*---- modify ----*/
+#update-img {
+    display         : none;
+}
+
+/*---- main settings platform ----*/
+.settings-structure {   
+    color			: #777;
+	max-width		: 1500px;
+	min-width		: 800px;
+	display			: grid;
+	height			: 300px;
+	grid-gap		: 10px;
+    grid-template	: 
+        "a b ." 500px                
+        ". b ." 500px        
+		/ 160px 800px 1fr;
+}
+.settings-structure > div {
+    overflow        : hidden;
+}
+.settings-navbar {
+    grid-area       : a;
+    display         : grid;
+    border          : 1px solid #ddd;
+    border-radius   : 5px;
+    font-size       : calc( var(--mn-font-size) / 1.4);
+    grid-gap        : 5px;
+    grid-template   :
+        "a" 40px
+        "b" 40px
+        "c" 40px
+        / 1fr;
+    
+}
+.settings-navbar-a {
+    grid-area       : a;  
+    padding         : 5px 10px;
+    display         : table;
+    background-color: #f1f1f1;
+}
+.settings-navbar-b {
+    grid-area       : b;  
+}
+.settings-navbar-c {
+    grid-area       : c;
+}
+.settings-navbar-a > div {    
+    display         : block;
+    float           : right;
+}
+.settings-navbar a {
+    border-bottom   : 1px solid rgb(235, 234, 234);
+    display         : block;
+    width           : calc(100% - 20px);
+    padding         : 0 10px;
+    height          : 100%;
+    line-height     : 40px;
+    font-size       : var(--mn-font-size);
+}
+.settings-navbar a:hover {
+    background-color: #f1f1f1;
+}
+.small-user-image {
+    width           : 30px;
+    display         : inline-block;
+}
+.active {
+    text-decoration : none;
+    color           : black;
+    padding-left    : 5px !important;
+    border-left     : 5px solid black;
+}
+
+.big-user-image {	 
+    margin          : auto;
+    display         : block;   
+    max-width       : 100%;  
+    max-height      : 100%; 
+    position        : relative;  
+    z-index         : -1 ;  
+}
+.big-user-image + label {    
+    position        : relative;
+    bottom          : 30px;
+    left            : 20px;
+}
+
+
+/*---- settings content----*/
+.setting-contents {
+    grid-area       : b;
+    display         : grid;
+    width           : 100%;
+    grid-template: 
+        "a a b" 40px
+        "c c f" 250px        
+        "c c ." 120px
+        "g g g" 30px
+        / 1fr 1fr 1fr;
+
+}
+
+/*
+    Content
+----------------------------------*/
+
+/*---- personal ----*/
+.user-update-structure .title:first-child {
+    grid-area       : a;
+    font-weight     : bold;    
+}
+.user-b {
+    grid-area       : b;
+    font-weight     : bold;
+}
+.user-c { 
+    grid-area       : c;
+    padding         : 2px;	
+}
+.user-d {
+    grid-area       : d;
+}
+.user-e {
+    grid-area       : e ;
+}
+.user-f {
+    grid-area       : f;
+}
+.user-g {
+    grid-area       : g;
+    border-bottom   : 1px solid rgb(214, 214, 214);
+}
+
+
+.user-c p {
+    border          : 1px solid rgb(235, 234, 234);
+    border-radius   : 5px;
+    color           : black;
+    background-color: #fff;
+    margin-top      : 0;
+    padding         : 5px;
+}
+.user-c .sex-container {
+    width           : 100%;
+    display         : table;
+    padding         : 10px;
+}
+.user-c .sex-container .radio-container {
+    padding         : 0 10px;
+}
+.user-c.update input:not([type="submit"]),
+.user-c.update p {
+    background-color: #fffcc8;
+    border          : 1px solid rgb(235, 234, 234);
+    border-radius   : 5px;
+    margin-bottom   : 10px;
+    padding         : 5px;
+    width           : 80%;
+}

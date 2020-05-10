@@ -53,7 +53,7 @@
         <?php endif ?>
 
     
-        <input type="submit" name="cu-submit" id="cu-submit" value="Save" class="btn btn-save" title="Save">                
+        <input type="submit" name="cu-submit" id="cu-submit" value="Save" class="btn btn-grn sml-xs-btn" title="Save">                
     </form>
 </main>
 <div id="create-user-pic" >

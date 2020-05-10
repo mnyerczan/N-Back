@@ -2,14 +2,12 @@
 * HEADER SECTION
 *
 */
-.main-header {  
-	padding			: 15px;	
+.main-header {  	
 	line-height		: var(--main-hdr-height);
-    float			: right;
-	color			: #eee;
-	height			: var(--main-hdr-height);
-	width			: calc( 100vw - var(--nb-min-width) - 30px);
-	background-color: rgba(255, 255, 255, 0.8);	
+    display			: table;
+	color			: #eee;	
+	width			: calc( 100% - var(--nb-min-width));
+	background-color: rgba(255, 255, 255, 0.897);	
 	user-select		: none;	
 	position		: fixed;
 	right			: 0;
@@ -19,8 +17,10 @@
 	color			: black;
 }
 .main-header .radio-box {
-    width			: 100px;
-    float			: left;
+	display			: block;
+	float			: left;
+	line-height		: 48px;	
+	margin			: 0 10px;
 }
 .main-header img {
 	width: 15px;
@@ -34,8 +34,10 @@
 }
 
 .hdr-coordinate-bx {
-   	min-width: 300px;   
-    float: right;
+	min-width		: 20px;
+	padding			: 0 10px;
+	line-height		: 48px;	
+    float			: right;
 }
 .hdr-coordinate-bx li {
     display: block;
@@ -60,10 +62,115 @@
 	width: 10px;
 	height: 15px;
 }
-
+/*---- header list ----*/
+#header-list {
+	display			: table;
+	cursor			: pointer;
+	float			: right;
+}
 @media ( max-width: 600px ) {
 	.main-header {
 		width: 100vw;
 		min-width: 350px;
 	}
+}
+
+
+/*---- dropdown menu ----*/
+
+.drop-down-container {
+	background-color: #fff;
+	border-radius	: 5px;
+	border			: 1px solid #eee;
+	font-size		: var(--mn-font-size);
+	display			: none;
+
+	position		: fixed;
+	right			: 10px;
+	top				: 40px;
+
+	padding			: 5px 0;
+
+	z-index			: 10001;
+
+}
+
+.drop-down-container a {
+	min-width		: 100px;
+	display			: block;
+	padding			: 10px 20px;
+	line-height		: var(--mn-font-size);	
+}
+.drop-down-container a:hover {
+	background-color: #f1f1f1;
+}
+.drop-down-container hr {
+	color			: #fff;
+}
+.drop-down-container img {
+	display			: inline-block;
+}
+
+/*---- header radios ----*/
+
+.radio-box .radio-container {
+	cursor			: pointer;			
+}
+.radio-box .radio-container input{
+    display			: none;
+}
+.radio-container .circle{
+	display			: inline-block;
+    width			: 10px;
+    height			: 10px;
+    border-radius	: 20%;
+    background-color: #aaa;
+}
+.radio-box .radio-container:hover .circle{
+    background-color: #777;
+}
+.radio-box .radio-container input:checked + .circle{
+    background		: rgb(70, 60, 30);
+}
+.main-header, .nav-bar {
+    -webkit-user-select: none !important; /* Safari 3.1+ */
+    -moz-user-select: none !important; /* Firefox 2+ */
+    -ms-user-select	: none !important; /* IE 10+ */
+    user-select		: none !important; /* Standard syntax */
+}
+@media ( max-width: 600px ) {
+	.radio-box .radio-container {
+		display: none;
+	}
+}
+
+/*---- inspector ----*/
+.inspector-container a {
+	display			: inline-block;
+	margin			: 0 10px;
+	line-height		: 50px;
+	padding			: 0 5px;	
+}
+.inspector-container {		
+	display			: table;
+	float			: left;		
+}
+
+
+/*---- Feedback ----*/
+.errorMsg {	
+	background-color: rgba(255, 221, 221, 0.500);	
+	color			: #444;
+}
+.succMsg {
+	background-color: rgba(221, 255, 221, 0.500);	
+	color			: #444;
+}
+.succMsg, 
+.errorMsg {			
+	width			: 100%;
+	position		: absolute;
+	line-height		: 50px;	
+	text-align		: center;
+	z-index			: -1;	
 }

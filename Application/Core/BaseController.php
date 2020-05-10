@@ -27,7 +27,8 @@ class BaseController
         $responseFactory = new ResponseFactory(new ViewRenderer);
         $response = $responseFactory->createResponse([$viewAndModel, $models]);
 
-        (new ResponseEmitter)->emit($response);        
+        (new ResponseEmitter)->emit($response);   
+        die;     
     }   
     
 

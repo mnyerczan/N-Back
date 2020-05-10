@@ -89,7 +89,7 @@ class SettingsController extends MainController
 
         if ($result)
         {
-            $this->Response(['result' => true], ['view' => "redirect:account"]);
+            $this->Response(['result' => true], ['view' => "redirect:".APPROOT."account"]);
         }		
         else
         {

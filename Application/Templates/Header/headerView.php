@@ -51,10 +51,10 @@
         <?php endif ?>
         <ul>
             <?php if( !$header->loginDatetime && $view !== 'signIn' ): ?>		
-                <li><a href='<?=APPROOT?>signIn'>Sign in</a></li>			
+                <li><a href='<?=APPROOT?>signIn'  class="login">Sign in</a></li>			
             <?php endif ?>	
             <?php if( !$header->loginDatetime && $view !== 'signUp' ): ?> 				
-                <li><a href='<?=APPROOT?>signUp/form'>Sign Up</a></li>
+                <li><a href='<?=APPROOT?>signUp/form' class="login">Sign Up</a></li>
             <?php endif ?>	
         </ul>	
     </div>       

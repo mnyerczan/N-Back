@@ -13,6 +13,6 @@
         <label for="signIn-pass"><?= $passwordLabel ?></label>
         <input id="signIn-pass" type="password" name="signIn-pass" minlength="4" name="signUp-pass" autocomplete="off" >
         
-        <input type="submit" name="signIn-submit" id="signIn-submit" value="Submit" class="btn btn-save" title="Save">                
+        <input type="submit" name="signIn-submit" id="signIn-submit" value="Submit" class="btn btn-grn sml-xs-btn" title="Save">                
     </form>
 </main>

@@ -150,8 +150,12 @@
     display         : table;
     padding         : 10px;
 }
+.user-c .sex-container .radio-box {
+    display         : inline-block;
+}
 .user-c .sex-container .radio-container {
     padding         : 0 10px;
+    display         : inline-block;
 }
 .user-c.update input:not([type="submit"]),
 .user-c.update p {

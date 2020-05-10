@@ -13,7 +13,7 @@
 	right			: 0;
 	top				: 0;
 }
-.main-header, .hdr-coordinate-bx a {
+.hdr-coordinate-bx a {
 	color			: black;
 }
 .main-header .radio-box {
@@ -40,22 +40,22 @@
     float			: right;
 }
 .hdr-coordinate-bx li {
-    display: block;
-    padding: 0 10px;
+    display: block;   
     min-width: 0;
-    float: right;
-	border-left: 1px solid #555;
+    float: right;	
 	cursor: pointer;
 	position: relative;
 }
 .hdr-coordinate-bx ul {
 	margin: 0;
 }
-.hdr-coordinate-bx li:last-child {
-	border: none;
+
+a.login {	
+	display			: block;
+	padding			: 0 10px;	
 }
-.hdr-coordinate-bx li:hover {
-	-color: #888;
+a.login:hover {
+	color			: blue;
 }
 
 .hdr-icons {

@@ -5,10 +5,11 @@
     RewriteCond %{REQUEST_FILNAME} !-d
     #kivétel adása a szabályhoz, hogy a 
     #http://localhost/Style/style.css kérést kiszolgálja a szerver.
-    RewriteCond %{REQUEST_URI} !/Style
-    RewriteCond %{REQUEST_URI} !/Script
-    RewriteCond %{REQUEST_URI} !/img
-    RewriteCond %{REQUEST_URI} !/Images
+    RewriteCond %{REQUEST_URI} !/Application/Style
+    RewriteCond %{REQUEST_URI} !/Application/Script
+    RewriteCond %{REQUEST_URI} !/Application/img
+    RewriteCond %{REQUEST_URI} !/Application/Images
+    RewriteCond %{REQUEST_URI} !/Public/*
     RewriteCond %{REQUEST_URI} !/Templates/User/signUp.js
     RewriteCond %{REQUEST_URI} !/Templates/User/signIn.js
     RewriteCond %{REQUEST_URI} !/Templates/User/account.js
@@ -16,4 +17,4 @@
     RewriteRule ^ index.php [L]
 </IFModule>
 # A minusszal kiakapcsoljuk a könyvtárak kilistázásának lehetőségét.
-#Options -Indexes
+Options -Indexes

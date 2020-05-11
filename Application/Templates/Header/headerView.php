@@ -18,12 +18,14 @@
                 <pre id="serias_left_time"></pre>
             </div>
         <?php endif; ?>
-    </nav>
-    <?php if (isset($modifyResult) && !$modifyResult): ?>
-        <div class="errorMsg">Cant modify your datas, maybe the new email is already used.</div>
-    <?php elseif (@$modifyResult): ?>
-        <div class="errorMsg">Cant modify your datas, maybe the new email is already used.</div>
+    </nav>    
+
+    <?php if (isset($errorMsg)): ?>
+        <div class="errorMsg"><?=$errorMsg?></div>
+    <?php elseif (isset($_GET['sm'])): ?>
+        <div class="succMsg"><?=$_GET['sm']?></div>
     <?php endif ?> 
+
 	<div class="hdr-coordinate-bx">
     <?php if( $header->userId > 1 ):?>	
         

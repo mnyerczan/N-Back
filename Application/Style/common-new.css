@@ -39,7 +39,8 @@ a {
 	font-size		: calc( 1.3 * var( --mn-font-size ));
 	width			: calc( 1.3 * var( --mn-font-size ));	
 	line-height		: 50px;	
-	text-align		: center;		
+	text-align		: center;
+	color			: #000;			
 }
 .clear {
 	clear			: both;

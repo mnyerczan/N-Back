@@ -12,7 +12,12 @@ final class ViewRenderer
         
         ob_clean();
         
-        require_once APPLICATION.'Templates/_layout.php';
+        if ($modelAndView->viewName['view'] != '')
+            require_once APPLICATION.'Templates/_layout.php';
+        else
+        {
+            (new JsonRenderer())->Emit($modelAndView->model);
+        }            
 
         return ob_get_clean();
     }

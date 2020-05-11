@@ -36,10 +36,13 @@ final class Application
         $this->addRoute('(?<controller>settings)/(?<action>personal)/?' , 'SettingsController','get', true );
         $this->addRoute('(?<controller>settings)/(?<action>nback)/?' , 'SettingsController','get', true );
         $this->addRoute('(?<controller>settings)/(?<action>personalUpdate)/?' , 'SettingsController','POST', true );
+        $this->addRoute('(?<controller>settings)/(?<action>passwordUpdate)/?' , 'SettingsController','POST', true );
                
+        $this->addRoute('(?<controller>authenticate)/?' , 'AuthenticateController','GET', true );
+
         $this->addRoute('(?<controller>nBack)/?', 'nBackController','get' );        
         $this->addRoute('(?<controller>documents)/?' , 'documentsController','get' );
-    //var_dump($this->routes); die;
+    
         foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $pattern => $params)
         {                
             if (preg_match( $pattern, $cleanedUri, $matches ))

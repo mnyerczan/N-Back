@@ -23,12 +23,12 @@ abstract class Validator
 
     public function isValid()
     {
-        if ( !@$this->errorMsg )
+        if ( $this->errorMsg )
         {
-            return TRUE;
+            return false;
         }            
 
-        return FALSE;      
+        return true;      
     }
 
 

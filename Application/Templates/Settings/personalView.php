@@ -1,4 +1,5 @@
 <form action="<?=APPROOT?>settings/personalUpdate" method="POST" id="personalForm"></form> 
+<script src="Public/js/personalSettings.js?t=<?= CURRENT_TIMESTAMP ?>"></script>
 <div class="setting-contents">
     <div class="title">Drawer</div>  
     <div class="user-b">Profile picture</div>               
@@ -8,38 +9,40 @@
 
         <label for=""><?=$emailLabel?></label>             
         <input type="email" value="<?=$user->email?>" name="update-user-email" form="personalForm">
-        
-        <label for="">Ligin date</label>             
-        <p><?=$user->loginDatetime?></p>
-
-        <label for=""><?=$dateLabel?></label>             
-        <input type="date" value="<?=$user->birth?>" name="update-user-birth" form="personalForm">
-
+             
         <label for="">Your sex</label>     
         <div class="sex-container">
             <div class="radio-box">
                 <label class="radio-container">  
                     <span class="emoji-container">&#128104;</span>                  
-                    <input type="radio"  name="sex" value="male" <?= $user->sex == 'male' ? 'checked' : '' ?> form="personalForm">                    
+                    <input type="radio"  name="update-user-sex" value="male" <?= $user->sex == 'male' ? 'checked' : '' ?> form="personalForm">                    
                     <span class="circle" ></span>                    
                 </label>        
             </div>
             <div class="radio-box" title="Chose theme">
                 <label class="radio-container">  
                     <span class="emoji-container">&#128105;</span>                  
-                    <input type="radio"  name="sex" value="female" <?= $user->sex == 'female' ? 'checked' : '' ?> form="personalForm">
+                    <input type="radio"  name="update-user-sex" value="female" <?= $user->sex == 'female' ? 'checked' : '' ?> form="personalForm">
                     <span class="circle" ></span>                    
                 </label>        
             </div>
-        </div>                    
-
-        <label for=""><?=$passwordLabel?></label>             
-        <input type="password" placeholder="<?php for($i=0;$i<$user->passwordLength;$i++){echo '*';} ?>" name="update-user-password" form="personalForm" required>
-
-        <div class="user-d">
-        <input type="submit" id="opn-usr-mdl" class="btn btn-grn sml-btn" value="Submit" form="personalForm">
+        </div>
+        <label for="">About you</label>
+        <textarea id="" cols="30" rows="10" name="update-user-about" data-warning-text="{{remaining}} remaining"  data-input-max-length="255" placeholder="Tell us a litle bit about yourself" form="personalForm"><?=$user->about?></textarea>
+        <input type="submit" id="opn-usr-mdl" class="btn btn-grn sml-btn" value="update profile" form="personalForm">
     </div> 
-    </div> 
+    <div class="user-h"></div>  
+    <div class="user-d">
+        <form action="<?=APPROOT?>settings/passwordUpdate" method="POST">
+            <label for=""><?=$passwordLabel?></label>             
+            <input type="password" placeholder="<?php for($i=0;$i<$user->passwordLength;$i++){echo '*';} ?>" name="update-user-password" required>
+            <label for="">Re-type password</label>  
+            <input type="password" placeholder="<?php for($i=0;$i<$user->passwordLength;$i++){echo '*';} ?>" name="update-user-retype-password" required>
+            <br>
+            <input type="submit" id="opn-usr-mdl" class="btn btn-grn sml-btn" value="Update password">
+        </form>        
+        
+    </div>     
     <div class="user-f" id="user-profile-image">
         <img class="big-user-image" id="output" src="data:image/*;base64,<?= $user->imgBin?>">
         <label for="update-img" class="btn btn-blk sml-btn" >&#128394; Edit</label>

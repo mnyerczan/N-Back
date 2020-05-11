@@ -79,6 +79,59 @@ BEGIN
 END;
 
 -------------------------------------------------------------
+-- Procedure for upgrade user's personal data
+-------------------------------------------------------------
+
+CREATE PROCEDURE `UpdateUserPersonalDatas`(
+    IN `userId`     int UNSIGNED,
+    IN `userName`   varchar(255),
+    IN `email`      varchar(255),
+    IN `about`      varchar(255), 
+    IN `sex`        enum('male','female'),
+    IN `privilege`  int UNSIGNED
+)
+BEGIN
+    DECLARE errno INT;  
+
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            GET CURRENT DIAGNOSTICS CONDITION 1 errno = MYSQL_ERRNO;
+            SELECT errno AS MYSQL_ERROR;
+            ROLLBACK;
+        END;
+
+    IF `privilege` LIKE '' THEN             
+        UPDATE `users` AS `u` SET 
+            `u`.`userName`  = `userName`,
+            `u`.`email`     = `email`,
+            `u`.`about`     = `about`,            
+            `u`.`sex`       = `sex`
+        WHERE `u`.`id` LIKE `userId`;
+    ELSE
+        UPDATE `users` AS `u` SET 
+            `u`.`userName`  = `userName`,
+            `u`.`email`     = `email`,
+            `u`.`about`     = `about`,
+            `u`.`privilege` = `privilege`,
+            `u`.`sex`       = `sex`
+        WHERE `u`.`id` LIKE `userId`;
+    END IF;    
+END;
+
+-------------------------------------------------------------
+-- Procedure for upgrade user's password 
+-------------------------------------------------------------
+CREATE PROCEDURE `upgradePassword`(
+    IN `userId`   int,
+    IN `inPassword` varchar(32)    
+)
+BEGIN
+    UPDATE `users` SET 
+        `password` = md5(CONCAT("salt",md5(`inPassword`)))
+    WHERE `users`.`id` LIKE `userId` ;
+END;
+
+-------------------------------------------------------------
 -- Procedure for get users count
 -------------------------------------------------------------
 CREATE PROCEDURE `GetUserCount`()

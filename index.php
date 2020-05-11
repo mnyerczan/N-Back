@@ -103,6 +103,8 @@
     require_once APPLICATION.'Classes/validateEmail.php';
     require_once APPLICATION.'Classes/validateUser.php';
     require_once APPLICATION.'Classes/validateDate.php';
+    require_once APPLICATION.'Classes/validateSex.php';
+    require_once APPLICATION.'Classes/ValidateAbout.php';
     require_once APPLICATION.'Classes/validatePassword.php';
     require_once APPLICATION.'Core/ResponseFactory.php';
     require_once APPLICATION.'Core/ResponseEmitter.php';
@@ -111,7 +113,9 @@
     require_once APPLICATION."Core/BaseController.php";
     require_once APPLICATION."Core/MainController.php";
     require_once APPLICATION."Core/GameController.php";
+    require_once APPLICATION."Core/JsonRenderer.php";
     require_once APPLICATION."Controllers/NotFoundController.php";
+    require_once APPLICATION."Controllers/AuthenticateController.php";
     
 
 

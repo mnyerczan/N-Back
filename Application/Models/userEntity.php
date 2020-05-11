@@ -57,10 +57,7 @@ class UserEntity
 	}
 
 
-	public function UpdateUser(string $date, string $user, string $email, string $pass)
-	{
-		
-	}
+
 
 
 	private function LoadAnonim()
@@ -172,6 +169,7 @@ class UserEntity
 
 		$this->datas['imgBin']			= ImageConverter::BTB64 ($user->imgBin);		
 		$this->datas['theme']			= $user->theme;
+		$this->datas['about']			= $user->about;
 	
 
 		// NOT IMPLEMENTED FEATUTRE
@@ -204,7 +202,9 @@ class UserEntity
 		];
 
 		$user = $this->db->Select($sql,$params);
-			
+
+
+
 		if (!is_array($user)) return false;
 		
 		if(count($user))
@@ -247,6 +247,7 @@ class UserEntity
 			case 'theme': 			return $this->datas['theme']; 			break;
 			case 'refresh': 		return $this->datas['refresh']; 		break;
 			case 'online': 			return $this->datas['online']; 			break;
+			case 'about':			return $this->datas['about'];			break;
 			case 'imgBin': 			return $this->datas['imgBin']; 			break;
 
 			case 'gameMode': 		return $this->datas['gameMode']; 		break;

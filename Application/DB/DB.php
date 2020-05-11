@@ -72,7 +72,9 @@ class DB
      * SELECT query
      */
     public function Select( string $script, array $params = [] ): array
-    {       
+    {   
+        //self::$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);    
+
         $statement =  self::$connect->prepare($script);     
      
         $keys = array_keys( $params );
@@ -102,7 +104,7 @@ class DB
         {
             if( !$statement->execute() )
             {
-                throw new RuntimeException( $statement->errorInfo()[2] );
+                throw new PDOException( $statement->errorInfo()[2] );
             }
 
             $result = $statement->fetchAll( PDO::FETCH_CLASS );
@@ -112,9 +114,8 @@ class DB
             return $result;
             
         }
-        catch( RuntimeException $e )
-        {     
-            var_dump($e); die;
+        catch( PDOException $e )
+        {                 
             error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '".$script."' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
             $statement = null;
             return [];
@@ -128,6 +129,9 @@ class DB
      */
     public function Execute( string $script, array $params = [] ): bool
     {                    
+        //self::$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+ 
         try
         {
             if ( !$statement =  self::$connect->prepare( $script ) )
@@ -159,14 +163,12 @@ class DB
                 }                 
             }
 
-            if( !$statement->execute() )
-            {                        
-                throw new PDOException( 'Errno: '.$statement->errorInfo()[1].' - '.$statement->errorInfo()[2] );                
-            }         
+            $statement->execute();
+            
             if ($statement->rowCount())
-            {
-                $error = $statement->fetch( PDO::FETCH_ASSOC);
-                throw new PDOException('Errno: '.$error['message'].', '.$error['errno']);
+            {                
+                $error = $this->Select('SHOW errors');                      
+                //throw new PDOException('Errno: '.$error['message'].', '.$error['errno']);
             }
             $statement = null;
 
@@ -174,8 +176,9 @@ class DB
         }
         catch( PDOException $e )
         {
-            error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '{$script}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
-                        
+            print_r($e); die;
+            error_log( date('Y-m-d H:i:s').' - Code: '.self::$connect->errorCode()[1].', Msg:  '.self::$connect->errorInfo()[2].', '.$e->getMessage()." with: '{$script}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
+            
             $statement = null;
             return false;
         }

@@ -96,12 +96,14 @@
     grid-area       : b;
     display         : grid;
     width           : 100%;
+    grid-gap        : 10px;
     grid-template: 
         "a a b" 40px
-        "c c f" 250px        
-        "c c ." 120px
-        "g g g" 30px
-        / 1fr 1fr 1fr;
+        "c c f" 400px 
+        "g g ." 20px                       
+        "d d ." 150px
+        "h h ." 30px
+        / 1fr 1fr 200px;
 
 }
 
@@ -115,8 +117,7 @@
     font-weight     : bold;    
 }
 .user-b {
-    grid-area       : b;
-    font-weight     : bold;
+    grid-area       : b;    
 }
 .user-c { 
     grid-area       : c;
@@ -124,6 +125,7 @@
 }
 .user-d {
     grid-area       : d;
+    padding         : 2px;
 }
 .user-e {
     grid-area       : e ;
@@ -135,9 +137,19 @@
     grid-area       : g;
     border-bottom   : 1px solid rgb(214, 214, 214);
 }
+.user-h {
+    grid-area       : h;
+    border-bottom   : 1px solid rgb(214, 214, 214);
+}
 
 
-.user-c p {
+.user-c textarea {
+    width           : 80%;
+    height          : 100px;
+    resize          : none;
+    padding         : 5px;
+}
+.setting-contents p {
     border          : 1px solid rgb(235, 234, 234);
     border-radius   : 5px;
     color           : black;
@@ -145,20 +157,20 @@
     margin-top      : 0;
     padding         : 5px;
 }
-.user-c .sex-container {
+.setting-contents .sex-container {
     width           : 100%;
     display         : table;
     padding         : 10px;
 }
-.user-c .sex-container .radio-box {
+.setting-contents .sex-container .radio-box {
     display         : inline-block;
 }
-.user-c .sex-container .radio-container {
+.setting-contents .sex-container .radio-container {
     padding         : 0 10px;
     display         : inline-block;
 }
-.user-c.update input:not([type="submit"]),
-.user-c.update p {
+.setting-contents input:not([type="submit"]),
+.setting-contents p {
     background-color: #fffcc8;
     border          : 1px solid rgb(235, 234, 234);
     border-radius   : 5px;

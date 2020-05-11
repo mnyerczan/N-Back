@@ -28,7 +28,7 @@ class ValidateUser extends Validator
     {
         if (!$this->value) return;
         
-        if (!preg_match('/^[a-zA-Z0-9 _áéíóöőúüűÁÉÍÓÖŐÚÜŰ]+$/',$this->value ))
+        if (!preg_match('/^[a-zA-Z0-9 _áéíóöőúüűÁÉÍÓÖŐÚÜŰ\.,]+$/',$this->value ))
         {                                    
             $this->setError('Username contains invalid characters!');            
             return false;

@@ -27,6 +27,8 @@ class Navbar
         $this->datas['childMenus']  = $this->menus->childMenus; 
         $this->datas['sessions']    = $this->sessions->sessions;
         $this->datas['times']       = $this->sessions->times;
+        $this->datas['logoImg']     = 'img/brain_logo.png';
+        
         
         
         for ($i=0; $i < count($this->datas['sessions']); $i++) 
@@ -41,7 +43,7 @@ class Navbar
 
     function getDatas()
     {         
-        return $this->datas;
+        return (object)$this->datas;
     }
 
 

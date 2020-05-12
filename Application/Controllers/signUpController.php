@@ -137,6 +137,7 @@ class signUpController extends MainController
         $crName = $user     ? $user->getUser()      : null;
         $crEmail= $email    ? $email->getEmail()    : null;
 
+        $this->datas['signUpJsPath']    = BACKSTEP.'Public/js/signUp.js?v='.CURRENT_TIMESTAMP;
 
         $this->datas['nameLabel']       = $user->errorMsg  ?? 'Name';
         $this->datas['emailLabel']      = $email->errorMsg ?? 'E-mail';
@@ -150,6 +151,7 @@ class signUpController extends MainController
         $this->datas['userNameValue']   = $this->datas['isAdmin']  ?  'Admin' : $crName;
         $this->datas['userEmailValue']  = $crEmail;
      
+
         if ($this->datas['isAdmin'])
         {
             // autentikációs azonosító létrehozása az Admin név ismétlődésének elkerüléséhez

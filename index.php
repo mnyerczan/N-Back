@@ -2,7 +2,8 @@
 
     declare(strict_types=1);
 
-
+    ini_set("display_errors", "1");
+    error_reporting(E_ALL);
 
     define('URI', explode('?', $_SERVER['REQUEST_URI'])[0]);
 
@@ -12,8 +13,8 @@
 	// Program mappa
 	define('APPLICATION'		, 'Application/');
 
-	// Program gyökér mappa
-	define('APPROOT'			, "/NBack/");
+	// Root directory. Mos be at least '/' !
+	define('APPROOT'			, "/");
 	
 	// Temp mappa útvonal
     define('TMP_PATH'			, APPLICATION.'Tmp/');
@@ -21,13 +22,21 @@
     // Config path
 	define('CONF_PATH'			, 'config.json');
 
+    // HTTP protocol
+    define('HTTP_PROTOCOL', 'http://');
 
-
-    $cleanedUri = str_replace( APPROOT,'', URI);
+    if (APPROOT !== '/')
+    {
+        $cleanedUri = str_replace( APPROOT,'', URI);
+    }        
+    else
+    {
+        $cleanedUri =  URI;
+    }
     
     
 
-	$num = count(explode( '/' , $cleanedUri ) ) - 1;
+	$num = count(explode( '/' , $cleanedUri ) ) ;
 	$backFromCurrentPath = '';
 
 /**

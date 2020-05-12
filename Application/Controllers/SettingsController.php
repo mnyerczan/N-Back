@@ -73,12 +73,7 @@ class SettingsController extends MainController
                     ':newPassword'   => $pass->getPass(),
                     ':oldPassword'  => $oldPass->getPass()
                 ]
-            );
-
-            var_dump($updateResult[0]->result);
-            var_dump($updateResult[0]->result === 'true');
-            
-            
+            );      
 
             if ($updateResult[0]->result === 'true')
             {                                

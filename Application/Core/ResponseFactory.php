@@ -19,9 +19,10 @@ final class ResponseFactory
         
         if (preg_match("`^redirect:`", $controllerResult[0]['view']))
         {
+            //var_dump($_SERVER); die;
             return new Response(
                 '', 
-                ["location" => 'http://localhost'.substr($controllerResult[0]['view'], 9)], 
+                ["location" => HTTP_PROTOCOL.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].substr($controllerResult[0]['view'], 9)], 
                 302, 
                 'Found'
             );

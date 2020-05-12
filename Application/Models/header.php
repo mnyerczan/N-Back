@@ -41,7 +41,7 @@ class Header
         //$datas['userIconPath']      = BACKSTEP.APPLICATION.'img/'.$this->user->fileName;
         $datas['logoutIconPath']    = BACKSTEP.APPLICATION."img/logout.png";
         $datas['seriaIconPath']     = BACKSTEP.APPLICATION."img/fat_flame_red.png";
-        $datas['javaScript']        = BACKSTEP.APPLICATION."Templates/Header/header.js";
+        $datas['javaScript']        = BACKSTEP."Public/js/header.js";
         
 
 

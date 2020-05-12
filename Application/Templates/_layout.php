@@ -11,7 +11,7 @@
 </head>
 <body>
     <!-- Header -->
-    <?php if ( @$header )    require_once APPLICATION."Templates/Header/headerView.php";  ?>
+    <?php if ( @$header )    require_once APPLICATION."Templates/headerView.php";  ?>
 	<!-- Info label -->
     <?php if ( @$indicator )//require_once APPLICATION.'Templates/infoLabelView.php';?>
 	<!-- Nav bar -->

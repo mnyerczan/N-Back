@@ -23,7 +23,7 @@ class MainController extends BaseController
             )->getDatas(),
             'header' => (new Header( $this->user ))->getDatas()
         ];       
-           
+         
     }
 
 }

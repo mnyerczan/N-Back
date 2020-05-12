@@ -1,4 +1,4 @@
-<script src="<?= BACKSTEP ?><?=APPLICATION?>Templates/ User/signUp.js?v=<?= CURRENT_TIMESTAMP ?>"></script>
+<script src="<?=$signUpJsPath?>"></script>
 <main class="usr-crt-frm" >
     <div>
         <h3 style="text-align:center">

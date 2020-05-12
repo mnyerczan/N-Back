@@ -14,7 +14,7 @@
 	define('APPLICATION'		, 'Application/');
 
 	// Root directory. Must be at least '/' !
-	define('APPROOT'			, "/NBack/");
+	define('APPROOT'			, "/");
 	
 	// Temp mappa útvonal
     define('TMP_PATH'			, APPLICATION.'Tmp/');
@@ -33,7 +33,7 @@
     $num = count(explode('/',$cleanedUri )) -1;   
     
    
-    
+
     
 
 	

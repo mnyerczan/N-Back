@@ -117,7 +117,7 @@ class signUpController extends MainController
             return 3;
         }                       
         
-        header("Location: ".APPROOT);
+        header("Location: ".APPROOT.'/');
 
         return 0;
     }

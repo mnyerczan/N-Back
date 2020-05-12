@@ -55,7 +55,7 @@ class signInController extends MainController
 
             return;
         }                        
-        $this->Response([], ['view' => 'redirect:'.APPROOT]);
+        $this->Response([], ['view' => 'redirect:'.APPROOT.'/']);
     }
 
 

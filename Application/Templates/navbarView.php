@@ -2,8 +2,8 @@
 <aside class="nav-bar">	
 	<table class="navbar-hdr">
 		<tr>
-			<td><img src="<?= APPROOT ?><?=APPLICATION?><?=$navbar->logoImg?>" ></td>
-			<td><a href="<?=APPROOT?>" title="Main page" >	N-Back</a></td>
+			<td><img src="<?= BACKSTEP ?><?=APPLICATION?><?=$navbar->logoImg?>" ></td>
+			<td><a href="<?=APPROOT.'/'?>/" title="Main page" >	N-Back</a></td>
 		</tr>
 	</table>					
 	<div class="increase-container">
@@ -16,7 +16,7 @@
 						<div class="nav-bar-btn">
 							&#9662;	<span><?= $navbar->menus[$i]->name ?></span>														
 							<?php if ($navbar->menus[$i]->ikon != 'none'): ?>
-								<img src="<?= APPROOT ?><?= APPLICATION.$navbar->menus[$i]->ikon ?>"  class="nav-lnks-ikn">
+								<img src="<?= BACKSTEP ?><?= APPLICATION.$navbar->menus[$i]->ikon ?>"  class="nav-lnks-ikn">
 							<?php endif ?>
 						</div>
 					</a>
@@ -26,7 +26,7 @@
 							<div class="nav-bar-btn">
 								<span><?= $child->name ?></span>														
 								<?php if ($child->ikon != 'none'): ?>
-									<img src="<?= APPROOT ?><?= APPLICATION.$child->ikon ?>"  class="nav-lnks-ikn">
+									<img src="<?= BACKSTEP ?><?= APPLICATION.$child->ikon ?>"  class="nav-lnks-ikn">
 								<?php endif ?>
 							</div>
 						</a>
@@ -38,7 +38,7 @@
 					<div class="nav-bar-btn">
 						<span><?= $navbar->menus[$i]->name ?></span>					
 						<?php if ($navbar->menus[$i]->ikon != 'none'): ?>
-							<img src="<?= APPROOT ?><?= APPLICATION.$navbar->menus[$i]->ikon ?>"  class="nav-lnks-ikn">
+							<img src="<?= BACKSTEP ?><?= APPLICATION.$navbar->menus[$i]->ikon ?>"  class="nav-lnks-ikn">
 						<?php endif ?>
 					</div>					
 				</a>				
@@ -46,7 +46,7 @@
 				<div class="nav-bar-btn">
 					<span><?= $navbar->menus[$i]->name ?></span>					
 					<?php if ($navbar->menus[$i]->ikon != 'none'): ?>
-						<img src="<?= APPROOT ?><?= APPLICATION.$navbar->menus[$i]->ikon ?>"  class="nav-lnks-ikn">
+						<img src="<?= BACKSTEP ?><?= APPLICATION.$navbar->menus[$i]->ikon ?>"  class="nav-lnks-ikn">
 					<?php endif ?>
 					</div>
 			<?php endif ?>

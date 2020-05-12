@@ -22,7 +22,7 @@ class Indicator
     {
         if( @!$_COOKIE['infoLabel']) 
         {           
-            setcookie('infoLabel', 'On', time() + 60 * 60 *24 * 365, APPROOT);
+            setcookie('infoLabel', 'On', time() + 60 * 60 *24 * 365, APPROOT.'/');
             self::$datas->infoLabel = 'On';
         }  
         else 

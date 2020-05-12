@@ -14,7 +14,7 @@
 	define('APPLICATION'		, 'Application/');
 
 	// Root directory. Must be at least '/' !
-	define('APPROOT'			, "/");
+	define('APPROOT'			, "/NBack");
 	
 	// Temp mappa útvonal
     define('TMP_PATH'			, APPLICATION.'Tmp/');
@@ -23,20 +23,14 @@
 	define('CONF_PATH'			, 'config.json');
 
     // HTTP protocol
-    define('HTTP_PROTOCOL', 'http://');
+    define('HTTP_PROTOCOL'      , 'http://');
 
-    $cleanedUri =  URI;
-    $num        = 1;
-    
-    // remove application directory from path
-    $cleanedUri = str_replace( APPROOT,'', URI);
-    $num = count(explode('/',$cleanedUri )) -1;   
-    
-   
 
+    // remove application directory from path    
+    $cleanedUri = str_replace( APPROOT,'', URI);    
+    $num = count(explode('/',$cleanedUri )) -2; 
     
 
-	
 	$backFromCurrentPath = '';
 
 /**

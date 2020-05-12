@@ -1,4 +1,4 @@
-<form action="<?=APPROOT?>settings/personalUpdate" method="POST" id="personalForm"></form> 
+<form action="<?=APPROOT.'/'?>settings/personalUpdate" method="POST" id="personalForm"></form> 
 <script src="Public/js/personalSettings.js?t=<?= CURRENT_TIMESTAMP ?>"></script>
 <div class="setting-contents">
     <div class="title">Drawer</div>  
@@ -33,7 +33,7 @@
     </div> 
     <div class="user-h"></div>  
     <div class="user-d">
-        <form action="<?=APPROOT?>settings/passwordUpdate" method="POST">
+        <form action="<?=APPROOT.'/'?>settings/passwordUpdate" method="POST">
         <label for=""><?=$oldPasswordLabel?></label>  
             <input type="password" placeholder="<?php for($i=0;$i<$user->passwordLength;$i++){echo '*';} ?>" name="update-user-old-password" required>
             <label for=""><?=$passwordLabel?></label>             

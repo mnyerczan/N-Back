@@ -77,7 +77,7 @@ class SettingsController extends MainController
 
             if ($updateResult[0]->result === 'true')
             {                                
-                $this->Response([],['view' => "redirect:".APPROOT."settings?sm=Password modification is succesfull!"]);
+                $this->Response([],['view' => "redirect:".APPROOT.'/'."settings?sm=Password modification is succesfull!"]);
             }
 
             $errorMsg = "Old password is incorrect!";

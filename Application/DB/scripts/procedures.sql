@@ -123,12 +123,19 @@ END;
 -------------------------------------------------------------
 CREATE PROCEDURE `upgradePassword`(
     IN `userId`   int,
-    IN `inPassword` varchar(32)    
+    IN `inNewPassword` varchar(32),
+    IN `inOldPassword` varchar(32)
 )
 BEGIN
-    UPDATE `users` SET 
-        `password` = md5(CONCAT("salt",md5(`inPassword`)))
-    WHERE `users`.`id` LIKE `userId` ;
+    IF md5(CONCAT("salt", md5(`inOldPassword`))) IN (SELECT `password` FROM `users`) THEN
+        UPDATE `users` SET 
+            `password` = md5(CONCAT("salt",md5(`inNewPassword`)))
+        WHERE `users`.`id` LIKE `userId` ;
+        SELECT 'true' AS `result`;
+    ELSE
+        SELECT 'false' AS `result`;
+    END IF; 
+    
 END;
 
 -------------------------------------------------------------
@@ -174,12 +181,11 @@ BEGIN
     DECLARE errno INT; 
 
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
-            BEGIN
-                GET CURRENT DIAGNOSTICS CONDITION 1 errno = MYSQL_ERRNO;
-                SELECT errno AS MYSQL_ERROR;
-                ROLLBACK;
-            END;
-
+        BEGIN
+            GET CURRENT DIAGNOSTICS CONDITION 1 errno = MYSQL_ERRNO;
+            SELECT errno AS MYSQL_ERROR;
+            ROLLBACK;
+        END;
     SELECT 
         * 
     FROM 

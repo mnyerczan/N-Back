@@ -32,8 +32,15 @@
         <div id="header-list">        	                  
             <span class="emoji-container">&#9776;</span>
             <section class="drop-down-container">    
+                <div id="drop-dw-name-cnt">Signed in as <br><b>
+                    <?php   
+                        if (strlen($header->userName) <= 15) echo $header->userName;
+                        else echo substr($header->userName, 0, 15)."..";
+                    ?>
+                    </b></div>
+                <hr>
                 <a href="<?=APPROOT?>account" title="Go to profile">					
-                    <b><?=$header->userName?></b>
+                    Your profile
                 </a>
                 <a href="<?=APPROOT?>settings" title="Go to settings">
                     Settings
@@ -45,7 +52,7 @@
                 <?php endif ?>                    
                 <hr>
                 <a href="<?=APPROOT?>logUot" onclick="return confirm('Are you sure?')">
-                    Logout<img src="<?= $header->logoutIconPath ?>" >									
+                    Sign out<img src="<?= $header->logoutIconPath ?>" >									
                 </a>
             </section>            
         </div>

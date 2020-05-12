@@ -14,9 +14,7 @@
             <label for="">Your birth date</label> 
             <p><?=$user->birth?></p>
             <label for="">Your sex</label> 
-            <p><?=$user->sex?></p>
-            <label for="">Password</label> 
-            <p><?php for($i=0;$i<$user->passwordLength;$i++){echo '*';} ?></p>                                                        
+            <p><?=$user->sex?></p>                                                        
         </div>            
         <div class="user-c" id="user-profile-image"><img class="big-user-image" id="output" src="data:image/*;base64,<?= $user->imgBin?>"></div>  
         <div class="user-f"></div> 

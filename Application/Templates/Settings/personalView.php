@@ -5,7 +5,7 @@
     <div class="user-b">Profile picture</div>               
     <div class="user-c update">       
         <label for=""><?=$nameLabel?></label>                                                
-        <input type="text" value="<?=$user->userName?>" name="update-user-name" form="personalForm" <?=$enableNameInput?>>
+        <input type="text" value="<?=$user->userName?>" name="update-user-name" form="personalForm" <?=$enableNameInput?> autofocus>
 
         <label for=""><?=$emailLabel?></label>             
         <input type="email" value="<?=$user->email?>" name="update-user-email" form="personalForm">
@@ -34,12 +34,14 @@
     <div class="user-h"></div>  
     <div class="user-d">
         <form action="<?=APPROOT?>settings/passwordUpdate" method="POST">
+        <label for=""><?=$oldPasswordLabel?></label>  
+            <input type="password" placeholder="<?php for($i=0;$i<$user->passwordLength;$i++){echo '*';} ?>" name="update-user-old-password" required>
             <label for=""><?=$passwordLabel?></label>             
-            <input type="password" placeholder="<?php for($i=0;$i<$user->passwordLength;$i++){echo '*';} ?>" name="update-user-password" required>
-            <label for="">Re-type password</label>  
-            <input type="password" placeholder="<?php for($i=0;$i<$user->passwordLength;$i++){echo '*';} ?>" name="update-user-retype-password" required>
+            <input type="password" placeholder="" name="update-user-password" required>
+            <label for="">Re-type new password</label>  
+            <input type="password" placeholder="" name="update-user-retype-password" required>
             <br>
-            <input type="submit" id="opn-usr-mdl" class="btn btn-grn sml-btn" value="Update password">
+            <input type="submit" id="opn-usr-mdl" class="btn btn-std sml-btn" value="Update password">
         </form>        
         
     </div>     

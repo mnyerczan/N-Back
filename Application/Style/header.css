@@ -4,8 +4,7 @@
 */
 .main-header {  	
 	line-height		: var(--main-hdr-height);
-    display			: table;
-	color			: #eee;	
+    display			: table;	
 	width			: calc( 100% - var(--nb-min-width));
 	background-color: rgba(255, 255, 255, 0.897);	
 	user-select		: none;	
@@ -22,12 +21,7 @@
 	line-height		: 48px;	
 	margin			: 0 10px;
 }
-.main-header img {
-	width: 15px;
-	padding: 2px 5px;
-	display: block;
-	float: right;
-}
+
 .main-header .profile-img {
 	width: 25px;
 	padding: 0;
@@ -95,17 +89,30 @@ a.login:hover {
 
 }
 
-.drop-down-container a {
+.drop-down-container > a,
+.drop-down-container #drop-dw-name-cnt {
 	min-width		: 100px;
 	display			: block;
-	padding			: 10px 20px;
+	padding			: 0 20px;		
+}
+.drop-down-container > a {
+	padding			: 10px 20px;	
 	line-height		: var(--mn-font-size);	
+}
+.drop-down-container > a > img {
+	height			: var(--mn-font-size);
+	padding			: 0;	
+	float			: right;
+}
+
+.drop-down-container #drop-dw-name-cnt {
+	line-height		: calc(var(--mn-font-size) * 1.5);	
 }
 .drop-down-container a:hover {
 	background-color: #f1f1f1;
 }
 .drop-down-container hr {
-	color			: #fff;
+	border			: 1px solid #eee;
 }
 .drop-down-container img {
 	display			: inline-block;

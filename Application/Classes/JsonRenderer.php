@@ -7,13 +7,13 @@ class JsonRenderer
 
     public function Emit($models)
     {
-        $this->outputString = "{\n\t\"responsetext\":";
+        $this->outputString = "{\n\t\"responseText\":";
        
             $this->GenerateJons($models, ++$this->tabCounter);
 
         $this->outputString .= "\n}";
 
-        echo $this->outputString;
+        return $this->outputString;
     }
 
 

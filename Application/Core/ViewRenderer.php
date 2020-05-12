@@ -11,12 +11,13 @@ final class ViewRenderer
         extract($views);
         
         ob_clean();
+        ob_start();
         
         if ($modelAndView->viewName['view'] != '')
             require_once APPLICATION.'Templates/_layout.php';
         else
         {
-            (new JsonRenderer())->Emit($modelAndView->model);
+            echo (new JsonRenderer())->Emit($modelAndView->model);
         }            
 
         return ob_get_clean();

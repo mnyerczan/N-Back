@@ -5,7 +5,12 @@
         <div class="settings-navbar">        
             <div class="settings-navbar-a">
                 <img class="small-user-image" src="data:image/*;base64,<?= $user->imgBin?>">
-                <div><?=$user->userName?><br> personal settings</div>
+                <div>
+                    <?php   
+                        if (strlen($user->userName) <= 15) echo $user->userName;
+                        else echo substr($user->userName, 0, 15)."..";
+                    ?>    
+                <br> personal settings</div>
             </div>
             <div class="settings-navbar-b">
                 <a href="<?=APPROOT?>settings/personal" class="<?=@$personal?>">Profile</a>            

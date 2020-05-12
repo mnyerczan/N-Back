@@ -1,0 +1,2 @@
+2020-05-11 22:35:56 -  with: 'CALL `upgradePassword`(:userId, :inPassword)' in /var/www/html/NBack/Application/DB/DB.php at 119
+2020-05-11 22:38:11 - SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens with: 'CALL `upgradePassword`(:userId, :newPassword)' in /var/www/html/NBack/Application/DB/DB.php at 119

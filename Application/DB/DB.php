@@ -73,7 +73,7 @@ class DB
      */
     public function Select( string $script, array $params = [] ): array
     {   
-        //self::$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);    
+        self::$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);    
 
         $statement =  self::$connect->prepare($script);     
      

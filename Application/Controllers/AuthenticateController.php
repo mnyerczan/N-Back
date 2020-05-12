@@ -13,11 +13,9 @@ class AuthenticateController extends MainController
 
 
     private function EmitAction()
-    {
-       
-        $authenticateCode = time().".".md5(rand(1000000, 9999999));
+    {               
 
-        $_SESSION['authenticateCode'] = $authenticateCode;
+        $_SESSION['authenticateCode'] = $authenticateCode = time().".".md5(rand(1000000, 9999999));
 
         $authenticateCodeHash = password_hash($authenticateCode, PASSWORD_BCRYPT);
 

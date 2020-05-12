@@ -9,13 +9,17 @@ class ResponseEmitter
         $this->emitBody($response->body);
     }
 
+
+    
     private function emitStatusLine(int $statusCode, string $raseonPhrase)
     {
+        
         header(sprintf("HTTP/1.1 %d%s", $statusCode, $raseonPhrase), true, $statusCode);
     }
 
     private function emitHeaders(array $headers)
     {
+        
         foreach ($headers as $key => $value) 
         {
             header(sprintf("%s:%s",$key,$value));    

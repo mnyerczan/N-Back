@@ -58,37 +58,46 @@ class SettingsController extends MainController
 
     private function passwordUpdateAction()
     {
-        $pass           = new ValidatePassword($_POST['update-user-password']);
-        $retypePass     = new ValidatePassword($_POST['update-user-retype-password']);
+        $oldPass     = new ValidatePassword($_POST['update-user-old-password']);
+        $pass        = new ValidatePassword($_POST['update-user-password']);
+        $retypePass  = new ValidatePassword($_POST['update-user-retype-password']);        
+        $errorMsg    = '';
 
-        if ($pass->isValid() && $retypePass->isValid() && $pass->getPass() === $retypePass->getPass())
+        if ($pass->isValid() && $retypePass->isValid() && $oldPass->isValid() && $pass->getPass() === $retypePass->getPass())
         {            
 
-            $updateResult = $this->db->Execute(
-                'CALL `upgradePassword`(:userId, :inPassword)',
+            $updateResult = $this->db->Select(
+                'CALL `upgradePassword`(:userId, :newPassword,:oldPassword)',
                 [
                     ':userId'       => $this->user->id,
-                    ':inPassword'   => $pass->getPass()
+                    ':newPassword'   => $pass->getPass(),
+                    ':oldPassword'  => $oldPass->getPass()
                 ]
             );
 
-            if ($updateResult)
-            {
+            var_dump($updateResult[0]->result);
+            var_dump($updateResult[0]->result === 'true');
+            
+            
+
+            if ($updateResult[0]->result === 'true')
+            {                                
                 $this->Response([],['view' => "redirect:".APPROOT."settings?sm=Password modification is succesfull!"]);
             }
+
+            $errorMsg = "Old password is incorrect!";
                         
         }
      
-        $this->setValues(null, null, null, $pass);
+        $this->setValues(null, null, null, $pass, $oldPass);
 
-        if ($pass->getPass() !== $retypePass->getPass())
+        
+
+        if ( !$errorMsg && $pass->getPass() !== $retypePass->getPass())
         {
             $errorMsg = 'Password and re-typed password are different';
-        }
-        else
-        {
-            $errorMsg = $pass->errorMsg;
-        }
+        }           
+        
 
         $this->Response(
             $this->datas, 
@@ -100,9 +109,12 @@ class SettingsController extends MainController
                 'module'    => 'Settings',
                 "title"     => 'Personal settings',            
             ]  
-        );
-    
+        );    
     }
+
+
+
+
 
     private function personalUpdateAction()
     {   
@@ -176,7 +188,7 @@ class SettingsController extends MainController
      /**
      * A formban megjelenítendő adatok előállítását végző függvény
      */
-    private function setValues( ValidateUser $user = null, ValidateEmail $email = null, $sex = null, ValidatePassword $pass = null)
+    private function setValues( ValidateUser $user = null, ValidateEmail $email = null, $sex = null, ValidatePassword $pass = null, ValidatePassword $oldPass = null)
     {     
 
         $crName = $user     ? $user->getUser()      : null;
@@ -185,7 +197,8 @@ class SettingsController extends MainController
 
         $this->datas['nameLabel']       = $user->errorMsg  ?? 'Your Name';
         $this->datas['emailLabel']      = $email->errorMsg ?? 'Email address';
-        $this->datas['passwordLabel']   = $pass->errorMsg  ?? 'Password';
+        $this->datas['passwordLabel']   = $pass->errorMsg  ?? 'New password';
+        $this->datas['oldPasswordLabel']= $oldPass->errorMsg  ?? 'Old password';
         $this->datas['sexLabel']        = $sex->errorMsg   ?? 'Your sex';
         $this->datas['privilegeLabel']  = 'Privilege';
         

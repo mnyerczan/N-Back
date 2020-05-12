@@ -38,7 +38,7 @@ final class Application
         $this->addRoute('(?<controller>settings)/(?<action>personalUpdate)/?' , 'SettingsController','POST', true );
         $this->addRoute('(?<controller>settings)/(?<action>passwordUpdate)/?' , 'SettingsController','POST', true );
                
-        $this->addRoute('(?<controller>authenticate)/?' , 'AuthenticateController','GET', true );
+        $this->addRoute('(?<controller>authenticate)/?' , 'AuthenticateController','GET', false );
 
         $this->addRoute('(?<controller>nBack)/?', 'nBackController','get' );        
         $this->addRoute('(?<controller>documents)/?' , 'documentsController','get' );

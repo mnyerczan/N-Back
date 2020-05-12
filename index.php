@@ -75,14 +75,8 @@
  * Ennek a függvénynek a hatása, hogy a kimenetet nem írja bele egyből a HTTP üzenettőrzsbe, 
  * hanem be- "kesseli", és csak az ob_end() után írja bele. A fejléctartalma kiírásakor lehet hasznos.
  */
-	ob_start();
+	//ob_start();
 
-
-
-
-# php SESSION_ID lifetime 24p.
-	/* if($user->id > 1) 
-		header("refresh: 1440; url=http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"); */
                             
 
     require_once APPLICATION.'Interfaces/DBInterface.php';
@@ -106,14 +100,14 @@
     require_once APPLICATION.'Classes/validateSex.php';
     require_once APPLICATION.'Classes/ValidateAbout.php';
     require_once APPLICATION.'Classes/validatePassword.php';
+    require_once APPLICATION."Classes/JsonRenderer.php";
     require_once APPLICATION.'Core/ResponseFactory.php';
     require_once APPLICATION.'Core/ResponseEmitter.php';
     require_once APPLICATION.'Core/Response.php';
     require_once APPLICATION.'Core/ViewRenderer.php';
     require_once APPLICATION."Core/BaseController.php";
     require_once APPLICATION."Core/MainController.php";
-    require_once APPLICATION."Core/GameController.php";
-    require_once APPLICATION."Core/JsonRenderer.php";
+    require_once APPLICATION."Core/GameController.php";    
     require_once APPLICATION."Controllers/NotFoundController.php";
     require_once APPLICATION."Controllers/AuthenticateController.php";
     

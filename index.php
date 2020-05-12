@@ -13,8 +13,8 @@
 	// Program mappa
 	define('APPLICATION'		, 'Application/');
 
-	// Root directory. Mos be at least '/' !
-	define('APPROOT'			, "/");
+	// Root directory. Must be at least '/' !
+	define('APPROOT'			, "/NBack/");
 	
 	// Temp mappa útvonal
     define('TMP_PATH'			, APPLICATION.'Tmp/');
@@ -25,18 +25,21 @@
     // HTTP protocol
     define('HTTP_PROTOCOL', 'http://');
 
+    $cleanedUri =  URI;
+    $num        = 1;
+    
+    // remove application directory from path
     if (APPROOT !== '/')
     {
         $cleanedUri = str_replace( APPROOT,'', URI);
+        $num = count(explode('/',$cleanedUri )) -1;
     }        
-    else
-    {
-        $cleanedUri =  URI;
-    }
+    
+    //var_dump($cleanedUri); die;
     
     
 
-	$num = count(explode( '/' , $cleanedUri ) ) ;
+	
 	$backFromCurrentPath = '';
 
 /**

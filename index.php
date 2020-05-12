@@ -14,7 +14,7 @@
 	define('APPLICATION'		, 'Application/');
 
 	// Root directory. Must be at least '/' !
-	define('APPROOT'			, "/NBack/");
+	define('APPROOT'			, "/");
 	
 	// Temp mappa útvonal
     define('TMP_PATH'			, APPLICATION.'Tmp/');
@@ -29,14 +29,11 @@
     $num        = 1;
     
     // remove application directory from path
-    if (APPROOT !== '/')
-    {
-        $cleanedUri = str_replace( APPROOT,'', URI);
-        $num = count(explode('/',$cleanedUri )) -1;
-    }        
+    $cleanedUri = str_replace( APPROOT,'', URI);
+    $num = count(explode('/',$cleanedUri )) -1; 
+      
     
-    //var_dump($cleanedUri); die;
-    
+
     
 
 	

@@ -1,0 +1,92 @@
+@import url('common.css');
+@import url('header-structure');
+
+body {   
+    margin          : 0;
+    width           : 100%;    
+    min-height      : 100vh;   
+}
+
+body > #header {        
+    line-height		: var(--main-hdr-height);
+    height          : var(--main-hdr-height);
+    display			: table;	
+	width			: calc( 100% - var(--nb-min-width));
+	background-color: rgba(255, 255, 255, 0.897);	
+	user-select		: none;	
+	position		: fixed;
+	right			: 0;
+    top				: 0;
+}
+body > #inspector {    
+    width           : 200px;
+    height          : calc(100% - var(--main-hdr-height));
+    position        : fixed;
+    top             : var(--main-hdr-height);
+    right           : 0;
+    z-index         : -1;
+}
+body > #navbar {    
+    overflow		: hidden;	
+	height			: 100vh;	
+	width			: var(--nb-min-width);
+	margin			: 0;
+	display			: block;
+
+	position		: fixed;
+    top             : 0;
+    left            : 0;
+    color			: black;
+    z-index			: 1;
+    background-color: #f1f1f1;
+}
+body > #center {
+    overflow        : auto;
+    margin-top      : var(--main-hdr-height);
+    margin-left     : var(--nb-min-width);
+    width           : calc(100% - 2 * var(--nb-min-width));
+}
+
+/*---- main structure ----*/
+
+.main-body {
+	width			: calc( 100vw - var(--nb-min-width) - var(--right-side-mrg) - 140px);
+	margin-left		: 140px;
+	margin-right	: var(--right-side-mrg);
+	margin-top		: 50px;
+	display			: table;
+}
+@media ( min-width: 600px ) {
+	.nav-bar {
+		top			:0;
+		left		:0;		
+	}
+}
+@media ( max-width: 600px ) {
+	.main-body {
+		margin		: 0;
+	}
+	
+}
+.increase-container{
+	padding			: 0 10px;	
+	height			: 20px;
+	width			: calc( 100% - 20px );
+	position		: absolute;
+	background-color: #f1f1f1;
+	top				: 70px;
+}
+.info-container {
+	width			: 70px;
+	height			: 150px;
+	display			: table;
+	position		: absolute;
+	right			: 0;
+	top				: 100px;
+
+	padding			: 10px;
+}
+.center-container {
+	width			: 70%;
+	margin			: 100px auto;
+}

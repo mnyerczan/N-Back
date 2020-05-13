@@ -1,0 +1,115 @@
+@import url('common.css');
+@import url('header-structure');
+
+
+body {   
+    margin          : 0;
+    width           : 100%;    
+    min-height      : 100vh;   
+}
+
+body > #header {        
+    line-height		: var(--main-hdr-height);
+    height          : var(--main-hdr-height);
+    display			: table;	
+	width			: calc( 100% - var(--nb-min-width));
+	background-color: rgba(255, 255, 255, 0.897);	
+	user-select		: none;	
+	position		: fixed;
+	right			: 0;
+    top				: 0;
+}
+body > #inspector {    
+    width           : 200px;
+    height          : calc(100% - var(--main-hdr-height));
+    position        : fixed;
+    top             : var(--main-hdr-height);
+    right           : 0;    
+    z-index         : -1;
+    background-color: rgba(255, 166, 0, 0.164);
+}
+body > #navbar {        
+	min-height	    : 100vh;	
+	width			: var(--nb-min-width);
+	margin			: 0;
+	display			: block;
+
+	position		: fixed;
+    top             : 0;
+    left            : 0;
+    color			: black;
+    z-index			: 1;
+    background-color: #f1f1f181;    
+}
+body > #center {
+    margin-top      : var(--main-hdr-height);
+    margin-left     : var(--nb-min-width);
+    width           : calc(100% - 2 * var(--nb-min-width));
+    background-color: rgba(19, 122, 5, 0.061);
+}
+body > * {    
+    min-width       : 200px;
+    overflow        : none;
+}
+
+
+
+
+
+@media (max-width: 1300px)
+{
+    body > #inspector {
+        display         : none;
+    }
+    body > #center {        
+        width           : 90%;  
+        width			: calc(100% - var(--nb-min-width));       
+    }
+}
+@media (max-width : 750px)
+{
+    body > #header {
+        width           : 100%;
+        position        : static;
+    }
+    body > #navbar {
+        width           : 90%;        
+        margin          : auto;
+        min-height      : calc( 4 * var(--main-hdr-height) );
+        position        : static;  
+        margin-top      : var(--main-hdr-height);
+    }
+    body > #center {        
+        width           : 90%;
+        margin          : auto;       
+        margin-top      : 10px;
+    }
+    body > #inspector {
+        width           : 90%;   
+        height          : 300px;       
+        margin          : auto;
+        margin-top      : 10px;
+        position        : static; 
+        display         : table;                             
+    }
+}
+
+/*---- main structure ----*/
+
+.main-body {	
+    margin          : auto;
+	margin-top		: 50px;
+	display			: table;
+}
+@media ( min-width: 600px ) {
+	.navbar {
+		top			:0;
+		left		:0;		
+	}
+}
+@media ( max-width: 600px ) {
+	.main-body {
+		margin		: 0;
+	}
+	
+}

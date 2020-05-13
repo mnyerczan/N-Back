@@ -5,8 +5,7 @@
      text-align         : center; 
      font-size          : var(--mn-font-size);
  }
- .ms-404-msg span {
-     color              : red;
+ .ms-404-msg span {     
      font-size          : calc(var(--mn-font-size) * 5);
  }
  .ms-404-btn-container {     

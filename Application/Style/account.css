@@ -2,8 +2,7 @@
     --img-container-padding : 10px;
 }
 /*---- user platform ----*/
-.user-profile-structure {   
-    color			: #777;
+.user-profile-structure {       
 	max-width		: 1500px;
 	min-width		: 800px;
 	display			: grid;
@@ -38,8 +37,7 @@
     grid-area       : d;
 }
 .user-f {
-    grid-area       : f;
-    border-bottom   : 1px solid rgb(214, 214, 214);
+    grid-area       : f;    
 }
 .user-g {
     grid-area       : g;
@@ -50,18 +48,13 @@
     position        : relative;
     bottom          : 30px;
 }
-.user-b p {
-    border          : 1px solid rgb(235, 234, 234);
-    border-radius   : 5px;
-    color           : black;
-    background-color: #fff;
+.user-b p {    
+    border-radius   : 5px;    
     margin-top      : 0;
     padding         : 5px;
 }
 .user-b.update input,
-.user-b.update p {
-    background-color: #fffcc8;
-    border          : 1px solid rgb(235, 234, 234);
+.user-b.update p {    
     border-radius   : 5px;
     margin-bottom   : 10px;
     padding         : 5px;

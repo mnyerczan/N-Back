@@ -41,18 +41,14 @@
 .navbar-btn {
 	width			: calc( 100% - 20px );	
 	padding			: 10px;
-	margin			: 3px auto;
-	border-bottom	: 1px solid #ddd;
+	margin			: 3px auto;	
 	display			: block;	
 	border-radius	: 2px;
 	font-weight		: bold;
 	color			: var(--nb-color);
-	cursor			: pointer;
-	background-color: #f1f1f1;
+	cursor			: pointer;	
 }
-.navbar-btn:hover {
-	background-color: #e6e6e6;
-}
+
 
 .nav-lnks-arrow {
 	width			: 10px;
@@ -116,15 +112,14 @@
 
 @media (max-height: 600px) {
 	.navbar-second-text {
-		display: none;
+		display		: none;
 	}
 }
 
 
 /*---- navbar sessions section ----*/
 #navbar-sessions {		
-	padding			:0 10px;
-	/* navbar padding: 10px; */
+	padding			:0 10px;	
 	width			: calc( 100% - 20px );
 	display			: table;	
 	overflow-y		: auto;
@@ -142,21 +137,12 @@
 .good-trial,
 .bad-trial {
 	padding			: 1px 5px;
-	margin			:  0 2px;
-	border-radius	: 2px;
-	box-shadow		: 3px 1px 6px 2px rgb(37, 37, 37);
-}
-.bad-trial {
-	background-color: #800;	
-}
-.good-trial{
-	background-color: #0a0;
-	color			:darkblue;
+	margin			: 0 2px;
+	border-radius	: 2px;	
 }
 
 /*---- increase indicators ----*/
-.online_ring{
-	margin			: 0 0 10px 10px;
+.online_ring{	
 	color			: green;
 }
 

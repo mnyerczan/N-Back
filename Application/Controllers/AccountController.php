@@ -22,7 +22,8 @@ class accountController extends MainController
         $this->Response( 
             $this->datas, [
             'view'      => 'account', 
-            'module'    => 'User',
+            'module'    => 'User',            
+            'layout'    => 'Main',
             "title"     => 'User',            
             ]  
         );

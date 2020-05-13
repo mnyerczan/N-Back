@@ -13,8 +13,9 @@ final class ViewRenderer
         ob_clean();
         ob_start();
         
+
         if ($modelAndView->viewName['view'] != '')
-            require_once APPLICATION.'Templates/test-001/_layout.php';
+            require_once APPLICATION."Templates/{$modelAndView->viewName['layout']}/_layout.php";
         else
         {
             echo (new JsonRenderer())->Emit($modelAndView->model);

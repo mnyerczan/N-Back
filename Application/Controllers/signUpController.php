@@ -27,7 +27,12 @@ class signUpController extends MainController
     {     
         $this->setValues();                
         
-        $this->Response( $this->datas, [ 'view' => 'signUp', 'module' => 'User'] );
+        $this->Response( $this->datas, [ 
+            'view' => 'signUp', 
+            'module' => 'User',
+            'layout'    => 'Main'
+            ] 
+        );
     }
 
 
@@ -61,8 +66,9 @@ class signUpController extends MainController
             $this->Response( 
                 $this->datas, 
                 [ 
-                    'view' => 'signUp', 
-                    'module' => 'User'
+                    'view'      => 'signUp', 
+                    'layout'    => 'Main',
+                    'module'    => 'User'
                 ]
             );        
             return 2;

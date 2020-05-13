@@ -20,7 +20,12 @@ class HomeController extends MainController
   
     function Action()
     {
-        $this->Response( $this->datas, ['view' => 'home', 'module' => 'Home'] );
+        $this->Response( $this->datas, [
+            'view'      => 'home', 
+            'module'    => 'Home',
+            'layout'    => 'Main'
+        ]
+     );
     }
                  
 }

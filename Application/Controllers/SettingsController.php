@@ -34,7 +34,8 @@ class SettingsController extends MainController
             $this->datas, [
             'personal'  => 'active',
             'item'      => 'personal',
-            'view'      => 'settings', 
+            'view'      => 'settings',
+            'layout'    => 'Main', 
             'module'    => 'Settings',
             "title"     => 'Personal settings',            
             ]  
@@ -51,6 +52,7 @@ class SettingsController extends MainController
             'item'      => 'nback',
             'view'      => 'settings', 
             'module'    => 'Settings',
+            'layout'    => 'Main',
             "title"     => 'N-back settings',            
             ]  
         );
@@ -100,7 +102,8 @@ class SettingsController extends MainController
                 'errorMsg'  => $errorMsg,
                 'personal'  => 'active',
                 'item'      => 'personal',
-                'view'      => 'settings', 
+                'view'      => 'settings',
+                'layout'    => 'Main', 
                 'module'    => 'Settings',
                 "title"     => 'Personal settings',            
             ]  
@@ -132,6 +135,7 @@ class SettingsController extends MainController
                     'item'      => 'personal',
                     'view'      => 'settings', 
                     'module'    => 'Settings',
+                    'layout'    => 'Main',
                     "title"     => 'N-back settings',            
                 ]  
             );
@@ -167,12 +171,13 @@ class SettingsController extends MainController
             $this->Response(
                 $this->datas, 
                 [
-                '$errorMsg'     => 'Cant\'t update your personal datas, but maybe the email addres already used.',  
-                'personal'      => 'active',
-                'item'          => 'personal',
-                'view'          => 'settings', 
-                'module'        => 'Settings',
-                "title"         => 'N-back settings',            
+                '$errorMsg' => 'Cant\'t update your personal datas, but maybe the email addres already used.',  
+                'personal'  => 'active',
+                'item'      => 'personal',
+                'view'      => 'settings',
+                'layout'    => 'Main', 
+                'module'    => 'Settings',
+                "title"     => 'N-back settings',            
                 ]  
             );
         }

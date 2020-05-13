@@ -96,10 +96,8 @@ body > * {
 
 /*---- main structure ----*/
 
-.main-body {
-	width			: calc( 100vw - var(--nb-min-width) - var(--right-side-mrg) - 140px);
-	margin-left		: 140px;
-	margin-right	: var(--right-side-mrg);
+.main-body {	
+    margin          : auto;
 	margin-top		: 50px;
 	display			: table;
 }

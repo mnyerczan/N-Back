@@ -15,6 +15,7 @@ class nBackController extends GameController
         $this->Response( 
             $this->datas, [
             'view'      => 'nback', 
+            'layout'    => 'Nback',
             'module'    => 'Nback',
             "title"     => 'Nback',            
             ]  

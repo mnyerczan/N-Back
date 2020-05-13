@@ -17,6 +17,7 @@ class NotFoundController extends MainController
     {
         $this->Response($this->datas, [
             "view"      => "_404", 
+            'layout'    => 'Main',
             "module"    => "Errors",
             "title"     => "Page Not Found"
             ]

@@ -8,8 +8,7 @@
 }
 
 /*---- main settings platform ----*/
-.settings-structure {   
-    color			: #777;
+.settings-structure {       
 	max-width		: 1500px;
 	min-width		: 800px;
 	display			: grid;
@@ -26,7 +25,6 @@
 .settings-navbar {
     grid-area       : a;
     display         : grid;
-    border          : 1px solid #ddd;
     border-radius   : 5px;
     font-size       : calc( var(--mn-font-size) / 1.4);
     grid-gap        : 5px;
@@ -40,8 +38,7 @@
 .settings-navbar-a {
     grid-area       : a;  
     padding         : 5px 10px;
-    display         : table;
-    background-color: #f1f1f1;
+    display         : table;    
 }
 .settings-navbar-b {
     grid-area       : b;  
@@ -53,8 +50,7 @@
     display         : block;
     float           : right;
 }
-.settings-navbar a {
-    border-bottom   : 1px solid rgb(235, 234, 234);
+.settings-navbar a {    
     display         : block;
     width           : calc(100% - 20px);
     padding         : 0 10px;
@@ -62,18 +58,14 @@
     line-height     : 40px;
     font-size       : var(--mn-font-size);
 }
-.settings-navbar a:hover {
-    background-color: #f1f1f1;
-}
+
 .small-user-image {
     width           : 30px;
     display         : inline-block;
 }
 .active {
-    text-decoration : none;
-    color           : black;
-    padding-left    : 5px !important;
-    border-left     : 5px solid black;
+    text-decoration : none;    
+    padding-left    : 5px !important;    
 }
 
 .big-user-image + label {    
@@ -126,12 +118,10 @@
     grid-area       : f;
 }
 .user-g {
-    grid-area       : g;
-    border-bottom   : 1px solid rgb(214, 214, 214);
+    grid-area       : g;    
 }
 .user-h {
-    grid-area       : h;
-    border-bottom   : 1px solid rgb(214, 214, 214);
+    grid-area       : h;    
 }
 
 
@@ -141,11 +131,8 @@
     resize          : none;
     padding         : 5px;
 }
-.setting-contents p {
-    border          : 1px solid rgb(235, 234, 234);
-    border-radius   : 5px;
-    color           : black;
-    background-color: #fff;
+.setting-contents p {    
+    border-radius   : 5px;    
     margin-top      : 0;
     padding         : 5px;
 }
@@ -165,9 +152,7 @@
     margin          : 10px 0;
 }
 .setting-contents input:not([type="submit"]),
-.setting-contents p {
-    background-color: #ffffd8;
-    border          : 1px solid rgb(233, 233, 233);
+.setting-contents p {    
     border-radius   : 5px;
     margin-bottom   : 10px;
     padding         : 10px;

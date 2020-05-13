@@ -40,60 +40,6 @@ body{
 }
 
 
-/*
-* SignUp / SignIn
-*/
-
-.usr-crt-frm {	
-	margin-left		: calc(50% - var(--nb-min-width) );
-	width			: 300px;
-	padding			: 20px;
-	display			: table;	
-
-	-webkit-user-select: none !important; /* Safari 3.1+ */
-    -moz-user-select: none !important; /* Firefox 2+ */
-    -ms-user-select: none !important; /* IE 10+ */
-    user-select: none !important; /* Standard syntax */
-}
-.usr-crt-frm .sex-container {
-	display			: table;
-	width			: 100%;
-	margin			: 5px 0;
-
-}
-.usr-crt-frm .radio-container {
-	width			: 20%;	
-	float			: left;
-}
-.usr-crt-frm h3 {
-	text-align: center;
-}
-
-.usr-crt-frm input:not([type="submit"]) {	
-	padding: 10px;
-	margin-bottom: 20px;		
-	border-radius: 4px;	
-}
-.usr-crt-frm input[type="file"] {
-	border: none;
-	display: none;
-	padding: 0;	
-}
-.usr-crt-frm input:not([type='submit']) {
-	width: 300px;	
-}
-#show-file-path {
-	overflow: hidden;
-	word-break: break-all;	
-	width: 300px;	
-}
-
-@media ( max-width: 400px ) {
-	.usr-crt-frm input:not([type="submit"]),
-	.usr-crt-frm {
-		width: 80vw;
-	}	
-}
 
 
 /* IMAGES */
@@ -177,34 +123,11 @@ body{
 * MAIN HOME 
 */
 .main-home {
-	width: 80vw;
+	width: 80%;
 	margin: 100px auto;
 	text-align: center;
 }
 
 #empty-wellcome {
 	font-size: 50px;
-}
-
-
-
-/*---- SignIn ----*/
-.sugn-up-cntr {
-    display: grid;
-    grid-template: 
-    "a . b" 300px
-    "a . ." 200px
-    / 550px 200px 400px;
-    margin      : 100px auto;
-    width       : 1300px
-    
-}
-.login-a {
-    grid-area   : a;    
-}
-.login-a img {
-    width       : 100%;
-}
-.login-b {
-    grid-area   : b;    
 }

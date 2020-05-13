@@ -3,33 +3,36 @@
 * SignUp / SignIn
 */
 /*---- SignIn ----*/
-.sugn-up-cntr {
-    display: grid;
-    grid-template: 
-    "a . b" 300px
-    "a . ." 200px
-    / 550px 200px 400px;
-    margin      : 100px auto;
-    width       : 1300px
-    
+.sign-up-cntr {  
+	height			: 500px;	
+	margin			: 100px 0;		
+	/*grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));*/
 }
-.login-a {
-    grid-area   : a;    
+.sign-up-cntr > div { 	
+	float			: left;
+	min-width		: 200px;
+	padding			: 20px;
+	display			: table;
 }
-.login-a img {
-    width       : 100%;
+.sign-up-cntr > div > img {
+	display			: block;
+	width			: 100%;
+	margin			: auto;
 }
-.login-b {
-    grid-area   : b;    
+.sign-up-cntr > div {
+	width			: calc(50% - 40px);
 }
 
+
 /*---- SignUp ----*/
+.usr-crt-container {
+	margin			: 100px auto;
+}
 .usr-crt-frm {	
-	margin-left		: calc(50% - var(--nb-min-width) );
 	width			: 300px;
 	padding			: 20px;
 	display			: table;	
-
+	margin			: auto;
 	-webkit-user-select: none !important; /* Safari 3.1+ */
     -moz-user-select: none !important; /* Firefox 2+ */
     -ms-user-select: none !important; /* IE 10+ */

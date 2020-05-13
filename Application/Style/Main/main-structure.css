@@ -6,9 +6,12 @@
 body {   
     margin          : 0;
     width           : 100%;    
-    min-height      : 100vh;   
+    min-height      : calc(100vh - var(--main-hdr-height));   
 }
-
+body > * {    
+    min-width       : 200px;
+    overflow        : none;
+}
 body > #header {        
     line-height		: var(--main-hdr-height);
     height          : var(--main-hdr-height);
@@ -42,12 +45,10 @@ body > #navbar {
 body > #center {
     margin-top      : var(--main-hdr-height);
     margin-left     : var(--nb-min-width);
-    width           : calc(100% - 2 * var(--nb-min-width));    
+    width           : calc(100% - 2 * var(--nb-min-width));  
+    display         : table;    
 }
-body > * {    
-    min-width       : 200px;
-    overflow        : none;
-}
+
 
 
 

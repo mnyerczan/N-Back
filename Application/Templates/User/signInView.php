@@ -1,9 +1,9 @@
 <script src="<?= BACKSTEP ?><?=APPLICATION?>Templates/User/signIn.js?v=<?= CURRENT_TIMESTAMP ?>"></script>
-<div class="sugn-up-cntr">
-    <div class="login-a">
+<div class="sign-up-cntr">
+    <div>
         <img src="<?=$signInIllustrate?>" alt="">
     </div>
-    <div class="login-b">
+    <div>
         <main class="usr-crt-frm" >
             <div>
                 <h3>

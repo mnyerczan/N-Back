@@ -1,6 +1,7 @@
 @import url('common.css');
 @import url('header-structure');
 @import url('navbar-structure.css');
+@import url('login-structure.css');
 
 body {   
     margin          : 0;
@@ -25,8 +26,7 @@ body > #inspector {
     position        : fixed;
     top             : var(--main-hdr-height);
     right           : 0;    
-    z-index         : -1;
-    background-color: rgba(255, 166, 0, 0.164);
+    z-index         : -1;    
 }
 body > #navbar {        
 	min-height	    : 100vh;	
@@ -36,16 +36,13 @@ body > #navbar {
 
 	position		: fixed;
     top             : 0;
-    left            : 0;
-    color			: black;
-    z-index			: 1;
-    background-color: #f1f1f181;    
+    left            : 0;    
+    z-index			: 1;    
 }
 body > #center {
     margin-top      : var(--main-hdr-height);
     margin-left     : var(--nb-min-width);
-    width           : calc(100% - 2 * var(--nb-min-width));
-    background-color: rgba(19, 122, 5, 0.061);
+    width           : calc(100% - 2 * var(--nb-min-width));    
 }
 body > * {    
     min-width       : 200px;

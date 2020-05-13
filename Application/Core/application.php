@@ -27,7 +27,7 @@ final class Application
         $this->addRoute('/?(?<controller>logUot)','logUotController' , 'get');
         
         $this->addRoute('/?(?<controller>account)/?','AccountController','get', true );
-        $this->addRoute('/?(?<controller>settings)/?','SettingsController','get' ); 
+        $this->addRoute('/?(?<controller>settings)/?','SettingsController','get', true ); 
         $this->addRoute('/?(?<controller>settings)/(?<action>personal)/?' , 'SettingsController','get', true );
         $this->addRoute('/?(?<controller>settings)/(?<action>nback)/?' , 'SettingsController','get', true );
         $this->addRoute('/?(?<controller>settings)/(?<action>personalUpdate)/?' , 'SettingsController','POST', true );
@@ -42,13 +42,16 @@ final class Application
         foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $pattern => $params)        
         {                   
             if (preg_match( $pattern, $cleanedUri, $matches ))
-            {                      
+            {   
+                // Fejlesztendő!!!
+                // Ha szükséges bejelentkezés az adott view megtekintéséhez, de már lejárt a session, ne
+                // 404-et dobjon, hanem irányítson át!!
                 if ($params['logged'] && isset($_SESSION['userId']) || !$params['logged'])
-                {                       
+                {                                           
                     require_once APPLICATION."Controllers/{$params['controller']}.php";
                     new $params['controller']($matches);
                     die;
-                }                
+                }               
             }
         }        
         new NotFoundController();

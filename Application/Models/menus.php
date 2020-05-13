@@ -59,8 +59,9 @@ class Menus
 
         for ( $i=0; $i < count( $this->menus ); $i++ ) 
         { 
-            $this->menus[$i]->name = strlen(Include_special_characters($this->menus[$i]->name)) > 8 ? 
-                substr(Include_special_characters( $this->menus[$i]->name ), 0, 8).'..' : Include_special_characters( $this->menus[$i]->name );
+            $this->menus[$i]->name = strlen($this->menus[$i]->name) > 8 ? 
+                substr( $this->menus[$i]->name , 0, 8).'..' :  
+                $this->menus[$i]->name ;
         }
     }
 }

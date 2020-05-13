@@ -158,9 +158,9 @@ class UserEntity
 
 		
 		$this->datas['id'] 				= $user->id;
-		$this->datas['email']			= Include_special_characters($user->email);
+		$this->datas['email']			= $user->email;
 		$this->datas['loginDatetime']	= $user->loginDatetime;		
-		$this->datas['userName']		= Include_special_characters($user->userName);
+		$this->datas['userName']		= $user->userName;
 		$this->datas['isAdmin']			= $this->datas['userName'] == 'Admin' ? true : false;
 		$this->datas['privilege']		= $user->privilege;
 		$this->datas['birth']			= $user->birth;

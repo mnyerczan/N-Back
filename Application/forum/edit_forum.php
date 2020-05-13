@@ -54,7 +54,7 @@ if($_SESSION['user_datas']['privilege'] == 3){
 
 				$ikon = $get_menus[$i]['ikon'] == 'none' ? 'None' : $get_menus[$i]['ikon'];
 
-				$menu_item_name = Include_special_characters($get_menus[$i]['name']);
+				$menu_item_name = ($get_menus[$i]['name']);
 
 					echo '<tr>';
 					echo '<td>', $i + 1,'</td>';

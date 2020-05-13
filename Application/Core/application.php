@@ -3,11 +3,6 @@
 use DB\EntityGateway;
 use Login\UserEntity;
 
-
-
-require_once "_globals.php";
-
-require_once "converter.php";
 require_once APPLICATION."functions.php";
 
 final class Application

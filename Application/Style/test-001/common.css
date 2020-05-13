@@ -1,12 +1,11 @@
-@import url('header.css');
-
-
 
 :root {
 	--mn-font-size	: 14px;
 	--nb-min-width	: 200px;
 	--right-side-mrg: 100px;
 	--main-hdr-height: 50px;
+	--navbar-padding: 10px;	
+	--nb-color		: #333
 }
 :focus, :active { 
 	outline			: none; 
@@ -32,6 +31,13 @@ input:not([type="submit"]):focus {
 	clear			: both;
 	border-bottom	: 1px solid #ddd;
 }
+.btn, label, #show-file-path {
+	font-size			: 12px;
+	display				: block;
+}
+label {
+	color 				: #878787;
+}
 body{  	
 	font-size		: var(--mn-font-size); 
 	background-color: #f9f9f9;	
@@ -42,202 +48,6 @@ body{
     -ms-user-select	: none !important; /* IE 10+ */
     user-select		: none !important; /* Standard syntax */
 }
-/*
-* Helpers
-*/
-
-.btn, label, #show-file-path {
-	font-size			: 12px;
-	display				: block;
-}
-label {
-	color 				: #878787;
-}
-
-
-/*
-* Navbar section
-* 
-*/
-
-/*---- navbar header ----*/
-:root {
-	--navbar-padding: 10px;	
-	--nb-color		: #333;
-}
-.navbar-hdr{	          
-	width			: calc( 100% - 2 * var(--navbar-padding));
-	padding			: 10px;
-	overflow		: hidden;
-	user-select		: none;
-	display			: table;
-}
-.navbar-hdr td:first-child {
-	width			: 30%;
-}		
-.navbar-hdr a {	
-	display			: block;
-	padding			: 0 10px;	
-	font-size		: 20px;
-	font-style		: italic;
-	font-family		: Geneva;	
-}
-.navbar-hdr img{
-	width			: 40px;	
-}
-@media ( max-height: 600px ), ( max-width: 1440px ) {
-	.navbar-hdr img{
-		display		: none;
-	}
-	.navbar-hdr a {
-		width: calc( 100% - 30px );
-		text-align	: center;
-	}
-}
-
-
-/*---- navbar links ----*/
-.nav-lnks {
-	width			: calc( 100% - 20px);
-	height			: 120px;
-	position		: absolute;
-	padding			: 0 10px;
-	display			: table;
-	top				: 100px;
-	padding-bottom  : 5px;
-	background-color: #f1f1f1;	
-	z-index			: 10001;
-}
-
-.nav-bar-btn {
-	width			: calc( 100% - 20px );	
-	padding			: 10px;
-	margin			: 3px auto;
-	border-bottom	: 1px solid #ddd;
-	display			: block;	
-	border-radius	: 2px;
-	font-weight		: bold;
-	color			: var(--nb-color);
-	cursor			: pointer;
-	background-color: #f1f1f1;
-}
-.nav-bar-btn:hover {
-	background-color: #e6e6e6;
-}
-
-.nav-lnks-arrow {
-	width			: 10px;
-	display			: block;
-	float			: left;
-	padding			: 4px 6px 4px 0;
-}
-.nav-lnks-ikn {	
-	float			: right;
-	width			: 14px;
-	display			: block;
-}
-.nav-hidden{
-	display: none;
-	transition		: display 2s ease-in-out;
-}
-.hidden-anchor:focus + .nav-hidden {
-	display			: block;		
-}
-
-
-/*---- navbar info section ----*/
-#navbar-infos {
-	position		: absolute;
-	top				: 220px;
-	/* navbar padding: 10px; */
-	width			: calc( 100% - 20px - 10px );
-	padding			: 15px;
-	display			: table;	
-}
-#navbar-infos h5 {
-	font-style		: italic;
-	font-weight		: normal;
-	margin			: 10px 0;
-}
-#navbar-infos h4,
-#navbar-infos h5,
-.navbar-second-text {
-	text-align		: center;
-}
-.navbar-second-text {
-	display			: none;
-}
-.nav_bar_text {
-	font-size		: 12px;
-	margin			: 2px 0;
-}
-@media (max-height: 800px) {
-	.nav_bar_text {
-		display		: none;
-	}
-	.navbar-second-text,
-	#navbar-infos h5 {
-		display		: block;
-		margin		: 5px 0;
-	}
-}
-@media (max-height: 750px) {
-	.navbar-second-text {
-		font-size	: 12px;
-	}
-}
-
-@media (max-height: 600px) {
-	.navbar-second-text {
-		display: none;
-	}
-}
-
-
-/*---- navbar sessions section ----*/
-.good-trial,
-.bad-trial {
-	padding: 1px 5px;
-	margin:  0 2px;
-	border-radius: 2px;
-	box-shadow: 3px 1px 6px 2px rgb(37, 37, 37);
-}
-.bad-trial {
-	background-color: #800;	
-}
-.good-trial{
-	background-color: #0a0;
-	color:darkblue;
-}
-#navbar-sessions {
-	position: absolute;
-	top:48%;
-	height: 52vh;
-	padding:0 10px;
-	/* navbar padding: 10px; */
-	width: calc( 100% - 20px );
-	display: block;	
-	overflow-y: auto;
-	background-color: #f1f1f1;
-}
-#navbar-sessions h4,
-#navbar-sessions h5,
-#navbar-sessions h6 {
-	text-align: center;
-}
-#navbar-sessions h6 {
-	line-height: 15px;
-	padding: 5px 0;
-	margin: 5px 0;
-	background-color: #f1f1f1;
-}
-
-/*---- increase indicators ----*/
-.online_ring{
-	margin			: 0 0 10px 10px;
-	color			: green;
-}
-
 
 
 /*

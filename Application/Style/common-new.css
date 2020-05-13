@@ -115,7 +115,7 @@ label {
 	z-index			: 10001;
 }
 
-.nav-bar-btn {
+.navbar-btn {
 	width			: calc( 100% - 20px );	
 	padding			: 10px;
 	margin			: 3px auto;
@@ -127,7 +127,7 @@ label {
 	cursor			: pointer;
 	background-color: #f1f1f1;
 }
-.nav-bar-btn:hover {
+.navbar-btn:hover {
 	background-color: #e6e6e6;
 }
 
@@ -444,7 +444,7 @@ label {
 
 
 /*---- main structure ----*/
-.nav-bar {
+.navbar {
     overflow		: hidden;	
 	height			: 100vh;	
 	width			: var(--nb-min-width);
@@ -465,7 +465,7 @@ label {
 	display			: table;
 }
 @media ( min-width: 600px ) {
-	.nav-bar {
+	.navbar {
 		top			:0;
 		left		:0;		
 	}

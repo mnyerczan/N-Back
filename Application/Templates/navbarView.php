@@ -1,5 +1,5 @@
 <?php  //	$navbar 		?>
-<aside class="nav-bar">	
+<aside class="navbar">	
 	<table class="navbar-hdr">
 		<tr>
 			<td><img src="<?= BACKSTEP ?><?=APPLICATION?><?=$navbar->logoImg?>" ></td>
@@ -13,7 +13,7 @@
 			<?php if ( $navbar->menus[$i]->child && $user->privilege > 0 ): ?>
 				<section class="hidden-section" tabindex="<?=$i?>">
 					<a href="#" class="hidden-anchor">
-						<div class="nav-bar-btn">
+						<div class="navbar-btn">
 							&#9662;	<span><?= $navbar->menus[$i]->name ?></span>														
 							<?php if ($navbar->menus[$i]->ikon != 'none'): ?>
 								<img src="<?= BACKSTEP ?><?= APPLICATION.$navbar->menus[$i]->ikon ?>"  class="nav-lnks-ikn">
@@ -23,7 +23,7 @@
 					<nav class="nav-hidden">
 						<?php foreach( $navbar->childMenus[ $navbar->menus[$i]->id ]  as $child ): ?>
 						<a href="<?=$child->path ?>">
-							<div class="nav-bar-btn">
+							<div class="navbar-btn">
 								<span><?= $child->name ?></span>														
 								<?php if ($child->ikon != 'none'): ?>
 									<img src="<?= BACKSTEP ?><?= APPLICATION.$child->ikon ?>"  class="nav-lnks-ikn">
@@ -35,7 +35,7 @@
 				</section>
 			<?php elseif($user->privilege > 0): ?>
 				<a href="<?= $navbar->menus[$i]->path?>">
-					<div class="nav-bar-btn">
+					<div class="navbar-btn">
 						<span><?= $navbar->menus[$i]->name ?></span>					
 						<?php if ($navbar->menus[$i]->ikon != 'none'): ?>
 							<img src="<?= BACKSTEP ?><?= APPLICATION.$navbar->menus[$i]->ikon ?>"  class="nav-lnks-ikn">
@@ -43,7 +43,7 @@
 					</div>					
 				</a>				
 			<?php else: ?>
-				<div class="nav-bar-btn">
+				<div class="navbar-btn">
 					<span><?= $navbar->menus[$i]->name ?></span>					
 					<?php if ($navbar->menus[$i]->ikon != 'none'): ?>
 						<img src="<?= BACKSTEP ?><?= APPLICATION.$navbar->menus[$i]->ikon ?>"  class="nav-lnks-ikn">

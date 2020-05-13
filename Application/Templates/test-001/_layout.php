@@ -14,17 +14,17 @@
     <header id="header">
         <?php if ( @$header )    require_once APPLICATION."Templates/test-001/headerView.php";  ?>
     </header>    
-	<!-- Inspector -->
-    <div id="inspector">
-        <?php //if ( @$indicator )//require_once APPLICATION.'Templates/infoLabelView.php';?>
-    </div>
     <!-- Navbar -->
-    <div id="navbar">        
-        <?php //if ( @$navbar )   require_once APPLICATION.'Templates/navbarView.php'; ?>
-    </div>        
+    <aside id="navbar">        
+        <?php if ( @$navbar )   require_once APPLICATION.'Templates/test-001/navbarView.php'; ?>
+    </aside>    
+    <!-- Inspector -->
+    <div id="inspector">
+        <?php if ( @$indicator )//require_once APPLICATION.'Templates/infoLabelView.php';?>
+    </div>    
     <!--Center-->  
     <div id="center">	      
-        <?php //require_once APPLICATION."Templates/{$module}/{$view}View.php";?>            
-    <div>                   
+        <?php require_once APPLICATION."Templates/{$module}/{$view}View.php";?>         
+    </div>                   
 </body>
 </html>

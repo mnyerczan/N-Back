@@ -139,7 +139,7 @@ a.login:hover {
 .radio-box .radio-container input:checked + .circle{
     background		: rgb(70, 60, 30);
 }
-.main-header, .nav-bar {
+.main-header, .navbar {
     -webkit-user-select: none !important; /* Safari 3.1+ */
     -moz-user-select: none !important; /* Firefox 2+ */
     -ms-user-select	: none !important; /* IE 10+ */

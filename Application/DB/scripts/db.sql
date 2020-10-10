@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS`nbackSessions` (
   `correctHit` int(3) NOT NULL DEFAULT '0.00',
   `wrongHit` int(3) NOT NULL DEFAULT '0.00',
   `sessionLength` int(7) NOT NULL DEFAULT '0.00',
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `timestamp` timestamp NOT NULL DEFAULT RELOAD_CONTROLLER,
   `gameMode` varchar(9) NOT NULL DEFAULT 'Position',
   `result` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`userID`, `ip`, `timestamp`),

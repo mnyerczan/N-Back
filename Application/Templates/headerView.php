@@ -1,7 +1,7 @@
 <script src="<?= $header->javaScript ?>"></script>
 <nav class="inspector-container">	
-    <a class="emoji-container" href="<?= APPROOT.'/' ?>nBack" tabIndex="-1">&#9889;</a>		        
-    <a class="emoji-container" href="<?= APPROOT.'/' ?>documents" tabIndex="-1">&#128220;</a>	
+    <a class="emoji-container" href="<?= APPROOT.'/' ?>nBack" tabIndex="-1" title="Go to the game">&#9889;</a>		        
+    <a class="emoji-container" href="<?= APPROOT.'/' ?>documents" tabIndex="-1" title="Go to the documents">&#128220;</a>	
     <div class="radio-box" title="Chose theme">
         <label class="radio-container">
             <span class="emoji-container" >&#128161;</span>

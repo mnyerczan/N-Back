@@ -1,5 +1,5 @@
 <form action="<?=APPROOT.'/'?>settings/personalUpdate" method="POST" id="personalForm"></form> 
-<script src="Public/js/personalSettings.js?t=<?= CURRENT_TIMESTAMP ?>"></script>
+<script src="Public/js/personalSettings.js?t=<?= RELOAD_CONTROLLER ?>"></script>
 <div class="setting-contents">
     <div class="title">Drawer</div>  
     <div class="user-b">Profile picture</div>               

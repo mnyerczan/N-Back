@@ -27,33 +27,31 @@ final class ResponseFactory
                 'Found'
             );
         }
-        elseif ($controllerResult[0]['mime'] === ' application/json')
-        {
-            $modelAndView = new ModelAndView($controllerResult[0], $controllerResult[1]);
-        
-            return new Response(
-                $this->viewRenderer->render($modelAndView), 
-                ['content-type' => ' application/json'],
-                200, 
-                'Ok'
-            );
-        }
-        elseif (preg_match("`^_404$`", $controllerResult[0]['view']))
-        {
-            $modelAndView = new ModelAndView($controllerResult[0], $controllerResult[1]);
-            
-            return new Response(
-                $this->viewRenderer->render($modelAndView), 
-                [],
-                404, 
-                'Page Not Found'
-            );
-        }
-        else
-        {                        
+        else{
             $modelAndView = new ModelAndView($controllerResult[0], $controllerResult[1]);
 
-            return new Response($this->viewRenderer->render($modelAndView), [], 200, "Ok");
-        }
+            if ($controllerResult[0]['mime'] === ' application/json')
+            {
+                return new Response(
+                    $this->viewRenderer->render($modelAndView), 
+                    ['content-type' => ' application/json'],
+                    200, 
+                    'Ok'
+                );
+            }
+            elseif (preg_match("`^_404$`", $controllerResult[0]['view']))
+            {               
+                return new Response(
+                    $this->viewRenderer->render($modelAndView), 
+                    [],
+                    404, 
+                    'Page Not Found'
+                );
+            }
+            else
+            {                        
+                return new Response($this->viewRenderer->render($modelAndView), [], 200, "Ok");
+            }
+        }            
     }
 }

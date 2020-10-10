@@ -58,7 +58,15 @@ final class Application
                         
     }    
 
-    private function addRoute( string $pattern, string $controller, string $method, $logged = false ): void
+    /**
+     * @param $pattern      Az url illesztési mintája,
+     * @param $contoller    Az url-hez tartozó kontroller,
+     * @param $method       A kontrollert meghívható HTTP metódus,
+     * @param $logged       A kliens be van-e jelentkezve, későbbi ellenőrzéshez.
+     * 
+     * @return void
+     */
+    private function addRoute( string $pattern, string $controller, string $method, bool $logged = false ): void
     {
         $method = strtoupper($method);
 

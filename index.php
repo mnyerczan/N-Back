@@ -7,8 +7,9 @@
 
     define('URI', explode('?', $_SERVER['REQUEST_URI'])[0]);
 
-	//Aktuális idő konstans
-	define('CURRENT_TIMESTAMP'	, date('s') );
+    // Böngésző cash kezelő konstans.
+    #define('RELOAD_CONTROLLER'	, '' );
+	define('RELOAD_CONTROLLER'	, date('s') );
 
 	// Program mappa
 	define('APPLICATION'		, 'Application/');

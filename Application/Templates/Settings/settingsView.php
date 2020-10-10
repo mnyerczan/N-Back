@@ -1,5 +1,5 @@
- <script src="<?=BACKSTEP?><?=APPLICATION?>Templates/User/account.js?v=<?= CURRENT_TIMESTAMP ?>"></script>
-<link rel="stylesheet" href="<?=BACKSTEP?><?=APPLICATION?>Style/settings.css?v=<?= CURRENT_TIMESTAMP ?>">
+ <script src="<?=BACKSTEP?><?=APPLICATION?>Templates/User/account.js?v=<?= RELOAD_CONTROLLER ?>"></script>
+<link rel="stylesheet" href="<?=BACKSTEP?><?=APPLICATION?>Style/settings.css?v=<?= RELOAD_CONTROLLER ?>">
 <main class="main-body">   
     <section class="settings-structure"> 
         <div class="settings-navbar">        

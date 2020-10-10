@@ -8,15 +8,19 @@ class JsonRenderer
     public function Emit($models)
     {
         $this->outputString = "{\n\t\"responseText\":";
-       
-            $this->GenerateJons($models, ++$this->tabCounter);
+        $this->GenerateJons($models, ++$this->tabCounter);
+        $this->outputString .= "\n}";        
 
-        $this->outputString .= "\n}";
+        // Megoldható volna eg sorban az egész, de az olvashatóság kedvéért kell a formázás.
+        #return json_encode(["responseText" => $models]);
 
         return $this->outputString;
     }
 
 
+    /**
+     * A kapott adatszerkezetet alakítja Json formátumra.
+     */
     private function GenerateJons($models)
     {        
         $this->outputString .= "{\n".$this->generateTabulators();
@@ -40,6 +44,9 @@ class JsonRenderer
         $this->outputString .= "\n".$this->generateTabulators()."}";
     }
 
+    /**
+     * A tabulátorok beillesztését, a Json formázását végző függvény.
+     */
     private function generateTabulators()
     {
         $tabulators = "";

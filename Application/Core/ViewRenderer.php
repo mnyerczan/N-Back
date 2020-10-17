@@ -2,10 +2,15 @@
 
 final class ViewRenderer
 {
+
+
     public function render(ModelAndView $modelAndView)
     {
+
+        
         $models = $modelAndView->model;
         $views  = $modelAndView->viewName;
+        
 
         extract($models);
         extract($views);
@@ -15,7 +20,11 @@ final class ViewRenderer
 
         // Ha nincs View név megadva, Json-ban renderel az oldal.
         if ($modelAndView->viewName['view'] != '')
+        {
+
             require_once APPLICATION."Templates/{$modelAndView->viewName['layout']}/_layout.php";
+        }
+            
         else
         {
             echo (new JsonRenderer())->Emit($modelAndView->model);

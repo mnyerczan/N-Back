@@ -7,6 +7,8 @@ class ResponseEmitter
         $this->emitStatusLine($response->statusCode, $response->reasonPhrase);
         $this->emitHeaders($response->headers);
         $this->emitBody($response->body);
+
+        
     }
 
 

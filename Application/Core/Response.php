@@ -2,10 +2,11 @@
 
 class Response 
 {
-    private $body,
-            $headers,
-            $statusCode,
-            $reasonPhrase;
+    private string 
+                    $body,
+                    $reasonPhrase;
+    private array   $headers;
+    private int     $statusCode;    
 
 
     public function __construct(string $body, array $headers, int $statusCode, string $reasonPhrase)

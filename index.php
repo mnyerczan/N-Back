@@ -1,11 +1,22 @@
-<?php
+<?php   
+
+    /* 
+        PHP-7.4, OR NEWER VERSION!!
+    */
+
 
     declare(strict_types=1);
 
-    ini_set("display_errors", "1");
-    error_reporting(E_ALL);
 
-    define('URI', explode('?', $_SERVER['REQUEST_URI'])[0]);
+    // Hibaüzenetek tartalmának futásidejű beállítása
+	error_reporting(E_ALL);
+
+    // Hibaüzenetek kiírásának futásidejű engedélyezése.
+    ini_set("display_errors", "1");
+
+    
+
+    define('URI', explode('?', $_SERVER['REQUEST_URI'])[0]);    
 
     // Böngésző cash kezelő konstans.
     #define('RELOAD_CONTROLLER'	, '' );
@@ -29,15 +40,18 @@
 
     // remove application directory from path    
     $cleanedUri = str_replace( APPROOT,'', URI);    
+
+    // Cause the explode function cut to two part a string with a slash, and
+    // we need it works if the url contains two slash, we substract 2 from the result.
     $num = count(explode('/',$cleanedUri )) -2; 
     
 
 	$backFromCurrentPath = '';
 
-/**
- * A számlálás 1-től indul, mert az explode a /Thesis_v.2.0/error stringet 3 részre szeleteli.
- * Ha projektmappát használunk, akkor a $i-nek 1-től kell indulnia!! Gyökérből 0-tól.
- */
+    /**
+     * A számlálás 1-től indul, mert az explode a /Thesis_v.2.0/error stringet 3 részre szeleteli.
+     * Ha projektmappát használunk, akkor a $i-nek 1-től kell indulnia!! Gyökérből 0-tól.
+     */
 	for ( $i = 0; $i < $num; $i++ )
 	{
 		$backFromCurrentPath.= '../';
@@ -47,7 +61,7 @@
 
 	
 
-	require_once APPLICATION.'Core/application.php';
+	
 
 	header("Expires: Tue, 03 Jul 2001 06:00:00 GMT");
     header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -57,32 +71,15 @@
 	header("Connection: close"); 
 	
 
-/**
- * Hibaüzenetek tartalmának futásidejű beállítása
- */
-	error_reporting(E_ALL);
 
-/**
- * Hibaüzenetek kiírásának futásidejű engedélyezése.
- */
-	ini_set("display_errors", "1");
-
-
-/**
- * Set error logging
- */
+    /**
+     * Set error logging
+     */
 	ini_set('error_log', APPLICATION.'Log/error.log');
 	ini_set("log_errors", "0");
 
-
-/**
- * Ennek a függvénynek a hatása, hogy a kimenetet nem írja bele egyből a HTTP üzenettőrzsbe, 
- * hanem be- "kesseli", és csak az ob_end() után írja bele. A fejléctartalma kiírásakor lehet hasznos.
- */
-	//ob_start();
-
                             
-
+    require_once APPLICATION.'Core/Application.php';
     require_once APPLICATION.'Interfaces/DBInterface.php';
     require_once APPLICATION.'DB/DB.php';
     require_once APPLICATION.'DB/EntityGateway.php';    

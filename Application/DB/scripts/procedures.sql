@@ -127,11 +127,15 @@ CREATE PROCEDURE `upgradePassword`(
     IN `inOldPassword` varchar(32)
 )
 BEGIN
-    IF md5(CONCAT("salt", md5(`inOldPassword`))) IN (SELECT `password` FROM `users`) THEN
+    IF md5(CONCAT("salt", md5(`inOldPassword`))) = (
+        SELECT `password` FROM `users` WHERE `id` LIKE `userId` ) THEN
+
         UPDATE `users` SET 
-            `password` = md5(CONCAT("salt",md5(`inNewPassword`)))
+            `password` = md5(CONCAT("salt",md5(`inNewPassword`))),
+            `passwordLength` = LENGTH(`inNewPassword`)
         WHERE `users`.`id` LIKE `userId` ;
         SELECT 'true' AS `result`;
+
     ELSE
         SELECT 'false' AS `result`;
     END IF; 

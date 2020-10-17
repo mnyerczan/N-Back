@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Model - view adatátadó osztály.
+ * 
+ * 
+ */
+
 final class ModelAndView
 {
     private $model,

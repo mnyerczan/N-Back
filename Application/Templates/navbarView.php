@@ -1,8 +1,7 @@
-<?php  //	$navbar 		?>
 <table class="navbar-hdr">
 	<tr>
 		<td><img src="<?= BACKSTEP ?><?=APPLICATION?><?=$navbar->logoImg?>" ></td>
-		<td><a href="<?=APPROOT.'/'?>/" title="Main page" >	N-Back</a></td>
+		<td><a href="<?=APPROOT.'/'?>" title="Main page" >N-Back</a></td>
 	</tr>
 </table>					
 <div class="increase-container">

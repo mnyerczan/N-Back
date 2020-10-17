@@ -4,7 +4,7 @@ use Login\UserEntity;
 
 
 
-class accountController extends MainController
+class AccountController extends MainController
 {    
 
     function __construct($matches)
@@ -13,11 +13,10 @@ class accountController extends MainController
 
         $this->setDatas();
 
-        $this->Action();
     }
 
 
-    private function Action()
+    public function index()
     {              
         $this->Response( 
             $this->datas, [

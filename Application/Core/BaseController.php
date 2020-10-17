@@ -5,8 +5,8 @@ use Login\UserEntity;
 class BaseController
 {
     // osztály invariáns - az osztály lehetéges állapotait írja le
-    protected   $user,
-                $datas;
+    protected UserEntity $user;
+    protected array $datas;
        
 
     function __construct()
@@ -24,8 +24,8 @@ class BaseController
      */
     protected function Response(array $models = [], array $viewAndModel = []): void 
     {   
-        //var_dump($models)   ; die;
-
+    
+        
         $responseFactory = new ResponseFactory(new ViewRenderer);
         
         $response = $responseFactory->createResponse([$viewAndModel, $models]);

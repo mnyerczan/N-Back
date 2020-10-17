@@ -16,14 +16,13 @@ require_once APPLICATION.'Interfaces/DBInterface.php';
  */
 class DB
 {
-    public                      
-                $id;
+    public int $id;
 
-    private static 
+    private static
                 $INSTANCE,
-                $connect;
+                $connect;                
 
-    private static               
+    private static string              
                 $host,
                 $user,
                 $pass,
@@ -72,8 +71,7 @@ class DB
      * SELECT query
      */
     public function Select( string $script, array $params = [] ): array
-    {   
-        self::$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);    
+    {               
 
         $statement =  self::$connect->prepare($script);     
      
@@ -194,7 +192,8 @@ class DB
     private static function Connect(): bool
     {            
         try 
-        {
+        {     
+
             /**
              * baseDbApi::$connect
              * 
@@ -205,7 +204,9 @@ class DB
                 self::$user, 
                 self::$pass,
                 [PDO::ATTR_PERSISTENT => true]
-            );
+            );            
+
+            self::$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             return true;
         }

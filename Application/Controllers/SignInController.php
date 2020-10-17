@@ -9,7 +9,7 @@ use Model\Sessions;
 
 
 
-class signInController extends MainController
+class SignInController extends MainController
 {
 
 
@@ -22,25 +22,28 @@ class signInController extends MainController
         $this->SetDatas();
         $this->datas['email'] = $_POST['signIn-email'] ?? '';
         $this->datas['signInIllustrate'] = BACKSTEP.APPLICATION.'Images/memory-bg.jpg';
-
- 
-
-        if ( @$matches['action'] )
-        {
-            $action = $matches['action'].'Action';
-            
-            $this->$action();
-        }
-        else
-        {
-            $this->FormAction();
-        }                
+               
     }
 
 
 
+    function index()
+    {    
 
-    function submitAction()
+        $this->datas['emailLabel']      = 'E-mail';
+        $this->datas['passwordLabel']   = 'Password';
+        $this->datas['message']         = 'Sign In';
+
+        $this->Response( $this->datas, [ 
+            'view'      => 'signIn', 
+            'layout'    => 'Main' ,
+            'module'    => 'User'
+            ]
+         );
+    }
+
+
+    function submit()
     {
         $email  = new ValidateEmail( $_POST['signIn-email'] );
         $pass   = new ValidatePassword( $_POST['signIn-pass'] );
@@ -61,24 +64,5 @@ class signInController extends MainController
         }                        
         $this->Response([], ['view' => 'redirect:'.APPROOT.'/']);
     }
-
-
-
     
-
-
-    function FormAction()
-    {    
-
-        $this->datas['emailLabel']      = 'E-mail';
-        $this->datas['passwordLabel']   = 'Password';
-        $this->datas['message']         = 'Sign In';
-
-        $this->Response( $this->datas, [ 
-            'view'      => 'signIn', 
-            'layout'    => 'Main' ,
-            'module'    => 'User'
-            ]
-         );
-    }
 }

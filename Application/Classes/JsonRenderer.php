@@ -2,8 +2,8 @@
 
 class JsonRenderer
 {
-    private $outputString;
-    private $tabCounter = 1;
+    private string $outputString;
+    private int $tabCounter = 1;
 
     public function Emit($models)
     {

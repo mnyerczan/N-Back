@@ -5,7 +5,7 @@ use DB\EntityGateway;
 
 
 
-class signUpController extends MainController
+class SignUpController extends MainController
 {
 
     
@@ -15,15 +15,12 @@ class signUpController extends MainController
 
         parent::__construct();
         $this->SetDatas();        
-                       
-
-        $action = $matches['action'].'Action';            
-        $this->$action();        
+                              
     }
 
 
 
-    function formAction()
+    function index()
     {     
         $this->setValues();                
         
@@ -48,7 +45,7 @@ class signUpController extends MainController
      *  3   database error(user datas)
      *  4   database erroe(image data)
      */
-    private function submitAction()
+    private function submit()
     {                  
  
         $email  = new ValidateEmail(    @$_POST['create-user-email'] );

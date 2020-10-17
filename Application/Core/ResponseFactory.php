@@ -1,9 +1,14 @@
 <?php
 
+/**
+ * Ez az osztály beállítja a válasz fejlécet (status line)
+ * 
+ * 
+ */
 
 final class ResponseFactory
 {
-    private $viewRenderer;
+    private ViewRenderer $viewRenderer;
 
 
     public function __construct(ViewRenderer $viewRenderer)
@@ -17,9 +22,10 @@ final class ResponseFactory
        
         if (!is_array($controllerResult)) return false;
         
+        // Ha átirányítást kért a hívó.
         if (preg_match("`^redirect:`", $controllerResult[0]['view']))
         {
-            //var_dump($_SERVER); die;
+          
             return new Response(
                 '', 
                 ["location" => HTTP_PROTOCOL.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].substr($controllerResult[0]['view'], 9)], 

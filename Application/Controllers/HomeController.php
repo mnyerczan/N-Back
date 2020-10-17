@@ -14,11 +14,10 @@ class HomeController extends MainController
                     
         $this->datas['home'] = ( new Home() )->getContent();
         
-        $this->Action();
     }
   
   
-    function Action()
+    function index()
     {
         $this->Response( $this->datas, [
             'view'      => 'home', 

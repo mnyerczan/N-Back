@@ -3,7 +3,7 @@
 	--mn-font-size	: 14px;
 	--nb-min-width	: 200px;
 	--right-side-mrg: 100px;
-	--main-hdr-height: 50px;
+	--main-hdr-height:50px;
 	--navbar-padding: 10px;	
 	--nb-color		: #333
 }
@@ -26,8 +26,8 @@ a {
 	clear			: both;	
 }
 .btn, label, #show-file-path {
-	font-size			: 12px;
-	display				: block;
+	font-size		: 12px;
+	display			: block;
 }
 body{  	
 	font-size		: var(--mn-font-size); 	
@@ -61,7 +61,7 @@ body{
     border-style	: solid;
     cursor			: pointer;
     margin			: 2px;
-    transition: box-shadow 0.1s ease-in-out, font-weight 0.1s ease-in-out;
+    transition		: box-shadow 0.1s ease-in-out, font-weight 0.1s ease-in-out;
 }
 
 
@@ -91,7 +91,7 @@ body{
 .btn-gld,.btn-grn,
 .btn-bl, .btn-std,
 .btn-rng{          
-    font-weight: bold;     
+    font-weight		: bold;     
 }
 
 
@@ -99,23 +99,23 @@ body{
 * INFO, backfeed
 */
 .info-container span {	
-	display		:block;
-	text-align	: right;
-	padding		: 10px 0;
-	font-style	: italic;
+	display			:block;
+	text-align		: right;
+	padding			: 10px 0;
+	font-style		: italic;
 }
 #level-print-container {
-	font-weight	: bold;
-	text-align	: center;
+	font-weight		: bold;
+	text-align		: center;
 }
 .info-container h6 {
-	padding		: 5px;
-	margin		: 0;
+	padding			: 5px;
+	margin			: 0;
 }
 
 @media ( max-width: 600px ) {
 	.info-container {
-		display	: none;
+		display		: none;
 	}
 }
 
@@ -123,11 +123,11 @@ body{
 * MAIN HOME 
 */
 .main-home {
-	width: 80%;
-	margin: 100px auto;
-	text-align: center;
+	width			: 80%;
+	margin			: 100px auto;
+	text-align		: center;
 }
 
 #empty-wellcome {
-	font-size: 50px;
+	font-size		: 50px;
 }

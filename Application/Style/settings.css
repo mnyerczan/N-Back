@@ -13,11 +13,12 @@
 	min-width		: 800px;
 	display			: grid;
 	height			: 300px;
-	grid-gap		: 10px;
+    grid-gap		: 10px;
+    /* A grid kitartja a szülő elemek szélességét! */
     grid-template	: 
         "a b ." 500px                
         ". b ." 500px        
-		/ 160px 800px 1fr;
+		/ 160px 700px 1fr;
 }
 .settings-structure > div {
     overflow        : hidden;

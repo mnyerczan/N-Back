@@ -25,14 +25,14 @@
     float			: right;
 }
 .hdr-coordinate-bx li {
-    display: block;   
-    min-width: 0;
-    float: right;	
-	cursor: pointer;
-	position: relative;
+    display			: block;   
+    min-width		: 0;
+    float			: right;	
+	cursor			: pointer;
+	position		: relative;
 }
 .hdr-coordinate-bx ul {
-	margin: 0;
+	margin			: 0;
 }
 
 a.login {	
@@ -44,8 +44,8 @@ a.login:hover {
 }
 
 .hdr-icons {
-	width: 10px;
-	height: 15px;
+	width			: 10px;
+	height			: 15px;
 }
 /*---- header list ----*/
 #header-list {
@@ -55,8 +55,8 @@ a.login:hover {
 }
 @media ( max-width: 600px ) {
 	#header {
-		width: 100vw;
-		min-width: 350px;
+		width		: 100vw;
+		min-width	: 350px;
 	}
 }
 
@@ -130,7 +130,7 @@ a.login:hover {
 .radio-box .radio-container input:checked + .circle{
     background		: rgb(70, 60, 30);
 }
-.#header, .navbar {
+#header, .navbar {
     -webkit-user-select: none !important; /* Safari 3.1+ */
     -moz-user-select: none !important; /* Firefox 2+ */
     -ms-user-select	: none !important; /* IE 10+ */

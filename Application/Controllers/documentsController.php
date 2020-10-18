@@ -6,4 +6,7 @@ class documentsController
     {
         echo 'Hello documents';
     }
+
+    public function index(){}
+    
 }

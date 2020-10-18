@@ -6,11 +6,10 @@ class nBackController extends GameController
     {
         parent::__construct();
         $this->SetDatas();
-
-        $this->Action();
+      
     }
 
-    private function Action()
+    public function index()
     {          
         $this->Response( 
             $this->datas, [

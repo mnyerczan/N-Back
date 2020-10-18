@@ -41,13 +41,17 @@ final class Application
 
         // Settings (nback)
         $this->addRoute('/?(?<controller>settings)/(?<action>nback)/?' , 'SettingsNbackController','get', 'index', true );
-/*     
-        $this->addRoute('/?api/(?<controller>authenticate)/?' , 'AuthenticateController','GET', false );
 
+        // API 
+        $this->addRoute('/?api/(?<controller>authenticate)/?' , 'AuthenticateController','GET','index', false );
+
+        // NBACK
         $this->addRoute('/?(?<controller>nBack)/?', 'nBackController','get' );        
+
+        // Documents
         $this->addRoute('/?(?<controller>documents)/?' , 'documentsController','get' );
         
-*/
+
 
         // A $routes tömb minden metódushoz egy "regex minta":[paraméter tömb] típusú adatszerkezetet vesz fel.
         foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $pattern => $params)        
@@ -64,6 +68,7 @@ final class Application
                     
                     require_once APPLICATION."Controllers/{$params['controller']}.php";                    
 
+
                     // A php nem enged közvetlenül tömbből kiolvasott értéket hívni, ezért le kell menteni?!!...
                     $action = $params['action'];
 
@@ -71,7 +76,7 @@ final class Application
 
                     // Controller hívása a kapott metódussal.
                     (new $params['controller']($matches))->$action();
-                    die;
+                    return;
                 }               
             }
         }        
@@ -88,7 +93,12 @@ final class Application
      * 
      * @return void
      */
-    private function addRoute( string $pattern, string $controller, string $httpMethod, string $action = 'index', bool $logged = false ): void
+    private function addRoute( 
+        string  $pattern, 
+        string  $controller, 
+        string  $httpMethod, 
+        string  $action = 'index', 
+        bool    $logged = false ): void
     {
         $method = strtoupper($httpMethod);
 

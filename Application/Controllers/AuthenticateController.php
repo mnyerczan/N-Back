@@ -2,17 +2,15 @@
 
 class AuthenticateController extends MainController
 {
-    public function __construct($matches)
+    public function __construct()
     {
-        parent::__construct();
 
-        $action = @$matches['action'] ? $matches['action'].'Action' : 'EmitAction';
-        
-        $this->$action(); 
+        parent::__construct();        
+         
     }
 
 
-    private function EmitAction()
+    public function index()
     {               
 
         $_SESSION['authenticateCode'] = $authenticateCode = time().".".md5(rand(1000000, 9999999));

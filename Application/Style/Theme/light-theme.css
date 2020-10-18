@@ -18,15 +18,14 @@ body {
     Main structure
 -----------------------------------------*/
 body > #inspector {        
-    background-color: rgba(255, 166, 0, 0.164);
-}
+    /*background-color: rgba(255, 166, 0, 0.164);*/
 }
 body > #navbar {        	
     color			: black;    
     background-color: #f1f1f181;    
 }
 body > #center {    
-    background-color: rgba(19, 122, 5, 0.061);
+    /*background-color: rgba(19, 122, 5, 0.061);*/
 }
 
 /*
@@ -181,7 +180,7 @@ a.login:hover {
     color			: #777;	
 }
 .user-f {    
-    border-bottom   : 1px solid rgb(214, 214, 214);
+   /* border-bottom   : 1px solid rgb(214, 214, 214);*/
 }
 .user-b p {
     color           : black;
@@ -221,17 +220,21 @@ a.login:hover {
 /*---- personal ----*/
 .user-g,
 .user-h,
-.setting-contents p {
+.personal-setting-contents p {
     
     border-bottom   : 1px solid rgb(214, 214, 214);
 }
-.setting-contents p {        
+.personal-setting-contents p {        
     color           : black;
     background-color: #fff;    
 }
 
-.setting-contents input:not([type="submit"]),
-.setting-contents p {
-    background-color: #ffffd8;
+.personal-setting-contents input:not([type="submit"]),
+.personal-setting-contents p,
+/* nback settings */
+.nback-setting-contents input:not([type="submit"]),
+.nback-setting-contents select {
+    background-color: #fffff6;
+    padding         : 0 10px;
     border          : 1px solid rgb(233, 233, 233);
 }

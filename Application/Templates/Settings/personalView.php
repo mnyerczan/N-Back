@@ -1,6 +1,6 @@
 <form action="<?=APPROOT.'/'?>settings/personalUpdate" method="POST" id="personalForm"></form> 
-<script src="Public/js/personalSettings.js?t=<?= RELOAD_CONTROLLER ?>"></script>
-<div class="setting-contents">
+<script src="Public/js/personalSettings.js?t=<?= RELOAD_INDICATOR ?>"></script>
+<div class="personal-setting-contents">
     <div class="title">Drawer</div>  
     <div class="user-b">Profile picture</div>               
     <div class="user-c update">       

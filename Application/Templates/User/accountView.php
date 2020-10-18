@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?=BACKSTEP?><?=APPLICATION?>Style/account.css?v=<?= RELOAD_CONTROLLER ?>">
+<link rel="stylesheet" href="<?=BACKSTEP?><?=APPLICATION?>Style/account.css?v=<?= RELOAD_INDICATOR ?>">
 <div class="modal" id="usr-modal"></div>
 <main class="main-body">    
     <section class="user-profile-structure"> 

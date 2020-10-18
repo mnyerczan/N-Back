@@ -3,8 +3,8 @@
 chdir('/var/www/html/NBack/');
 
 // Böngésző cash kezelő konstans.
-#define('RELOAD_CONTROLLER'	, '' );
-define('RELOAD_CONTROLLER'	, date('s') );
+#define('RELOAD_INDICATOR'	, '' );
+define('RELOAD_INDICATOR'	, date('s') );
 // Program mappa
 define('APPLICATION'		, 'Application/');
 // Root directory. Must be at least '/' !

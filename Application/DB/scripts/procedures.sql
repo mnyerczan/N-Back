@@ -58,7 +58,7 @@ CREATE PROCEDURE `GetUser`(
 BEGIN
     IF `inUId` IS NOT NULL THEN
         SELECT 
-            `u`.*, `i`.*,`n`.*, RELOAD_CONTROLLER 
+            `u`.*, `i`.*,`n`.*, RELOAD_INDICATOR 
         FROM 
             `users` AS `u` JOIN `images` AS `i` JOiN `nbackDatas` AS n
         WHERE 
@@ -67,7 +67,7 @@ BEGIN
             `u`.`id` = `inUId`;
     ELSE
         SELECT 
-            `u`.*, `i`.*, `n`.*, RELOAD_CONTROLLER 
+            `u`.*, `i`.*, `n`.*, RELOAD_INDICATOR 
         FROM 
             `users` AS `u` JOIN `images` AS `i` JOiN `nbackDatas` AS n
         WHERE 

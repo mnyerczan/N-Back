@@ -76,13 +76,13 @@
 }
 
 
-/*---- settings content----*/
-.setting-contents {
+/*---- settings contents ----*/
+.personal-setting-contents {
     grid-area       : b;
     display         : grid;
     width           : 100%;
     grid-gap        : 10px;
-    grid-template: 
+    grid-template:         
         "a a . b" 40px
         "c c . f" 400px 
         "g g . ." 20px                       
@@ -92,9 +92,84 @@
 
 }
 
+.nback-setting-contents {
+    grid-area       : b;
+    display         : grid;
+    width           : 100%;
+    grid-gap        : 10px;
+    grid-template: 
+        "title title" 60px
+        "nback-game-mode-value nback-game-mode-control" 40px
+        "nback-level-value nback-level-control" 40px 
+        "nback-seconds-value nback-seconds-control" 40px
+        "nback-trials-value nback-trials-control" 40px
+        "nback-eventlength-value nback-eventlength-control" 40px
+        "nvack-color-value nback-color-control" 40px
+        ". nback-form-submit" 100px
+        / 1fr 1fr;
+}
+
 /*
     Content
 ----------------------------------*/
+/*---- Nback ----*/
+.nback-setting-contents div {
+    display         : flex;  
+}
+.nback-setting-contents div:not(.title) {          
+    align-items     : center;
+}
+.nback-setting-contents .title {
+    grid-area       : title;
+    justify-content : center;    
+}
+
+.nback-game-mode-value {
+    grid-area       : nback-game-mode-value;
+}
+.nback-game-mode-control {
+    grid-area       : nback-game-mode-control;
+}
+
+.nback-level-value {
+    grid-area       : nback-level-value;
+}
+.nback-level-control {
+    grid-area       : nback-level-control;
+}
+
+.nback-seconds-value {
+    grid-area       : nback-seconds-value;
+}
+.nback-seconds-control {
+    grid-area       : nback-seconds-control;
+}
+
+.nback-trials-value {
+    grid-area       : nback-trials-value;
+}
+.nback-trials-contol {
+    grid-area       : nback-trials-contol;
+}
+
+.nback-eventlength-value {
+    grid-area       : nback-eventlength-value;
+}
+.nback-eventlength-contol {
+    grid-area       : nback-eventlength-contol;
+}
+
+.nvack-color-value {
+    grid-area       : nvack-color-value;
+}
+.nvack-color-contol {
+    grid-area       : nvack-color-contol;
+}
+
+.nback-form-submit {
+    grid-area       : nback-form-submit
+}
+
 
 /*---- personal ----*/
 .user-update-structure .title:first-child {
@@ -132,30 +207,36 @@
     resize          : none;
     padding         : 5px;
 }
-.setting-contents p {    
+.personal-setting-contents p,
+.nback-setting-contents p  {    
     border-radius   : 5px;    
     margin-top      : 0;
     padding         : 5px;
 }
-.setting-contents .sex-container {
+.personal-setting-contents .sex-container {
     width           : 100%;
     display         : table;
     padding         : 10px;
 }
-.setting-contents .sex-container .radio-box {
+.personal-setting-contents .sex-container .radio-box {
     display         : inline-block;
 }
-.setting-contents .sex-container .radio-container {
+.personal-setting-contents .sex-container .radio-container {
     padding         : 0 10px;
     display         : inline-block;
 }
-.setting-contents .btn {
+.personal-setting-contents .btn {
     margin          : 10px 0;
 }
-.setting-contents input:not([type="submit"]),
-.setting-contents p {    
-    border-radius   : 5px;
+.personal-setting-contents input:not([type="submit"]),
+.personal-setting-contents p{
     margin-bottom   : 10px;
     padding         : 10px;
     width           : 100%;
+}
+.personal-setting-contents input:not([type="submit"]),
+.personal-setting-contents p,
+.nback-setting-contents input:not([type="submit"]),
+.nback-setting-contents select{
+    border-radius   : 5px;
 }

@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/png" href="<?= BACKSTEP ?><?=APPLICATION?>Images/favicon.png">
-    <link rel="stylesheet" type="text/css" href="<?= BACKSTEP ?><?=APPLICATION?>Style/Main/main-structure.css?v=<?= RELOAD_CONTROLLER ?>" />  
-    <link rel="stylesheet" type="text/css" href="<?= BACKSTEP ?><?=APPLICATION?>Style/Theme/light-theme.css?v=<?= RELOAD_CONTROLLER ?>" /> 
-    <link rel="stylesheet" type="text/css" href="<?= BACKSTEP ?><?=APPLICATION?>Style/Theme/dark-theme.css?v=<?= RELOAD_CONTROLLER ?>" disabled/> 
+    <link rel="stylesheet" type="text/css" href="<?= BACKSTEP ?><?=APPLICATION?>Style/Main/main-structure.css?v=<?= RELOAD_INDICATOR ?>" />  
+    <link rel="stylesheet" type="text/css" href="<?= BACKSTEP ?><?=APPLICATION?>Style/Theme/light-theme.css?v=<?= RELOAD_INDICATOR ?>" /> 
+    <link rel="stylesheet" type="text/css" href="<?= BACKSTEP ?><?=APPLICATION?>Style/Theme/dark-theme.css?v=<?= RELOAD_INDICATOR ?>" disabled/> 
     <script src="<?= BACKSTEP ?><?=APPLICATION?>Scripts/helperFunctions.js"></script>
     <title>Nback - <?=@$title?></title>
 </head>

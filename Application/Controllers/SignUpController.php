@@ -140,7 +140,7 @@ class SignUpController extends MainController
         $crName = $user     ? $user->getUser()      : null;
         $crEmail= $email    ? $email->getEmail()    : null;
 
-        $this->datas['signUpJsPath']    = BACKSTEP.'Public/js/signUp.js?v='.RELOAD_CONTROLLER;
+        $this->datas['signUpJsPath']    = BACKSTEP.'Public/js/signUp.js?v='.RELOAD_INDICATOR;
 
         $this->datas['nameLabel']       = $user->errorMsg  ?? 'Name';
         $this->datas['emailLabel']      = $email->errorMsg ?? 'E-mail';

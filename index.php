@@ -18,9 +18,8 @@
 
     define('URI', explode('?', $_SERVER['REQUEST_URI'])[0]);    
 
-    // Böngésző cash kezelő konstans.
-    #define('RELOAD_CONTROLLER'	, '' );
-	define('RELOAD_CONTROLLER'	, date('s') );
+    // Böngésző cash kezelő konstans.    
+	define('RELOAD_INDICATOR'	, date('s') );
 
 	// Program mappa
 	define('APPLICATION'		, 'Application/');

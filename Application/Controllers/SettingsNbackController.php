@@ -24,7 +24,7 @@ class SettingsNbackController extends BaseController
      */
     public function index()
     {
-       
+        //var_dump($this->datas['user']);die;
 
         $this->Response( 
             $this->datas, [

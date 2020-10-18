@@ -17,7 +17,8 @@ class BaseController
 
 
     /**
-     * Előfeltétel - bemeneti paraméterek
+     * Az Respons-nak átadott paraméterek a view-k számára elérhetőek.
+     * 
      * 
      * @param array $models Get datas for render views
      * @param array $viewAndModel Get name of view and module
@@ -30,8 +31,7 @@ class BaseController
         
         $response = $responseFactory->createResponse([$viewAndModel, $models]);
         
-        (new ResponseEmitter)->emit($response);   
-        die;     
+        (new ResponseEmitter)->emit($response);    
     }   
     
 

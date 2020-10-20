@@ -6,6 +6,7 @@ use DB\DB;
 use ValidateDate;
 use ValidateEmail;
 use ValidatePassword;
+use ValidateSex;
 use ValidateUser;
 
 /**
@@ -18,7 +19,27 @@ class UserEntity
 	private
 			$loged,
 			$object,	 		
-			$datas = [];			
+			$id,
+			$userName,
+			$isAdmin,
+			$email,
+			$loginDatetime,
+			$privilege,
+			$birth,
+			$sex,
+			$passwordLength,
+			$theme,
+			$refresh,
+			$online,
+			$about,
+			$imgBin,
+			// NBACK OPTIONS
+			$gameMode,
+			$level,
+			$seconds,
+			$trials,
+			$eventLength,
+			$color;					
 
 
 
@@ -62,80 +83,80 @@ class UserEntity
 
 	private function LoadAnonim()
 	{		
-		$this->datas['id'] 				= 1;		
-		$this->datas['userName'] 		= 'Anonim';
-		$this->datas['isAdmin']			= false;
-		$this->datas['email'] 			= NULL;
-		$this->datas['loginDatetime']	= NULL;
-		$this->datas['privilege'] 		= 0;
-		$this->datas['birth'] 			= NULL;
-		$this->datas['passwordLength'] 	= NULL;
-		$this->datas['fileName'] 		= 'user_blue.png';
-		$this->datas['theme'] 			= $_COOKIE['theme'] 		?? 'white';
-		$this->datas['refresh'] 		= NULL;
-		$this->datas['imgBin'] 			= NULL;
+		$this->id 				= 1;		
+		$this->userName 		= 'Anonim';
+		$this->isAdmin			= false;
+		$this->email 			= NULL;
+		$this->loginDatetime	= NULL;
+		$this->privilege 		= 0;
+		$this->birth 			= NULL;
+		$this->passwordLength 	= NULL;
+		$this->fileName 		= 'user_blue.png';
+		$this->theme 			= $_COOKIE['theme'] 		?? 'white';
+		$this->refresh 			= NULL;
+		$this->imgBin 			= NULL;
 
 		// NOT IMPLEMENTED FEATUTRE
-		$this->datas['online'] 			= NULL;
+		$this->online 			= NULL;
 		//--------------------------------------------------------------------------------------------				
 
 		if (!@$_COOKIE['gameMode']) 
 		{
 			setcookie('gameMode','Position');
-			$this->datas['gameMode'] = 'Position';
+			$this->gameMode = 'Position';
 		}			
 		else
-			$this->datas['gameMode'] 		= $_COOKIE['gameMode'];
+			$this->gameMode 		= $_COOKIE['gameMode'];
 		
 
 		// Game level
 		if (!@$_COOKIE['level'])
 		{
 			setcookie('level', 1);
-			$this->datas['level'] = 1;
+			$this->level = 1;
 		}			
 		else
-			$this->datas['level'] 			= $_COOKIE['level'];
+			$this->level 			= $_COOKIE['level'];
 		
 
 		// Tim between two event in seconds
 		if (!@$_COOKIE['seconds'])
 		{
 			setcookie('seconds', 3);
-			$this->datas['seconds'] = 3;
+			$this->seconds = 3;
 		}
 		else
-			$this->datas['seconds'] 		= $_COOKIE['seconds'];
+			$this->seconds 		= $_COOKIE['seconds'];
 		
 
 		// Min trial has 25 events
 		if (!@$_COOKIE['trials'])
 		{
 			setcookie('trials', 25);
-			$this->datas['trials'] 	= 25;
+			$this->trials 	= 25;
 		}
 		else
-			$this->datas['trials'] 			= $_COOKIE['trials'];
+			$this->trials 			= $_COOKIE['trials'];
 		
 
 		// One event length in seconds 
 		if (!@$_COOKIE['eventLength'])
 		{
 			setcookie('eventLength', 0.75);
-			$this->datas['eventLength'] = 0.75;
+			$this->eventLength = 0.75;
 		}
 		else
-			$this->datas['eventLength']		= $_COOKIE['eventLength'];
+			$this->eventLength		= $_COOKIE['eventLength'];
 		
 
 		// Event's color
 		if (!@$_COOKIE['color'])
 		{
 			setcookie('color','Position');		
-			$this->datas['color'] = 'blue';
+			$this->color = 'blue';
 		}
 		else
-			$this->datas['color'] 			= $_COOKIE['color'];
+			$this->color 			= $_COOKIE['color'];
 
     }
 	
@@ -157,32 +178,32 @@ class UserEntity
 		$user = $this->db->Select($sql,$params)[0]; 
 
 		
-		$this->datas['id'] 				= $user->id;
-		$this->datas['email']			= $user->email;
-		$this->datas['loginDatetime']	= $user->loginDatetime;		
-		$this->datas['userName']		= $user->userName;
-		$this->datas['isAdmin']			= $this->datas['userName'] == 'Admin' ? true : false;
-		$this->datas['privilege']		= $user->privilege;
-		$this->datas['birth']			= $user->birth;
-		$this->datas['sex']				= $user->sex;
-		$this->datas['passwordLength']	= $user->passwordLength;
+		$this->id 				= $user->id;
+		$this->email			= $user->email;
+		$this->loginDatetime	= $user->loginDatetime;		
+		$this->userName		= $user->userName;
+		$this->isAdmin			= $this->userName == 'Admin' ? true : false;
+		$this->privilege		= $user->privilege;
+		$this->birth			= $user->birth;
+		$this->sex				= $user->sex;
+		$this->passwordLength	= $user->passwordLength;
 
-		$this->datas['imgBin']			= ImageConverter::BTB64 ($user->imgBin);		
-		$this->datas['theme']			= $user->theme;
-		$this->datas['about']			= $user->about;
+		$this->imgBin			= ImageConverter::BTB64 ($user->imgBin);		
+		$this->theme			= $user->theme;
+		$this->about			= $user->about;
 	
 
 		// NOT IMPLEMENTED FEATUTRE
-		$this->datas['online'] 			= $user->online;
+		$this->online 			= $user->online;
 
 		//--------------------------------------------------------------------------------------------
 		
-		$this->datas['gameMode'] 		= $user->gameMode;
-		$this->datas['level'] 			= $user->level;
-		$this->datas['seconds']			= $user->seconds;
-		$this->datas['trials'] 			= $user->trials;
-		$this->datas['eventLength']		= $user->eventLength;
-		$this->datas['color'] 			= $user->color;			
+		$this->gameMode 		= $user->gameMode;
+		$this->level 			= $user->level;
+		$this->seconds			= $user->seconds;
+		$this->trials 			= $user->trials;
+		$this->eventLength		= $user->eventLength;
+		$this->color 			= $user->color;			
 									
 
 		return $this->loged = true;
@@ -235,27 +256,77 @@ class UserEntity
         {
 			case 'loged': 			return $this->loged; 					break;
 
-			case 'id': 				return $this->datas['id']; 				break;			
-			case 'userName': 		return $this->datas['userName']; 		break;
-			case 'isAdmin': 		return $this->datas['isAdmin']; 		break;
-			case 'email': 			return $this->datas['email']; 			break;
-			case 'loginDatetime': 	return $this->datas['loginDatetime']; 	break;
-			case 'privilege': 		return $this->datas['privilege']; 		break;
-			case 'birth': 			return $this->datas['birth']; 			break;
-			case 'sex': 			return $this->datas['sex']; 			break;
-			case 'passwordLength': 	return $this->datas['passwordLength']; 	break;			
-			case 'theme': 			return $this->datas['theme']; 			break;
-			case 'refresh': 		return $this->datas['refresh']; 		break;
-			case 'online': 			return $this->datas['online']; 			break;
-			case 'about':			return $this->datas['about'];			break;
-			case 'imgBin': 			return $this->datas['imgBin']; 			break;
+			case 'id': 				return $this->id; 				break;			
+			case 'userName': 		return $this->userName; 		break;
+			case 'isAdmin': 		return $this->isAdmin; 		break;
+			case 'email': 			return $this->email; 			break;
+			case 'loginDatetime': 	return $this->loginDatetime; 	break;
+			case 'privilege': 		return $this->privilege; 		break;
+			case 'birth': 			return $this->birth; 			break;
+			case 'sex': 			return $this->sex; 			break;
+			case 'passwordLength': 	return $this->passwordLength; 	break;			
+			case 'theme': 			return $this->theme; 			break;
+			case 'refresh': 		return $this->refresh; 		break;
+			case 'online': 			return $this->online; 			break;
+			case 'about':			return $this->about;			break;
+			case 'imgBin': 			return $this->imgBin; 			break;
 
-			case 'gameMode': 		return $this->datas['gameMode']; 		break;
-			case 'level': 			return $this->datas['level']; 			break;			
-			case 'seconds': 		return $this->datas['seconds']; 		break;
-			case 'trials': 			return $this->datas['trials']; 			break;
-			case 'eventLength': 	return $this->datas['eventLength']; 	break;
-			case 'color': 			return $this->datas['color']; 			break;
+			case 'gameMode': 		return $this->gameMode; 		break;
+			case 'level': 			return $this->level; 			break;			
+			case 'seconds': 		return $this->seconds; 		break;
+			case 'trials': 			return $this->trials; 			break;
+			case 'eventLength': 	return $this->eventLength; 	break;
+			case 'color': 			return $this->color; 			break;
         }
-    }
+	}
+	
+		
+	/**
+	 * Felhasználó beírása az adatbázisba.
+	 * 
+	 * @param ValidateEmail 	$email,
+	 * @param ValidateUser 		$user
+	 * @param ValidatePassword	$password
+	 * @param ValidateDate		$birthDAte
+	 * @param string			$sex
+	 * @param int				$privilege
+	 * @param ImageConverter	$converter
+	 * 
+	 */
+	public function userRegistry(
+		 ValidateEmail $email, 
+		 ValidateUser $user, 
+		 ValidatePassword $password, 
+		 ValidateDate $birthDAte, 
+		 ValidateSex $sex, 
+		 $privilege, 
+		 ImageConverter $converter)
+	{
+
+		// Létrehozzuk az SQL bind-olási paramétereket.	
+		$params = [            
+            ':email'            => trim( $email->getEmail() ),
+            ':userName'         => trim( $user->getUser() ),
+            ':password'         => $password->getPass(),
+            ':dateOfBirth'      => trim( $birthDAte->getDate() ),
+            ':sex'              => $sex->getSex(),
+            ':privilege'        => $privilege,
+            ':passwordLength'   => strlen($password->getPass()),
+            ':cmpBin'           => $converter->cmpBin
+		];     
+		
+		$sql = 'CALL CreateNewUserprocedure(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex,
+            :privilege, 
+            :passwordLength,
+            :cmpBin)';
+
+		// A visszatérési értékként átadjuk a Tárolt eljárás visszatérési értékét.
+        return $this->db->Execute($sql, $params);
+
+	}
 }

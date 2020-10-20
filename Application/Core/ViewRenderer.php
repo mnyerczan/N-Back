@@ -1,4 +1,13 @@
 <?php
+/**
+ * Az osztály, ami elvégzi a kimenetre írást. 
+ * A kapott modelAndView objektum elemeit kibontja és a lokálos scopon belül elérhetővé
+ * teszi a frontend felé.
+ * 
+ * 
+ * 
+ */
+
 
 final class ViewRenderer
 {
@@ -9,20 +18,24 @@ final class ViewRenderer
 
         
         $models = $modelAndView->model;
-        $views  = $modelAndView->viewName;
+
+        // $view = ViewParameters objektum
+        $views  = $modelAndView->view;
         
 
+        // Adatszerkezetek kicsomagolása
         extract($models);
-        extract($views);
-        
+        extract((array)$views);
+
+      
         ob_clean();
         ob_start();
 
         // Ha nincs View név megadva, Json-ban renderel az oldal.
-        if ($modelAndView->viewName['view'] != '')
+        if ($modelAndView->view != '')
         {
 
-            require_once APPLICATION."Templates/{$modelAndView->viewName['layout']}/_layout.php";
+            require_once APPLICATION."Templates/{$views->layout}/_layout.php";
         }
             
         else

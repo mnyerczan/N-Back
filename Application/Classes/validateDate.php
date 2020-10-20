@@ -17,8 +17,7 @@ class ValidateDate extends Validator
     }
 
     public function validate() 
-    {
-        if (!$this->value) return;
+    {     
 
         $currentDate    = time();
         $gettedDate     = strtotime( $this->value );

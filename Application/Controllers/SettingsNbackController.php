@@ -2,6 +2,7 @@
 
 use DB\DB;
 use \Model\Sessions;
+use App\Model\SettingsBar;
 
 
 
@@ -14,7 +15,10 @@ class SettingsNbackController extends BaseController
         parent::__construct();
 
         $this->db  = DB::GetInstance();        
-        $this->getEntitys();  
+        $this->getEntitys(); 
+        
+        // Átadásra kerül a frontend felé, hogy melyik almenű aktív.
+        $this->datas['settingsBar'] = new SettingsBar('nbackItem');
                
     }
 
@@ -23,23 +27,83 @@ class SettingsNbackController extends BaseController
      * Apprear the nback settings form.
      */
     public function index()
-    {
-        //var_dump($this->datas['user']);die;
+    {       
+       
+
 
         $this->Response( 
-            $this->datas, [
-                'view'      => 'settings', 
-                'nback'     => 'active',
-                'item'      => 'nback',                
-                'module'    => 'Settings',
-                'mime'      => 'text/html',
-                'layout'    => 'Main',
-                "title"     => 'N-back settings',
-            ]  
+            $this->datas, new ViewParameters(
+                'settings', 
+                'text/html',
+                'Main',
+                'Settings',
+                'N-back settings',
+                "",
+                'nback')                              
         );
     }
 
-    
+
+    public function update()
+    {        
+
+        $errorMsg = null;
+
+      
+
+        // A bind-olási paraméterek összecsoportosítása a Select függvénynek való
+        // átadásra.
+        $params = [
+            ':inUserId'         => $this->datas['user']->id,
+            ':newGameMode'      => $_POST['gameMode']       ?? 'Position',
+            ':newLewel'         => $_POST['level']          ?? 1,
+            ':newSeconds'       => $_POST['seconds']        ?? 3,
+            ':newTrials'        => $_POST['trials']         ?? 30,
+            ':newEventLength'   => $_POST['eventLength']    ?? 3,
+            ':newColor'         => $_POST['color']          ?? 'blue',
+        ];
+
+
+        // update procedúra meghívása a Select metóduson keresztül. 
+        // A validációt az adatbázis végzi.
+        if ($this->db->Select('CALL `updateNBackOptions`(
+                :inUserId,
+                :newGameMode,
+                :newLewel,
+                :newSeconds,
+                :newTrials,
+                :newEventLength,
+                :newColor
+            )', $params)[0]->result == '1') 
+        {
+            
+            
+            // Ha sikeres a bevitel, átirányítás.
+            $this->Response([],new ViewParameters("redirect:".APPROOT."/settings/nback?sm=Update sucessfully!"));         
+        }
+
+        else
+        {
+            // Sikertelen művelet esetén hibaüzenet. Mivel a frontend teljesen be van biztosítva, 
+            // ez csak akkor fordulhat elő, ha átírják az oldal DOM értékeit.
+            $errorMsg = 'Update failed, bacause values are wrong';
+            
+
+             // Sikertelen módosítás esetén vissaadja saját magát hibaüzenettel.
+            $this->Response( 
+                $this->datas, new ViewParameters(
+                    'settings', 
+                    'text/html', 
+                    'Main',
+                    'Settings',
+                    'N-back settings',
+                    $errorMsg,
+                    'nback')                
+            );
+        }               
+    }
+
+ 
 
 
     private function getEntitys()

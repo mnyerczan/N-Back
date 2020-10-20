@@ -23,15 +23,16 @@ class BaseController
      * @param array $models Get datas for render views
      * @param array $viewAndModel Get name of view and module
      */
-    protected function Response(array $models = [], array $viewAndModel = []): void 
+    protected function Response(array $models = [], ViewParameters $viewParameters): void 
     {   
     
         
         $responseFactory = new ResponseFactory(new ViewRenderer);
         
-        $response = $responseFactory->createResponse([$viewAndModel, $models]);
+        $response = $responseFactory->createResponse($models, $viewParameters );
         
-        (new ResponseEmitter)->emit($response);    
+        (new ResponseEmitter)->emit($response); 
+          
     }   
     
 

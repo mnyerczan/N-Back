@@ -1,7 +1,7 @@
 <?php
 
 use Classes\ImageConverter;
-use DB\EntityGateway;
+use DB\DB;
 
 
 
@@ -11,11 +11,10 @@ class SignUpController extends MainController
     
     function __construct($matches)
     {                 
-        $this->db  = EntityGateway::GetInstance();
+        $this->db  = DB::GetInstance();
 
         parent::__construct();
-        $this->SetDatas();        
-                              
+        $this->SetDatas();                                     
     }
 
 
@@ -25,8 +24,8 @@ class SignUpController extends MainController
         $this->setValues();                
         
         $this->Response( $this->datas, [ 
-            'view' => 'signUp', 
-            'module' => 'User',
+            'view'      => 'signUp', 
+            'module'    => 'User',
             'layout'    => 'Main'
             ] 
         );
@@ -45,18 +44,22 @@ class SignUpController extends MainController
      *  3   database error(user datas)
      *  4   database erroe(image data)
      */
-    private function submit()
+    public function submit()
     {                  
  
-        $email  = new ValidateEmail(    @$_POST['create-user-email'] );
-        $pass   = new ValidatePassword( @$_POST['create-user-pass']  );
-        $user   = new ValidateUser(     @$_POST['create-user-name'], @$_SESSION['adminAuthenticate'] );
-        $date   = new ValidateDate (    @$_POST['create-user-date']  );  
-        $sex    = $_POST['sex'];
-        
-        
+        $email  = new ValidateEmail(    $_POST['create-user-email'] );
+        $pass   = new ValidatePassword( $_POST['create-user-pass']  );
+        $user   = new ValidateUser(     $_POST['create-user-name'], @$_SESSION['adminAuthenticate'] );
+        $date   = new ValidateDate (    $_POST['create-user-date']  );  
+        $sex    = new ValidateSex(      $_POST['sex']);
+  
+    
         //Ha valamelyik adat nem felel meg a mintának
-        if ( $email->errorMsg || $pass->errorMsg || $user->errorMsg || $date->errorMsg )
+        if (    $email->errorMsg || 
+                $pass->errorMsg  || 
+                $user->errorMsg  || 
+                $date->errorMsg  ||
+                $sex->errorMsg )                
         {      
             $this->setValues( $user, $email, $pass, $date);
 
@@ -65,16 +68,29 @@ class SignUpController extends MainController
                 [ 
                     'view'      => 'signUp', 
                     'layout'    => 'Main',
-                    'module'    => 'User'
+                    'module'    => 'User',
+                    "title"     => 'Bad parameters',
+                    'errorMsg'  => 'Parameters are invalid!' 
                 ]
             );        
             return 2;
         }         
 
-        // Beállitásra kerül a jogosultség.
-        $privilege  = $_POST['create-user-name'] == 'Admin' ? 3 : 1;
+        // Beállitásra kerül a jogosultság. Ha az adminform lett kitöltve, létezik privilege mező,
+        // különben a felhasználónév alapján dől el a jogosultság.
+        // Kezdetben az adminé alapértelmezetten 3, mindenki másé 1.
+        if (isset($_POST['cu-privilege']))
+        {
+            $Privilege = $_POST['cu-privilege'] < 4 && $_POST['cu-privilege'] > 0 ? $_POST['cu-privilege'] : 1;
+        }    
+        else
+        {
+            $privilege = $_POST['create-user-name'] == 'Admin' ? 3 : 1;
+        }            
         
-         // Konverter osztály paraméterei értékének megállapítása.
+
+
+         // Konverter osztálynak átadandó pathok. Alapértelmezett avatar képek.
         if ($sex == 'male')
         {
             $image = APPLICATION.'Images/userMale.jpg';            
@@ -82,45 +98,48 @@ class SignUpController extends MainController
         else
         {
             $image = APPLICATION.'Images/userFemale.jpg';
-        }
+        }         
 
-        $mime  ='image/jpg';
- 
-        // Példányositásra kerül a konverter és a DB osztály.
-         
-        $converter  = new ImageConverter( $image, $mime );
-                 
 
-        //$this->db->StartTransaction();
-        //és a userEntity userRegistry függvényén keresztül beírásra kerül az adatbázisba az új felhasználó.
-        $result = $this->db->userRegistry( 
-            [            
-                ':email'            => trim( $email->getEmail() ),
-                ':userName'         => trim( $user->getUser() ),
-                ':password'         => md5( 'salt'.md5( trim( $pass->getPass() ) ) ),
-                ':dateOfBirth'      => trim( $date->getDate() ),
-                ':sex'              => $sex,
-                ':privilege'        => $privilege,
-                ':passwordLength'   => strlen($pass->getPass()),
-                ':cmpBin'           => $converter->cmpBin
-            ]
-        );
-    
+
+        // Példányositásra kerül a konverter és a DB osztály. Az alapértelmezett képek
+        // Mime típusa image/jpg, amit később megváltoztathatnak.
+        $converter  = new ImageConverter( $image, 'image/jpg' );
+        
+        
+       
+        //és a userEntity userRegistry függvényén keresztül beírásra kerül az adatbázisba az új felhasználó.                ;    
         // Sikertelen registry esetén hiba üzenet és vissza a signUpView-ra
-        if ( !$result )
-        {            
-            //$this->db->Rollback();
+        if ( !$this->user->userRegistry(
+            $email,
+            $user,
+            $pass,
+            $date,
+            $sex,
+            $privilege,
+            $converter) )
+        {                        
 
             $this->datas['errorMessage'] = 'Email is alredy exists!';
             $this->datas['userEmailValue'] = null;
 
+            // Ha valamelyik adat nem helyes, arról a setValues függvény értesítést tesz a $this->datas
+            // változóba, és megkapja a frontend.
             $this->setValues( $user, $email, $pass, $date);
-            $this->Response( $this->datas, [ 'view' => 'signUp', 'module' => 'User'] );       
+            $this->Response( $this->datas, [ 
+                'view'      => 'signUp', 
+                'layout'    => 'Main',
+                'module'    => 'User',               
+                "title"     => 'Create new account',
+                'errorMsg'  => 'Parameters are invalid!' 
+            ]);       
 
             return 3;
         }                       
         
-        header("Location: ".APPROOT.'/');
+        $this->Response([],[
+            'view' => "redirect:".APPROOT."/?sm=New account is succesfully!!"
+        ]);
 
         return 0;
     }

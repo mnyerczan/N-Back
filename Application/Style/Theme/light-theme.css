@@ -35,10 +35,6 @@ body > #center {
 .usr-crt-frm {
     background-color: white;
 }
-.usr-crt-frm input:not([type="submit"]) {		
-	border          : 1px solid rgb(219, 219, 219);	
-	background-color: #ffffd8;	
-}
 .error-span {
 	color: darkred;
 }
@@ -128,11 +124,11 @@ a.login:hover {
 }
 
 /*---- Feedback ----*/
-.errorMsg {	
+.error-line {	
 	background-color: rgba(255, 221, 221, 0.500);	
 	color			: #444;
 }
-.succMsg {
+.successfully-line {
 	background-color: #dbedff;	
 	color			: #444;
 }
@@ -229,12 +225,11 @@ a.login:hover {
     background-color: #fff;    
 }
 
-.personal-setting-contents input:not([type="submit"]),
+input:not([type="submit"]),
 .personal-setting-contents p,
 /* nback settings */
-.nback-setting-contents input:not([type="submit"]),
 .nback-setting-contents select {
     background-color: #fffff6;
     padding         : 0 10px;
-    border          : 1px solid rgb(233, 233, 233);
+    border          : 1px solid rgb(219, 219, 219);	
 }

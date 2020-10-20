@@ -1,6 +1,6 @@
 function init(e)
 {
-    _$('header-list').addEventListener('click', displayMenu, false);
+    $('header-list').addEventListener('click', displayMenu, false);
     document.getElementsByTagName('body')[0].addEventListener('click', hideMenu, false);
 }
 

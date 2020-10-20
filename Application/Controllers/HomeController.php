@@ -19,12 +19,7 @@ class HomeController extends MainController
   
     function index()
     {
-        $this->Response( $this->datas, [
-            'view'      => 'home', 
-            'module'    => 'Home',
-            'layout'    => 'Main'
-        ]
-     );
+        $this->Response( $this->datas, new ViewParameters('home', "text/html", "Main","Home", "Welcome!"));
     }
                  
 }

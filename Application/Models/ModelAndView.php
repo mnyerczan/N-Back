@@ -9,20 +9,20 @@
 final class ModelAndView
 {
     private $model,
-            $viewName;
+            $viewParameters;
 
-    public function __construct(array $viewName, array $model = [])
+    public function __construct(ViewParameters $viewParameters, array $model = [])
     {
-        $this->viewName = $viewName;
-        $this->model = $model;
+        $this->viewParameters   = $viewParameters;
+        $this->model            = $model;
     }
 
     public function __get($name)
     {
         switch ($name)
         {
-            case 'model' :      return $this->model; 
-            case 'viewName' :   return $this->viewName; 
+            case 'model':   return $this->model; 
+            case 'view' :   return $this->viewParameters; 
         }
     }
 }

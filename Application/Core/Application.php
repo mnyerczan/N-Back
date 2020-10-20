@@ -35,12 +35,16 @@ final class Application
         $this->addRoute('/?(?<controller>account)/?','AccountController','get',  'index',true );
         
         // Settings (account)
-        $this->addRoute('/?(?<controller>settings)/?','SettingsAccountController','get','personal', true );                 
+        $this->addRoute('/?(?<controller>settings)/?','SettingsAccountController','get','index', true );                 
         $this->addRoute('/?(?<controller>settings)/(?<action>personalUpdate)/?' , 'SettingsAccountController','POST','personalUpdate', true );
         $this->addRoute('/?(?<controller>settings)/(?<action>passwordUpdate)/?' , 'SettingsAccountController','POST','passwordUpdate', true );
+        $this->addRoute('/?(?<controller>settings)/(?<action>imageUpdate)/?' , 'SettingsAccountController','POST','imageUpdate', true );
+
+        
 
         // Settings (nback)
-        $this->addRoute('/?(?<controller>settings)/(?<action>nback)/?' , 'SettingsNbackController','get', 'index', true );
+        $this->addRoute('/?(?<controller>settings)/(?<action>nback)/?' , 'SettingsNbackController','GET', 'index', true );
+        $this->addRoute('/?(?<controller>settings)/(?<action>nback)/?' , 'SettingsNbackController','POST', 'update', true );
 
         // API 
         $this->addRoute('/?api/(?<controller>authenticate)/?' , 'AuthenticateController','GET','index', false );

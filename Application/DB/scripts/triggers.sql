@@ -24,4 +24,3 @@ AFTER INSERT ON `users`
 FOR EACH ROW 
     INSERT INTO `nbackDatas`(`userID`) VALUES (NEW.`id`);
 
-

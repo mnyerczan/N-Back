@@ -1,4 +1,3 @@
-<script src="<?=BACKSTEP?><?=APPLICATION?>Templates/User/account.js?v=<?= RELOAD_INDICATOR ?>"></script>
 <link rel="stylesheet" href="<?=BACKSTEP?><?=APPLICATION?>Style/settings.css?v=<?= RELOAD_INDICATOR ?>">
 <main class="main-body">   
     <section class="settings-structure"> 
@@ -12,14 +11,18 @@
                     ?>    
                 <br> personal settings</div>
             </div>
-            <div class="settings-navbar-b">
-                <a href="<?=APPROOT.'/'?>settings" class="<?=@$personal?>">Profile</a>            
-            </div>  
-            <div class="settings-navbar-c">
-                <a href="<?=APPROOT.'/'?>settings/nback" class="<?=@$nback?>">N-Back</a>            
-            </div>  
+            <?php if($settingsBar->submenus['personalItem']["available"]): ?>
+                <div class="settings-navbar-b">
+                    <a href="<?=APPROOT.'/'?>settings" class="<?=$settingsBar->submenus["personalItem"]["status"]?>">Profile</a>            
+                </div>  
+            <?php endif ?>
+            <?php if($settingsBar->submenus['nbackItem']["available"]): ?>
+                <div class="settings-navbar-c">
+                    <a href="<?=APPROOT.'/'?>settings/nback" class="<?=$settingsBar->submenus["nbackItem"]["status"]?>">N-Back</a>            
+                </div>  
+            <?php endif ?>
         </div>        
-        <?php include APPLICATION."Templates/Settings/{$item}View.php"; ?>        
+        <?php include APPLICATION."Templates/Settings/{$views->item}View.php"; ?>        
     </section>
 </main>        
 

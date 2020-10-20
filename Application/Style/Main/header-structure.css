@@ -2,7 +2,16 @@
 * HEADER SECTION
 *
 */
-
+.main-header {  	
+	line-height		: var(--main-hdr-height);
+    display			: table;	
+	width			: calc( 100% - var(--nb-min-width));
+	background-color: rgba(255, 255, 255, 0.897);	
+	user-select		: none;	
+	position		: fixed;
+	right			: 0;
+	top				: 0;
+}
 .hdr-coordinate-bx a {
 	color			: black;
 }
@@ -160,12 +169,12 @@ a.login:hover {
 	background-color: rgba(255, 221, 221, 0.500);	
 	color			: #444;
 }
-.succMsg {
+.successfully-line {
 	background-color: #dbedff;	
 	color			: #444;
 }
-.succMsg, 
-.errorMsg {			
+.successfully-line, 
+.error-line {			
 	width			: 100%;
 	position		: absolute;
 	line-height		: 50px;	

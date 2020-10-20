@@ -10,7 +10,10 @@
 */
 namespace Classes;
 
+use DomainException;
 use InvalidArgumentException;
+use ReflectionException;
+use RuntimeException;
 
 class ImageConverter
 {
@@ -54,7 +57,7 @@ class ImageConverter
         switch($this->mime)
         {
             case 'image/jpeg': $compressedImage  = imagecreatefromjpeg($this->tmp_name); break;
-            case 'image/jpg': $compressedImage  = imagecreatefromjpeg($this->tmp_name); break;
+            case 'image/jpg' : $compressedImage  = imagecreatefromjpeg($this->tmp_name); break;
             case 'image/png' : $compressedImage  = imagecreatefrompng ($this->tmp_name); break;
             case 'image/gif' : $compressedImage  = imagecreatefromgif ($this->tmp_name); break;
             case 'image/bmp' : $compressedImage  = imagecreatefrombmp ($this->tmp_name); break;
@@ -62,15 +65,15 @@ class ImageConverter
                
         if ($compressedImage)
         {            
-            // a tömörített kép nén generálása, hogy egyidőben több programpéldány
+            // a tömörített kép kép generálása, hogy egyidőben több programpéldány
             // ne ugyan azt a fájlt akarja feldolgozni.            
             $fileName = md5(rand(0, 1000000)).'.jpeg';
-            
+                       
             # Mappa létezésének leellenőrzése
             if (!is_dir($this->tmp))
                 if (!mkdir($this->tmp, 0777))
-                {
-                    LogLn(1, 'Do not exists /tmp and cant\'t create it!');
+                {                                    
+                    throw new RuntimeException("Permission denied in {$this->tmp} !");
                     return 4;
                 }            
 
@@ -78,7 +81,7 @@ class ImageConverter
             if (!imagejpeg($compressedImage, $this->tmp.$fileName, $this->requiredSize)) 
                 return 1;
 
-            //létrehozott tömörített állomány beolvasása.
+            //létrehozott tömörített állomány beolvasása.            
             $this->cmpBin = file_get_contents($this->tmp.$fileName);
                                 
             //tömörített állomány törlése a fájlrendszerből

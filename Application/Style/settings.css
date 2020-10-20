@@ -98,76 +98,92 @@
     width           : 100%;
     grid-gap        : 10px;
     grid-template: 
-        "title title" 60px
-        "nback-game-mode-value nback-game-mode-control" 40px
-        "nback-level-value nback-level-control" 40px 
-        "nback-seconds-value nback-seconds-control" 40px
-        "nback-trials-value nback-trials-control" 40px
-        "nback-eventlength-value nback-eventlength-control" 40px
-        "nvack-color-value nback-color-control" 40px
-        ". nback-form-submit" 100px
-        / 1fr 1fr;
+        "title title title describtion"                                       60px
+        "nback-game-mode-name nback-game-mode-value . describtion"      40px        
+        "nback-level-name nback-level-value . describtion"              40px         
+        "nback-seconds-name nback-seconds-value . describtion"          40px        
+        "nback-trials-name nback-trials-value . describtion"            40px        
+        "nback-eventlength-name nback-eventlength-value . describtion"  40px        
+        "nback-color-name nback-color-value . describtion"              40px        
+        "nback-form-submit . . describtion"                             300px
+        / 150px 1fr 50px 1fr;
 }
 
 /*
     Content
 ----------------------------------*/
 /*---- Nback ----*/
-.nback-setting-contents div {
+.nback-setting-contents  div:not(.nback-form-submit) {
     display         : flex;  
 }
-.nback-setting-contents div:not(.title) {          
-    align-items     : center;
+.nback-setting-contents input[readonly=""] {
+    color           : #aaa;
+}
+.nback-game-mode-name,
+.nback-level-name,
+.nback-seconds-name,
+.nback-trials-name,
+.nback-eventlength-name,
+.nback-color-name {
+    align-items     : center;   
+    padding         : 0 5px;
 }
 .nback-setting-contents .title {
     grid-area       : title;
     justify-content : center;    
 }
 
+.nback-game-mode-name {
+    grid-area       : nback-game-mode-name;
+}
 .nback-game-mode-value {
     grid-area       : nback-game-mode-value;
 }
-.nback-game-mode-control {
-    grid-area       : nback-game-mode-control;
-}
 
+.nback-level-name {
+    grid-area       : nback-level-name;
+}
 .nback-level-value {
     grid-area       : nback-level-value;
 }
-.nback-level-control {
-    grid-area       : nback-level-control;
-}
 
+.nback-seconds-name {
+    grid-area       : nback-seconds-name;
+}
 .nback-seconds-value {
     grid-area       : nback-seconds-value;
 }
-.nback-seconds-control {
-    grid-area       : nback-seconds-control;
-}
 
+.nback-trials-name {
+    grid-area       : nback-trials-name;
+}
 .nback-trials-value {
     grid-area       : nback-trials-value;
 }
-.nback-trials-contol {
-    grid-area       : nback-trials-contol;
-}
 
+.nback-eventlength-name {
+    grid-area       : nback-eventlength-name;
+}
 .nback-eventlength-value {
     grid-area       : nback-eventlength-value;
 }
-.nback-eventlength-contol {
-    grid-area       : nback-eventlength-contol;
-}
 
-.nvack-color-value {
-    grid-area       : nvack-color-value;
+.nback-color-name {
+    grid-area       : nback-color-name;
 }
-.nvack-color-contol {
-    grid-area       : nvack-color-contol;
+.nback-color-value {
+    grid-area       : nback-color-value;
 }
 
 .nback-form-submit {
     grid-area       : nback-form-submit
+}
+
+.nback-settings-describtion {
+    grid-area       : describtion;
+    background-color: #f6f6f6;
+    padding         : 0 10px;
+    white-space     : pre-line;
 }
 
 

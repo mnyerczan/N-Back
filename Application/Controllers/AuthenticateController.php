@@ -19,13 +19,8 @@ class AuthenticateController extends MainController
 
 
         $this->Response( 
-            [
-                'authenticateCodeHash' => $authenticateCodeHash       
-            ], 
-            [ 
-                'view' => '',
-                'mime' => ' application/json'
-            ] 
+            ['authenticateCodeHash' => $authenticateCodeHash ], 
+            new ViewParameters('', 'application/json')
         );
     }
 }

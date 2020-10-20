@@ -8,25 +8,26 @@
     <link rel="stylesheet" type="text/css" href="<?= BACKSTEP ?><?=APPLICATION?>Style/Main/main-structure.css?v=<?= RELOAD_INDICATOR ?>" />  
     <link rel="stylesheet" type="text/css" href="<?= BACKSTEP ?><?=APPLICATION?>Style/Theme/light-theme.css?v=<?= RELOAD_INDICATOR ?>" /> 
     <link rel="stylesheet" type="text/css" href="<?= BACKSTEP ?><?=APPLICATION?>Style/Theme/dark-theme.css?v=<?= RELOAD_INDICATOR ?>" disabled/> 
-    <script src="<?= BACKSTEP ?><?=APPLICATION?>Scripts/helperFunctions.js"></script>
-    <title>Nback - <?=@$title?></title>
+    <script src="<?= BACKSTEP ?>Public/js/helperFunctions.js"></script>
+    <title>Nback - <?=$views->title?></title>
 </head>
 <body>
+
     <!-- Header -->
     <header id="header">
-        <?php if ( @$header )    require_once APPLICATION."Templates/headerView.php";  ?>
+        <?php if ( $header )    require_once APPLICATION."Templates/headerView.php";  ?>
     </header>    
     <!-- Navbar -->
     <aside id="navbar">        
-        <?php if ( @$navbar )   require_once APPLICATION.'Templates/navbarView.php'; ?>
+        <?php if ( $navbar )   require_once APPLICATION.'Templates/navbarView.php'; ?>
     </aside>    
     <!-- Inspector -->
     <div id="inspector">
-        <?php if ( @$indicator )//require_once APPLICATION.'Templates/infoLabelView.php';?>
+        <?php if ( $indicator )//require_once APPLICATION.'Templates/infoLabelView.php';?>
     </div>    
     <!--Center-->  
     <div id="center">	      
-        <?php require_once APPLICATION."Templates/{$module}/{$view}View.php";?>         
+        <?php require_once APPLICATION."Templates/{$views->module}/{$views->view}View.php";?>         
     </div>                   
 </body>
 </html>

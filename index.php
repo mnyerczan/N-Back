@@ -92,6 +92,8 @@
     require_once APPLICATION.'Models/header.php';    
     require_once APPLICATION.'Models/menus.php';
     require_once APPLICATION.'Models/ModelAndView.php';
+    require_once APPLICATION.'Models/ViewParameters.php';
+    require_once APPLICATION.'Models/SettingsBar.php';
     require_once APPLICATION.'Classes/ImageConverter.php';
     require_once APPLICATION.'Classes/validator.php';
     require_once APPLICATION.'Classes/validateEmail.php';

@@ -15,15 +15,16 @@ class ValidateSex extends Validator
         return $this->value;
     }
 
+    /**
+     * Ha nincs a kapott érték a ['male', 'female'] tömbben, akkor nem valid.
+     * 
+     */
     public function validate() 
     {
-        if (!$this->value) return;
-
        
         if (!in_array($this->value, ['male','female']) ) 
         {
-            $this->setError('Sour sex must be felame or male!');
-            return;
+            $this->setError('Sour sex must be felame or male!');            
         }     
     }
 }

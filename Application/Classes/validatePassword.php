@@ -18,7 +18,6 @@ class ValidatePassword extends Validator
 
     public function validate() 
     {
-        if (!$this->value) return;
 
         if (strlen($this->value) < 6 ) 
         {

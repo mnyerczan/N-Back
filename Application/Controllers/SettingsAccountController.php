@@ -1,5 +1,7 @@
 <?php
 
+use App\Model\SettingsBar;
+use Classes\ImageConverter;
 use DB\DB;
 use Model\Sessions;
 
@@ -13,27 +15,32 @@ class SettingsAccountController extends BaseController
 
         $this->db  = DB::GetInstance();        
         $this->getEntitys();  
+
+        // Átadásra kerül a frontend felé, hogy melyik almenű aktív.
+        $this->datas['settingsBar'] = new SettingsBar('personalItem', $this->user->id);
                
     }
 
     /**
      * Appear the personal settings form.
      */
-    public function personal()
+    public function index()
     {
-        $this->setPersonalValues();
-       
+        $this->setPersonalValues(); 
+
+
+
 
         $this->Response( 
-            $this->datas, [
-            'personal'  => 'active',
-            'item'      => 'personal',
-            'view'      => 'settings',
-            'layout'    => 'Main', 
-            'mime'      => 'text/html',
-            'module'    => 'Settings',
-            "title"     => 'Personal settings',            
-            ]  
+            $this->datas, new ViewParameters(
+                'settings',
+                'text/html',
+                'Main', 
+                'Settings',
+                'Personal settings',
+                "",
+                'personal'              
+            )
         );
     }
 
@@ -52,17 +59,14 @@ class SettingsAccountController extends BaseController
             $this->setPersonalValues($user, $email, $sex);
 
             $this->Response(
-                $this->datas, 
-                [
-                    'succMsg'   =>  'Your personal data are updated!',
-                    'personal'  => 'active',
-                    'item'      => 'personal',
-                    'view'      => 'settings', 
-                    'module'    => 'Settings',
-                    'mime'      => 'text/html',
-                    'layout'    => 'Main',
-                    "title"     => 'N-back settings',            
-                ]  
+                $this->datas, new ViewParameters(
+                    'settings',
+                    'text/html',
+                    'Main',
+                    'Settings',
+                    'N-back settings',
+                    "",
+                    "personal",)          
             );
 		}
 
@@ -76,21 +80,18 @@ class SettingsAccountController extends BaseController
         ];
 
 
-        $result = $this->db->Execute('CALL `UpdateUserPersonalDatas`(
-            :userId,
-            :userName,
-            :email,
-            :about,            
-            :sex,
-            :privilege
-        )', $sqlParams);
 
-
-
-        if ($result)
+        if ($this->db->Execute('CALL `UpdateUserPersonalDatas`(
+                :userId,
+                :userName,
+                :email,
+                :about,            
+                :sex,
+                :privilege
+            )', $sqlParams))
         {
 
-            $this->Response([],['view' => "redirect:".APPROOT."settings?sm=Profile updated successfully!"]);
+            $this->Response([], new ViewParameters("redirect:".APPROOT."/settings?sm=Profile updated successfully!"));
         }	
 
         else
@@ -99,17 +100,16 @@ class SettingsAccountController extends BaseController
             $this->setPersonalValues($user, $email, $sex);
 
             $this->Response(
-                $this->datas, 
-                [
-                '$errorMsg' => 'Cant\'t update your personal datas, but maybe the email addres already used.',  
-                'personal'  => 'active',
-                'item'      => 'personal',
-                'view'      => 'settings',
-                'mime'      => 'text/html',
-                'layout'    => 'Main', 
-                'module'    => 'Settings',
-                "title"     => 'N-back settings',            
-                ]  
+                $this->datas, new ViewParameters(
+                    'settings',
+                    'text/html',
+                    'Main',
+                    'Settings',
+                    'N-back settings', 
+                    'Cant\'t update your personal datas, but maybe the email addres already used.',
+                    'personal',
+                    'active'
+                )                                                                
             );
         }       
     }
@@ -171,6 +171,8 @@ class SettingsAccountController extends BaseController
      * alapján dönti el, hogy milyen adatokat küld tovább és melyik
      * nézetnek.
      * 
+     * 
+     * 
      */
     public function passwordUpdate()
     {
@@ -182,30 +184,60 @@ class SettingsAccountController extends BaseController
         // Ha hiba nélkül visszatér a validátor, menjen az átirányítás.  
         if($errorMsg === '')
         {
-            $this->Response([],[
-                'view' => "redirect:".APPROOT.'/'."settings?sm=Password modification is succesfull!"
-            ]);
+            $this->Response([], new ViewParameters("redirect:".APPROOT.'/'."settings?sm=Password modification is succesfull!")                );
         }
         else
         {
+
             // Különben állítsa be a szükséges adatokat...
             $this->setPersonalValues(null, null, null, $pass, $oldPass);       
                 
 
             // ... és hívja meg magát újra.
             $this->Response(
-            $this->datas, 
-                [
-                    'view'      => 'settings',
-                    'errorMsg'  => $errorMsg,
-                    'personal'  => 'active',
-                    'item'      => 'personal',                
-                    'layout'    => 'Main', 
-                    'module'    => 'Settings',
-                    "title"     => 'Personal settings',            
-                ]  
-            );    
+                $this->datas, new ViewParameters(
+                    'settings',
+                    "",                    
+                    "Main", 
+                    'Settings',
+                    'Personal settings',
+                    $errorMsg,
+                    'personal', 
+                    'active',)
+                );    
         }        
+    }
+
+
+
+
+    /**
+     * Képfeltöltést kezelő action függvény. XxlMttpResponse objektummal van mehívva.
+     * Json objektumot küld vissza a frontendre.
+     * 
+     * 
+     */
+    function imageUpdate()
+    {        
+        
+        $img = (object)$_FILES['image'];
+
+        $converter = new ImageConverter($img->tmp_name,$img->type );
+
+
+        $sql = 'UPDATE `images` SET `imgBin` = :imgBin, `update` = CURRENT_TIMESTAMP WHERE `userID` LIKE :userId';
+
+        $resutl = $this->db->Execute($sql, [
+            ':imgBin' => $converter->imgBin,
+            ':userid' => $this->user->id
+        ]);
+
+        $params = [
+            'mime' => 'application/json'
+        ];
+
+        // return $this->Response([], $params);
+        
     }
 
     

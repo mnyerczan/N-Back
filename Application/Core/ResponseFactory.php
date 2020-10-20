@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Ez az osztály beállítja a válasz fejlécet (status line)
+ * Ez az osztály beállítja a válasz fejlécet (status line) és
+ * dönti el a válasz típusát.
  * 
  * 
  */
@@ -17,35 +18,35 @@ final class ResponseFactory
     }
 
 
-    public function createResponse($controllerResult)
-    {         
-       
-        if (!is_array($controllerResult)) return false;
+    public function createResponse(array $models, ViewParameters $viewParameters)
+    {                
         
         // Ha átirányítást kért a hívó.
-        if (preg_match("`^redirect:`", $controllerResult[0]['view']))
+        if (preg_match("`^redirect:`", $viewParameters->view))
         {
           
             return new Response(
                 '', 
-                ["location" => HTTP_PROTOCOL.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].substr($controllerResult[0]['view'], 9)], 
+                ["location" => HTTP_PROTOCOL.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].substr($viewParameters->view, 9)], 
                 302, 
                 'Found'
             );
         }
-        else{
-            $modelAndView = new ModelAndView($controllerResult[0], $controllerResult[1]);
-
-            if ($controllerResult[0]['mime'] === ' application/json')
+        else
+        {
+            $modelAndView = new ModelAndView($viewParameters, $models);
+     
+            if (strpos($viewParameters->view, 'json'))
             {
                 return new Response(
                     $this->viewRenderer->render($modelAndView), 
-                    ['content-type' => ' application/json'],
+                    ['content-type' => 'application/json'],
                     200, 
                     'Ok'
                 );
             }
-            elseif (preg_match("`^_404$`", $controllerResult[0]['view']))
+
+            elseif (preg_match("`^_404$`", $viewParameters->view))
             {               
                 return new Response(
                     $this->viewRenderer->render($modelAndView), 
@@ -54,6 +55,7 @@ final class ResponseFactory
                     'Page Not Found'
                 );
             }
+
             else
             {                        
                 return new Response($this->viewRenderer->render($modelAndView), [], 200, "Ok");

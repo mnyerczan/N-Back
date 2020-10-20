@@ -2,29 +2,29 @@
 -- USER SECTION
 -- ##########################################################
 
--------------------------------------------------------------
+-- -----------------------------------------------------------
 -- Procedure for create user
--------------------------------------------------------------
+-- -----------------------------------------------------------
 CREATE PROCEDURE `CreateNewUserprocedure`(
-    IN userName varchar(255),  
-    IN email varchar(255),     
-    IN password varchar(33),   
-    IN birth date,             
-    IN sex varchar(6),         
-    IN privilege INT,          
-    IN passwordLength tinyint, 
+    IN `userName` varchar(255),  
+    IN `email` varchar(255),     
+    IN `inNewPassword` varchar(33),   
+    IN `birth` date,             
+    IN `sex` varchar(6),         
+    IN `privilege` INT,          
+    IN `passwordLength` tinyint, 
     -- image                   
-    IN imgBin blob             
+    IN `imgBin` blob             
 )
 BEGIN
 
-    DECLARE errno INT; 
-    DECLARE userid INT;
+    DECLARE `errno` INT; 
+    DECLARE `userid` INT;
 
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
             GET CURRENT DIAGNOSTICS CONDITION 1 errno = MYSQL_ERRNO;
-            SELECT errno AS MYSQL_ERROR;
+            SELECT `errno` AS `MYSQL_ERROR`;
             ROLLBACK;
         END;
 
@@ -38,18 +38,18 @@ BEGIN
     START TRANSACTION;
 
         INSERT INTO `users` ( `userName`, `email`, `password`, `birth`,`sex` , `privilege`, `passwordLength` ) VALUES
-            ( userName, email, password, birth, sex, privilege, passwordLength);
+            ( `userName`, `email`, md5(CONCAT("salt",md5(`inNewPassword`))), `birth`, `sex`, `privilege`, `passwordLength`);
 
-        SELECT MAX(`id`) INTO userid FROM `users`;
+        SELECT MAX(`id`) INTO `userid` FROM `users`;
 
-        INSERT INTO `images` (`userID`,`imgBin`) VALUES (userid, imgBin);
+        INSERT INTO `images` (`userID`,`imgBin`) VALUES (`userid`, `imgBin`);
 
     COMMIT; 
 END;
 
--------------------------------------------------------------
+-- -----------------------------------------------------------
 -- Procedure for get user
--------------------------------------------------------------
+-- -----------------------------------------------------------
 CREATE PROCEDURE `GetUser`(
     IN `inUId` INT,
     IN `inEmail` VARCHAR(255),
@@ -58,7 +58,7 @@ CREATE PROCEDURE `GetUser`(
 BEGIN
     IF `inUId` IS NOT NULL THEN
         SELECT 
-            `u`.*, `i`.*,`n`.*, RELOAD_INDICATOR 
+            `u`.*, `i`.*,`n`.*, CURRENT_TIMESTAMP 
         FROM 
             `users` AS `u` JOIN `images` AS `i` JOiN `nbackDatas` AS n
         WHERE 
@@ -67,7 +67,7 @@ BEGIN
             `u`.`id` = `inUId`;
     ELSE
         SELECT 
-            `u`.*, `i`.*, `n`.*, RELOAD_INDICATOR 
+            `u`.*, `i`.*, `n`.*, CURRENT_TIMESTAMP 
         FROM 
             `users` AS `u` JOIN `images` AS `i` JOiN `nbackDatas` AS n
         WHERE 
@@ -141,6 +141,41 @@ BEGIN
     END IF; 
     
 END;
+
+-------------------------------------------------------------
+-- Procedure for update game options
+-------------------------------------------------------------
+CREATE PROCEDURE `updateNBackOptions` (
+    IN `inUserId`       INT,
+    IN `newGameMode`    VARCHAR(8),
+    IN `newLevel`       INT,
+    IN `newSeconds`     FLOAT(3, 2),
+    IN `newTrials`      INT,
+    IN `newEventLength` FLOAT(4,3),
+    IN `newColor`       VARCHAR(7)
+)
+BEGIN    
+    -- A játék szintje(level) * 5 + 20 értéknél nem lehet kisebb 
+    -- az összes esemény száma (trials)!
+    -- Egy esemény hossza (eventhLength) nem lehet nagyobb két
+    -- esemény közt eltelt időnél (seconds) - átlapolás
+    IF  (20 + `newLevel` * 5) <= `newTrials` AND
+        `newSeconds` >= `newEventLength` AND
+        `newColor` IN ('blue','cyan','green','grey','magenta','red','yellow') THEN
+        UPDATE `nbackDatas` SET 
+            `gameMode`      = `newGameMode`,
+            `level`         = `newLevel`,
+            `seconds`       = `newSeconds`,
+            `trials`        = `newTrials`,
+            `eventLength`   = `newEventLength`,
+            `color`         = `newColor`
+        WHERE `userID` LIKE `inUserId`;
+        SELECT true AS `result`;
+    ELSE
+        SELECT false AS `result`;
+    END IF;
+END;
+
 
 -------------------------------------------------------------
 -- Procedure for get users count

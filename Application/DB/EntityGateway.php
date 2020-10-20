@@ -154,25 +154,5 @@ class EntityGateway
         );
 
     }
-
-
-
-
-    public function userRegistry( array $params )
-    {                                                      
-
-        $sql = 'CALL CreateNewUserprocedure(
-            :userName,
-            :email, 
-            :password, 
-            :dateOfBirth,
-            :sex,
-            :privilege, 
-            :passwordLength,
-            :cmpBin)';
-
-        return $this->object->Execute($sql, $params);
-    }
-
     
 }

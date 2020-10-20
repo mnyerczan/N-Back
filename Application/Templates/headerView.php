@@ -11,7 +11,7 @@
             <span class="circle" ></span>            
         </label>        
     </div>
-    <?php if(@$seria): ?>
+    <?php if($seria): ?>
         <div id='seria_text' title= "<?= $seria ?> day series">
             <img src="<?= $header->seriaIconPath ?>" id="seria_flame_img">
             <pre id="serias_left_time"></pre>
@@ -19,10 +19,10 @@
     <?php endif; ?>
 </nav>    
 
-<?php if (isset($errorMsg)): ?>
-    <div class="errorMsg"><?=$errorMsg?></div>
+<?php if ($views->errorMsg): ?>
+    <div class="error-line"><?=$views->errorMsg?></div>
 <?php elseif (isset($_GET['sm'])): ?>
-    <div class="succMsg"><?=$_GET['sm']?></div>
+    <div class="successfully-line"><?=$_GET['sm']?></div>
 <?php endif ?> 
 
 <div class="hdr-coordinate-bx">
@@ -44,7 +44,7 @@
             <a href="<?=APPROOT.'/'?>settings" title="Go to settings">
                 Settings
             </a>
-            <?php if($header->privilege == 3 && $view !== 'signUp' ):?>						
+            <?php if($header->privilege == 3 && $views->view !== 'signUp' ):?>						
                 <a href="<?=APPROOT.'/'?>signUp/form">
                     New account
                 </a>				
@@ -58,10 +58,10 @@
 
     <?php endif ?>
     <ul>
-        <?php if( !$header->loginDatetime && $view !== 'signIn' ): ?>		
+        <?php if( !$header->loginDatetime && $views->view !== 'signIn' ): ?>		
             <li><a href='<?=APPROOT.'/'?>signIn'  class="login">Sign in</a></li>			
         <?php endif ?>	
-        <?php if( !$header->loginDatetime && $view !== 'signUp' ): ?> 				
+        <?php if( !$header->loginDatetime && $views->view !== 'signUp' ): ?> 				
             <li><a href='<?=APPROOT.'/'?>signUp/form' class="login">Sign Up</a></li>
         <?php endif ?>	
     </ul>	

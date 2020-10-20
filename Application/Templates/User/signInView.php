@@ -1,4 +1,4 @@
-<script src="<?= BACKSTEP ?><?=APPLICATION?>Templates/User/signIn.js?v=<?= RELOAD_INDICATOR ?>"></script>
+<script src="<?= BACKSTEP ?>Public/js/signIn.js?v=<?= RELOAD_INDICATOR ?>"></script>
 <div class="sign-up-cntr">
     <div>
         <img src="<?=$signInIllustrate?>" alt="">

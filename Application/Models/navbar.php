@@ -27,7 +27,7 @@ class Navbar
         $this->datas['childMenus']  = $this->menus->childMenus; 
         $this->datas['sessions']    = $this->sessions->sessions;
         $this->datas['times']       = $this->sessions->times;
-        $this->datas['logoImg']     = 'img/brain_logo.png';
+        $this->datas['logoImg']     = 'Images/brain_logo.png';
         
         
         

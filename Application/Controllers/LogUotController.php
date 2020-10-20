@@ -8,6 +8,6 @@ class LogUotController extends MainController
     {        
         session_destroy();
 
-        $this->Response([], ['view' => 'redirect:'.APPROOT.'/']);
+        $this->Response([], new ViewParameters( 'redirect:'.APPROOT.'/'));
     }
 }

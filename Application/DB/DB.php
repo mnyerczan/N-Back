@@ -69,6 +69,13 @@ class DB
 
     /**
      * SELECT query
+     * 
+     * Mindig tömbbel tér vissza, hogy loopolható maradjon.
+     * 
+     * @param string $cript SQL script
+     * @param array $params Pramas to bind metodhs
+     * 
+     * @return array Entity set
      */
     public function Select( string $script, array $params = [] ): array
     {               
@@ -166,7 +173,7 @@ class DB
             if ($statement->rowCount())
             {                
                 $error = $this->Select('SHOW errors');                      
-                //throw new PDOException('Errno: '.$error['message'].', '.$error['errno']);
+                throw new PDOException('Errno: '.$error['message'].', '.$error['errno']);
             }
             $statement = null;
 
@@ -174,10 +181,14 @@ class DB
         }
         catch( PDOException $e )
         {
-            print_r($e); die;
-            error_log( date('Y-m-d H:i:s').' - Code: '.self::$connect->errorCode()[1].', Msg:  '.self::$connect->errorInfo()[2].', '.$e->getMessage()." with: '{$script}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
-            
             $statement = null;
+
+            error_log( 
+                date('Y-m-d H:i:s').
+                '- Code: '.self::$connect->errorCode()[1].
+                '- Msg:  '.self::$connect->errorInfo()[2].', '.$e->getMessage().
+                " with: '{$script}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
+                    
             return false;
         }
     }

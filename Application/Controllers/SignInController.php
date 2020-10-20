@@ -34,12 +34,7 @@ class SignInController extends MainController
         $this->datas['passwordLabel']   = 'Password';
         $this->datas['message']         = 'Sign In';
 
-        $this->Response( $this->datas, [ 
-            'view'      => 'signIn', 
-            'layout'    => 'Main' ,
-            'module'    => 'User'
-            ]
-         );
+        $this->Response( $this->datas, new ViewParameters('signIn', 'text/html',"", "User"));
     }
 
 
@@ -54,15 +49,11 @@ class SignInController extends MainController
             $this->datas['passwordLabel']   = $pass->errorMsg ?? 'Password';
             $this->datas['message']         = 'Email or password is invalid!';
                     
-            $this->Response( $this->datas, [ 
-                'view'      => 'signIn', 
-                'module'    => 'User',
-                'layout'    => 'Main'
-            ] );
+            $this->Response( $this->datas, new ViewParameters("SignIn", "", "", "User"));
 
             return;
         }                        
-        $this->Response([], ['view' => 'redirect:'.APPROOT.'/']);
+        $this->Response([], new ViewParameters( "redirect:".APPROOT.'/'));
     }
     
 }

@@ -1,11 +1,3 @@
-function showImage()
-{
-    if( this.value )    
-    {        
-        _$('show-file-path').innerHTML = this.value;
-    }
-}
-
 function Validattor(e)
 {            
 
@@ -19,7 +11,7 @@ function Validattor(e)
 
 function CheckDate()
 {
-    var date = _$('cu-date');   
+    var date = $('cu-date');   
 
     console.log(date.value);
     if ( date.value == '' ) 
@@ -37,7 +29,7 @@ function CheckDate()
 
 function CheckMail()
 {    
-    var mail = _$('cu-mail');
+    var mail = $('cu-mail');
 
     if ( !/\w+@\w+\.\w+/i.test( mail.value ) )
     {
@@ -54,7 +46,7 @@ function CheckMail()
 
 function CheckPass()
 {
-    var pass = _$('cu-pass');
+    var pass = $('cu-pass');
 
     if ( pass.value.length == '' ) 
     {
@@ -78,7 +70,7 @@ function CheckPass()
 
 function CheckName()
 {      
-    var name = _$('cu-name');
+    var name = $('cu-name');
 
     /**it's simple working */    
     if ( name.value == 'Admin' ) return true;
@@ -102,12 +94,11 @@ function CheckName()
 
 function init()
 {
-    //_$('cu-file').addEventListener( 'change', showImage );
-    _$('create-user-form').addEventListener( 'submit', Validattor );
-    _$('cu-name').addEventListener( 'keyup', CheckName );
-    _$('cu-mail').addEventListener( 'keyup', CheckMail );
-    _$('cu-pass').addEventListener( 'keyup', CheckPass );    
-    _$('cu-date').addEventListener( 'change', CheckDate);   
+    $('create-user-form').addEventListener( 'submit', Validattor );
+    $('cu-name').addEventListener( 'keyup', CheckName );
+    $('cu-mail').addEventListener( 'keyup', CheckMail );
+    $('cu-pass').addEventListener( 'keyup', CheckPass );    
+    $('cu-date').addEventListener( 'change', CheckDate);   
 }
 
 window.addEventListener('load', init);

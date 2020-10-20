@@ -18,14 +18,7 @@ class AccountController extends MainController
 
     public function index()
     {              
-        $this->Response( 
-            $this->datas, [
-            'view'      => 'account', 
-            'module'    => 'User',            
-            'layout'    => 'Main',
-            "title"     => 'User',            
-            ]  
-        );
+        $this->Response( $this->datas, new ViewParameters('account', 'text/html', 'Main', 'User') );
     }    
 
 }

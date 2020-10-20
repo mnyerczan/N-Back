@@ -27,7 +27,6 @@ class ValidateEmail extends Validator
 
     public function validate() 
     {       
-        if (!$this->value) return; 
 
         if ( !preg_match( "%^[a-zA-Z]{0,}[a-zA-z0-9.]{0,}@[a-zA-z0-9.]{0,}[a-zA-Z]{0,}\.\D{2,}$%", $this->value ) )
         {

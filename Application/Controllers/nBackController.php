@@ -12,12 +12,12 @@ class nBackController extends GameController
     public function index()
     {          
         $this->Response( 
-            $this->datas, [
-            'view'      => 'nback', 
-            'layout'    => 'Nback',
-            'module'    => 'Nback',
-            "title"     => 'Nback',            
-            ]  
+            $this->datas, new ViewParameters(
+                'nback',
+                'text/html',
+                "Nback",
+                "Nback",
+                "Nback") 
         );
     }
 

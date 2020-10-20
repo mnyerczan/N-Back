@@ -38,9 +38,9 @@ class Header
         // Ha nincs beloginolva felhasználó, az imgBin null értéket ad.
         $datas['imgBin']            = ImageConverter::BTB64($this->user->imgBin);
 
-        //$datas['userIconPath']      = BACKSTEP.APPLICATION.'img/'.$this->user->fileName;
-        $datas['logoutIconPath']    = BACKSTEP.APPLICATION."img/logout.png";
-        $datas['seriaIconPath']     = BACKSTEP.APPLICATION."img/fat_flame_red.png";
+        //$datas['userIconPath']      = BACKSTEP.APPLICATION.'Images/'.$this->user->fileName;
+        $datas['logoutIconPath']    = BACKSTEP.APPLICATION."Images/logout.png";
+        $datas['seriaIconPath']     = BACKSTEP.APPLICATION."Images/fat_flame_red.png";
         $datas['javaScript']        = BACKSTEP."Public/js/header.js";
         
 

@@ -4,6 +4,7 @@ namespace App\Model;
 
 use Exception;
 use RuntimeException;
+use UnexpectedValueException;
 
 class SettingsBar
 {
@@ -53,8 +54,16 @@ class SettingsBar
 
 
     public function __get($name)
-    {
-        return $this->$name;
+    {      
+        switch($name)
+        {
+            case "personalItem" : return (object)$this->submenus["personalItem"]; break;
+            case "nbackItem"    : return (object)$this->submenus["nbackItem"]   ; break;
+            case "submenus"     : return $this->submenus                        ; break;
+            
+            default: 
+                throw new UnexpectedValueException("The needed variable doesen't exists! \"".$name."\"");
+        }
     }
 }
 

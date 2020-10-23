@@ -35,14 +35,15 @@ final class ResponseFactory
         else
         {
             $modelAndView = new ModelAndView($viewParameters, $models);
-     
-            if (strpos($viewParameters->view, 'json'))
-            {
+
+            if (strpos($viewParameters->mime, "json"))
+            {     
+
                 return new Response(
                     $this->viewRenderer->render($modelAndView), 
-                    ['content-type' => 'application/json'],
+                    ["content-type" => "application/json"],
                     200, 
-                    'Ok'
+                    "Ok"
                 );
             }
 

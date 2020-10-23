@@ -11,14 +11,14 @@
                     ?>    
                 <br> personal settings</div>
             </div>
-            <?php if($settingsBar->submenus['personalItem']["available"]): ?>
+            <?php if($settingsBar->personalItem->available): ?>
                 <div class="settings-navbar-b">
-                    <a href="<?=APPROOT.'/'?>settings" class="<?=$settingsBar->submenus["personalItem"]["status"]?>">Profile</a>            
+                    <a href="<?=APPROOT.'/'?>settings" class="<?=$settingsBar->personalItem->status?>">Profile</a>            
                 </div>  
             <?php endif ?>
-            <?php if($settingsBar->submenus['nbackItem']["available"]): ?>
+            <?php if($settingsBar->nbackItem->available): ?>
                 <div class="settings-navbar-c">
-                    <a href="<?=APPROOT.'/'?>settings/nback" class="<?=$settingsBar->submenus["nbackItem"]["status"]?>">N-Back</a>            
+                    <a href="<?=APPROOT.'/'?>settings/nback" class="<?=$settingsBar->nbackItem->status?>">N-Back</a>            
                 </div>  
             <?php endif ?>
         </div>        

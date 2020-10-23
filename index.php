@@ -1,8 +1,11 @@
 <?php   
 
-    /* 
-        PHP-7.4, OR NEWER VERSION!!
-    */
+    // 
+    //    PHP-7.4, OR NEWER VERSION!!
+    //
+
+
+//     phpinfo(); die;
 
 
     declare(strict_types=1);

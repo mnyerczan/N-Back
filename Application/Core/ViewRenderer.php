@@ -32,7 +32,7 @@ final class ViewRenderer
         ob_start();
 
         // Ha nincs View név megadva, Json-ban renderel az oldal.
-        if ($modelAndView->view != '')
+        if (!strpos($modelAndView->view->mime, "json"))
         {
 
             require_once APPLICATION."Templates/{$views->layout}/_layout.php";
@@ -40,6 +40,7 @@ final class ViewRenderer
             
         else
         {
+            
             echo (new JsonRenderer())->Emit($modelAndView->model);
         }            
 

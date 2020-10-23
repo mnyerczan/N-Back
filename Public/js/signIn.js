@@ -53,9 +53,9 @@ function CheckPass()
 
 function init()
 {    
-    _$('signIn-form').addEventListener( 'submit', Validattor );    
-    _$('signIn-email').addEventListener( 'keyup', CheckMail );
-    _$('signIn-pass').addEventListener( 'keyup', CheckPass );     
+    $('signIn-form').addEventListener( 'submit', Validattor );    
+    $('signIn-email').addEventListener( 'keyup', CheckMail );
+    $('signIn-pass').addEventListener( 'keyup', CheckPass );     
 }
 
 

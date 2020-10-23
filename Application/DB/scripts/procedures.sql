@@ -60,7 +60,7 @@ BEGIN
         SELECT 
             `u`.*, `i`.*,`n`.*, CURRENT_TIMESTAMP 
         FROM 
-            `users` AS `u` JOIN `images` AS `i` JOiN `nbackDatas` AS n
+            `users` AS `u` JOIN `images` AS `i` JOiN `nbackDatas` AS `n`
         WHERE 
             `u`.`id` = `i`.`userID`         AND
             `u`.`id` = `n`.`userID`         AND
@@ -69,7 +69,7 @@ BEGIN
         SELECT 
             `u`.*, `i`.*, `n`.*, CURRENT_TIMESTAMP 
         FROM 
-            `users` AS `u` JOIN `images` AS `i` JOiN `nbackDatas` AS n
+            `users` AS `u` JOIN `images` AS `i` JOiN `nbackDatas` AS `n`
         WHERE 
             `u`.`id` = `i`.`userID`         AND
             `u`.`id` = `n`.`userID`         AND

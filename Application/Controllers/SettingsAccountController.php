@@ -29,10 +29,9 @@ class SettingsAccountController extends BaseController
         $this->setPersonalValues(); 
 
 
-
-
         $this->Response( 
-            $this->datas, new ViewParameters(
+            $this->datas, 
+            new ViewParameters(
                 'settings',
                 'text/html',
                 'Main', 
@@ -215,29 +214,35 @@ class SettingsAccountController extends BaseController
      * Képfeltöltést kezelő action függvény. XxlMttpResponse objektummal van mehívva.
      * Json objektumot küld vissza a frontendre.
      * 
-     * 
+     * 2020.10.20.
      */
     function imageUpdate()
     {        
-        
+
+        // Lekérjük a képet a cgi változóból.
         $img = (object)$_FILES['image'];
 
+        //print_r($img); die;
+
+        // Példányosítjuk az ImageConverter osztályt, ami elvégzi a szükséges tranzformálást.
         $converter = new ImageConverter($img->tmp_name,$img->type );
 
 
-        $sql = 'UPDATE `images` SET `imgBin` = :imgBin, `update` = CURRENT_TIMESTAMP WHERE `userID` LIKE :userId';
+        // A módosító SQL script
+        $sql = "UPDATE `images` SET `imgBin` = :cmpBin, `update` = CURRENT_TIMESTAMP WHERE `userID` = :userId";
 
-        $resutl = $this->db->Execute($sql, [
-            ':imgBin' => $converter->imgBin,
-            ':userid' => $this->user->id
+
+        // Az ősosztályból kapott db objektummal végrehajtjuk a módosítást.
+        $result = $this->db->Execute($sql, [
+            ':cmpBin' => $converter->cmpBin,
+            ':userId' => $this->user->id
         ]);
 
-        $params = [
-            'mime' => 'application/json'
-        ];
 
-        // return $this->Response([], $params);
-        
+        // Az adatbázis művelet lementett eredményét visszaküldjük
+        // a frontendnek.
+        //$this->Response(["uploadResult" => $result], new ViewParameters("", "application/json"));        
+
     }
 
     
@@ -245,11 +250,11 @@ class SettingsAccountController extends BaseController
      * A formban megjelenítendő adatok előállítását végző függvény
      */
     private function setPersonalValues ( 
-        ValidateUser        $user = null, 
-        ValidateEmail       $email = null, 
-                            $sex = null, 
-        ValidatePassword    $pass = null, 
-        ValidatePassword    $oldPass = null )
+        ValidateUser        $user       = null, 
+        ValidateEmail       $email      = null, 
+                            $sex        = null, 
+        ValidatePassword    $pass       = null, 
+        ValidatePassword    $oldPass    = null )
     {     
 
         $crName = $user     ? $user->getUser()      : null;

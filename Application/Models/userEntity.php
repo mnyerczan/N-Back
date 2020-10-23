@@ -3,6 +3,7 @@ namespace Login;
 
 use Classes\ImageConverter;
 use DB\DB;
+use InvalidArgumentException;
 use ValidateDate;
 use ValidateEmail;
 use ValidatePassword;
@@ -254,35 +255,37 @@ class UserEntity
     {		
         switch($name)
         {
-			case 'loged': 			return $this->loged; 					break;
+			case 'loged': 			return $this->loged; 			break;
 
 			case 'id': 				return $this->id; 				break;			
 			case 'userName': 		return $this->userName; 		break;
-			case 'isAdmin': 		return $this->isAdmin; 		break;
+			case 'isAdmin': 		return $this->isAdmin; 			break;
 			case 'email': 			return $this->email; 			break;
 			case 'loginDatetime': 	return $this->loginDatetime; 	break;
 			case 'privilege': 		return $this->privilege; 		break;
 			case 'birth': 			return $this->birth; 			break;
-			case 'sex': 			return $this->sex; 			break;
+			case 'sex': 			return $this->sex; 				break;
 			case 'passwordLength': 	return $this->passwordLength; 	break;			
 			case 'theme': 			return $this->theme; 			break;
-			case 'refresh': 		return $this->refresh; 		break;
+			case 'refresh': 		return $this->refresh; 			break;
 			case 'online': 			return $this->online; 			break;
 			case 'about':			return $this->about;			break;
 			case 'imgBin': 			return $this->imgBin; 			break;
 
 			case 'gameMode': 		return $this->gameMode; 		break;
 			case 'level': 			return $this->level; 			break;			
-			case 'seconds': 		return $this->seconds; 		break;
+			case 'seconds': 		return $this->seconds; 			break;
 			case 'trials': 			return $this->trials; 			break;
-			case 'eventLength': 	return $this->eventLength; 	break;
+			case 'eventLength': 	return $this->eventLength; 		break;
 			case 'color': 			return $this->color; 			break;
+			default:
+				throw new InvalidArgumentException("The needed variable doese't exist: \"{$name}\"");
         }
 	}
 	
 		
 	/**
-	 * Felhasználó beírása az adatbázisba.
+	 * Felhasználó beírása az adatbázisba. 2020.10.19
 	 * 
 	 * @param ValidateEmail 	$email,
 	 * @param ValidateUser 		$user

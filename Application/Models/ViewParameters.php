@@ -36,9 +36,10 @@ class ViewParameters
         if ($title) 
             $this->title    = $title ;
       
-        $this->errorMsg = $errorMsg ;
+
+        $this->errorMsg     = $errorMsg ;
         
-        $this->item     = $item ;
+        $this->item         = $item ;
     }
 
 
@@ -52,8 +53,8 @@ class ViewParameters
             case 'module'   : return $this->module;     break;
             case 'title'    : return $this->title;      break;
             case 'errorMsg' : return $this->errorMsg;   break;            
-            case 'item'     : return $this->item;       break;
-            case 'personal' : return $this->personal;   break;            
+            case 'item'     : return $this->item;       break;        
+            default: throw new UnexpectedValueException("The needed variable doesen't exists!");
         }
     }
 

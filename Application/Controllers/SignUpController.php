@@ -23,11 +23,13 @@ class SignUpController extends MainController
     {     
         $this->setValues();                
         
-        $this->Response( $this->datas, [ 
-            'view'      => 'signUp', 
-            'module'    => 'User',
-            'layout'    => 'Main'
-            ] 
+        $this->Response( 
+            $this->datas, 
+            new ViewParameters(
+                "signUp", 
+                "text/html", 
+                "Main", 
+                "User")            
         );
     }
 
@@ -64,15 +66,15 @@ class SignUpController extends MainController
             $this->setValues( $user, $email, $pass, $date);
 
             $this->Response( 
-                $this->datas, 
-                [ 
-                    'view'      => 'signUp', 
-                    'layout'    => 'Main',
-                    'module'    => 'User',
-                    "title"     => 'Bad parameters',
-                    'errorMsg'  => 'Parameters are invalid!' 
-                ]
-            );        
+                $this->datas,
+                new ViewParameters(
+                    "sugnUp", 
+                    "text/html",
+                    "Main",
+                    "User",
+                    "Bad parameters",
+                    "Patameters are invalid")
+                );            
             return 2;
         }         
 
@@ -126,20 +128,25 @@ class SignUpController extends MainController
             // Ha valamelyik adat nem helyes, arról a setValues függvény értesítést tesz a $this->datas
             // változóba, és megkapja a frontend.
             $this->setValues( $user, $email, $pass, $date);
-            $this->Response( $this->datas, [ 
-                'view'      => 'signUp', 
-                'layout'    => 'Main',
-                'module'    => 'User',               
-                "title"     => 'Create new account',
-                'errorMsg'  => 'Parameters are invalid!' 
-            ]);       
+            
+            $this->Response( 
+                $this->datas, 
+                new ViewParameters(
+                    "signUp",
+                    "text/html",
+                    "Main",
+                    "User",
+                    "Create new account",
+                    "Parameters are invalid")
+             );       
 
             return 3;
         }                       
         
-        $this->Response([],[
-            'view' => "redirect:".APPROOT."/?sm=New account is succesfully!!"
-        ]);
+        $this->Response([], 
+            new ViewParameters(
+                "redirect:".APPROOT."/?sm=New account is succesfully!!")
+            );
 
         return 0;
     }

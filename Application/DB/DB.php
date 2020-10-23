@@ -139,12 +139,9 @@ class DB
  
         try
         {
-            if ( !$statement =  self::$connect->prepare( $script ) )
-            {
-                throw new PDOException( $statement->errorInfo()[2] );
-            }
-
-
+            // Prepare PDOStatement object
+            $statement =  self::$connect->prepare( $script );
+            
             $keys = array_keys( $params );
             /**
              * A LIMIT és OFFSET esetében, az sql integer számot vár, egyébként olyan hibát dob vissza,
@@ -168,13 +165,14 @@ class DB
                 }                 
             }
 
-            $statement->execute();
+            // Ha nem sikerül végrehajtani a kódot, az csakis az érvénytelen paraméterezés
+            // miatt fordulhat elő.
+            if (!$statement->execute())
+                throw new PDOException(
+                    "Message: ".$statement->errorInfo()[2].
+                    " Errorcode: ".$statement->errorInfo()[1]);
             
-            if ($statement->rowCount())
-            {                
-                $error = $this->Select('SHOW errors');                      
-                throw new PDOException('Errno: '.$error['message'].', '.$error['errno']);
-            }
+
             $statement = null;
 
             return true;
@@ -223,7 +221,9 @@ class DB
         }
         catch( PDOException $e ) 
         {           
-            error_log( date('Y-m-d h:i:s').' - '.$e->getMessage()." in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
+            error_log( date('Y-m-d h:i:s').' - '.$e->getMessage()." in ".__FILE__." at ".
+                __LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
+
             return false;
         }
     }

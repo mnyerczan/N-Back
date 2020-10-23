@@ -15,12 +15,14 @@ class NotFoundController extends MainController
 
     function Action()
     {
-        $this->Response($this->datas, [
-            "view"      => "_404", 
-            'layout'    => 'Main',
-            "module"    => "Errors",
-            "title"     => "Page Not Found"
-            ]
+        $this->Response(
+            $this->datas, 
+            new ViewParameters(
+                "_404", 
+                "text/html", 
+                "Main", 
+                "Errors", 
+                "Page Not Found")
         );
     }
 

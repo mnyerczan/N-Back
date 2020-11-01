@@ -20,61 +20,61 @@ return [
         "/?(?<controller>)/?" => [
             "controller" => "App\Controller\HomeController",                
             "action" => "",
-            "logged" => ""
+            "logged" => false
         ],
         // SignUpController: index
         "/?(?<controller>signUp)/(?<action>form)/?" => [
             "controller" => "App\Controller\SignUpController",                
             "action" => "",
-            "logged" => ""                
+            "logged" => false
         ],
         // SignInController: index
         "/?(?<controller>signIn)/?" => [
             "controller" => "App\Controller\SignInController",                
             "action" => "",
-            "logged" => ""
+            "logged" => false
         ],
         // LogUotController: index
         "/?(?<controller>logUot)" => [
             "controller" => "App\Controller\LogUotController",                
             "action" => "",
-            "logged" => ""
+            "logged" => false
         ],
         // Account: index
         "/?(?<controller>account)/?" => [
             "controller" => "App\Controller\AccountController",                
             "action" => "",
-            "logged" => "true"
+            "logged" => true
         ],
         // PersonalSettings: index
         "/?(?<controller>settings)/?" => [
             "controller" => "App\Controller\SettingsAccountController",                
             "action" => "",
-            "logged" => "true"
+            "logged" => true
         ],
         // NbackSettings: index
         "/?(?<controller>settings)/(?<action>nback)/?" => [
             "controller" => "App\Controller\SettingsNbackController",                
             "action" => "",
-            "logged" => "true"
+            "logged" => true
         ],
         // API
         "/?api/(?<controller>authenticate)/?" => [
             "controller" => "App\Controller\AuthenticateController",                
             "action" => "",
-            "logged" => ""
+            "logged" => false
         ],
         // NBACK
         "/?(?<controller>nBack)/?" => [
             "controller" => "App\Controller\NBackController",                
             "action" => "",
-            "logged" => ""
+            "logged" => false
         ],
         // Documents
         "/?(?<controller>documents)/?" => [
             "controller" => "App\Controller\DocumentsController",                
             "action" => "",
-            "logged" => ""
+            "logged" => false
         ],
     ],
     "POST" => [
@@ -82,36 +82,36 @@ return [
         "/?(?<controller>signUp)/(?<action>submit)/?" => [
             "controller" => "App\Controller\SignUpController",                
             "action" => "submit",
-            "logged" => ""
+            "logged" => false
         ],
         // SignInController: submit
         "/?(?<controller>signIn)/(?<action>submit)" => [
             "controller" => "App\Controller\SignInController",                
             "action" => "submit",
-            "logged" => ""
+            "logged" => false
         ],
         // PersonalSettings: personalUpdate
         "/?(?<controller>settings)/(?<action>personalUpdate)/?" => [
             "controller" => "App\Controller\SettingsAccountController",                
             "action" => "personalUpdate",
-            "logged" => "true"
+            "logged" => true
         ],
         // PersonalSettings: passwordUpdate
         "/?(?<controller>settings)/(?<action>passwordUpdate)/?" => [
             "controller" => "App\Controller\SettingsAccountController",                
             "action" => "passwordUpdate",
-            "logged" => "true"
+            "logged" => true
         ],
         // PersonalSettings: imageUpdate
         "/?(?<controller>settings)/(?<action>imageUpdate)/?" => [
             "controller" => "App\Controller\SettingsAccountController",                
             "action" => "imageUpdate",
-            "logged" => "true"
+            "logged" => true
         ],
         "/?(?<controller>settings)/(?<action>nback)/?" => [
             "controller" => "App\Controller\SettingsNbackController",                
             "action" => "update",
-            "logged" => "true"
+            "logged" => true
         ]            
     ]         
 ];

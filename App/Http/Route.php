@@ -1,13 +1,17 @@
 <?php
 
-namespace App\Core;
+namespace App\Http;
+
 
 use App\Controller\NotFoundController;
 
-require_once APPLICATION."functions.php";
 
-final class Application
-{               
+
+final class Route
+{              
+    /**
+     * Routes
+     */
     private array $routes;
 
 
@@ -42,9 +46,13 @@ final class Application
     }    
 
 
-
-    private function loadRoutes() {
-        $routes = require "App/Core/Http/routes.php";
+    /**
+     * Add routes automatically from App/Http/routes.php
+     * 
+     */
+    private function loadRoutes() 
+    {
+        $routes = require "App/Http/routes.php";
 
         foreach ($routes as $httpMethod => $routes) {
             foreach ( $routes as $pattern => $datas)

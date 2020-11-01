@@ -238,15 +238,11 @@ class SettingsAccountController extends BaseController
         // Lekérjük a képet a cgi változóból.
         $img = (object)$_FILES['image'];
 
-        //print_r($img); die;
-
         // Példányosítjuk az ImageConverter osztályt, ami elvégzi a szükséges tranzformálást.
         $converter = new ImageConverter($img->tmp_name,$img->type );
 
-
         // A módosító SQL script
         $sql = "UPDATE `images` SET `imgBin` = :cmpBin, `update` = CURRENT_TIMESTAMP WHERE `userID` = :userId";
-
 
         // Az ősosztályból kapott db objektummal végrehajtjuk a módosítást.
         $result = $this->db->Execute($sql, [
@@ -254,10 +250,9 @@ class SettingsAccountController extends BaseController
             ':userId' => $this->user->id
         ]);
 
-
         // Az adatbázis művelet lementett eredményét visszaküldjük
         // a frontendnek.
-        //$this->Response(["uploadResult" => $result], new ViewParameters("", "application/json"));        
+        $this->Response(["uploadResult" => $result], new ViewParameters("", "application/json"));        
 
     }
 

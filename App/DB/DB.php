@@ -30,7 +30,7 @@ class DB
                 $DBMS;
            
     /**
-     * DBInterface abstract methods
+     * DB\DB abstract methods
      */
     public static function GetInstance()
     {
@@ -42,24 +42,22 @@ class DB
     }
  
 
+    /**
+     * Construct
+     */
     private function __construct()
     {  
-        if (!$params = getConfig())
-            throw new InvalidArgumentException('Can\'t access /config.json file!!');
-
-        extract($params);
-
-        self::$host     = $hostName;
-        self::$user     = $userName;
-        self::$pass     = $password;
-        self::$database = $database;
-        self::$DBMS     = $DBMS;
+        $this->config();
      
         if (!self::Connect()) return false;
 
         return $this->CheckDatabase();
     }
 
+
+    /**
+     * Desctructor: terminate connection
+     */
     public function __destruct()
     {
         self::$connect = NULL;
@@ -225,9 +223,25 @@ class DB
 
     private function CheckDatabase()
     {                                                
-        if ( count( self::Select('SHOW TABLES') ) < 6 )
+        if ( count( $this->Select('SHOW TABLES') ) < 6 )
         {
             throw new \Exception('Database breaked. Count of tables not enough!');
         }                        
+    }
+
+    private function config()
+    {
+        $params = json_decode(file_get_contents(CONF_PATH), true);
+
+        if (!$params)
+            throw new InvalidArgumentException('Can\'t access /config.json file!!');
+
+        extract($params);
+
+        self::$host     = $hostName;
+        self::$user     = $userName;
+        self::$pass     = $password;
+        self::$database = $database;
+        self::$DBMS     = $DBMS;
     }
 }

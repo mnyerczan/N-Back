@@ -153,16 +153,11 @@ class DB
              * 
              * Debug:  $statement->debugDumpParams();
              */          
-            for ( $i = 0; $i < count( $keys ); $i++ )
-            { 
-                if ( $keys[$i] === ':limit' || $keys[$i] === ':offset' )
-                {
-                    $statement->bindParam( $keys[$i], $params[$keys[$i]], PDO::PARAM_INT );
-                }
+            for ( $i = 0; $i < count( $keys ); $i++ ) { 
+                if ( $keys[$i] === ':limit' || $keys[$i] === ':offset' )                
+                    $statement->bindParam( $keys[$i], $params[$keys[$i]], PDO::PARAM_INT );            
                 else
-                {                    
-                    $statement->bindParam( $keys[$i], $params[$keys[$i]] );
-                }                 
+                    $statement->bindParam( $keys[$i], $params[$keys[$i]] );                              
             }
 
             // Ha nem sikerül végrehajtani a kódot, az csakis az érvénytelen paraméterezés

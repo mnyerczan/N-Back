@@ -64,23 +64,17 @@ class ImageConverter
         
 
 
-        if ($requiredSize > 100 || $requiredSize < 0)
-        {
+        if ($requiredSize > 100 || $requiredSize < 0) {
             throw new InvalidArgumentException('Value of required size argument is invalid');
         }
 
-        if (is_file($path))
-        {
+        if (is_file($path)) {
             $this->bin      = file_get_contents($this->tmp_name);
             $this->origin   = addslashes(base64_encode($this->bin));     
 
-            if ($mime)
-            {                
-                if ($error = $this->CompressImage())            
-                {                 
-                    throw new InvalidArgumentException($error);             
-                }                
-            }
+            if ($mime && $error = $this->CompressImage())                
+                throw new InvalidArgumentException($error);                
+            
         }        
 
         return true;

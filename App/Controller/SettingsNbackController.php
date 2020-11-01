@@ -34,7 +34,7 @@ class SettingsNbackController extends BaseController
     /**
      * Apprear the nback settings form.
      */
-    public function index()
+    public function index(string $errorMsg = "")
     {              
         $this->Response( 
             $this->datas, new ViewParameters(
@@ -43,7 +43,7 @@ class SettingsNbackController extends BaseController
                 'Main',
                 'Settings',
                 'N-back settings',
-                "",
+                $errorMsg,
                 'nback')                              
         );
     }
@@ -94,16 +94,7 @@ class SettingsNbackController extends BaseController
             
 
              // Sikertelen módosítás esetén vissaadja saját magát hibaüzenettel.
-            $this->Response( 
-                $this->datas, new ViewParameters(
-                    'settings', 
-                    'text/html', 
-                    'Main',
-                    'Settings',
-                    'N-back settings',
-                    $errorMsg,
-                    'nback')                
-            );
+            $this->index($errorMsg);
         }               
     }
 

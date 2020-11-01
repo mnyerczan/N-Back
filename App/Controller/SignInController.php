@@ -7,10 +7,6 @@ use App\Core\MainController;
 use App\Model\ViewParameters;
 use App\Classes\ValidatePassword;
 use App\Classes\ValidateEmail;
-use App\Classes\ValidateUser;
-use App\Classes\ValidateDate;
-use App\Classes\ValidateSex;
-use App\Classes\ImageConverter;
 
 
 class SignInController extends MainController
@@ -47,6 +43,7 @@ class SignInController extends MainController
         $email  = new ValidateEmail( $_POST['signIn-email'] );
         $pass   = new ValidatePassword( $_POST['signIn-pass'] );
         
+        // Hibás autentikálás esetén hibaüzenettel visszatér
         if ( !$this->user->Login($email->getEmail(), $pass->getPass()) )
         {
             $this->datas['emailLabel']      = $email->errorMsg ?? 'Email';

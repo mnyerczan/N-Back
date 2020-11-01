@@ -20,12 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="def83bf2-92a3-4606-bc11-0a09c5f8579b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Application/Controllers/NotFoundController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Controllers/NotFoundController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Core/Application.php" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Core/Application.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Core/BaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Core/BaseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Core/ResponseEmitter.php" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Core/ResponseEmitter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Core/ResponseFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Core/ResponseFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +57,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php.debug" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.language" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager">
@@ -103,6 +98,8 @@
       <workItem from="1603656831286" duration="1538000" />
       <workItem from="1603659109078" duration="342000" />
       <workItem from="1603659675534" duration="2103000" />
+      <workItem from="1603699545165" duration="92000" />
+      <workItem from="1603723973432" duration="76000" />
     </task>
     <servers />
   </component>
@@ -119,6 +116,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2463" y="188" key="#CLI_Interpreters" timestamp="1603658171366">
@@ -181,10 +179,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1874" height="240" key="GridCell.Tab.1.right/1920.0.1920.1080/0.0.1920.1056@1920.0.1920.1080" timestamp="1603661779968" />
-    <state x="2376" y="165" key="SettingsEditor" timestamp="1603660834567">
+    <state x="2376" y="165" key="SettingsEditor" timestamp="1603699599502">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2376" y="165" key="SettingsEditor/1920.0.1920.1080/0.0.1920.1056@1920.0.1920.1080" timestamp="1603660834567" />
+    <state x="2376" y="165" key="SettingsEditor/1920.0.1920.1080/0.0.1920.1056@1920.0.1920.1080" timestamp="1603699599502" />
     <state x="1915" y="-1" width="1930" height="1062" key="com.jetbrains.php.config.phpInfo.PhpInfo.PhpInfoDialog" timestamp="1603657147766">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>

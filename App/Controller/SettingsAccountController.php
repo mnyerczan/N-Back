@@ -266,15 +266,12 @@ class SettingsAccountController extends BaseController
      * A formban megjelenítendő adatok előállítását végző függvény
      */
     private function setPersonalValues ( 
-        ValidateUser        $user       = null, 
-        ValidateEmail       $email      = null, 
-                            $sex        = null, 
-        ValidatePassword    $pass       = null, 
-        ValidatePassword    $oldPass    = null )
+        ?ValidateUser        $user       = null, 
+        ?ValidateEmail       $email      = null, 
+        ?ValidateSex         $sex        = null, 
+        ?ValidatePassword    $pass       = null, 
+        ?ValidatePassword    $oldPass    = null )
     {     
-
-        $crName = $user     ? $user->getUser()      : null;
-        $crEmail= $email    ? $email->getEmail()    : null;
 
 
         $this->datas['nameLabel']       = $user->errorMsg  ?? 'Your Name';
@@ -286,18 +283,16 @@ class SettingsAccountController extends BaseController
         
         $this->datas['isAdmin']         = $this->user->isAdmin;    
        
-        $this->datas['userEmailValue']  = $crEmail;
+        $this->datas['userEmailValue']  = is_object($email) ? $email->getEmail() : null;
            
 
-        if ($this->datas['isAdmin'])
-        {
+        if ($this->datas['isAdmin']) {
             $this->datas['userNameValue']   = 'Admin';            
             $this->datas['enableNameInput'] = 'readonly'; 
             $this->datas['nameLabel']       = 'Can\'t modify admin\'s username';
         }
-        else
-        {
-            $this->datas['userNameValue']   = $crName;
+        else {
+            $this->datas['userNameValue']   = is_object($user) ? $user->getUser() : null;
             $this->datas['enableNameInput'] = ''; 
         }        
 

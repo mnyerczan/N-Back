@@ -80,8 +80,7 @@ class Sessions
             }
             return $sessions;
         }
-        elseif ( @$_COOKIE['sessionUpload'] )
-        {
+        elseif(isset($_COOKIE['sessionUpload'])) {
             /**
              * Még le kell vizsgálni, hogy, ha a navbár is a Sessions-től kapja az adatokat, és egy elmentett régi játékot kap sütiből, azt ne jelenítse meg.
              */
@@ -99,8 +98,7 @@ class Sessions
                 ]
             ];
         }
-        else
-        {        
+        else {        
             return [
                 (object) [
                     'sessionLength' => '--',

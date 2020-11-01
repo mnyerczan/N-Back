@@ -78,47 +78,11 @@ ini_set('error_log', APPLICATION.'Log/error.log');
 ini_set("log_errors", "0");
 
 
-spl_autoload_register(function($className) 
-{
+spl_autoload_register(function($className) {
     $className = str_replace("\\", DIRECTORY_SEPARATOR, $className);    
-	include_once $_SERVER['DOCUMENT_ROOT'] . '/NBack/' . $className . '.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/NBack/' . $className . '.php';;
 });
-/*                        
-require_once APPLICATION.'Core/Application.php';
-require_once APPLICATION.'Interfaces/DBInterface.php';
-require_once APPLICATION.'DB/DB.php';
-require_once APPLICATION.'DB/EntityGateway.php';    
-require_once APPLICATION.'Models/Home/homeViewModel.php';
-require_once APPLICATION.'Models/userEntity.php';
-require_once APPLICATION.'Models/sessions.php';
-require_once APPLICATION.'Models/seria.php';
-require_once APPLICATION.'Models/home.php';
-require_once APPLICATION.'Models/navbar.php';
-require_once APPLICATION.'Models/indicator.php';
-require_once APPLICATION.'Models/header.php';    
-require_once APPLICATION.'Models/menus.php';
-require_once APPLICATION.'Models/ModelAndView.php';
-require_once APPLICATION.'Models/ViewParameters.php';
-require_once APPLICATION.'Models/SettingsBar.php';
-require_once APPLICATION.'Classes/ImageConverter.php';
-require_once APPLICATION.'Classes/validator.php';
-require_once APPLICATION.'Classes/validateEmail.php';
-require_once APPLICATION.'Classes/validateUser.php';
-require_once APPLICATION.'Classes/validateDate.php';
-require_once APPLICATION.'Classes/validateSex.php';
-require_once APPLICATION.'Classes/ValidateAbout.php';
-require_once APPLICATION.'Classes/validatePassword.php';
-require_once APPLICATION."Classes/JsonRenderer.php";
-require_once APPLICATION.'Core/ResponseFactory.php';
-require_once APPLICATION.'Core/ResponseEmitter.php';
-require_once APPLICATION.'Core/Response.php';
-require_once APPLICATION.'Core/ViewRenderer.php';
-require_once APPLICATION."Core/BaseController.php";
-require_once APPLICATION."Core/MainController.php";
-require_once APPLICATION."Core/GameController.php";    
-require_once APPLICATION."Controllers/NotFoundController.php";
-require_once APPLICATION."Controllers/AuthenticateController.php";
-*/
+
 
 
 (new \App\Core\Application())->route($cleanedUri);		

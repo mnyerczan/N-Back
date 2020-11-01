@@ -13,47 +13,21 @@ final class Application
 
     function route($cleanedUri): void
     {
-        if(@!session_start())
-        {
-            $this->addRoute('/(?<controller>sessionError)/?', "App\Controller\SessionError", 'get');   
+        // Ha nincs jogosultság elérni a /var/lib/apache2/sessions/... fájlt, error view.
+        if(@!session_start()) {
+            // $this->addRoute('/(?<controller>sessionError)/?', "App\Controller\SessionError", 'get');   
             $cleanedUri = "/sessionError";
         }        
-
-        $this->addRoute('/?(?<controller>)/?', 'App\Controller\HomeController', 'GET');
-        // SignUpController
-        $this->addRoute('/?(?<controller>signUp)/(?<action>form)/?' , 'App\Controller\SignUpController' , 'GET');                
-        $this->addRoute('/?(?<controller>signUp)/(?<action>submit)/?' , 'App\Controller\SignUpController', 'POST', 'submit');
-        // SignInController
-        $this->addRoute('/?(?<controller>signIn)/?','App\Controller\SignInController' , 'GET');
-        $this->addRoute('/?(?<controller>signIn)/(?<action>submit)' , 'App\Controller\SignInController', 'POST', 'submit');
-        // LogUotController
-        $this->addRoute('/?(?<controller>logUot)','App\Controller\LogUotController' , 'GET');
-        $this->addRoute('/?(?<controller>account)/?','App\Controller\AccountController','GET',  'index',true );
-        // Settings (account)
-        $this->addRoute('/?(?<controller>settings)/?','App\Controller\SettingsAccountController','GET','index', true );                 
-        $this->addRoute('/?(?<controller>settings)/(?<action>personalUpdate)/?' , 'App\Controller\SettingsAccountController','POST','personalUpdate', true );
-        $this->addRoute('/?(?<controller>settings)/(?<action>passwordUpdate)/?' , 'App\Controller\SettingsAccountController','POST','passwordUpdate', true );
-        $this->addRoute('/?(?<controller>settings)/(?<action>imageUpdate)/?' , 'App\Controller\SettingsAccountController','POST','imageUpdate', true );
-        // Settings (nback)
-        $this->addRoute('/?(?<controller>settings)/(?<action>nback)/?' , 'App\Controller\SettingsNbackController','GET', 'index', true );
-        $this->addRoute('/?(?<controller>settings)/(?<action>nback)/?' , 'App\Controller\SettingsNbackController','POST', 'update', true );
-        // API 
-        $this->addRoute('/?api/(?<controller>authenticate)/?' , 'App\Controller\AuthenticateController','GET','index', false );
-        // NBACK
-        $this->addRoute('/?(?<controller>nBack)/?', 'App\Controller\NBackController','GET' );
-        // Documents
-        $this->addRoute('/?(?<controller>documents)/?' , 'App\Controller\DocumentsController','GET' );
+        
+        $this->loadRoutes();
 
         // A $routes tömb minden metódushoz egy "regex minta":[paraméter tömb] típusú adatszerkezetet vesz fel.
-        foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $pattern => $params)        
-        {
-            if (preg_match( $pattern, $cleanedUri, $matches ))
-            {
+        foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $pattern => $params) {
+            if (preg_match( $pattern, $cleanedUri, $matches )) {
                 // Fejlesztendő!!!
                 // Ha szükséges bejelentkezés az adott view megtekintéséhez, de már lejárt a session, ne
                 // 404-et dobjon, hanem irányítson át!!
-                if ($params['logged'] && isset($_SESSION['userId']) || !$params['logged'])
-                {                            
+                if ($params['logged'] && isset($_SESSION['userId']) || !$params['logged']) {                            
 
                     // A php nem enged közvetlenül tömbből kiolvasott értéket hívni, ezért le kell menteni?!!...
                     $action = $params['action'];                    
@@ -66,6 +40,23 @@ final class Application
         }
         (new NotFoundController())->action();
     }    
+
+
+
+    private function loadRoutes() {
+        $routes = require "App/Core/Http/routes.php";
+
+        foreach ($routes as $httpMethod => $routes) {
+            foreach ( $routes as $pattern => $datas)
+                $this->addRoute(
+                    "{$pattern}",
+                    $datas["controller"],
+                    $httpMethod ,
+                    $datas["action"] ? $datas["action"] : "index",
+                    $datas["logged"] ? $datas["logged"] : false
+                );
+        }
+    }
 
 
     /**
@@ -81,15 +72,15 @@ final class Application
         string  $pattern, 
         string  $controller, 
         string  $httpMethod, 
-        string  $action = 'index', 
-        bool    $logged = false ): void
-    {
-        $method = strtoupper($httpMethod);
+        string  $action, 
+        bool    $logged ): void
+    {        
 
-        $this->routes[$method]["`^{$pattern}$`"] = [ 
+        $this->routes[strtoupper($httpMethod)]["`^{$pattern}$`"] = [ 
             'controller'    => $controller,
             'logged'        => $logged,
             'action'        => $action
         ];
     }
+
 }

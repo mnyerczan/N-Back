@@ -28,7 +28,7 @@ class SignUpController extends MainController
 
 
 
-    function index()
+    function index($title = null, $errorMsg = null)
     {     
         $this->setValues();                
         
@@ -38,7 +38,10 @@ class SignUpController extends MainController
                 "signUp", 
                 "text/html", 
                 "Main", 
-                "User")            
+                "User",
+                $title,
+                $errorMsg
+            )            
         );
     }
 
@@ -74,50 +77,34 @@ class SignUpController extends MainController
         {      
             $this->setValues( $user, $email, $pass, $date);
 
-            $this->Response( 
-                $this->datas,
-                new ViewParameters(
-                    "sugnUp", 
-                    "text/html",
-                    "Main",
-                    "User",
-                    "Bad parameters",
-                    "Patameters are invalid")
-                );            
+            $this->index("Bad parameters","Patameters are invalid");
             return 2;
         }         
 
         // Beállitásra kerül a jogosultság. Ha az adminform lett kitöltve, létezik privilege mező,
         // különben a felhasználónév alapján dől el a jogosultság.
         // Kezdetben az adminé alapértelmezetten 3, mindenki másé 1.
-        if (isset($_POST['cu-privilege']))
-        {
+        if (isset($_POST['cu-privilege'])) {
             $Privilege = $_POST['cu-privilege'] < 4 && $_POST['cu-privilege'] > 0 ? $_POST['cu-privilege'] : 1;
         }    
-        else
-        {
+        else {
             $privilege = $_POST['create-user-name'] == 'Admin' ? 3 : 1;
         }            
         
 
-
-         // Konverter osztálynak átadandó pathok. Alapértelmezett avatar képek.
-        if ($sex == 'male')
-        {
+        // Konverter osztálynak átadandó pathok. Alapértelmezett avatar képek.
+        if ($sex == 'male') {
             $image = APPLICATION.'Images/userMale.jpg';            
         }
-        else
-        {
+        else {
             $image = APPLICATION.'Images/userFemale.jpg';
         }         
-
 
 
         // Példányositásra kerül a konverter és a DB osztály. Az alapértelmezett képek
         // Mime típusa image/jpg, amit később megváltoztathatnak.
         $converter  = new ImageConverter( $image, 'image/jpg' );
-        
-        
+            
        
         //és a userEntity userRegistry függvényén keresztül beírásra kerül az adatbázisba az új felhasználó.                ;    
         // Sikertelen registry esetén hiba üzenet és vissza a signUpView-ra
@@ -128,8 +115,8 @@ class SignUpController extends MainController
             $date,
             $sex,
             $privilege,
-            $converter) )
-        {                        
+            $converter)) 
+        {
 
             $this->datas['errorMessage'] = 'Email is alredy exists!';
             $this->datas['userEmailValue'] = null;
@@ -138,16 +125,7 @@ class SignUpController extends MainController
             // változóba, és megkapja a frontend.
             $this->setValues( $user, $email, $pass, $date);
             
-            $this->Response( 
-                $this->datas, 
-                new ViewParameters(
-                    "signUp",
-                    "text/html",
-                    "Main",
-                    "User",
-                    "Create new account",
-                    "Parameters are invalid")
-             );       
+            $this->index("Create new account","Parameters are invalid");              
 
             return 3;
         }                       
@@ -190,17 +168,15 @@ class SignUpController extends MainController
         $this->datas['userEmailValue']  = $crEmail;
      
 
-        if ($this->datas['isAdmin'])
-        {
+        if ($this->datas['isAdmin']) {
             // autentikációs azonosító létrehozása az Admin név ismétlődésének elkerüléséhez
             $_SESSION['adminAuthenticate'] = 1;
         }
-        else if (@$_SESSION['adminAuthenticate'])
-        {
+        elseif(isset($_SESSION['adminAuthenticate'])) {
             unset($_SESSION['adminAuthenticate']);
         } 
 
-        $this->datas['enableNameInput'] = @$_SESSION['adminAuthenticate'] ? 'readonly' : ''; 
+        $this->datas['enableNameInput'] = isset($_SESSION['adminAuthenticate']) ? 'readonly' : ''; 
 
 
     }

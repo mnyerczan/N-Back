@@ -57,7 +57,7 @@ class UserEntity
 			
 			// Csak akkor tölt be adatbázisból, ha van bejelentkezés.
 			// Egyébként default + cookie, ha van.
-			if (@$_SESSION['userId'])			
+			if (isset($_SESSION['userId']))
 				self::$INSTANCE->LoadUser( $_SESSION['userId'] );				 
 			else			
 			self::$INSTANCE->LoadAnonim();
@@ -104,69 +104,69 @@ class UserEntity
 		$this->online 			= NULL;
 		//--------------------------------------------------------------------------------------------				
 
-		if (!@$_COOKIE['gameMode']) 
+		if (!isset($_COOKIE['gameMode']))
 		{
 			setcookie('gameMode','Position');
 			$this->gameMode = 'Position';
 		}			
 		else
-			$this->gameMode 		= $_COOKIE['gameMode'];
+			$this->gameMode = $_COOKIE['gameMode'];
 		
 
 		// Game level
-		if (!@$_COOKIE['level'])
+		if (!isset($_COOKIE['level']))
 		{
 			setcookie('level', 1);
 			$this->level = 1;
 		}			
 		else
-			$this->level 			= $_COOKIE['level'];
+			$this->level = $_COOKIE['level'];
 		
 
 		// Tim between two event in seconds
-		if (!@$_COOKIE['seconds'])
+		if (!isset($_COOKIE['seconds']))
 		{
 			setcookie('seconds', 3);
 			$this->seconds = 3;
 		}
 		else
-			$this->seconds 		= $_COOKIE['seconds'];
+			$this->seconds = $_COOKIE['seconds'];
 		
 
 		// Min trial has 25 events
-		if (!@$_COOKIE['trials'])
+		if (!isset($_COOKIE['trials']))
 		{
 			setcookie('trials', 25);
 			$this->trials 	= 25;
 		}
 		else
-			$this->trials 			= $_COOKIE['trials'];
+			$this->trials = $_COOKIE['trials'];
 		
 
 		// One event length in seconds 
-		if (!@$_COOKIE['eventLength'])
+		if (!isset($_COOKIE['eventLength']))
 		{
 			setcookie('eventLength', 0.75);
 			$this->eventLength = 0.75;
 		}
 		else
-			$this->eventLength		= $_COOKIE['eventLength'];
+			$this->eventLength = $_COOKIE['eventLength'];
 		
 
 		// Event's color
-		if (!@$_COOKIE['color'])
+		if (!isset($_COOKIE['color']))
 		{
 			setcookie('color','Position');		
 			$this->color = 'blue';
 		}
 		else
-			$this->color 			= $_COOKIE['color'];
+			$this->color = $_COOKIE['color'];
 
     }
 	
 
 
-	function LoadUser( int $userId ): string
+	function LoadUser( int $userId )
     {	
 		// Anonim felhasználóhoz nem tartoznak személyes adatok.
 		if ($userId == 1) return false; 
@@ -185,7 +185,7 @@ class UserEntity
 		$this->id 				= $user->id;
 		$this->email			= $user->email;
 		$this->loginDatetime	= $user->loginDatetime;		
-		$this->userName		= $user->userName;
+		$this->userName			= $user->userName;
 		$this->isAdmin			= $this->userName == 'Admin' ? true : false;
 		$this->privilege		= $user->privilege;
 		$this->birth			= $user->birth;
@@ -207,10 +207,9 @@ class UserEntity
 		$this->seconds			= $user->seconds;
 		$this->trials 			= $user->trials;
 		$this->eventLength		= $user->eventLength;
-		$this->color 			= $user->color;			
-									
-
-		return $this->loged = true;
+		$this->color 			= $user->color;												
+		$this->loged 			= true;
+		
 	}
 
 

@@ -15,15 +15,16 @@ class ViewParameters
                     $item       = "";                
 
 
+                    
     public function __construct(
-        $view       = "",
-        $mime       = "",
-        $layout     = "",        
-        $module     = "",
-        $title      = "",
-        $errorMsg   = "",
-        $item       = ""
-    )
+        string $view       = "",
+        string $mime       = "",
+        string $layout     = "",        
+        string $module     = "",
+        string $title      = "",
+        string $errorMsg   = "",
+        string $item       = ""
+    ) 
     {
         if ($mime)
             $this->mime     = $mime ;
@@ -49,8 +50,7 @@ class ViewParameters
 
     public function __get($name)
     {
-        switch ($name)
-        {
+        switch ($name) {
             case 'view'     : return $this->view;       break;
             case 'layout'   : return $this->layout;     break;
             case 'mime'     : return $this->mime;       break;

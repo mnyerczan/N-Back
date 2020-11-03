@@ -6,21 +6,18 @@
                 <img class="small-user-image" src="data:image/*;base64,<?= $user->imgBin?>">
                 <div>
                     <?php   
-                        if (strlen($user->userName) <= 15) echo $user->userName;
-                        else echo substr($user->userName, 0, 15)."..";
+                        if (strlen($user->name) <= 15) echo $user->name;
+                        else echo substr($user->name, 0, 15)."..";
                     ?>    
                 <br> personal settings</div>
             </div>
-            <?php if($settingsBar->personalItem->available): ?>
-                <div class="settings-navbar-b">
-                    <a href="<?=APPROOT.'/'?>settings" class="<?=$settingsBar->personalItem->status?>">Profile</a>            
-                </div>  
-            <?php endif ?>
-            <?php if($settingsBar->nbackItem->available): ?>
-                <div class="settings-navbar-c">
-                    <a href="<?=APPROOT.'/'?>settings/nback" class="<?=$settingsBar->nbackItem->status?>">N-Back</a>            
-                </div>  
-            <?php endif ?>
+            <?php foreach($settingsBar->submenus as $settingsMenu): ?>
+                <?php if($settingsMenu["available"]): ?>
+                    <a href="<?=APPROOT.'/'.$settingsMenu["url"]?>" class="<?=$settingsMenu["status"]?>"><?=$settingsMenu["name"]?>
+                        <div class="settings-navbar-b"></div>
+                    </a>
+                <?php endif ?>                
+            <?php endforeach ?>
         </div>        
         <?php include APPLICATION."Templates/Settings/{$views->item}View.php"; ?>        
     </section>

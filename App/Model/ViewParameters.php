@@ -4,26 +4,27 @@ namespace App\Model;
 
 use UnexpectedValueException;
 
+
 class ViewParameters
 {
-    private string  $view       = "homeView",
+    private ?string  $view       = "homeView",
                     $mime       = "text/html", 
-                    $layout     = "Main",
+                    $layout     = "main",
                     $title      = "Main",
                     $errorMsg   = "&#127540;",
-                    $module     = "",
-                    $item       = "";                
+                    $module,
+                    $item;                
 
 
                     
     public function __construct(
-        string $view       = "",
-        string $mime       = "",
-        string $layout     = "",        
-        string $module     = "",
-        string $title      = "",
-        string $errorMsg   = "",
-        string $item       = ""
+        ?string $view       = "",
+        ?string $mime       = "",
+        ?string $layout     = "",        
+        ?string $module     = "",
+        ?string $title      = "",
+        ?string $errorMsg   = "",
+        ?string $item       = ""
     ) 
     {
         if ($mime)

@@ -7,14 +7,15 @@ use App\Controller\NotFoundController;
 
 
 
-final class Route
-{              
+final class Router
+{          
+    
     /**
      * Routes
      */
     private array $routes;
-
-
+    
+    
     function route($cleanedUri): void
     {
         // Ha nincs jogosultság elérni a /var/lib/apache2/sessions/... fájlt, error view.
@@ -43,52 +44,52 @@ final class Route
             }
         }
         (new NotFoundController())->action();
-    }    
-
-
-    /**
-     * Add routes automatically from App/Http/routes.php
-     * 
-     */
-    private function loadRoutes() 
+    }  
+    
+    
+    private function loadRoutes()
     {
-        $routes = require "App/Http/routes.php";
+        $source = require "App/Http/routes.php";
 
-        foreach ($routes as $httpMethod => $routes) {
-            foreach ( $routes as $pattern => $datas)
-                $this->addRoute(
-                    "{$pattern}",
-                    $datas["controller"],
-                    $httpMethod ,
-                    $datas["action"] ? $datas["action"] : "index",
-                    $datas["logged"] ? $datas["logged"] : false
-                );
+        foreach($source as $httpMethod => $routes) {
+            foreach($routes as $url => $route) {
+                $pattern = $this->createPattern($url);
+                $this->routes[$httpMethod]["{$pattern}"] = [
+                    "controller" => $route["controller"],
+                    "action" => $route["action"] ? $route["action"] : "index",
+                    "logged" => $route["logged"] ? $route["logged"] : false,
+                ];
+            }
         }
     }
 
-
     /**
-     * @param $pattern      Az url illesztési mintája,
-     * @param $contoller    Az url-hez tartozó kontroller,
-     * @param $action       Az meghívandó függvény
-     * @param $httpMethod   A kontrollert meghívható HTTP metódus,
-     * @param $logged       A kliens be van-e jelentkezve, későbbi ellenőrzéshez.
+     * Mintakészítő function: tesztelve -> Test/Classes/RouterTest.php
      * 
-     * @return void
+     * A várt minta controller/action/id
+     * @param string $url
+     * @return string $pattern
      */
-    private function addRoute( 
-        string  $pattern, 
-        string  $controller, 
-        string  $httpMethod, 
-        string  $action, 
-        bool    $logged ): void
-    {        
-
-        $this->routes[strtoupper($httpMethod)]["`^{$pattern}$`"] = [ 
-            'controller'    => $controller,
-            'logged'        => $logged,
-            'action'        => $action
+    private function createPattern(string $path): string
+    {
+        $pattern = "%^";
+        $classes = [
+            "?<controller>",
+            "?<action>",
+            "?<id>"
         ];
+        if (0 < strlen($path) && $path[0] !== "/" || strlen($path) == 0)
+            $path = "/".$path;
+        $elements = explode("/", $path);
+        unset($elements[0]);
+        for($i=0; $i<count($elements); $i++) {
+            if ($elements[$i+1] != "")
+                $pattern.= "/(".$classes[$i].$elements[$i+1].")";
+            else 
+                $pattern.= "/";
+            if ($i == count($elements) -1 && $pattern != "%/") 
+                $pattern.="/?";            
+        }
+        return $pattern."$%";
     }
-
 }

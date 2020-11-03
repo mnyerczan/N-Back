@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Main;
 
-
-use App\Core\MainController;
 use App\Model\ViewParameters;
 use App\Model\Home;
 
@@ -25,7 +23,7 @@ class HomeController extends MainController
     {
         $this->Response( 
             $this->datas, 
-            new ViewParameters('home', "text/html", "Main", "Home", "Welcome!")
+            new ViewParameters('home', "text/html", "", "Home", "Welcome!")
         );
     }
                  

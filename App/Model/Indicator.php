@@ -23,7 +23,7 @@ class Indicator
 
     private static function setCoocies()
     {
-        if( @!$_COOKIE['infoLabel']) 
+        if( !isset($_COOKIE['infoLabel'])) 
         {           
             setcookie('infoLabel', 'On', time() + 60 * 60 *24 * 365, APPROOT.'/');
             self::$datas->infoLabel = 'On';

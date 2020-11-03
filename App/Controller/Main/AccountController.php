@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Main;
 
 
 use Login\UserEntity;
-use App\Core\MainController;
 use App\Model\ViewParameters;
 
 
@@ -23,7 +22,7 @@ class AccountController extends MainController
 
     public function index()
     {              
-        $this->Response( $this->datas, new ViewParameters('account', 'text/html', 'Main', 'User') );
+        $this->Response( $this->datas, new ViewParameters('account', 'text/html', '', 'User') );
     }    
 
 }

@@ -1,10 +1,11 @@
 <?php
 namespace App\DB;
 
-use DB\DBInterface;
+use Exception;
 use InvalidArgumentException;
 use PDOException;
-use RuntimeException;
+use PDOStatement;
+use LogicException;
 use PDO;
 
 
@@ -34,8 +35,7 @@ class DB
      */
     public static function GetInstance()
     {
-        if ( self::$INSTANCE == NULL )
-        {
+        if ( self::$INSTANCE == NULL ) {
             self::$INSTANCE = new self();                        
         }               
         return self::$INSTANCE;
@@ -75,50 +75,28 @@ class DB
      * 
      * @return array Entity set
      */
-    public function Select( string $script, array $params = [] ): array
+    public function Select( string $script, array $params = [], string $type = null ): array
     {               
 
-        $statement =  self::$connect->prepare($script);     
+        $pdoStatement =  self::$connect->prepare($script);     
      
-        $keys = array_keys( $params );
-        /**
-         * A LIMIT és OFFSET esetében, az sql integer számot vár, egyébként olyan hibát dob vissza,
-         * amely még a kivételobjektumban sem került definiálásra (WTF??). 
-         * 
-         * A PDO::PARAM_INT konstans értéke tulajdonképpen 1, amivel integer értékűre állítjuk a kapott 
-         * adat feldolgozását.
-         * https://phpdelusions.net/pdo#limit
-         * 
-         * Debug:  $statement->debugDumpParams();
-         */          
-        for ($i=0; $i < count( $keys ); $i++) 
-        { 
-            if ( $keys[$i] === ':limit' || $keys[$i] === ':offset' )
-            {
-                $statement->bindParam( $keys[$i], $params[$keys[$i]], PDO::PARAM_INT );
-            }
-            else
-            {
-                $statement->bindParam( $keys[$i], $params[$keys[$i]] );
-            } 
-        }            
+        $this->binds($pdoStatement, $params);           
+                
 
-        try
-        {
-            if( !$statement->execute() )
-            {
-                throw new PDOException( $statement->errorInfo()[2] );
-            }
+        try {
+            if( !$pdoStatement->execute() )            
+                throw new PDOException($pdoStatement->errorInfo()[2]);
 
-            $result = $statement->fetchAll( PDO::FETCH_CLASS );
+            if ($type)
+                $result = $pdoStatement->fetchAll(PDO::FETCH_CLASS, $type);
+            else 
+                $result = $pdoStatement->fetchAll(PDO::FETCH_CLASS);
 
-            $statement = null;     
+            $pdoStatement = null;     
 
             return $result;
             
-        }
-        catch( PDOException $e )
-        {                 
+        } catch( PDOException $e ) {                 
             error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '".$script."' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
             $statement = null;
             return [];
@@ -129,50 +107,35 @@ class DB
 
     /**
      * EXECUTE query
+     * @throws LogicException   Logikai hiba eseténe
      */
-    public function Execute( string $script, array $params = [] ): bool
+    public static function Execute( string $script, array $params = [] )
     {                    
         //self::$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        
- 
-        try
-        {
+
+        try {
             // Prepare PDOStatement object
-            $statement =  self::$connect->prepare( $script );
+            $smt =  self::$connect->prepare($script);
             
-            $keys = array_keys( $params );
-            /**
-             * A LIMIT és OFFSET esetében, az sql integer számot vár, egyébként olyan hibát dob vissza,
-             * amely még a kivételobjektumban sem került definiálásra (WTF??). 
-             * 
-             * A PDO::PARAM_INT konstans értéke tulajdonképpen 1, amivel integer értékűre állítjuk a kapott 
-             * adat feldolgozását.
-             * https://phpdelusions.net/pdo#limit
-             * 
-             * Debug:  $statement->debugDumpParams();
-             */          
-            for ( $i = 0; $i < count( $keys ); $i++ ) { 
-                if ( $keys[$i] === ':limit' || $keys[$i] === ':offset' )                
-                    $statement->bindParam( $keys[$i], $params[$keys[$i]], PDO::PARAM_INT );            
-                else
-                    $statement->bindParam( $keys[$i], $params[$keys[$i]] );                              
-            }
+            self::binds($smt, $params); 
 
             // Ha nem sikerül végrehajtani a kódot, az csakis az érvénytelen paraméterezés
             // miatt fordulhat elő.
-            if (!$statement->execute())
-                throw new PDOException(
-                    "Message: ".$statement->errorInfo()[2].
-                    " Errorcode: ".$statement->errorInfo()[1]);
-            
+            if (!$smt->execute())
+                throw new LogicException(
+                    "Message: ".$smt->errorInfo()[2].
+                    " Errorcode: ".$smt->errorInfo()[1]);
+                        
+            // Hibakód ellenőrzés. Ha nincs mit lekérdezni, PODException-t dob.
+            $smt = self::$connect->prepare("SELECT @full_error AS error");
+            $smt->execute();
 
-            $statement = null;
+            // Adatbézis szintű logikai hibáról értesítést kap a hívó.
+            if(($error = $smt->fetch(PDO::FETCH_OBJ)->error) !== "") 
+                throw new LogicException($error);
 
-            return true;
-        }
-        catch( PDOException $e )
-        {
-            $statement = null;
+        } catch(PDOException $e) {
+            $smt = null;
 
             error_log( 
                 date('Y-m-d H:i:s').
@@ -180,10 +143,42 @@ class DB
                 '- Msg:  '.self::$connect->errorInfo()[2].', '.$e->getMessage().
                 " with: '{$script}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
                     
-            return false;
+            throw new LogicException($e->getMessage());
+        } catch(LogicException $e) {
+            error_log( 
+                date('Y-m-d H:i:s').
+                '- Code: '.self::$connect->errorCode()[1].
+                '- Msg:  '.self::$connect->errorInfo()[2].', '.$e->getMessage().
+                " with: '{$script}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
+            
+            throw new LogicException($e->getMessage());
         }
+
     }
     
+
+
+
+    private static function binds(PDOStatement &$pdoStatement, array $params)
+    {
+        $keys = array_keys($params);
+        /**
+         * A LIMIT és OFFSET esetében, az sql integer számot vár, egyébként olyan hibát dob vissza,
+         * amely még a kivételobjektumban sem került definiálásra (WTF??). 
+         * 
+         * A PDO::PARAM_INT konstans értéke tulajdonképpen 1, amivel integer értékűre állítjuk a kapott 
+         * adat feldolgozását.
+         * https://phpdelusions.net/pdo#limit
+         * 
+         * Debug:  $pdoStatement->debugDumpParams();
+         */          
+        for ($i=0; $i < count( $keys ); $i++) { 
+            if ( $keys[$i] === ':limit' || $keys[$i] === ':offset' )
+                $pdoStatement->bindParam( $keys[$i], $params[$keys[$i]], PDO::PARAM_INT );
+            else
+                $pdoStatement->bindParam( $keys[$i], $params[$keys[$i]] );
+        } 
+    }
     //-----------------------------------------------------------------------------                  
 
 
@@ -193,9 +188,7 @@ class DB
      */
     private static function Connect(): bool
     {            
-        try 
-        {     
-
+        try {     
             /**
              * baseDbApi::$connect
              * 
@@ -211,9 +204,7 @@ class DB
             self::$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             return true;
-        }
-        catch( PDOException $e ) 
-        {           
+        } catch( PDOException $e ) {           
             error_log( date('Y-m-d h:i:s').' - '.$e->getMessage()." in ".__FILE__." at ".
                 __LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
 
@@ -221,12 +212,15 @@ class DB
         }
     }
 
-    private function CheckDatabase()
-    {                                                
-        if ( count( $this->Select('SHOW TABLES') ) < 6 )
-        {
+    /**
+     * Ellenőrzés, hogy a szükséges táblák meg vannak-e
+     */
+    private function CheckDatabase() {                                                
+        if ( count( $this->Select('SHOW TABLES') ) < 6 ) {
             throw new \Exception('Database breaked. Count of tables not enough!');
-        }                        
+        }          
+        
+        $this->Execute("Set @full_error = ''");
     }
 
     private function config()

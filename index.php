@@ -70,9 +70,9 @@ ini_set("log_errors", "0");
 spl_autoload_register(function($className) {
     // $classNema for debug...
     $className = str_replace("\\", DIRECTORY_SEPARATOR, $className);    
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/NBack/' . $className . '.php';;
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/NBack/' . $className . '.php';
 });
 
 
 
-(new App\Http\Route())->route($cleanedUri);		
+(new App\Http\Router())->route($cleanedUri);		

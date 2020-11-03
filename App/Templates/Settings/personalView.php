@@ -5,7 +5,7 @@
     <div class="user-b">Profile picture</div>               
     <div class="user-c update">       
         <label for=""><?=$nameLabel?></label>                                                
-        <input type="text" value="<?=$user->userName?>" name="update-user-name" form="personalForm" <?=$enableNameInput?> autofocus>
+        <input type="text" value="<?=$user->name?>" name="update-user-name" form="personalForm" <?=$enableNameInput?> autofocus>
 
         <label for=""><?=$emailLabel?></label>             
         <input type="email" value="<?=$user->email?>" name="update-user-email" form="personalForm">

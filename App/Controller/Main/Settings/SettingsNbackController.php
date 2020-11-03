@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Controller;
+namespace App\Controller\Main\Settings;
 
 use App\DB\DB;
 use App\Model\SettingsBar;
@@ -26,7 +26,7 @@ class SettingsNbackController extends BaseController
         $this->getEntitys(); 
         
         // Átadásra kerül a frontend felé, hogy melyik almenű aktív.
-        $this->datas['settingsBar'] = new SettingsBar('nbackItem');
+        $this->datas['settingsBar'] = new SettingsBar('nbackItem', $this->user->id);
                
     }
 
@@ -40,7 +40,7 @@ class SettingsNbackController extends BaseController
             $this->datas, new ViewParameters(
                 'settings', 
                 'text/html',
-                'Main',
+                '',
                 'Settings',
                 'N-back settings',
                 $errorMsg,
@@ -48,24 +48,50 @@ class SettingsNbackController extends BaseController
         );
     }
 
+    /**
+     * Update anonim user client cookie on browsers
+     */
+    public function updateAnonim()
+    {
+        extract($_POST);
 
+        // gameMode
+        // level
+        // secconds
+        // trials
+        // eventLength
+        // color        
+        setcookie('gameMode', $gameMode);
+        setcookie('level', $level);
+        setcookie('seconds', $seconds);
+        setcookie('trials', $trials);
+        setcookie('eventLength', $eventLength);
+        setcookie('color', $color);
+
+        $this->Response([], new ViewParameters("redirect:".APPROOT."/settings/nback?sm=Update successfully!"));
+
+    }
+
+
+    /**
+     * Updat logged user
+     */
     public function update()
     {        
-
         $errorMsg = null;
 
+        extract($_POST);
       
-
         // A bind-olási paraméterek összecsoportosítása a Select függvénynek való
         // átadásra.
         $params = [
             ':inUserId'         => $this->datas['user']->id,
-            ':newGameMode'      => $_POST['gameMode']       ?? 'Position',
-            ':newLewel'         => $_POST['level']          ?? 1,
-            ':newSeconds'       => $_POST['seconds']        ?? 3,
-            ':newTrials'        => $_POST['trials']         ?? 30,
-            ':newEventLength'   => $_POST['eventLength']    ?? 3,
-            ':newColor'         => $_POST['color']          ?? 'blue',
+            ':newGameMode'      => $gameMode       ?? 'Position',
+            ':newLewel'         => $level          ?? 1,
+            ':newSeconds'       => $seconds        ?? 3,
+            ':newTrials'        => $trials         ?? 30,
+            ':newEventLength'   => $eventLength    ?? 3,
+            ':newColor'         => $color          ?? 'blue',
         ];
 
 
@@ -81,17 +107,20 @@ class SettingsNbackController extends BaseController
                 :newColor
             )', $params)[0]->result == '1') 
         {            
-            
+            setcookie('gameMode', $gameMode);
+            setcookie('level', $level);
+            setcookie('secconds', $seconds);
+            setcookie('trials', $trials);
+            setcookie('eventLength', $eventLength);
+            setcookie('color', $color);
+
             // Ha sikeres a bevitel, átirányítás.
             $this->Response([],new ViewParameters("redirect:".APPROOT."/settings/nback?sm=Update sucessfully!"));         
         }
-
-        else
-        {
+        else{
             // Sikertelen művelet esetén hibaüzenet. Mivel a frontend teljesen be van biztosítva, 
             // ez csak akkor fordulhat elő, ha átírják az oldal DOM értékeit.
-            $errorMsg = 'Update failed, bacause values are wrong';
-            
+            $errorMsg = 'Update failed, bacause values are wrong';            
 
              // Sikertelen módosítás esetén vissaadja saját magát hibaüzenettel.
             $this->index($errorMsg);

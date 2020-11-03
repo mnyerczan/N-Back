@@ -4,7 +4,7 @@ namespace App\Model;
 
 
 use App\DB\DB;
-
+use App\DB\Entities\MenuEntity;
 
 class Menus
 {
@@ -35,37 +35,42 @@ class Menus
     
 
     function LoadChildMenus()
-    {
-        $childMenu = [];
-        $sql = 'CALL GetChildMenus(:inMenuId, :inPrivilege)';
-        
+    {                 
+        $params = [
+            "inPrivilege" =>  $this->userPrivilege
+        ];
 
         for( $i = 0; $i < count( $this->menus ); $i++ )
-        {
-            $params = [ 'inMenuId' => $this->menus[$i]->id, 'inPrivilege' =>  $this->userPrivilege];
-            $childMenu = $this->db->Select($sql, $params);
+            if ($this->menus[$i]->child) {
+                // Megadjuk az aktuális parent menü azonostóját
+                $params["inMenuId"] = $this->menus[$i]->id;
 
-            if( count( $childMenu ) > 0 )
-            {
-                $this->childMenus[ (string)$this->menus[$i]->id ] = $childMenu;
-            }                
-        } 
+                $childMenuArray = $this->db->Select(
+                    "CALL GetChildMenus(:inMenuId, :inPrivilege)", 
+                    $params, 
+                    MenuEntity::class
+                );
+    
+                if(count($childMenuArray) > 0) {     
+                    // Azonosító alapján elhelyezzük az osztály childMenu attribútumában
+                    // a menü azonosító alá.
+                    $this->childMenus[(string)$this->menus[$i]->id] = $childMenuArray; 
+                }                                  
+            }            
+        
                 
     }    
 
 
     function LoadMenus()
-    {   
-        $sql    = "CALL GetMenus(:inPrivilege)";
-        $params = [ ':inPrivilege' => $this->userPrivilege ];     
+    {                   
 
-        $this->menus = $this->db->Select($sql, $params);
-
-        for ( $i=0; $i < count( $this->menus ); $i++ ) 
-        { 
-            $this->menus[$i]->name = strlen($this->menus[$i]->name) > 8 ? 
-                substr( $this->menus[$i]->name , 0, 8).'..' :  
-                $this->menus[$i]->name ;
-        }
+        $this->menus = $this->db->Select(
+            "CALL GetMenus(:inPrivilege)", 
+            [ 
+                ':inPrivilege' => $this->userPrivilege 
+            ], 
+            MenuEntity::class
+        );
     }
 }

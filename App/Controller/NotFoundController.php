@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Core\MainController;
+use App\Controller\Main\MainController;
 use App\Model\ViewParameters;
 
 
@@ -24,7 +24,7 @@ class NotFoundController extends MainController
             new ViewParameters(
                 "_404", 
                 "text/html", 
-                "Main", 
+                "", 
                 "Errors", 
                 "Page Not Found")
         );

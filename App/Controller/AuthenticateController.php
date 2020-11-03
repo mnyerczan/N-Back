@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 
-use App\Core\MainController;
+use App\Controller\Main\MainController;
 use App\Model\ViewParameters;
 
 
@@ -11,9 +11,7 @@ class AuthenticateController extends MainController
 {
     public function __construct()
     {
-
-        parent::__construct();        
-         
+        parent::__construct();                 
     }
 
 

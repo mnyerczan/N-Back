@@ -23,7 +23,7 @@
     </aside>    
     <!-- Inspector -->
     <div id="inspector">
-        <?php if ( $indicator )//require_once APPLICATION.'Templates/infoLabelView.php';?>
+        <?php if ( isset($indicator) )//require_once APPLICATION.'Templates/infoLabelView.php';?>
     </div>    
     <!--Center-->  
     <div id="center">	      

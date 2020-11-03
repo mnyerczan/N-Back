@@ -61,13 +61,7 @@
 	width			: 14px;
 	display			: block;
 }
-.nav-hidden{
-	display: none;
-	transition		: display 2s ease-in-out;
-}
-.hidden-anchor:focus + .nav-hidden {
-	display			: block;		
-}
+
 
 
 /*---- navbar info section ----*/

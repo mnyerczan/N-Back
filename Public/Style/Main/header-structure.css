@@ -48,9 +48,7 @@ a.login {
 	display			: block;
 	padding			: 0 10px;	
 }
-a.login:hover {
-	color			: blue;
-}
+
 
 .hdr-icons {
 	width			: 10px;

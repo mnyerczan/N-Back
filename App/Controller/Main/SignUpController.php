@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Main;
 
-use App\Core\MainController;
 use App\Model\ViewParameters;
 use App\Classes\ValidateEmail;
 use App\Classes\ValidateUser;
@@ -11,6 +10,7 @@ use App\Classes\ValidateDate;
 use App\Classes\ValidateSex;
 use App\Classes\ImageConverter;
 use App\DB\DB;
+use LogicException;
 
 
 
@@ -20,9 +20,8 @@ class SignUpController extends MainController
     
     function __construct($matches)
     {                 
-        $this->db  = DB::GetInstance();
-
         parent::__construct();
+        $this->db  = DB::GetInstance();
         $this->SetDatas();                                     
     }
 
@@ -37,7 +36,7 @@ class SignUpController extends MainController
             new ViewParameters(
                 "signUp", 
                 "text/html", 
-                "Main", 
+                "", 
                 "User",
                 $title,
                 $errorMsg
@@ -63,7 +62,7 @@ class SignUpController extends MainController
  
         $email  = new ValidateEmail(    $_POST['create-user-email'] );
         $pass   = new ValidatePassword( $_POST['create-user-pass']  );
-        $user   = new ValidateUser(     $_POST['create-user-name'], @$_SESSION['adminAuthenticate'] );
+        $user   = new ValidateUser(     $_POST['create-user-name'], isset($_SESSION['adminAuthenticate']) );
         $date   = new ValidateDate (    $_POST['create-user-date']  );  
         $sex    = new ValidateSex(      $_POST['sex']);
   
@@ -108,16 +107,23 @@ class SignUpController extends MainController
        
         //és a userEntity userRegistry függvényén keresztül beírásra kerül az adatbázisba az új felhasználó.                ;    
         // Sikertelen registry esetén hiba üzenet és vissza a signUpView-ra
-        if ( !$this->user->userRegistry(
-            $email,
-            $user,
-            $pass,
-            $date,
-            $sex,
-            $privilege,
-            $converter)) 
-        {
+        try {
+            $this->user->userRegistry(
+                $email,
+                $user,
+                $pass,
+                $date,
+                $sex,
+                $privilege,
+                $converter);
 
+            $this->Response([], 
+                new ViewParameters(
+                    "redirect:".APPROOT."/signIn?sm=New account is succesfully!!")
+                );
+        }
+        catch (LogicException $e)
+        {
             $this->datas['errorMessage'] = 'Email is alredy exists!';
             $this->datas['userEmailValue'] = null;
 
@@ -125,17 +131,9 @@ class SignUpController extends MainController
             // változóba, és megkapja a frontend.
             $this->setValues( $user, $email, $pass, $date);
             
-            $this->index("Create new account","Parameters are invalid");              
-
-            return 3;
-        }                       
-        
-        $this->Response([], 
-            new ViewParameters(
-                "redirect:".APPROOT."/?sm=New account is succesfully!!")
-            );
-
-        return 0;
+            $this->index("Create new account","Parameters are invalid");                      
+                        
+        }                                               
     }
 
 

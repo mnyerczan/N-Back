@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Controller;
+namespace App\Controller\Main\Settings;
 
 use App\Core\BaseController;
 use App\Model\SettingsBar;
@@ -18,24 +18,24 @@ use App\Classes\ValidateEmail;
 use App\Classes\ValidateUser;
 use App\Classes\ValidatePassword;
 use App\Classes\ValidateSex;
+use LogicException;
 
 
 
 class SettingsAccountController extends BaseController
 {
-
-
+    
     public function __construct()
     {
         parent::__construct();
 
         $this->db  = DB::GetInstance();        
         $this->getEntitys();  
-
         // Átadásra kerül a frontend felé, hogy melyik almenű aktív.
-        $this->datas['settingsBar'] = new SettingsBar('personalItem', $this->user->id);
-               
+        $this->datas['settingsBar'] = new SettingsBar('personalItem', $this->user->id);               
     }
+
+
 
     /**
      * Appear the personal settings form.
@@ -43,14 +43,12 @@ class SettingsAccountController extends BaseController
     public function index()
     {
         $this->setPersonalValues(); 
-
-
         $this->Response( 
             $this->datas, 
             new ViewParameters(
                 'settings',
                 'text/html',
-                'Main', 
+                '', 
                 'Settings',
                 'Personal settings',
                 "",
@@ -60,19 +58,17 @@ class SettingsAccountController extends BaseController
     }
 
 
+
+
     public function personalUpdate()
-    {   
-             
+    {                
         $user  = new ValidateUser(  $_POST['update-user-name'], $this->user->isAdmin);
         $email = new ValidateEmail( $_POST['update-user-email']);
         $about = new ValidateAbout( $_POST['update-user-about']);
         $sex   = new ValidateSex(   $_POST['update-user-sex']);
-        
-                
-        if ( !($email->isValid() && $user->isValid() && $sex->isValid()))
-		{			            
+                        
+        if ( !($email->isValid() && $user->isValid() && $sex->isValid())) {
             $this->setPersonalValues($user, $email, $sex);
-
             $this->Response(
                 $this->datas, new ViewParameters(
                     'settings',
@@ -94,26 +90,21 @@ class SettingsAccountController extends BaseController
             ':privilege' => $this->user->privilege
         ];
 
-
-
-        if ($this->db->Execute('CALL `UpdateUserPersonalDatas`(
+        try 
+        {
+            $this->db->Execute('CALL `UpdateUserPersonalDatas`(
                 :userId,
                 :userName,
                 :email,
                 :about,            
                 :sex,
                 :privilege
-            )', $sqlParams))
-        {
-
-            $this->Response([], new ViewParameters("redirect:".APPROOT."/settings?sm=Profile updated successfully!"));
-        }	
-
-        else
-        {
-
+            )', $sqlParams);
+            
+            $this->Response([], new ViewParameters("redirect:".APPROOT."/settings?sm=Profile updated successfully!"));    
+        }            
+        catch (LogicException $l){
             $this->setPersonalValues($user, $email, $sex);
-
             $this->Response(
                 $this->datas, new ViewParameters(
                     'settings',
@@ -128,8 +119,6 @@ class SettingsAccountController extends BaseController
             );
         }       
     }
-
-
     
 
     public function validatePass( $datas ) 
@@ -143,32 +132,23 @@ class SettingsAccountController extends BaseController
         
         // A két új jelszó összehasonlítása, különben hiba!
         if ($pass->getPass() !== $retypePass->getPass()) 
-        {
-
             $errorMsg = 'Password and re-typed password are different';
-        }
         
         // Ha egyezik, megfelelő-e
-        elseif($pass->isValid())
-        {
-
-
+        elseif($pass->isValid()) {
            $updateResult = $this->db->Select(
                 'CALL `upgradePassword`(:userId, :newPassword,:oldPassword)',
                 [
                     ':userId'       => $this->user->id,
-                    ':newPassword'   => $pass->getPass(),
+                    ':newPassword'  => $pass->getPass(),
                     ':oldPassword'  => $oldPass->getPass()
                 ]
             );      
          
-
             // Ha nem volt sikeres a módosítás, vagyis helytelen a régi
             // jelszó, hiba!
             if ($updateResult[0]->result !== 'true')
-            {                                
-                $errorMsg = "Old password is incorrect!";   
-            }
+                $errorMsg = "Old password is incorrect!"; 
         }
 
         return [
@@ -191,22 +171,14 @@ class SettingsAccountController extends BaseController
      */
     public function passwordUpdate()
     {
-
         extract($this->validatePass($_POST));
 
-
-
         // Ha hiba nélkül visszatér a validátor, menjen az átirányítás.  
-        if($errorMsg === '')
-        {
+        if($errorMsg === '')        
             $this->Response([], new ViewParameters("redirect:".APPROOT.'/'."settings?sm=Password modification is succesfull!")                );
-        }
-        else
-        {
-
+        else {
             // Különben állítsa be a szükséges adatokat...
-            $this->setPersonalValues(null, null, null, $pass, $oldPass);       
-                
+            $this->setPersonalValues(null, null, null, $pass, $oldPass);         
 
             // ... és hívja meg magát újra.
             $this->Response(
@@ -234,27 +206,34 @@ class SettingsAccountController extends BaseController
      */
     function imageUpdate()
     {        
-
         // Lekérjük a képet a cgi változóból.
         $img = (object)$_FILES['image'];
 
         // Példányosítjuk az ImageConverter osztályt, ami elvégzi a szükséges tranzformálást.
-        $converter = new ImageConverter($img->tmp_name,$img->type );
+        $converter = new ImageConverter($img->tmp_name, $img->type );
 
         // A módosító SQL script
         $sql = "UPDATE `images` SET `imgBin` = :cmpBin, `update` = CURRENT_TIMESTAMP WHERE `userID` = :userId";
 
         // Az ősosztályból kapott db objektummal végrehajtjuk a módosítást.
-        $result = $this->db->Execute($sql, [
-            ':cmpBin' => $converter->cmpBin,
-            ':userId' => $this->user->id
-        ]);
+        try
+        {
+            $this->db->Execute($sql, [
+                ':cmpBin' => $converter->cmpBin,
+                ':userId' => $this->user->id
+            ]);
 
-        // Az adatbázis művelet lementett eredményét visszaküldjük
-        // a frontendnek.
-        $this->Response(["uploadResult" => $result], new ViewParameters("", "application/json"));        
-
+            // Az adatbázis művelet lementett eredményét visszaküldjük                            
+            // a frontendnek.
+            $this->Response(["uploadResult" => 1], new ViewParameters("", "application/json"));        
+        }
+        catch (LogicException $e)
+        {
+            $this->Response(["uploadResult" => 0], new ViewParameters("", "application/json"));        
+        }
     }
+
+
 
     
      /**
@@ -267,19 +246,14 @@ class SettingsAccountController extends BaseController
         ?ValidatePassword    $pass       = null, 
         ?ValidatePassword    $oldPass    = null )
     {     
-
-
         $this->datas['nameLabel']       = $user->errorMsg  ?? 'Your Name';
         $this->datas['emailLabel']      = $email->errorMsg ?? 'Email address';
         $this->datas['passwordLabel']   = $pass->errorMsg  ?? 'New password';
         $this->datas['oldPasswordLabel']= $oldPass->errorMsg  ?? 'Old password';
         $this->datas['sexLabel']        = $sex->errorMsg   ?? 'Your sex';
-        $this->datas['privilegeLabel']  = 'Privilege';
-        
-        $this->datas['isAdmin']         = $this->user->isAdmin;    
-       
-        $this->datas['userEmailValue']  = is_object($email) ? $email->getEmail() : null;
-           
+        $this->datas['privilegeLabel']  = 'Privilege';        
+        $this->datas['isAdmin']         = $this->user->isAdmin;           
+        $this->datas['userEmailValue']  = is_object($email) ? $email->getEmail() : null;           
 
         if ($this->datas['isAdmin']) {
             $this->datas['userNameValue']   = 'Admin';            
@@ -290,9 +264,10 @@ class SettingsAccountController extends BaseController
             $this->datas['userNameValue']   = is_object($user) ? $user->getUser() : null;
             $this->datas['enableNameInput'] = ''; 
         }        
-
-
     }
+
+
+
 
     private function getEntitys()
     {
@@ -308,6 +283,5 @@ class SettingsAccountController extends BaseController
             )->getDatas(),
             'header' => (new Header( $this->user ))->getDatas()
         ];       
-    }
-   
+    }   
 }

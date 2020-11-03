@@ -1,14 +1,11 @@
 ﻿# Ehhez az alkalmazáshoz a php7.4, vagy nagyobb verzió szükséges!
-#
-# Jogosulságok beállítása szükséges sz alábbi könyvtárakra, hogy a képfeltöltés működjön..
-# Futatása az alkalmazás gyökérkönyvtárában.
+# 
+# json mappában a program ír és olvas ezért a jogosultságokat úgy
+# kell beállítani, hogy az apache a www-data felhasználóval is tudja írni.
+sudo chmod -R 775 Public/json
 
-sudo chmod -R 775 .
-
-# Linuxon:
-
-# sudo chmod 777 /path/directory [ /file ]
-sudo chown -R www-data .
+# Ha nincs a www-data az editáló csoportjában:
+sudo chmod -R 777 Public/json
 
 # Modulok:
 

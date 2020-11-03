@@ -210,3 +210,22 @@
 2020-10-20 18:34:33- Code: 0- Msg:  , SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'imgBin' at row 1 with: 'UPDATE `images` SET `imgBin` = :cmpBin, `update` = CURRENT_TIMESTAMP WHERE `userID` = :userId' in /var/www/html/NBack/Application/DB/DB.php at 188
 2020-10-26 01:10:33- Code: 0- Msg:  , SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'imgBin' at row 1 with: 'UPDATE `images` SET `imgBin` = :cmpBin, `update` = CURRENT_TIMESTAMP WHERE `userID` = :userId' in /var/www/html/NBack/App/DB/DB.php at 188
 2020-10-26 01:10:42- Code: 0- Msg:  , SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'imgBin' at row 1 with: 'UPDATE `images` SET `imgBin` = :cmpBin, `update` = CURRENT_TIMESTAMP WHERE `userID` = :userId' in /var/www/html/NBack/App/DB/DB.php at 188
+2020-11-01 12:51:57- Code: 0- Msg:  , SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'imgBin' at row 1 with: 'UPDATE `images` SET `imgBin` = :cmpBin, `update` = CURRENT_TIMESTAMP WHERE `userID` = :userId' in /var/www/html/NBack/App/DB/DB.php at 147
+2020-11-02 12:34:04- Code: 0- Msg:  , SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens with: 'CALL CreateNewUserprocedure(
+            :userName,
+            
+            :password, 
+            :dateOfBirth,
+            :sex,
+            :privilege, 
+            :passwordLength,
+            :cmpBin)' in /var/www/html/NBack/App/DB/DB.php at 148
+2020-11-02 12:50:54- Code: 0- Msg:  , ERROR 1054 (42S22): Unknown column '_name' in 'field list' with: 'CALL CreateNewUserprocedure(
+            :userName,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex,
+            :privilege, 
+            :passwordLength,
+            :cmpBin)' in /var/www/html/NBack/App/DB/DB.php at 161

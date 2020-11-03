@@ -13,6 +13,7 @@ namespace App\Classes;
 use DateTime;
 use DomainException;
 use InvalidArgumentException;
+use RangeException;
 use ReflectionException;
 use RuntimeException;
 
@@ -20,22 +21,22 @@ class ImageConverter
 {
 
     private $bin,
+            // A bin és cmpBin binárisokat át kell konvertálni a BTB64 függvénnyel, hogy
+            // beágyazható legyen!!!
             $cmpBin,
             $origin,      
-            $tmp_name,
+            $tmpName,
             $mime,            
             $requiredSize,
             $tmp = TMP_PATH;    
          
-
     /** 
      *  A getter mindig megkapja a kért nevet, még akkor is, ha az nem létezik.
      * Ilyenkor érdemes lehet kivételt dobni.
      */
     function __get($name)
     {
-        switch($name)
-        {
+        switch($name) {
             case 'bin':     return $this->bin;    break;
             case 'cmpBin':  return $this->cmpBin; break;
             case 'origin':  return $this->origin; break;
@@ -43,76 +44,50 @@ class ImageConverter
         }
     }
 
-
-
-
-
-
-
-
     /**
      * @param $path Path of the file
      * @param $mime Mime type of the file. Expected type: png, jpeg, jpg, gif,bmp?
      * @param $requireSize If send $mime, required size add size of compressing image. Value beetwen 0 and 100
      */
-    public function __construct(string $path, string $mime = null, $requiredSize = 15) 
+    public function __construct(string $path, ?string $mime = null) 
     {   
+        if(!is_file($path))
+            throw new InvalidArgumentException("The file does not exists at ".$path); 
         
-        $this->tmp_name     = $path;
-        $this->mime         = $mime ? $mime : 'text/jpg';
-        $this->requiredSize = $requiredSize ? $requiredSize : null;
-        
-
-
-        if ($requiredSize > 100 || $requiredSize < 0) {
-            throw new InvalidArgumentException('Value of required size argument is invalid');
-        }
+        $this->tmpName     = $path;
+        $this->mime         = $mime ?? 'image/jpg';        
+                
 
         if (is_file($path)) {
-            $this->bin      = file_get_contents($this->tmp_name);
-            $this->origin   = addslashes(base64_encode($this->bin));     
-
-            if ($mime && $error = $this->CompressImage())                
-                throw new InvalidArgumentException($error);                
-            
+            $this->bin      = file_get_contents($this->tmpName);
+            $this->origin   = addslashes(base64_encode($this->bin));                                                           
         }        
 
-        return true;
+        $this->requiredSize = (2**16) / strlen($this->bin);
+
+
+        $this->compress();        
     }
-
-
-
-
-
-
           
     /**
      * ComressImage
      * 
-     * @return int 0 if compressing is successfull or else if unsuccessful
-     * 
-     * errno:
-     * 
-     *  1   Can't create file on APPLICATION/TMP_PATH/
-     *  2   Unlink unsuccesfull
-     *  3   Mime type is invalid
-     *  4   Doesent exists Tmp dir
      */
-    private function CompressImage()
+    private function compress()
     {      
         $compressedImage = null;
+        
 
         //mime típus szerint konvertálunk.
         switch($this->mime)
         {
-            case 'image/jpeg': $compressedImage  = imagecreatefromjpeg($this->tmp_name); break;
-            case 'image/jpg' : $compressedImage  = imagecreatefromjpeg($this->tmp_name); break;
-            case 'image/png' : $compressedImage  = imagecreatefrompng ($this->tmp_name); break;
-            case 'image/gif' : $compressedImage  = imagecreatefromgif ($this->tmp_name); break;
-            case 'image/bmp' : $compressedImage  = imagecreatefrombmp ($this->tmp_name); break;
+            case 'image/jpeg': $compressedImage  = imagecreatefromjpeg($this->tmpName); break;
+            case 'image/jpg' : $compressedImage  = imagecreatefromjpeg($this->tmpName); break;
+            case 'image/png' : $compressedImage  = imagecreatefrompng ($this->tmpName); break;
+            case 'image/gif' : $compressedImage  = imagecreatefromgif ($this->tmpName); break;
+            case 'image/bmp' : $compressedImage  = imagecreatefrombmp ($this->tmpName); break;
             default: throw new InvalidArgumentException("Invalid mime type getted: ".$this->mime);
-        }
-   
+        }   
                
         /**
          * 
@@ -122,9 +97,7 @@ class ImageConverter
          * 
          * 
          */
-        // $imagick = new Imagick();
-
-        
+        // $imagick = new Imagick();        
         
         
         // a tömörített kép kép generálása, hogy egyidőben több programpéldány
@@ -133,30 +106,20 @@ class ImageConverter
                     
         # Mappa létezésének leellenőrzése
         if (!is_dir($this->tmp))
-            if (!mkdir($this->tmp, 0777))
-            {                                    
+            if (!mkdir($this->tmp, 0777))                                 
                 throw new RuntimeException("Permission denied in {$this->tmp} !");
-                return 4;
-            }            
 
         //Tömörítés. Sajnos csak file létrehozással tudom eddig.
         if (!imagejpeg($compressedImage, $this->tmp.$fileName, $this->requiredSize)) 
-            return 1;
+            throw new RangeException("failed to open stream: Permission denied in ".$this->tmp.$fileName);
 
         //létrehozott tömörített állomány beolvasása.            
         $this->cmpBin = file_get_contents($this->tmp.$fileName);
                             
         //tömörített állomány törlése a fájlrendszerből
         if(!unlink($this->tmp.$fileName))
-            return 2;
-        
-        return 0;
-    
-        
-    }
-    
-    
-
+            throw new DomainException("Cant't delete tmp fil from filesystem at: ".$this->tmp.$fileName);                    
+    }        
 
     /**
      * Static method

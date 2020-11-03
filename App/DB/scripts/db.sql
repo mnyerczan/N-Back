@@ -13,7 +13,7 @@ grant all privileges on NBackDB.* to 'www-data'@'localhost';
 
 create table IF NOT EXISTS `users` (
     `id` int(8) unsigned primary key, -- unsigned mezőben nem lehet nulla az érték
-    `userName` varchar(255) not null,
+    `user` varchar(255) not null,
     `email` varchar(255) not null,
     `loginDatetime` DATETIME default current_timestamp not null,
     `password` varchar(33), -- A default user miatt
@@ -30,7 +30,7 @@ create table IF NOT EXISTS `users` (
 
 -- Default user
 
-insert into users ( `userName`, `email`, `privilege`) values
+insert into users ( `user`, `email`, `privilege`) values
 ( 'default', 'd@d.hu', '0');
 
 
@@ -92,22 +92,22 @@ create table IF NOT EXISTS `nbackDatas`(
 create table IF NOT EXISTS `menus` (
 	`id` int(8) zerofill unsigned auto_increment ,
 	`name` varchar(255) not null,
-	`parentID` varchar(255) default 'none' not null,
-	`path` varchar(255) default 'index.php' not null,
-	`ikon` varchar(255) default 'none' not null,
-	`privilege` int(2) default 1 not null,
+	`parentID` varchar(255),
+	`path` varchar(255),
+	`ikon` varchar(255),
+	`privilege` int(2) default 0 not null,
 	`child` int(1) unsigned default 0 not null,
 	index menus_parentID_idx(parentID),
 	primary key(`id`)
 )default charset utf8;
 
 
-insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Forum','?#','none','none','0','1');
-insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Edit','/forum/edit','none','none','3','1');
-insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Edit Start page','/main/eidt','00000002','none','1','0');
-insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Edit forum ', '/forum/edit' , '00000002','img/edit_blue_16.png','3','0');
-insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Profiles','/profiles','none','img/users_colorful.png','1','0');
-insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Communal room','/forum/common','00000001','none','1','0');
+insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Forum','?#',null,null,'0','1');
+insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Edit','/forum/edit',null,null,'3','1');
+insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Edit Start page','/main/eidt','00000002',null,'1','0');
+insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Edit forum ', '/forum/edit' , '00000002','edit_blue_16.png','3','0');
+insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Profiles','/profiles',null,'users_colorful.png','1','0');
+insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Communal room','/forum/common','00000001',null,'1','0');
 
 
 -- A játék meneteit rögzítő tábla.
@@ -118,24 +118,23 @@ CREATE TABLE IF NOT EXISTS`nbackSessions` (
   `level` int(2) default 1 NOT NULL,
   `correctHit` int(3) NOT NULL DEFAULT '0.00',
   `wrongHit` int(3) NOT NULL DEFAULT '0.00',
-  `sessionLength` int(7) NOT NULL DEFAULT '0.00',
-  `timestamp` timestamp NOT NULL DEFAULT RELOAD_INDICATOR,
+  `sessionLength` int(7) NOT NULL DEFAULT '0.00' COMMENT "In miliseconds",
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `gameMode` varchar(9) NOT NULL DEFAULT 'Position',
   `result` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`userID`, `ip`, `timestamp`),
   CONSTRAINT `nbackSessions_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   unique(`timestamp`, `ip`),
-  index nbackSession_userID_idx(`userID`),
-  index time_idx(`sessionLength`)
+  index nbackSession_userID_idx(`userID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8;
 
 -- Admin létrehozása nélkül hibát fog dobni a külső kulcs miatt.
 
 
--- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES ("2","127.0.0.1","1","1","3","90000","2019-05-01 00:00:00");
--- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","1","9","2","90000","2019-05-02 00:00:00");
--- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","1","9","2","90000","2019-05-03 00:00:00");
--- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","2","3","7","90000","2019-05-04 00:00:00");
+insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES ("2","127.0.0.1","1","1","3","90000","2019-05-01 00:00:00");
+insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","1","9","2","90000","2019-05-02 00:00:00");
+insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","1","9","2","90000","2019-05-03 00:00:00");
+insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","2","3","7","90000","2019-05-04 00:00:00");
 -- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","2","5","5","90000","2019-05-05 00:00:00");
 -- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","3","6","2","90000","2019-05-06 00:00:00");
 -- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","4","5","9","90000","2019-05-07 00:00:00");

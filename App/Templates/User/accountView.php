@@ -5,7 +5,7 @@
         <div class="user-g">Profile picture</div>              
         <div class="user-b">       
             <label for="">Name</label>                                                
-            <p><?=$user->userName?></p>
+            <p><?=$user->name?></p>
             <label for="">Email address</label> 
             <p><?=$user->email?></p>
             <label for="">Ligin date</label> 

@@ -17,15 +17,9 @@ body {
 /*
     Main structure
 -----------------------------------------*/
-body > #inspector {        
-    /*background-color: rgba(255, 166, 0, 0.164);*/
-}
 body > #navbar {        	
     color			: black;    
     background-color: #f1f1f181;    
-}
-body > #center {    
-    /*background-color: rgba(19, 122, 5, 0.061);*/
 }
 
 /*
@@ -95,9 +89,6 @@ body > #center {
 -----------------------------------------*/
 .hdr-coordinate-bx a {
 	color			: black;
-}
-a.login:hover {
-	color			: blue;
 }
 
 /*---- dropdown menu ----*/

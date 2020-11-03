@@ -26,31 +26,29 @@ final class ViewRenderer
 
         
         $models = $modelAndView->model;
-
         // $view = ViewParameters objektum
         $views  = $modelAndView->view;
-        
+
+        unset($modelAndView);
 
         // Adatszerkezetek kicsomagolása
         extract($models);
         extract((array)$views);
 
+
+        
       
         ob_clean();
         ob_start();
 
         // Ha a kapott mime tartalmazza a json stringet, jsonban renderel.
-        if (!strpos($modelAndView->view->mime, "json"))
-        {
+        if (!strpos($views->mime, "json")) {            
+            unset($models);
             // Fő view struktúrákat tartalmazó Layout mappában található fájlok meghatározása.
-            require_once APPLICATION."Templates/Layout/{$views->layout}/_layout.php";
+            require_once APPLICATION."Templates/Layouts/{$views->layout}Layout.php";
         }
-            
-        else
-        {
-            
-            echo (new JsonRenderer())->Emit($modelAndView->model);
-        }            
+        else            
+            echo (new JsonRenderer())->Emit($models);
 
         return ob_get_clean();
     }

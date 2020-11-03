@@ -6,7 +6,7 @@
 -- Procedure for create user
 -- -----------------------------------------------------------
 CREATE PROCEDURE `CreateNewUserprocedure`(
-    IN `userName` varchar(255),  
+    IN `name` varchar(255),  
     IN `email` varchar(255),     
     IN `inNewPassword` varchar(33),   
     IN `birth` date,             
@@ -19,12 +19,14 @@ CREATE PROCEDURE `CreateNewUserprocedure`(
 BEGIN
 
     DECLARE `errno` INT; 
-    DECLARE `userid` INT;
+    DECLARE `userid` INT;    
 
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
-            GET CURRENT DIAGNOSTICS CONDITION 1 errno = MYSQL_ERRNO;
-            SELECT `errno` AS `MYSQL_ERROR`;
+            GET DIAGNOSTICS CONDITION 1 @sqlstate = RETURNED_SQLSTATE, 
+                @errno = MYSQL_ERRNO, @text = MESSAGE_TEXT;
+            SET @full_error = CONCAT("ERROR ", @errno, " (", @sqlstate, "): ", @text); 
+            SELECT @full_error;    
             ROLLBACK;
         END;
 
@@ -37,8 +39,8 @@ BEGIN
 
     START TRANSACTION;
 
-        INSERT INTO `users` ( `userName`, `email`, `password`, `birth`,`sex` , `privilege`, `passwordLength` ) VALUES
-            ( `userName`, `email`, md5(CONCAT("salt",md5(`inNewPassword`))), `birth`, `sex`, `privilege`, `passwordLength`);
+        INSERT INTO `users` ( `name`, `email`, `password`, `birth`,`sex` , `privilege`, `passwordLength` ) VALUES
+            ( `name`, `email`, md5(CONCAT("salt",md5(`inNewPassword`))), `birth`, `sex`, `privilege`, `passwordLength`);
 
         SELECT MAX(`id`) INTO `userid` FROM `users`;
 
@@ -230,7 +232,7 @@ BEGIN
     FROM 
         `menus`        
     WHERE 
-        `parentID` = "none" AND 
+        `parentID` is null AND 
         `privilege` <= `inPrivilege`
     ORDER BY 
         `child` ASC, `name` ASC;

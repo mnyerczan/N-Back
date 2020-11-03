@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="<?=BACKSTEP ?>Public/Style/Main/navbar-structure.css?t=<?=RELOAD_INDICATOR?>">
 <table class="navbar-hdr">
 	<tr>
 		<td><img src="<?= BACKSTEP ?><?=APPLICATION?><?=$navbar->logoImg?>" ></td>
@@ -8,45 +9,47 @@
 </div>		
 <nav class="nav-lnks">
 	<?php for($i = 0; $i < count($navbar->menus); $i++):?>
-		<?php if ( $navbar->menus[$i]->child && $user->privilege > 0 ): ?>
-			<section class="hidden-section" tabindex="<?=$i?>">
-				<a href="#" class="hidden-anchor">
-					<div class="navbar-btn">
-						&#9662;	<span><?= $navbar->menus[$i]->name ?></span>														
-						<?php if ($navbar->menus[$i]->ikon != 'none'): ?>
-							<img src="<?= BACKSTEP ?><?= APPLICATION.$navbar->menus[$i]->ikon ?>"  class="nav-lnks-ikn">
-						<?php endif ?>
-					</div>
-				</a>
-				<nav class="nav-hidden">
-					<?php foreach( $navbar->childMenus[ $navbar->menus[$i]->id ]  as $child ): ?>
-					<a href="<?=$child->path ?>">
+		<?php // Gyerek objektummal rendelkező menü kirajzolása ?>
+		<?php if ( $navbar->menus[$i]->child > 0): ?>					
+			<?php // Ha a user privilégiuma nagyobb, vagy egyenlő a menűpont privilégiumával, jelenítse meg. ?>				
+			<?php if($user->privilege >= $navbar->menus[$i]->privilege): ?>
+				<?php // A leugró menü kirajzolása child objektumokkal ?>
+				<section tabindex="<?=$i?>">				
+					<a href="<?=$navbar->menus[$i]->path?>" class="hidden-anchor">
 						<div class="navbar-btn">
-							<span><?= $child->name ?></span>														
-							<?php if ($child->ikon != 'none'): ?>
-								<img src="<?= BACKSTEP ?><?= APPLICATION.$child->ikon ?>"  class="nav-lnks-ikn">
+							<span><?= $navbar->menus[$i]->name ?></span>														
+							<?php if ($navbar->menus[$i]->ikon): ?>
+								<img src="<?=$navbar->menus[$i]->ikon?>"  class="nav-lnks-ikn">
 							<?php endif ?>
 						</div>
 					</a>
-					<?php endforeach ?>
-				</nav>
-			</section>
-		<?php elseif($user->privilege > 0): ?>
+					<nav >
+					<?php if(is_array($navbar->childMenus)): ?>
+						<?php foreach( $navbar->childMenus[ $navbar->menus[$i]->id ]  as $child ): ?>
+						<a href="<?=$child->path ?>">
+							<div class="navbar-btn">
+								&#9656; <span><?= $child->name ?></span>														
+								<?php if ($child->ikon): ?>
+									<img src="<?=$child->ikon?>"  class="nav-lnks-ikn">
+								<?php endif ?>
+							</div>
+						</a>
+						<?php endforeach ?>
+					<?php endif ?>
+					</nav>
+				</section>
+				<?php // A leugró ablakhoz tartozó szülő objektum kirajzolása ?>			
+			<?php endif ?>
+		<?php // Gyerek objektummal nem rendelkező menü kirajzolása ?>
+		<?php else: ?>
 			<a href="<?= $navbar->menus[$i]->path?>">
 				<div class="navbar-btn">
 					<span><?= $navbar->menus[$i]->name ?></span>					
-					<?php if ($navbar->menus[$i]->ikon != 'none'): ?>
-						<img src="<?= BACKSTEP ?><?= APPLICATION.$navbar->menus[$i]->ikon ?>"  class="nav-lnks-ikn">
+					<?php if ($navbar->menus[$i]->ikon): ?>
+						<img src="<?=$navbar->menus[$i]->ikon?>"  class="nav-lnks-ikn">
 					<?php endif ?>
 				</div>					
-			</a>				
-		<?php else: ?>
-			<div class="navbar-btn">
-				<span><?= $navbar->menus[$i]->name ?></span>					
-				<?php if ($navbar->menus[$i]->ikon != 'none'): ?>
-					<img src="<?= BACKSTEP ?><?= APPLICATION.$navbar->menus[$i]->ikon ?>"  class="nav-lnks-ikn">
-				<?php endif ?>
-				</div>
+			</a>	
 		<?php endif ?>
 	<?php endfor ?>		
 </nav>

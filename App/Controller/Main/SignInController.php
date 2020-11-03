@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Main;
 
 
-use App\Core\MainController;
+use App\Controller\Main\MainController;
 use App\Model\ViewParameters;
 use App\Classes\ValidatePassword;
 use App\Classes\ValidateEmail;
@@ -50,7 +50,7 @@ class SignInController extends MainController
             $this->datas['passwordLabel']   = $pass->errorMsg ?? 'Password';
             $this->datas['message']         = 'Email or password is invalid!';
                     
-            $this->Response( $this->datas, new ViewParameters("SignIn", "", "", "User"));
+            $this->Response( $this->datas, new ViewParameters("signIn", "", "", "User"));
 
             return;
         }               

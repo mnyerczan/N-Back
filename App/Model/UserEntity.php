@@ -12,6 +12,7 @@ use App\Classes\ValidatePassword;
 use App\Classes\ValidateSex;
 use App\Classes\ValidateUser;
 use InvalidArgumentException;
+use LogicException;
 
 /**
  * UserEntity, this is a singleton
@@ -22,9 +23,15 @@ class UserEntity
 			$INSTANCE = NULL;
 	private
 			$loged,
-			$object,	 		
+			$object,	
+			/**
+			 * Anonim user id = 0
+			 * Regisztrál user id = 1
+			 * a 2 fenntartva??
+			 * Admin user ud = 3 		
+			 */
 			$id,
-			$userName,
+			$name,
 			$isAdmin,
 			$email,
 			$loginDatetime,
@@ -50,9 +57,7 @@ class UserEntity
 
 	public static function GetInstance(): object
     {		
-		if ( self::$INSTANCE == NULL )		
-        {						
-	
+		if (self::$INSTANCE == NULL) {						
 			self::$INSTANCE = new self();    
 			
 			// Csak akkor tölt be adatbázisból, ha van bejelentkezés.
@@ -60,35 +65,27 @@ class UserEntity
 			if (isset($_SESSION['userId']))
 				self::$INSTANCE->LoadUser( $_SESSION['userId'] );				 
 			else			
-			self::$INSTANCE->LoadAnonim();
+				self::$INSTANCE->LoadAnonim();
 							
 		}        		   
         return self::$INSTANCE;
 	}
-	
-
-
 	
 	private function __construct()
     {				 
 		$this->db = DB::GetInstance();		
 	}
 
-
-
 	public function getUsersCount()
 	{		
 		return $this->db->Select('CALL `GetUserCount`()')[0];
 	}
 
-
-
-
-
 	private function LoadAnonim()
 	{		
-		$this->id 				= 1;		
-		$this->userName 		= 'Anonim';
+		// Anonim user id == 0!!!
+		$this->id 				= 0;	
+		$this->name 			= 'Anonim';
 		$this->isAdmin			= false;
 		$this->email 			= NULL;
 		$this->loginDatetime	= NULL;
@@ -98,70 +95,62 @@ class UserEntity
 		$this->fileName 		= 'user_blue.png';
 		$this->theme 			= $_COOKIE['theme'] 		?? 'white';
 		$this->refresh 			= NULL;
-		$this->imgBin 			= NULL;
+		
+		// Van az anonimnak saját képe, hogy meg lehessen jeleníteni
+		// az nback settings felületet.
+		$this->imgBin 			= ImageConverter::BTB64(
+			$this->db->select("SELECT imgBin FROM images WHERE userID = 1")[0]->imgBin
+		);
 
 		// NOT IMPLEMENTED FEATUTRE
 		$this->online 			= NULL;
 		//--------------------------------------------------------------------------------------------				
 
-		if (!isset($_COOKIE['gameMode']))
-		{
+		if (!isset($_COOKIE['gameMode'])) {
 			setcookie('gameMode','Position');
 			$this->gameMode = 'Position';
-		}			
-		else
+		} else
 			$this->gameMode = $_COOKIE['gameMode'];
 		
 
 		// Game level
-		if (!isset($_COOKIE['level']))
-		{
+		if (!isset($_COOKIE['level'])) {
 			setcookie('level', 1);
 			$this->level = 1;
-		}			
-		else
+		} else
 			$this->level = $_COOKIE['level'];
 		
 
 		// Tim between two event in seconds
-		if (!isset($_COOKIE['seconds']))
-		{
+		if (!isset($_COOKIE['seconds'])) {
 			setcookie('seconds', 3);
 			$this->seconds = 3;
-		}
-		else
+		} else
 			$this->seconds = $_COOKIE['seconds'];
 		
 
 		// Min trial has 25 events
-		if (!isset($_COOKIE['trials']))
-		{
+		if (!isset($_COOKIE['trials'])) {
 			setcookie('trials', 25);
 			$this->trials 	= 25;
-		}
-		else
+		} else
 			$this->trials = $_COOKIE['trials'];
 		
 
 		// One event length in seconds 
-		if (!isset($_COOKIE['eventLength']))
-		{
-			setcookie('eventLength', 0.75);
-			$this->eventLength = 0.75;
-		}
-		else
+		if (!isset($_COOKIE['eventLength'])) {
+			setcookie('eventLength', 0.7);
+			$this->eventLength = 0.7;
+		} else
 			$this->eventLength = $_COOKIE['eventLength'];
 		
 
 		// Event's color
-		if (!isset($_COOKIE['color']))
-		{
-			setcookie('color','Position');		
+		if (!isset($_COOKIE['color'])) {
+			setcookie('color','blue');		
 			$this->color = 'blue';
-		}
-		else
+		} else
 			$this->color = $_COOKIE['color'];
-
     }
 	
 
@@ -180,44 +169,33 @@ class UserEntity
 			];
 
 		$user = $this->db->Select($sql,$params)[0]; 
-
 		
 		$this->id 				= $user->id;
 		$this->email			= $user->email;
 		$this->loginDatetime	= $user->loginDatetime;		
-		$this->userName			= $user->userName;
-		$this->isAdmin			= $this->userName == 'Admin' ? true : false;
+		$this->name				= $user->name;
+		$this->isAdmin			= $this->name == 'Admin' ? true : false;
 		$this->privilege		= $user->privilege;
 		$this->birth			= $user->birth;
 		$this->sex				= $user->sex;
 		$this->passwordLength	= $user->passwordLength;
-
-		$this->imgBin			= ImageConverter::BTB64 ($user->imgBin);		
+		$this->imgBin			= ImageConverter::BTB64($user->imgBin);		
 		$this->theme			= $user->theme;
-		$this->about			= $user->about;
-	
-
+		$this->about			= $user->about;	
 		// NOT IMPLEMENTED FEATUTRE
 		$this->online 			= $user->online;
-
-		//--------------------------------------------------------------------------------------------
-		
+		//--------------------------------------------------------------------------------------------		
 		$this->gameMode 		= $user->gameMode;
 		$this->level 			= $user->level;
 		$this->seconds			= $user->seconds;
 		$this->trials 			= $user->trials;
 		$this->eventLength		= $user->eventLength;
 		$this->color 			= $user->color;												
-		$this->loged 			= true;
-		
+		$this->loged 			= true;		
 	}
-
-
-
 
     function Login( string $email, string $password ): string
     {				
-
 		$params = [
 			':inUId' => null,
 			':inEmail' => $email, 			
@@ -229,40 +207,28 @@ class UserEntity
 			,$params
 		);
 
-
-
 		if (!is_array($user)) return false;
 		
-		if(count($user))
-		{							
+		if(count($user)) {							
 			$this->SetSession( $user[0] );	
 	
 			return $this->loged = true;
 		}        		
 
-		return $this->loged = false;
-	
+		return $this->loged = false;	
 	}
-
-
-
-
 
 	private function SetSession( $result )
 	{
 		$_SESSION['userId']		= $result->id;
 	}
 
-
-
     function __get($name)
     {		
-        switch($name)
-        {
+        switch($name) {
 			case 'loged': 			return $this->loged; 			break;
-
 			case 'id': 				return $this->id; 				break;			
-			case 'userName': 		return $this->userName; 		break;
+			case 'name': 			return $this->name; 			break;
 			case 'isAdmin': 		return $this->isAdmin; 			break;
 			case 'email': 			return $this->email; 			break;
 			case 'loginDatetime': 	return $this->loginDatetime; 	break;
@@ -275,7 +241,6 @@ class UserEntity
 			case 'online': 			return $this->online; 			break;
 			case 'about':			return $this->about;			break;
 			case 'imgBin': 			return $this->imgBin; 			break;
-
 			case 'gameMode': 		return $this->gameMode; 		break;
 			case 'level': 			return $this->level; 			break;			
 			case 'seconds': 		return $this->seconds; 			break;
@@ -286,7 +251,6 @@ class UserEntity
 				throw new InvalidArgumentException("The needed variable doese't exist: \"{$name}\"");
         }
 	}
-	
 		
 	/**
 	 * Felhasználó beírása az adatbázisba. 2020.10.19
@@ -307,9 +271,7 @@ class UserEntity
 		 ValidateDate $birthDAte, 
 		 ValidateSex $sex, 
 		 $privilege, 
-		 ImageConverter $converter)
-	{
-
+		 ImageConverter $converter) {
 		// Létrehozzuk az SQL bind-olási paramétereket.	
 		$params = [            
             ':email'            => trim( $email->getEmail() ),
@@ -332,8 +294,7 @@ class UserEntity
             :passwordLength,
             :cmpBin)';
 
-		// A visszatérési értékként átadjuk a Tárolt eljárás visszatérési értékét.
-        return $this->db->Execute($sql, $params);
-
+		// Ha a művelet nem sikerül, kivételt dob, amit nem kapunk el.
+		$this->db->Execute($sql, $params);
 	}
 }

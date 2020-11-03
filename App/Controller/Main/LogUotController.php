@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Main;
 
-use App\Core\MainController;
 use App\Model\ViewParameters;
 
 

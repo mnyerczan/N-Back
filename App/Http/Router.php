@@ -16,7 +16,7 @@ final class Router
     private array $routes;
     
     
-    function route($cleanedUri): void
+    public function route($cleanedUri): void
     {
         // Ha nincs jogosultság elérni a /var/lib/apache2/sessions/... fájlt, error view.
         if(@!session_start()) {
@@ -82,11 +82,9 @@ final class Router
             $path = "/".$path;
         $elements = explode("/", $path);
         unset($elements[0]);
-        for($i=0; $i<count($elements); $i++) {
+        for($i=0; $i<count($elements) && $i < 3; $i++) {
             if ($elements[$i+1] != "")
                 $pattern.= "/(".$classes[$i].$elements[$i+1].")";
-            else 
-                $pattern.= "/";
             if ($i == count($elements) -1 && $pattern != "%/") 
                 $pattern.="/?";            
         }

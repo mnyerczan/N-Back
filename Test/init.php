@@ -27,3 +27,17 @@ spl_autoload_register(function($className) {
     $className = str_replace("\\", DIRECTORY_SEPARATOR, $className);    
     include_once $_SERVER['DOCUMENT_ROOT'] . $className . '.php';;
 });
+
+
+function test(bool $stmt)
+{
+    echo "At: ".debug_backtrace()[0]["line"]." -> ";
+    if ($stmt) {
+        echo "\e[1;37;47mtrue\e[0m";
+    }
+    else
+        echo "\e[1;37;41mfalse\e[0m";
+    echo PHP_EOL;
+//    echo "\e[0;31;42mMerry Christmas!\e[0m\n";
+
+}

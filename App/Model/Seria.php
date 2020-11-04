@@ -7,15 +7,13 @@ use App\DB\DB;
 
 class Seria
 {
-    private $db,   
+    private   
             $result,
             $seria = 0;    
 
-    public function __construct( int $uid )
-    {
-        $this->db = DB::GetInstance();                   
-
-        $this->result = $this->GetResult( $uid );
+    public function __construct()
+    {                 
+        $this->result = $this->getResult(User::$id);
         $this->seria  = $this->CalculateSeria();      
           
     }
@@ -32,7 +30,7 @@ class Seria
     
 
 
-    private function GetResult( int $uid ): array
+    private function getResult( int $uid ): array
     {   
         // A WHILE függvény pedíg addig meg, míg az aktuális napi és az
         // egyel korábbi ineger értéke megegyezik. minen loopban nö egyel a seria száma így jön ki a végeredmény.   
@@ -41,7 +39,7 @@ class Seria
         $params = [':inRemoteAddress' => $_SERVER['REMOTE_ADDR'], ':inUserId' => $uid];
   
 
-        return ( $this->db->Select($sql, $params));
+        return ( DB::select($sql, $params));
     }
 
     private function CalculateSeria(): int

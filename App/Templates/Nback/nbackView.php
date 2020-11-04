@@ -1,6 +1,6 @@
 <div class="nback-container">
-    <div class="nback-notice-line">
-        <div type='text' class=""><?=$user->gameMode?> <?=$user->level?>-back</div>
+    <div class="nback-notice-line" >
+        <div type='text' id="upper-feedback"><div id="game-mode"></div> <div id="level"></div>- back</div>
         <div id="time-left-feedback"></div>
     </div>
     <main id="nback-table">        

@@ -15,10 +15,8 @@ class Header
     private $user,
             $datas;
 
-    function __construct( UserEntity $user )
-    {
-        $this->user = $user;
-
+    function __construct()
+    {        
         $this->datas = $this->setDatas();
     }
 

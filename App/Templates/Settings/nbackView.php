@@ -1,5 +1,5 @@
 <script src="<?=BACKSTEP?>Public/js/nbackSettings.js?v=<?= RELOAD_INDICATOR ?>"></script>
-<form action="<?= APPROOT ?>/settings/nback<?php if(!$user->loged) echo "Anonim"; ?>" method="POST">	
+<form action="<?= APPROOT ?>/settings/nback<?php if(!$user::$loged) echo "Anonim"; ?>" method="POST">	
 	<div class="nback-setting-contents">
 		<div class="nback-settings-describtion">Describtion:
 
@@ -19,26 +19,26 @@
 		<div class="title">Choose your game mode</div>
 		<div class="nback-game-mode-name">Game mode</div>
 		<select class="nback-game-mode-value" id="nback-game-mode-value" name="gameMode">
-			<option value="Manual" 	 <?php if($user->gameMode == "Manual") echo 'Selected'; ?>>Manual</option>
-			<option value="Position" <?php if($user->gameMode == "Position") echo 'Selected'; ?>>Position</option>
+			<option value="Manual" 	 <?php if($user::$gameMode == "Manual") echo 'Selected'; ?>>Manual</option>
+			<option value="Position" <?php if($user::$gameMode == "Position") echo 'Selected'; ?>>Position</option>
 		</select>
 		<div class="nback-level-name">Level</div>
-		<input class="nback-level-value" id="nback-level-value" type="number" min="1" max="20" step="1" value="<?= $user->level ?>" <?php if($user->gameMode == 'Position') echo 'readonly'  ?> name="level" />
+		<input class="nback-level-value" id="nback-level-value" type="number" min="1" max="20" step="1" value="<?= $user::$level ?>" <?php if($user::$gameMode == 'Position') echo 'readonly'  ?> name="level" />
 		<div class="nback-seconds-name">Seconds between events</div>
-		<input class="nback-seconds-value" id="nback-seconds-value" type="number" min="1" max="5" step="0.1" value="<?= $user->seconds ?>" name="seconds" />
+		<input class="nback-seconds-value" id="nback-seconds-value" type="number" min="1" max="5" step="0.1" value="<?= $user::$seconds ?>" name="seconds" />
 		<div class="nback-trials-name">Trials</div>
-		<input class="nback-trials-value" id="nback-trials-value" type="number" min="<?= $user->level * 5 + 20 ?>" max="1000" step="5" value="<?= $user->trials ?>" name="trials"/>
+		<input class="nback-trials-value" id="nback-trials-value" type="number" min="<?= $user::$level * 5 + 20 ?>" max="1000" step="5" value="<?= $user::$trials ?>" name="trials"/>
 		<div class="nback-eventlength-name">Event's length</div>
-		<input class="nback-eventlength-value" id="nback-eventlength-value" type="number" min="0.1" max="3" step="0.1" value="<?= $user->eventLength ?>" name="eventLength"/>
+		<input class="nback-eventlength-value" id="nback-eventlength-value" type="number" min="0.1" max="3" step="0.1" value="<?= $user::$eventLength ?>" name="eventLength"/>
 		<div class="nback-color-name">Color</div>
-		<select class="nback-color-value" value="<?= $user->color ?>" name="color">	
-			<option value="blue" <?php if($user->color == "blue") echo "selected" ?>>Blue</option>
-			<option value="cyan" <?php if($user->color == "cyan") echo "selected" ?>>Cyan</option>
-			<option value="green" <?php if($user->color == "green") echo "selected" ?>>Green</option>
-			<option value="grey" <?php if($user->color == "grey") echo "selected" ?>>Grey</option>
-			<option value="magenta" <?php if($user->color == "magenta") echo "selected" ?>>Magenta</option>
-			<option value="red" <?php if($user->color == "red") echo "selected" ?>>Red</option>
-			<option value="yellow" <?php if($user->color == "yellow") echo "selected" ?>>Yellow</option>
+		<select class="nback-color-value" value="<?= $user::$color ?>" name="color">	
+			<option value="blue" <?php if($user::$color == "blue") echo "selected" ?>>Blue</option>
+			<option value="cyan" <?php if($user::$color == "cyan") echo "selected" ?>>Cyan</option>
+			<option value="green" <?php if($user::$color == "green") echo "selected" ?>>Green</option>
+			<option value="grey" <?php if($user::$color == "grey") echo "selected" ?>>Grey</option>
+			<option value="magenta" <?php if($user::$color == "magenta") echo "selected" ?>>Magenta</option>
+			<option value="red" <?php if($user::$color == "red") echo "selected" ?>>Red</option>
+			<option value="yellow" <?php if($user::$color == "yellow") echo "selected" ?>>Yellow</option>
 		</select>
 		<div class="nback-form-submit">
 			<input class="btn btn-grn sml-btn" type="submit" value="Update">

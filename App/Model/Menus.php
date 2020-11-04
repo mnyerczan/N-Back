@@ -11,12 +11,9 @@ class Menus
     private $menus,
             $childMenus,
             $userPrivilege;
-
-    private $db;
-
+    
     function __construct( $userPrivilege )
-    {
-        $this->db = DB::GetInstance(); 
+    {  
         $this->userPrivilege = $userPrivilege;
         
 
@@ -45,7 +42,7 @@ class Menus
                 // Megadjuk az aktuális parent menü azonostóját
                 $params["inMenuId"] = $this->menus[$i]->id;
 
-                $childMenuArray = $this->db->Select(
+                $childMenuArray = DB::select(
                     "CALL GetChildMenus(:inMenuId, :inPrivilege)", 
                     $params, 
                     MenuEntity::class
@@ -65,7 +62,7 @@ class Menus
     function LoadMenus()
     {                   
 
-        $this->menus = $this->db->Select(
+        $this->menus = DB::select(
             "CALL GetMenus(:inPrivilege)", 
             [ 
                 ':inPrivilege' => $this->userPrivilege 

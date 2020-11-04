@@ -3,10 +3,10 @@
     <section class="settings-structure"> 
         <div class="settings-navbar">        
             <div class="settings-navbar-a">
-                <img class="small-user-image" src="data:image/*;base64,<?= $user->imgBin?>">
+                <img class="small-user-image" src="data:image/*;base64,<?= $user::$imgBin?>">
                 <div>
                     <?php   
-                        if (strlen($user->name) <= 15) echo $user->name;
+                        if (strlen($user::$name) <= 15) echo $user::$name;
                         else echo substr($user->name, 0, 15)."..";
                     ?>    
                 <br> personal settings</div>

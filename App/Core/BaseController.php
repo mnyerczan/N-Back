@@ -2,19 +2,20 @@
 
 namespace App\Core;
 
-use App\Model\UserEntity;
+use App\Model\User;
+use App\DB\DB;
 use App\Model\ViewParameters;
 
 class BaseController
 {
     // osztály invariáns - az osztály lehetéges állapotait írja le
-    protected UserEntity $user;
     protected array $datas;
        
 
     function __construct()
     {
-        $this->user = UserEntity::GetInstance();    
+        DB::setup();
+        User::setup();                
     }
 
 
@@ -34,6 +35,7 @@ class BaseController
 
         (new ResponseEmitter)->emit($response);
 
+        exit;
     }   
     
 

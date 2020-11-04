@@ -86,7 +86,7 @@ END;
 
 CREATE PROCEDURE `UpdateUserPersonalDatas`(
     IN `userId`     int UNSIGNED,
-    IN `userName`   varchar(255),
+    IN `name`       varchar(255),
     IN `email`      varchar(255),
     IN `about`      varchar(255), 
     IN `sex`        enum('male','female'),
@@ -97,21 +97,23 @@ BEGIN
 
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
-            GET CURRENT DIAGNOSTICS CONDITION 1 errno = MYSQL_ERRNO;
-            SELECT errno AS MYSQL_ERROR;
+            GET DIAGNOSTICS CONDITION 1 @sqlstate = RETURNED_SQLSTATE, 
+                @errno = MYSQL_ERRNO, @text = MESSAGE_TEXT;
+            SET @full_error = CONCAT("ERROR ", @errno, " (", @sqlstate, "): ", @text); 
+            SELECT @full_error;    
             ROLLBACK;
         END;
 
     IF `privilege` LIKE '' THEN             
         UPDATE `users` AS `u` SET 
-            `u`.`userName`  = `userName`,
+            `u`.`name`      = `name`,
             `u`.`email`     = `email`,
             `u`.`about`     = `about`,            
             `u`.`sex`       = `sex`
         WHERE `u`.`id` LIKE `userId`;
     ELSE
         UPDATE `users` AS `u` SET 
-            `u`.`userName`  = `userName`,
+            `u`.`name`      = `name`,
             `u`.`email`     = `email`,
             `u`.`about`     = `about`,
             `u`.`privilege` = `privilege`,
@@ -129,6 +131,15 @@ CREATE PROCEDURE `upgradePassword`(
     IN `inOldPassword` varchar(32)
 )
 BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            GET DIAGNOSTICS CONDITION 1 @sqlstate = RETURNED_SQLSTATE, 
+                @errno = MYSQL_ERRNO, @text = MESSAGE_TEXT;
+            SET @full_error = CONCAT("ERROR ", @errno, " (", @sqlstate, "): ", @text); 
+            SELECT @full_error;    
+            ROLLBACK;
+        END;
+        
     IF md5(CONCAT("salt", md5(`inOldPassword`))) = (
         SELECT `password` FROM `users` WHERE `id` LIKE `userId` ) THEN
 

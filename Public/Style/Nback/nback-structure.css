@@ -71,9 +71,12 @@ body > #header {
     display         :none
 }
 
-/*---- ----*/
+/*---- Notice ----*/
 .nback-notice-line {
     position        :relative;
+}
+.nback-notice-line div {
+    white-space     : pre;
 }
 .nback-notice-line * {
     height          :50px;

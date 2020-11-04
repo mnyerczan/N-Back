@@ -8,9 +8,7 @@ function init()
     nback = new Nback(12);    
     nback.load();
     
-    nback.start();
-    // keyHandler();
-    // session();    
+    nback.start();    
 }
 /**
  * Sajnos az eseménykezelő nem látja az osztálymetódust inicializlás előtt.
@@ -180,24 +178,24 @@ class Nback
             $("grid-image" + this.currentIdx).style.backgroundImage = ""            
         }, this.eventLength * 1000);
         
-        if (this.trials-- == this.numOfVisibility)
-        {
+        if (this.trials-- == this.numOfVisibility) {
             clearInterval(this.interval);
-            this.saveSession();
- 
-            window.replace(this.serverUrl);
-        }            
-        
+            var response = this.saveSession();         
+
+            if (response.responseText.update == 1) {
+                window.location = "/NBack";
+            } else {                             
+                $("upper-feedback").innerHTML = "<span style=\"color:red;text-align:center;padding:5px\">Error: Cant't upload result to server... :(</span>";
+            }
+        }                    
         // Megvizsgáljuk, hogy volt-e egyezés és rá adott reakció
         this.automateCheck();
-
         // Legeneráltatjuk az új indexet
         this.generateIdx();
         // És hozzáadatjuk a tárolóhoz
         this.itemIdxsHandler();
-
-        $("grid-image" + this.currentIdx).style.backgroundImage = "url(\"Public/Images/Squares/spr_square_"+this.color+".png\")";
-        
+        // Itt jelenítjük meg a megfelelő indexű mezőben a képet
+        $("grid-image" + this.currentIdx).style.backgroundImage = "url(\"Public/Images/Squares/spr_square_"+this.color+".png\")";        
         // Feloldjuk a keyEvent figyelőt.
         this.isChecked = 0;
         setTimeout(()=>{$("nback-feedback").style.color = "#000"; }, 50); 
@@ -208,46 +206,40 @@ class Nback
      */
     saveSession()
     {            
-        var data = {
-            "correcHit" : this.correctHit,
-            "wrongHit" : this.wrongHit,
-            "gameMode" : this.gameMode,
-            "level" : this.level,
-            "trials" : this.trials,
-            "seconds" : this.seconds,                
-        };
+        var xhr= new XMLHttpRequest();      
+        // Üzenettest adatobjektuma
+        var formData = new FormData();
+        // Fájl adatszerkezethez adása
+        formData.append("correctHit", this.correctHit);
+        formData.append("wrongHit", this.wrongHit);  
+        /// Feliratkozunk a betöltést figyelő eseményre.    
+        xhr.onload = () => {
+            console.log(xhr.response);
+        };                
+        // a meghívandó URL, metódus, szinkron futás beállítása.        
+        xhr.open('POST', 'nback', false); 
+        // Headerek megadása
+        //xhr.setRequestHeader('Content-Type', this.files[0].type);                                  
+        xhr.send(formData);
 
-        fetch(
-            "POST",
-            []
-        );
+        var response = JSON.parse(xhr.responseText);
 
+        return response;
     }
 
     load()
-    {                
-        this.color = this.getCookie("color");
-        this.gameMode = this.getCookie("gameMode");
-        this.level = this.getCookie("level");
-        this.trials = this.getCookie("trials");
-        this.seconds = this.getCookie("seconds");    
-        this.eventLength = this.getCookie("eventLength");
-    }
+    {             
+        var params = JSON.parse($("options").innerHTML);     
+     
+        this.color = params.color;
+        this.gameMode = params.gameMode;
+        this.level = params.level;
+        this.trials = params.trials;
+        this.seconds = params.seconds;
+        this.eventLength = params.eventLength;
 
-
-    getCookie(cname) {
-        var name = cname + "=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for(var i = 0; i <ca.length; i++) {
-          var c = ca[i];
-          while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
+        $("game-mode").innerHTML = " " + this.gameMode + " ";
+        $("level").innerHTML = " " + this.level + " ";
+        
     }
 }

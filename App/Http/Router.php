@@ -4,30 +4,29 @@ namespace App\Http;
 
 
 use App\Controller\NotFoundController;
+use UnexpectedValueException;
 
-
-
-final class Router
+abstract class Router
 {          
     
     /**
      * Routes
      */
-    private array $routes;
+    private static array $routes;
     
     
-    public function route($cleanedUri): void
+    public static function route($cleanedUri): void
     {
         // Ha nincs jogosultság elérni a /var/lib/apache2/sessions/... fájlt, error view.
         if(@!session_start()) {
-            // $this->addRoute('/(?<controller>sessionError)/?', "App\Controller\SessionError", 'get');   
+            // self::$addRoute('/(?<controller>sessionError)/?', "App\Controller\SessionError", 'get');   
             $cleanedUri = "/sessionError";
         }        
         
-        $this->loadRoutes();
+        self::$routes = self::loadRoutes(require "App/Http/routes.php");
 
         // A $routes tömb minden metódushoz egy "regex minta":[paraméter tömb] típusú adatszerkezetet vesz fel.
-        foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $pattern => $params) {
+        foreach (self::$routes[$_SERVER['REQUEST_METHOD']] as $pattern => $params) {
             if (preg_match( $pattern, $cleanedUri, $matches )) {
                 // Fejlesztendő!!!
                 // Ha szükséges bejelentkezés az adott view megtekintéséhez, de már lejárt a session, ne
@@ -46,21 +45,41 @@ final class Router
         (new NotFoundController())->action();
     }  
     
-    
-    private function loadRoutes()
-    {
-        $source = require "App/Http/routes.php";
+    /**
+     * A kapott tömbből megpróbálja előállítani a szükséges útvonalhoz tartozó 
+     * adatokat
+     * @param array $source
+     * @return array $route
+     */
+    protected static function loadRoutes(array $source)
+    {   
+        $output = [];     
 
         foreach($source as $httpMethod => $routes) {
-            foreach($routes as $url => $route) {
-                $pattern = $this->createPattern($url);
-                $this->routes[$httpMethod]["{$pattern}"] = [
-                    "controller" => $route["controller"],
-                    "action" => $route["action"] ? $route["action"] : "index",
-                    "logged" => $route["logged"] ? $route["logged"] : false,
-                ];
-            }
+            if (is_array($routes)) {
+                foreach($routes as $url => $params) {
+                    if (is_array($params)) {
+                        $pattern = self::createPattern($url);                        
+                        if (array_key_exists("controller",$params) &&
+                            array_key_exists("action",$params) &&
+                            array_key_exists("logged",$params)) {
+                            $output[strtoupper($httpMethod)]["{$pattern}"] = [                    
+                                "controller" => $params["controller"] ? 
+                                                $params["controller"] : 
+                                                "App\Controller\HomeController",
+                                "action" => $params["action"] ? 
+                                            $params["action"] : 
+                                            "index",
+                                "logged" => $params["logged"] ? 
+                                            $params["logged"] : 
+                                            false,
+                            ];
+                        }
+                    }     
+                }
+            }                
         }
+        return $output;
     }
 
     /**
@@ -70,7 +89,7 @@ final class Router
      * @param string $url
      * @return string $pattern
      */
-    private function createPattern(string $path): string
+    protected static function createPattern(string $path): string
     {
         $pattern = "%^";
         $classes = [

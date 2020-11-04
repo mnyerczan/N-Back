@@ -5,17 +5,17 @@
         <div class="user-g">Profile picture</div>              
         <div class="user-b">       
             <label for="">Name</label>                                                
-            <p><?=$user->name?></p>
+            <p><?=$user::$name?></p>
             <label for="">Email address</label> 
-            <p><?=$user->email?></p>
+            <p><?=$user::$email?></p>
             <label for="">Ligin date</label> 
-            <p><?=$user->loginDatetime?></p>
+            <p><?=$user::$loginDatetime?></p>
             <label for="">Your birth date</label> 
-            <p><?=$user->birth?></p>
+            <p><?=$user::$birth?></p>
             <label for="">Your sex</label> 
-            <p><?=$user->sex?></p>                                                        
+            <p><?=$user::$sex?></p>                                                        
         </div>            
-        <div class="user-c" id="user-profile-image"><img class="big-user-image" id="output" src="data:image/*;base64,<?= $user->imgBin?>"></div>  
+        <div class="user-c" id="user-profile-image"><img class="big-user-image" id="output" src="data:image/*;base64,<?= $user::$imgBin?>"></div>  
         <div class="user-f"></div> 
     </section>
 </main>        

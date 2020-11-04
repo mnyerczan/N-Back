@@ -9,8 +9,8 @@ use App\Classes\ValidatePassword;
 use App\Classes\ValidateDate;
 use App\Classes\ValidateSex;
 use App\Classes\ImageConverter;
-use App\DB\DB;
 use LogicException;
+use App\Model\User;
 
 
 
@@ -21,8 +21,7 @@ class SignUpController extends MainController
     function __construct($matches)
     {                 
         parent::__construct();
-        $this->db  = DB::GetInstance();
-        $this->SetDatas();                                     
+        $this->setDatas();                                     
     }
 
 
@@ -108,7 +107,7 @@ class SignUpController extends MainController
         //és a userEntity userRegistry függvényén keresztül beírásra kerül az adatbázisba az új felhasználó.                ;    
         // Sikertelen registry esetén hiba üzenet és vissza a signUpView-ra
         try {
-            $this->user->userRegistry(
+            User::userRegistry(
                 $email,
                 $user,
                 $pass,
@@ -159,7 +158,7 @@ class SignUpController extends MainController
         $this->datas['passwordLabel']   = $pass->errorMsg  ?? 'Password';
         $this->datas['privilegeLabel']  = 'Privilege';
         
-        $this->datas['isAdmin']         = $this->user->getUsersCount()->num <= 1;
+        $this->datas['isAdmin']         = User::getUsersCount()->num <= 1;
         $this->datas['errorMessage']    = null;
 
         $this->datas['userNameValue']   = $this->datas['isAdmin']  ?  'Admin' : $crName;

@@ -12,6 +12,7 @@ use App\Model\Seria;
 use App\Model\Navbar;
 use App\Model\Indicator;
 use App\Model\Header;
+use App\Model\User;
 use App\Model\ViewParameters;
 use App\Classes\ValidateAbout;
 use App\Classes\ValidateEmail;
@@ -27,12 +28,10 @@ class SettingsAccountController extends BaseController
     
     public function __construct()
     {
-        parent::__construct();
-
-        $this->db  = DB::GetInstance();        
+        parent::__construct();       
         $this->getEntitys();  
         // Átadásra kerül a frontend felé, hogy melyik almenű aktív.
-        $this->datas['settingsBar'] = new SettingsBar('personalItem', $this->user->id);               
+        $this->datas['settingsBar'] = new SettingsBar('personalItem', User::$id);               
     }
 
 
@@ -62,18 +61,18 @@ class SettingsAccountController extends BaseController
 
     public function personalUpdate()
     {                
-        $user  = new ValidateUser(  $_POST['update-user-name'], $this->user->isAdmin);
+        $user  = new ValidateUser(  $_POST['update-user-name'], User::$isAdmin);
         $email = new ValidateEmail( $_POST['update-user-email']);
         $about = new ValidateAbout( $_POST['update-user-about']);
         $sex   = new ValidateSex(   $_POST['update-user-sex']);
                         
-        if ( !($email->isValid() && $user->isValid() && $sex->isValid())) {
-            $this->setPersonalValues($user, $email, $sex);
+        if ( !($email->isValid() && $user->isValid() && $sex->isValid() && $about->isValid())) {
+            $this->setPersonalValues($user, $email, $sex, NULL, NULL, $about);
             $this->Response(
                 $this->datas, new ViewParameters(
                     'settings',
                     'text/html',
-                    'Main',
+                    'main',
                     'Settings',
                     'N-back settings',
                     "",
@@ -82,17 +81,17 @@ class SettingsAccountController extends BaseController
 		}
 
         $sqlParams = [
-            ':userId'   => $this->user->id,
+            ':userId'   => User::$id,
             ':userName' => $user->getUser(),
             ':email'    => $email->getEmail(),
             ':about'    => $about->getText(),            
             ':sex'      => $sex->getSex(),
-            ':privilege' => $this->user->privilege
+            ':privilege' => User::$privilege
         ];
 
         try 
         {
-            $this->db->Execute('CALL `UpdateUserPersonalDatas`(
+            DB::execute('CALL `UpdateUserPersonalDatas`(
                 :userId,
                 :userName,
                 :email,
@@ -109,7 +108,7 @@ class SettingsAccountController extends BaseController
                 $this->datas, new ViewParameters(
                     'settings',
                     'text/html',
-                    'Main',
+                    'main',
                     'Settings',
                     'N-back settings', 
                     'Cant\'t update your personal datas, but maybe the email addres already used.',
@@ -121,7 +120,7 @@ class SettingsAccountController extends BaseController
     }
     
 
-    public function validatePass( $datas ) 
+    public function validatePass($datas) 
     {     
 
         $oldPass     = new ValidatePassword($datas['update-user-old-password']);
@@ -133,13 +132,16 @@ class SettingsAccountController extends BaseController
         // A két új jelszó összehasonlítása, különben hiba!
         if ($pass->getPass() !== $retypePass->getPass()) 
             $errorMsg = 'Password and re-typed password are different';
-        
         // Ha egyezik, megfelelő-e
-        elseif($pass->isValid()) {
-           $updateResult = $this->db->Select(
+        elseif (!$pass->isValid()) {
+            $errorMsg = $pass->errorMsg;
+        // Ha megfelelő, megpróbáljuk beinzertálni
+        } elseif($oldPass->isValid()) {
+            
+            $updateResult = DB::select(
                 'CALL `upgradePassword`(:userId, :newPassword,:oldPassword)',
                 [
-                    ':userId'       => $this->user->id,
+                    ':userId'       => User::$id,
                     ':newPassword'  => $pass->getPass(),
                     ':oldPassword'  => $oldPass->getPass()
                 ]
@@ -172,20 +174,18 @@ class SettingsAccountController extends BaseController
     public function passwordUpdate()
     {
         extract($this->validatePass($_POST));
-
         // Ha hiba nélkül visszatér a validátor, menjen az átirányítás.  
         if($errorMsg === '')        
-            $this->Response([], new ViewParameters("redirect:".APPROOT.'/'."settings?sm=Password modification is succesfull!")                );
+            $this->Response([], new ViewParameters("redirect:".APPROOT."/settings?sm=Password modification is succesfull!")                );
         else {
             // Különben állítsa be a szükséges adatokat...
             $this->setPersonalValues(null, null, null, $pass, $oldPass);         
-
             // ... és hívja meg magát újra.
             $this->Response(
                 $this->datas, new ViewParameters(
                     'settings',
                     "",                    
-                    "Main", 
+                    "main", 
                     'Settings',
                     'Personal settings',
                     $errorMsg,
@@ -218,9 +218,9 @@ class SettingsAccountController extends BaseController
         // Az ősosztályból kapott db objektummal végrehajtjuk a módosítást.
         try
         {
-            $this->db->Execute($sql, [
+            DB::execute($sql, [
                 ':cmpBin' => $converter->cmpBin,
-                ':userId' => $this->user->id
+                ':userId' => User::$id
             ]);
 
             // Az adatbázis művelet lementett eredményét visszaküldjük                            
@@ -244,7 +244,8 @@ class SettingsAccountController extends BaseController
         ?ValidateEmail       $email      = null, 
         ?ValidateSex         $sex        = null, 
         ?ValidatePassword    $pass       = null, 
-        ?ValidatePassword    $oldPass    = null )
+        ?ValidatePassword    $oldPass    = null,
+        ?ValidateAbout       $about    = null )
     {     
         $this->datas['nameLabel']       = $user->errorMsg  ?? 'Your Name';
         $this->datas['emailLabel']      = $email->errorMsg ?? 'Email address';
@@ -252,7 +253,8 @@ class SettingsAccountController extends BaseController
         $this->datas['oldPasswordLabel']= $oldPass->errorMsg  ?? 'Old password';
         $this->datas['sexLabel']        = $sex->errorMsg   ?? 'Your sex';
         $this->datas['privilegeLabel']  = 'Privilege';        
-        $this->datas['isAdmin']         = $this->user->isAdmin;           
+        $this->datas['aboutLabel']      = $about->errorMsg ?? 'About you';
+        $this->datas['isAdmin']         = User::$isAdmin;           
         $this->datas['userEmailValue']  = is_object($email) ? $email->getEmail() : null;           
 
         if ($this->datas['isAdmin']) {
@@ -272,16 +274,16 @@ class SettingsAccountController extends BaseController
     private function getEntitys()
     {
         $this->datas = [ 
-            'seria' => (new Seria( $this->user->id ))->seria, 
-            'user'  => $this->user,            
-            'navbar'=> ( new Navbar( $this->user ) )->getDatas(),
+            'seria' => (new Seria( User::$id ))->seria, 
+            'user'  => "App\Model\User",            
+            'navbar'=> ( new Navbar() )->getDatas(),
             'indicator' => (
                 Indicator::getInstance(
-                    new Sessions( $this->user->id, 1 ),
-                    $this->user->gameMode 
+                    new Sessions( User::$id, 1 ),
+                    User::$gameMode 
                 )
             )->getDatas(),
-            'header' => (new Header( $this->user ))->getDatas()
+            'header' => (new Header())->getDatas()
         ];       
     }   
 }

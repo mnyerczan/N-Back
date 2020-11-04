@@ -16,7 +16,7 @@ return [
      * mert csak a metódus neve alatt lévő bejegyjéseket vizsgálja át. Ha nem találja meg a keresett
      * útvonalat, a rendszer 404 error dob.
      */
-    "GET" => [
+    "GET" => [        
         "/" => [
             "controller" => "App\Controller\Main\HomeController",                
             "action" => "",
@@ -66,7 +66,7 @@ return [
         ],
         // NBACK
         "/nback" => [
-            "controller" => "App\Controller\NBackController",                
+            "controller" => "App\Controller\Nback\NBackSessionController",                
             "action" => "",
             "logged" => false
         ],
@@ -78,6 +78,11 @@ return [
         ],
     ],
     "POST" => [
+        "/nback" => [
+            "controller" => "App\Controller\Nback\NBackSaveController",                
+            "action" => "",
+            "logged" => false
+        ],
         // SignUpController: submit
         "/signUp/submit" => [
             "controller" => "App\Controller\Main\SignUpController",                
@@ -117,7 +122,7 @@ return [
         // NbackSettings: submit
         "/settings/nback" => [
             "controller" => "App\Controller\Main\Settings\SettingsNbackController",                
-            "action" => "update",
+            "action" => "updateUser",
             "logged" => true
         ],        
         // Nback: submit

@@ -8,8 +8,9 @@
         <link rel="stylesheet" type="text/css" href="<?= BACKSTEP ?>Public/Style/Nback/nback-structure.css?v=<?= RELOAD_INDICATOR ?>" />  
         <link rel="stylesheet" type="text/css" href="<?= BACKSTEP ?>Public/Style/Theme/light-theme.css?v=<?= RELOAD_INDICATOR ?>" /> 
         <link rel="stylesheet" type="text/css" href="<?= BACKSTEP ?>Public/Style/Theme/dark-theme.css?v=<?= RELOAD_INDICATOR ?>" disabled/> 
-        <script src="<?= BACKSTEP ?>Public/js/helperFunctions.js?" id="js"></script>
-        <script src="<?= BACKSTEP ?>Public/js/nbackEngine.js?v=<?= RELOAD_INDICATOR ?>" id="js"></script>
+        <script src="<?= BACKSTEP ?>Public/js/helperFunctions.js?"></script>
+        <script src="<?= BACKSTEP ?>Public/js/nbackEngine.js?v=<?= RELOAD_INDICATOR ?>"></script>
+        <script id="options"><?=$jsonOptions?></script>
         <title>Nback - <?=$views->title?></title>
     </head>
     <body>

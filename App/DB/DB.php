@@ -17,10 +17,7 @@ require_once APPLICATION.'Interfaces/DBInterface.php';
  */
 class DB
 {
-    public int $id;
-
-    private static
-                $INSTANCE,
+    private static 
                 $connect;                
 
     private static string              
@@ -29,40 +26,17 @@ class DB
                 $pass,
                 $database,
                 $DBMS;
-           
-    /**
-     * DB\DB abstract methods
-     */
-    public static function GetInstance()
-    {
-        if ( self::$INSTANCE == NULL ) {
-            self::$INSTANCE = new self();                        
-        }               
-        return self::$INSTANCE;
-    }
- 
-
+             
     /**
      * Construct
      */
-    private function __construct()
+    public static function setup()
     {  
-        $this->config();
-     
-        if (!self::Connect()) return false;
-
-        return $this->CheckDatabase();
+        self::config();    
+        self::connect();                     
+        return self::checkDatabase();
     }
-
-
-    /**
-     * Desctructor: terminate connection
-     */
-    public function __destruct()
-    {
-        self::$connect = NULL;
-    }
-
+ 
     
 
     /**
@@ -75,12 +49,12 @@ class DB
      * 
      * @return array Entity set
      */
-    public function Select( string $script, array $params = [], string $type = null ): array
+    public static function select( string $script, array $params = [], string $type = null ): array
     {               
 
         $pdoStatement =  self::$connect->prepare($script);     
      
-        $this->binds($pdoStatement, $params);           
+        self::binds($pdoStatement, $params);           
                 
 
         try {
@@ -109,7 +83,7 @@ class DB
      * EXECUTE query
      * @throws LogicException   Logikai hiba eseténe
      */
-    public static function Execute( string $script, array $params = [] )
+    public static function execute( string $script, array $params = [] )
     {                    
         //self::$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -134,24 +108,24 @@ class DB
             if(($error = $smt->fetch(PDO::FETCH_OBJ)->error) !== "") 
                 throw new LogicException($error);
 
-        } catch(PDOException $e) {
+        } catch(PDOException $exception) {
             $smt = null;
 
             error_log( 
                 date('Y-m-d H:i:s').
                 '- Code: '.self::$connect->errorCode()[1].
-                '- Msg:  '.self::$connect->errorInfo()[2].', '.$e->getMessage().
+                '- Msg:  '.self::$connect->errorInfo()[2].', '.$exception->getMessage().
                 " with: '{$script}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
                     
-            throw new LogicException($e->getMessage());
-        } catch(LogicException $e) {
+            throw new LogicException($exception->getMessage());
+        } catch(LogicException $exception) {
             error_log( 
                 date('Y-m-d H:i:s').
                 '- Code: '.self::$connect->errorCode()[1].
-                '- Msg:  '.self::$connect->errorInfo()[2].', '.$e->getMessage().
+                '- Msg:  '.self::$connect->errorInfo()[2].', '.$exception->getMessage().
                 " with: '{$script}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
             
-            throw new LogicException($e->getMessage());
+            throw new LogicException($exception->getMessage());
         }
 
     }
@@ -186,7 +160,7 @@ class DB
     /**
      * Get PDO Connection
      */
-    private static function Connect(): bool
+    private static function connect()
     {            
         try {     
             /**
@@ -201,29 +175,26 @@ class DB
                 [PDO::ATTR_PERSISTENT => true]
             );            
 
-            self::$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            return true;
+            self::$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);    
         } catch( PDOException $e ) {           
             error_log( date('Y-m-d h:i:s').' - '.$e->getMessage()." in ".__FILE__." at ".
                 __LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
-
-            return false;
         }
     }
 
     /**
      * Ellenőrzés, hogy a szükséges táblák meg vannak-e
      */
-    private function CheckDatabase() {                                                
-        if ( count( $this->Select('SHOW TABLES') ) < 6 ) {
+    private static function checkDatabase() 
+    {                                                  
+        if ( count( self::select('SHOW TABLES') ) < 6 ) {
             throw new \Exception('Database breaked. Count of tables not enough!');
         }          
         
-        $this->Execute("Set @full_error = ''");
+        self::execute("Set @full_error = ''");
     }
 
-    private function config()
+    private static function config()
     {
         $params = json_decode(file_get_contents(CONF_PATH), true);
 

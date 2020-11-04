@@ -229,3 +229,29 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/App/DB/DB.php at 161
+2020-11-04 17:19:26- Code: 0- Msg:  , ERROR 1054 (42S22): Unknown column 'u.userName' in 'field list' with: 'CALL `UpdateUserPersonalDatas`(
+                :userId,
+                :userName,
+                :email,
+                :about,            
+                :sex,
+                :privilege
+            )' in /var/www/html/NBack/App/DB/DB.php at 126
+2020-11-04 17:21:39- Code: 0- Msg:  , ERROR 1054 (42S22): Unknown column 'u.user' in 'field list' with: 'CALL `UpdateUserPersonalDatas`(
+                :userId,
+                :userName,
+                :email,
+                :about,            
+                :sex,
+                :privilege
+            )' in /var/www/html/NBack/App/DB/DB.php at 126
+2020-11-04 20:17:38- Code: 0- Msg:  , SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':userId, :ip, :level, :correctHit, :wrongHit, sessionLength, :timestamp, :gameMo' at line 2 with: 'INSERT INTO `nbackSessions` VALUES (
+            :userId, :ip, :level, :correctHit, :wrongHit, sessionLength, :timestamp, :gameMode, :result)' in /var/www/html/NBack/App/DB/DB.php at 118
+2020-11-04 20:18:44- Code: 0- Msg:  , SQLSTATE[HY093]: Invalid parameter number: parameter was not defined with: 'INSERT INTO `nbackSessions` VALUES (
+            :userId, :ip, :level, :correctHit, :wrongHit, sessionLength, :timestamp, :gameMode, :result)' in /var/www/html/NBack/App/DB/DB.php at 118
+2020-11-04 20:19:41- Code: 0- Msg:  , SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens with: 'INSERT INTO `nbackSessions` VALUES (
+            :userId, :ip, :level, :correctHit, :wrongHit, :sessionLength, :timestamp, :gameMode, :result)' in /var/www/html/NBack/App/DB/DB.php at 118
+2020-11-04 20:20:42- Code: 0- Msg:  , SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens with: 'INSERT INTO `nbackSessions` VALUES (
+            :userId, :ip, :level, :correctHit, :wrongHit, :sessionLength, :timestamp, :gameMode, :result)' in /var/www/html/NBack/App/DB/DB.php at 118
+2020-11-04 20:22:51- Code: 0- Msg:  , SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`NBackDB`.`nbackSessions`, CONSTRAINT `nbackSessions_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE) with: 'INSERT INTO `nbackSessions`(`userId`,`ip`,`level`,`correctHit`,`wrongHit`,`sessionLength`,`gameMode`,`result`) VALUES (
+            :userId, :ip, :level, :correctHit, :wrongHit, :sessionLength, :gameMode, :result)' in /var/www/html/NBack/App/DB/DB.php at 118

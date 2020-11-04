@@ -75,4 +75,4 @@ spl_autoload_register(function($className) {
 
 
 
-(new App\Http\Router())->route($cleanedUri);		
+App\Http\Router::route($cleanedUri);		

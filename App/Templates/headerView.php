@@ -6,7 +6,7 @@
         <label class="radio-container">
             <span class="emoji-container" >&#128161;</span>
             <input type="checkbox"  name="theme" value="black"
-            <?= $user->theme == 'black' ? 'checked' : '' ?> 
+            <?= $user::$theme == 'black' ? 'checked' : '' ?> 
                 onclick="Check_modify_theme_radio(this.value, uid)" >                
             <span class="circle" ></span>            
         </label>        
@@ -29,9 +29,9 @@
     <div id="header-list">        	                  
         <span class="emoji-container">&#9776;</span>
         <section class="drop-down-container">    
-        <?php if($user->loged): ?>
+        <?php if($user::$loged): ?>
             <div id="drop-dw-name-cnt">Signed in as <br>
-                <b><?= strlen($user->name) <= 15 ? $user->name : substr($user->name, 0, 15).".." ?></b>
+                <b><?= strlen($user::$name) <= 15 ? $user::$name : substr($user::$name, 0, 15).".." ?></b>
             </div>
             <hr>
             <a href="<?=APPROOT.'/'?>account" title="Go to profile">					
@@ -40,7 +40,7 @@
             <a href="<?=APPROOT.'/'?>settings" title="Go to settings">
                 Settings
             </a>
-            <?php if($user->privilege == 3 && $views->view !== 'signUp' ):?>						
+            <?php if($user::$privilege == 3 && $views->view !== 'signUp' ):?>						
             <a href="<?=APPROOT.'/'?>signUp/form">
                 New account
             </a>				
@@ -51,7 +51,7 @@
             </a>
         <?php else: ?>
             <div id="drop-dw-name-cnt">You are not logged <br>
-                <b><?= strlen($user->name) <= 15 ? $user->name : substr($user->name, 0, 15).".." ?></b>
+                <b><?= strlen($user::$name) <= 15 ? $user::$name : substr($user::$name, 0, 15).".." ?></b>
             </div>
             <hr>
             <a href="<?=APPROOT.'/'?>settings/nback" title="Go to settings">

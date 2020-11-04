@@ -31,13 +31,11 @@ spl_autoload_register(function($className) {
 
 function test(bool $stmt)
 {
-    echo "At: ".debug_backtrace()[0]["line"]." -> ";
+    $str = "Line:".debug_backtrace()[0]["line"]."-> ";
     if ($stmt) {
-        echo "\e[1;37;47mtrue\e[0m";
+        $str.= "\e[0;30;42mtrue\e[0m";
     }
     else
-        echo "\e[1;37;41mfalse\e[0m";
-    echo PHP_EOL;
-//    echo "\e[0;31;42mMerry Christmas!\e[0m\n";
-
+        $str.= "\e[1;37;41mfalse\e[0m";
+    echo $str.PHP_EOL;
 }

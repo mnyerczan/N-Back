@@ -3,30 +3,28 @@
 
 namespace App\Controller\Main\Settings;
 
+use App\Controller\Main\MainController;
 use App\DB\DB;
 use App\Model\SettingsBar;
-use App\Core\BaseController;
 use App\Model\ViewParameters;
 use App\Model\Seria;
 use App\Model\Header;
 use App\Model\Navbar;
 use App\Model\Indicator;
 use App\Model\Sessions;
+use App\Model\User;
 
 
 
-class SettingsNbackController extends BaseController
+class SettingsNbackController extends MainController
 {
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->db  = DB::GetInstance();        
-        $this->getEntitys(); 
-        
+        $this->setDatas();  
         // Átadásra kerül a frontend felé, hogy melyik almenű aktív.
-        $this->datas['settingsBar'] = new SettingsBar('nbackItem', $this->user->id);
+        $this->datas['settingsBar'] = new SettingsBar('nbackItem', $id = User::$id);
                
     }
 
@@ -61,12 +59,18 @@ class SettingsNbackController extends BaseController
         // trials
         // eventLength
         // color        
-        setcookie('gameMode', $gameMode);
-        setcookie('level', $level);
-        setcookie('seconds', $seconds);
-        setcookie('trials', $trials);
-        setcookie('eventLength', $eventLength);
-        setcookie('color', $color);
+        // lifetime
+        $lifeTime = time() + 365 * 24 * 3600;
+        // Útvonal: A site gyökérmappájára kell megadni, hogy minden 
+        // url-nél elérhető legyen.
+        $path = "/NBack";
+
+        setcookie('gameMode', $gameMode, $lifeTime, $path);
+        setcookie('level', $level, $lifeTime, $path);
+        setcookie('seconds', $seconds, $lifeTime, $path);
+        setcookie('trials', $trials, $lifeTime, $path);
+        setcookie('eventLength', $eventLength, $lifeTime, $path);
+        setcookie('color', $color, $lifeTime, $path);
 
         $this->Response([], new ViewParameters("redirect:".APPROOT."/settings/nback?sm=Update successfully!"));
 
@@ -76,7 +80,7 @@ class SettingsNbackController extends BaseController
     /**
      * Updat logged user
      */
-    public function update()
+    public function updateUser()
     {        
         $errorMsg = null;
 
@@ -85,7 +89,7 @@ class SettingsNbackController extends BaseController
         // A bind-olási paraméterek összecsoportosítása a Select függvénynek való
         // átadásra.
         $params = [
-            ':inUserId'         => $this->datas['user']->id,
+            ':inUserId'         => User::$id,
             ':newGameMode'      => $gameMode       ?? 'Position',
             ':newLewel'         => $level          ?? 1,
             ':newSeconds'       => $seconds        ?? 3,
@@ -97,7 +101,7 @@ class SettingsNbackController extends BaseController
 
         // update procedúra meghívása a Select metóduson keresztül. 
         // A validációt az adatbázis végzi.
-        if ($this->db->Select('CALL `updateNBackOptions`(
+        if (DB::select('CALL `updateNBackOptions`(
                 :inUserId,
                 :newGameMode,
                 :newLewel,
@@ -107,13 +111,6 @@ class SettingsNbackController extends BaseController
                 :newColor
             )', $params)[0]->result == '1') 
         {            
-            setcookie('gameMode', $gameMode);
-            setcookie('level', $level);
-            setcookie('secconds', $seconds);
-            setcookie('trials', $trials);
-            setcookie('eventLength', $eventLength);
-            setcookie('color', $color);
-
             // Ha sikeres a bevitel, átirányítás.
             $this->Response([],new ViewParameters("redirect:".APPROOT."/settings/nback?sm=Update sucessfully!"));         
         }

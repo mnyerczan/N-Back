@@ -16,14 +16,12 @@ class Navbar
 
     
 
-    function __construct( UserEntity $user )    
+    function __construct()    
     {
-        $this->datas['childMenus'] = [];
-
-        $this->user     = $user;
+        $this->datas['childMenus'] = [];        
                 
-        $this->sessions = new Sessions( $this->user->id ); 
-        $this->menus    = new Menus( $this->user->privilege );
+        $this->sessions = new Sessions(User::$id); 
+        $this->menus    = new Menus(User::$privilege);
 
         $this->datas['menus']       = $this->menus->menus;
         $this->datas['childMenus']  = $this->menus->childMenus; 

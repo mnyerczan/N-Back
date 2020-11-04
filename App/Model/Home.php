@@ -2,28 +2,20 @@
 
 namespace App\Model;
 
-
+use App\Controller\Main\MainController;
 use App\Model\Home\HomeViewModel;
 use App\DB\DB;
 
 
-class Home
+class Home extends MainController
 {
-    private 
-            $db;            
-
-    function __construct()
-    {
-        $this->db = DB::GetInstance();        
-        
-    }
 
     function getContent()
     {   
         $sql        = 'CALL `GetHomeContent`(:inPrivilege)';
         $params     = [':inPrivilege' => 3];     
 
-        $content    = $this->db->Select($sql, $params);
+        $content    = DB::select($sql, $params);
 
 
         return new HomeViewModel($content[0] ?? '');

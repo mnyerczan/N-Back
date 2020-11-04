@@ -46,7 +46,7 @@
                 </div>
             </div>        
                 
-            <?php if ( $user->name == 'Admin' ): ?>
+            <?php if ( $user::$name == 'Admin' ): ?>
 
                 <label for="cu-privilege"><?= $privilegeLabel ?></label>
                 <input id="cu-privilege" type="number" name="create-user-privilege" minlength="4" name="create-user-privilege" value="1" step="1" max="3" min="1" >    

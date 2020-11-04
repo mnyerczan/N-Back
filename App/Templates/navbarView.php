@@ -12,7 +12,7 @@
 		<?php // Gyerek objektummal rendelkező menü kirajzolása ?>
 		<?php if ( $navbar->menus[$i]->child > 0): ?>					
 			<?php // Ha a user privilégiuma nagyobb, vagy egyenlő a menűpont privilégiumával, jelenítse meg. ?>				
-			<?php if($user->privilege >= $navbar->menus[$i]->privilege): ?>
+			<?php if($user::$privilege >= $navbar->menus[$i]->privilege): ?>
 				<?php // A leugró menü kirajzolása child objektumokkal ?>
 				<section tabindex="<?=$i?>">				
 					<a href="<?=$navbar->menus[$i]->path?>" class="hidden-anchor">

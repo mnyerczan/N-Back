@@ -24,8 +24,6 @@ class Sessions
  */
     function __construct( int $userID, int $askAllSession = 0 )
     {
-
-        $this->db = DB::GetInstance();
         $this->userID   = $userID;
 
         if ( $askAllSession === 1 )
@@ -60,7 +58,7 @@ class Sessions
         $params = [ ':inUserId' => $this->userID, ':inTimestamp' => $datetime ];
 
 
-        return $this->db->Select( $sql, $params );                
+        return DB::select( $sql, $params );                
     }  
   
     /**
@@ -120,7 +118,7 @@ class Sessions
         $sql    = 'CALL GetTimes(:inUserId)';
         $params = [':inUserId' => $this->userID];
 
-        $times = $this->db->Select($sql, $params)[0];
+        $times = DB::select($sql, $params)[0];
         
 
         $times->last_day = $times->last_day == NULL ? 0 : $times->last_day;

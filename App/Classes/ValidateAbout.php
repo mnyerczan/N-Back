@@ -24,7 +24,7 @@ class ValidateAbout extends Validator
         if (!$this->value) return;
 
        
-        if (!preg_match('/^[a-zA-Z0-9 _áéíóöőúüűÁÉÍÓÖŐÚÜŰ]*$/',$this->value )) 
+        if (!preg_match('`^[a-zA-Z0-9 _áéíóöőúüűÁÉÍÓÖŐÚÜŰ!\.\?\\/=\"\'\*\+<>]*$`',$this->value )) 
         {
             $this->setError('Text contains invalid characters');
             return;

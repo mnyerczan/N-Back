@@ -7,24 +7,16 @@
  * 
  * 
  */
-
 namespace App\Core;
-
-
 
 use App\Classes\JsonRenderer;
 use App\Model\ModelAndView;
 
-
-
 final class ViewRenderer
 {
-
-
     public function render(ModelAndView $modelAndView)
     {
 
-        
         $models = $modelAndView->model;
         // $view = ViewParameters objektum
         $views  = $modelAndView->view;
@@ -34,9 +26,6 @@ final class ViewRenderer
         // Adatszerkezetek kicsomagolása
         extract($models);
         extract((array)$views);
-
-
-        
       
         ob_clean();
         ob_start();

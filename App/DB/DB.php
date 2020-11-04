@@ -27,7 +27,7 @@ class DB
     private static string $DBMS;
              
     /**
-     * Construct
+     * Initialisation
      */
     public static function setup()
     {  
@@ -36,8 +36,6 @@ class DB
         return self::checkDatabase();
     }
  
-    
-
     /**
      * SELECT query
      * 
@@ -76,8 +74,6 @@ class DB
         }        
     }
     
-
-
     /**
      * EXECUTE query
      * @throws LogicException   Logikai hiba eseténe
@@ -129,9 +125,9 @@ class DB
 
     }
     
-
-
-
+    /**
+     * Binding parameters
+     */
     private static function binds(PDOStatement &$pdoStatement, array $params)
     {
         $keys = array_keys($params);
@@ -152,9 +148,6 @@ class DB
                 $pdoStatement->bindParam( $keys[$i], $params[$keys[$i]] );
         } 
     }
-    //-----------------------------------------------------------------------------                  
-
-
     
     /**
      * Get PDO Connection
@@ -182,7 +175,7 @@ class DB
     }
 
     /**
-     * Ellenőrzés, hogy a szükséges táblák meg vannak-e
+     * Check tables
      */
     private static function checkDatabase() 
     {                                                  
@@ -193,6 +186,9 @@ class DB
         self::execute("Set @full_error = ''");
     }
 
+    /**
+     * Load configuration to connect database
+     */
     private static function config()
     {
         $params = json_decode(file_get_contents(CONF_PATH), true);

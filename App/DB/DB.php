@@ -9,12 +9,6 @@ use LogicException;
 use PDO;
 
 
-require_once APPLICATION.'Interfaces/DBInterface.php';
-
-
-/**
- * MySql This is a singleton
- */
 class DB
 {
     private static PDO $connect;                

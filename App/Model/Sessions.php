@@ -4,7 +4,6 @@ namespace App\Model;
 
 use App\DB\DB;
 
-require_once APPLICATION.'DB/EntityGateway.php';
 
 class Sessions
 {

@@ -17,15 +17,14 @@ require_once APPLICATION.'Interfaces/DBInterface.php';
  */
 class DB
 {
-    private static 
-                $connect;                
+    private static PDO $connect;                
 
-    private static string              
-                $host,
-                $user,
-                $pass,
-                $database,
-                $DBMS;
+    
+    private static string $host;
+    private static string $user;
+    private static string $pass;
+    private static string $database;
+    private static string $DBMS;
              
     /**
      * Construct

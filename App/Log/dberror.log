@@ -6,7 +6,7 @@
 2020-10-11 04:34:41 - could not find driver in /var/www/html/NBack/Application/DB/DB.php at 214
 2020-10-11 04:39:42 - could not find driver in /var/www/html/NBack/Application/DB/DB.php at 214
 2020-10-11 04:39:49 - could not find driver in /var/www/html/NBack/Application/DB/DB.php at 214
-2020-10-19 20:40:26 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 20:40:26 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -15,7 +15,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 184
-2020-10-19 20:40:37 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 20:40:37 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -24,7 +24,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 184
-2020-10-19 20:44:14 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 20:44:14 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -33,7 +33,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 188
-2020-10-19 20:46:30 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 20:46:30 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -42,7 +42,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 188
-2020-10-19 20:46:53 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 20:46:53 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -51,7 +51,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 188
-2020-10-19 20:47:31 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 20:47:31 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -60,7 +60,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 188
-2020-10-19 20:47:49 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 20:47:49 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -69,7 +69,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 188
-2020-10-19 20:48:15 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 20:48:15 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -78,7 +78,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 188
-2020-10-19 20:48:35 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 20:48:35 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -87,7 +87,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 188
-2020-10-19 20:48:36 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 20:48:36 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -96,7 +96,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 188
-2020-10-19 20:48:40 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 20:48:40 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -105,7 +105,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 188
-2020-10-19 20:50:44 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 20:50:44 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -114,7 +114,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 188
-2020-10-19 20:51:22 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 20:51:22 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -123,7 +123,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 188
-2020-10-19 21:02:31 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 21:02:31 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -132,7 +132,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 188
-2020-10-19 21:02:43 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 21:02:43 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -141,7 +141,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 188
-2020-10-19 21:07:42 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 21:07:42 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -150,7 +150,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 188
-2020-10-19 21:07:45 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 21:07:45 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -159,7 +159,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/Application/DB/DB.php at 188
-2020-10-19 21:08:26 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL CreateNewUserprocedure(
+2020-10-19 21:08:26 - Code: 0, Msg:  , SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'birth' at row 1 with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -180,7 +180,7 @@
 2020-10-20 16:34:27- Code: 0- Msg:  , SQLSTATE[HY093]: Invalid parameter number: parameter was not defined with: 'UPDATE `images` SET `imgBin` = :imgBin, `update` = CURRENT_TIMESTAMP WHERE `userID` LIKE :userId' in /var/www/html/NBack/Application/DB/DB.php at 190
 2020-10-20 16:35:36- Code: 0- Msg:  , SQLSTATE[HY093]: Invalid parameter number: parameter was not defined with: 'UPDATE `images` SET `imgBin` = :imgBin, `update` = CURRENT_TIMESTAMP WHERE `userID` LIKE :userId' in /var/www/html/NBack/Application/DB/DB.php at 190
 2020-10-20 17:29:44 - SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute. with: 'SHOW errors' in /var/www/html/NBack/Application/DB/DB.php at 124
-2020-10-20 17:29:44- Code: 0- Msg:  , Errno: ,  with: 'CALL CreateNewUserprocedure(
+2020-10-20 17:29:44- Code: 0- Msg:  , Errno: ,  with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -211,7 +211,7 @@
 2020-10-26 01:10:33- Code: 0- Msg:  , SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'imgBin' at row 1 with: 'UPDATE `images` SET `imgBin` = :cmpBin, `update` = CURRENT_TIMESTAMP WHERE `userID` = :userId' in /var/www/html/NBack/App/DB/DB.php at 188
 2020-10-26 01:10:42- Code: 0- Msg:  , SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'imgBin' at row 1 with: 'UPDATE `images` SET `imgBin` = :cmpBin, `update` = CURRENT_TIMESTAMP WHERE `userID` = :userId' in /var/www/html/NBack/App/DB/DB.php at 188
 2020-11-01 12:51:57- Code: 0- Msg:  , SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'imgBin' at row 1 with: 'UPDATE `images` SET `imgBin` = :cmpBin, `update` = CURRENT_TIMESTAMP WHERE `userID` = :userId' in /var/www/html/NBack/App/DB/DB.php at 147
-2020-11-02 12:34:04- Code: 0- Msg:  , SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens with: 'CALL CreateNewUserprocedure(
+2020-11-02 12:34:04- Code: 0- Msg:  , SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens with: 'CALL createNewUserprocedure(
             :userName,
             
             :password, 
@@ -220,7 +220,7 @@
             :privilege, 
             :passwordLength,
             :cmpBin)' in /var/www/html/NBack/App/DB/DB.php at 148
-2020-11-02 12:50:54- Code: 0- Msg:  , ERROR 1054 (42S22): Unknown column '_name' in 'field list' with: 'CALL CreateNewUserprocedure(
+2020-11-02 12:50:54- Code: 0- Msg:  , ERROR 1054 (42S22): Unknown column '_name' in 'field list' with: 'CALL createNewUserprocedure(
             :userName,
             :email, 
             :password, 
@@ -255,3 +255,43 @@
             :userId, :ip, :level, :correctHit, :wrongHit, :sessionLength, :timestamp, :gameMode, :result)' in /var/www/html/NBack/App/DB/DB.php at 118
 2020-11-04 20:22:51- Code: 0- Msg:  , SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`NBackDB`.`nbackSessions`, CONSTRAINT `nbackSessions_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE) with: 'INSERT INTO `nbackSessions`(`userId`,`ip`,`level`,`correctHit`,`wrongHit`,`sessionLength`,`gameMode`,`result`) VALUES (
             :userId, :ip, :level, :correctHit, :wrongHit, :sessionLength, :gameMode, :result)' in /var/www/html/NBack/App/DB/DB.php at 118
+2020-11-05 23:27:30- Code: 0- Msg:  , Message: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':name, 
+			:email, 
+			:password,
+			:birth, 
+			:sex, 
+			:privilege, 
+			:pass' at line 2 Errorcode: 1064 with: 'call createNewUserprocedure(
+			:name, 
+			:email, 
+			:password,
+			:birth, 
+			:sex, 
+			:privilege, 
+			:passwordLength, 
+			:imgBin)' in /var/www/html/NBack/App/DB/DB.php at 115
+2020-11-05 23:40:27- Code: 0- Msg:  , Message:  Errorcode:  with: 'CALL createNewUserprocedure(
+            :name,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex,
+            :privilege, 
+            :passwordLength,
+            :cmpBin)' in /var/www/html/NBack/App/DB/DB.php at 115
+2020-11-05 23:40:47- Code: 0- Msg:  , Message: Incorrect number of arguments for PROCEDURE NBackDB.createNewUserprocedure; expected 8, got 7 Errorcode: 1318 with: 'CALL createNewUserprocedure(
+            :name,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex,
+            :privilege,        
+            :cmpBin)' in /var/www/html/NBack/App/DB/DB.php at 115
+2020-11-05 23:52:19- Code: 0- Msg:  , Message: MySQL server has gone away Errorcode: 2006 with: 'CALL createNewUserprocedure(
+            :name,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex,
+            :privilege,        
+            :cmpBin)' in /var/www/html/NBack/App/DB/DB.php at 115

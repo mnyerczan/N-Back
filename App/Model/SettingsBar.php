@@ -12,7 +12,7 @@ class SettingsBar
             // CSS-hez osztály!!
             "name"      => "Profile",
             "status"    => "inactive", 
-            "priority"  => 1, 
+            "privilege"  => 1, 
             "available" => false,
             "url"       => "settings"
         ], 
@@ -20,7 +20,7 @@ class SettingsBar
             "name"      => "N-back",
             // CSS-hez osztály!!
             "status"    => "inactive", 
-            "priority"  => 0, 
+            "privilege"  => 0, 
             "available" => false,
             "url"       => "settings/nback"
         ], 
@@ -32,7 +32,7 @@ class SettingsBar
      * Megkapja a hívó kontrollerhez tartozó almenű nevét és
      * aktív állapotba állítja.
      */
-    public function __construct(string $callerSubMenu, int $userId = 0)
+    public function __construct(string $callerSubMenu, int $userId = 1)
     {
         $counter = 0;
         foreach($this->submenus as $key => $menu){
@@ -41,7 +41,7 @@ class SettingsBar
                 $counter = 1;
             }
 
-            if ($menu['priority'] <= $userId)            
+            if ($menu['privilege'] <= User::$privilege)            
                 $this->submenus[$key]['available'] = true;
         } 
 

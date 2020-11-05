@@ -91,7 +91,7 @@ class SignUpController extends MainController
         
 
         // Konverter osztálynak átadandó pathok. Alapértelmezett avatar képek.
-        if ($sex == 'male') {
+        if ($sex->getSex() == 'male') {
             $image = APPLICATION.'Images/userMale.jpg';            
         }
         else {

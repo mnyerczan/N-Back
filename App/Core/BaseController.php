@@ -2,9 +2,8 @@
 
 namespace App\Core;
 
-use App\Model\User;
-use App\DB\DB;
 use App\Model\ViewParameters;
+
 
 class BaseController
 {
@@ -12,11 +11,7 @@ class BaseController
     protected array $datas;
        
 
-    function __construct()
-    {
-        DB::setup();
-        User::setup();                
-    }
+    function __construct(){}
 
 
 

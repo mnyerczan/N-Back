@@ -148,20 +148,15 @@ class DB
      */
     private static function connect()
     {            
-        try {     
-            /**
-             * baseDbApi::$connect
-             * 
-             * ARRR_PERSISTENT -> állandó adatbázis kapcsolat fenntartása új szálak generálása helyett. Gyorsabb.
-             */
+        try {                 
             self::$connect = new PDO( 
                 self::$DBMS.":host=".self::$host.";dbname=".self::$database.";charset=utf8", 
                 self::$user, 
                 self::$pass,
-                [PDO::ATTR_PERSISTENT => true]
-            );            
-
-            self::$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);    
+                // ATTR_PERSISTENT -> állandó adatbázis kapcsolat fenntartása új 
+                // szálak generálása helyett. Gyorsabb.
+                [PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION]
+            );                        
         } catch( PDOException $e ) {           
             error_log( date('Y-m-d h:i:s').' - '.$e->getMessage()." in ".__FILE__." at ".
                 __LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );

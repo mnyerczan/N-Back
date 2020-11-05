@@ -9,30 +9,33 @@ grant all privileges on NBackDB.* to 'www-data'@'localhost';
 
 -------------------------------------------------------------------------
 -- users definition
+-- Hivatkoznak rá:
+-- images
+-- nbackDatas
+-- nbackSessions
+-- userWrongSessions
+-- Documents
+-- images
 -------------------------------------------------------------------------
 
 create table IF NOT EXISTS `users` (
     `id` int(8) unsigned primary key, -- unsigned mezőben nem lehet nulla az érték
-    `user` varchar(255) not null,
+    `name` varchar(255) DEFAULT "Anonim" not null,
     `email` varchar(255) not null,
-    `loginDatetime` DATETIME default current_timestamp not null,
+    `loginDatetime` DATETIME DEFAULT current_timestamp not null,
     `password` varchar(33), -- A default user miatt
-    `privilege` int(2) default '1' not null,
-    `birth` date default '1899-01-01',
-    `passwordLength` tinyint default 0 not null,
+    `privilege` int(2) DEFAULT '1' not null,
+    `birth` date DEFAULT '1899-01-01',
+    `passwordLength` tinyint DEFAULT 0 not null,
     `about` varchar(255),
-    `sex` enum('male', 'female') default 'male' not null,
-    `theme` varchar(5) default 'white' not null, 
-    `online` int(1) default 0 not null,
+    `sex` enum('male', 'female') DEFAULT 'male' not null,
+    `theme` varchar(5) DEFAULT 'white' not null, 
+    `online` int(1) DEFAULT 0 not null,
     unique ( `email` ),
     index users_id_idx(id)
-)default charset utf8;
+)DEFAULT charset utf8;
 
--- Default user
-
-insert into users ( `user`, `email`, `privilege`) values
-( 'default', 'd@d.hu', '0');
-
+-- Add trigger idGen from triggers.sql!!!
 
 -------------------------------------------------------------------------
 -- images definition
@@ -44,13 +47,10 @@ CREATE TABLE IF NOT EXISTS `images`(
     `userID` INT(8) zerofill unsigned primary key,
     `imgBin` blob,
     `update` DATETIME,
-    `create` TIMESTAMP NOT NULL DEFAULT current_timestamp,
+    `create` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT FOREIGN KEY(`userID`) REFERENCES `users`(`id`) on delete cascade
-) ROW_FORMAT=DYNAMIC ENGINE = MEMORY;
+) ROW_FORMAT=DYNAMIC;
 
-
-INSERT INTO `images` VALUES 
-('1',null,null,current_timestamp );
 
 
 -- A userekhez tartozó játék beállítások
@@ -70,13 +70,6 @@ create table IF NOT EXISTS `nbackDatas`(
 )default charset utf8 engine innoDB;
 
 
-
-
-/*
- * Megjegyzés! Innentől lehet felhasználót készíteni, de vagy
- * az első az admin és csak aztán lehet feltölteni sql-ből,
- * vagy tetszőleges mikor, de admin felhasználónevet kell választani.
- */
 
 
 -- insert into users (  `name`, `email`, `userName`,`password`, `privilege`) values
@@ -120,8 +113,7 @@ CREATE TABLE IF NOT EXISTS`nbackSessions` (
   `wrongHit` int(3) NOT NULL DEFAULT '0.00',
   `sessionLength` int(7) NOT NULL DEFAULT '0.00' COMMENT "In miliseconds",
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `gameMode` varchar(9) NOT NULL DEFAULT 'Position',
-  `result` int(2) NOT NULL DEFAULT '0',
+  `gameMode` varchar(9) NOT NULL DEFAULT 'Position', 
   PRIMARY KEY (`userID`, `ip`, `timestamp`),
   CONSTRAINT `nbackSessions_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   unique(`timestamp`, `ip`),
@@ -131,10 +123,10 @@ CREATE TABLE IF NOT EXISTS`nbackSessions` (
 -- Admin létrehozása nélkül hibát fog dobni a külső kulcs miatt.
 
 
-insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES ("2","127.0.0.1","1","1","3","90000","2019-05-01 00:00:00");
-insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","1","9","2","90000","2019-05-02 00:00:00");
-insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","1","9","2","90000","2019-05-03 00:00:00");
-insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","2","3","7","90000","2019-05-04 00:00:00");
+-- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES ("2","127.0.0.1","1","1","3","90000","2019-05-01 00:00:00");
+-- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","1","9","2","90000","2019-05-02 00:00:00");
+-- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","1","9","2","90000","2019-05-03 00:00:00");
+-- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","2","3","7","90000","2019-05-04 00:00:00");
 -- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","2","5","5","90000","2019-05-05 00:00:00");
 -- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","3","6","2","90000","2019-05-06 00:00:00");
 -- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","4","5","9","90000","2019-05-07 00:00:00");
@@ -163,6 +155,15 @@ insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength
 -- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","8","9","2","300000","2019-05-19 00:00:00");
 -- insert into nbackSessions(userID, ip, level, correctHit, wrongHit, sessionLength, timestamp) VALUES("2","127.0.0.1","8","9","2","300000","2019-05-19 00:00:00");
 
+-- User session eredmény tároló tábla
+
+CREATE TABLE `sessionWrongResult`(
+    `userId` int unsigned primary key,
+    `result` tinyint unsigned DEFAULT 0 CHECK(`result` <= 2),
+    CONSTRAINT `users_fk` FOREIGN KEY(`userId`) REFERENCES `users`(`id`) 
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE
+)COLLATE "utf8_hungarian_ci" COMMENT "Users game sessions wrong result. If result == 2, user's game level decrease.";
 
 -- Dokumentum tároló tábla
 
@@ -193,7 +194,7 @@ create table IF NOT EXISTS `logs`(
 `privilege` int(2) default '1' not null, -- Szándékosan nem foreign key a user id
 foreign key(menuID) references menus(id) on delete cascade on update cascade,
 foreign key(userID) references users(id)
-)CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+)CHARACTER SET utf8 COLLATE utf8_hungarian_ci;
 
 
 -- Foreign key nézőben
@@ -206,66 +207,13 @@ from
     information_schema.key_column_usage
 where
     referenced_table_name is not null;
-/*
-
-+-------------------------+--------------+
-| foreign key             | references   |
-|-------------------------+--------------|
-| documents.userID       | users.id     |
-| logs.menuID            | menus.id     |
-| logs.userID            | users.id     |
-| nbackDatas.userID    | users.id     |
-| nbackSessions.userID | users.id     |
-+-------------------------+--------------+
-
-*/
 
 
 
-
--- Example page
-
-/* 
-INSERT INTO `documents`(userID, title, content, privilege) VALUES ('00000002','tutorial of n-back trial','<br>
-<h1>Position N_Back By Brain Workshop</H1>
-<br>
-<blockquote cite="https://www.iqmindware.com/iq-mindware/training-strategies/">
-<div id="start_page_img"></div>
-<p><h3>How To Optimize Your Dual N-back Training</h3>
-
-The question ‘What are the best strategies for increasing my dual n-back level?’ should be reframed as ‘What are the best strategies for increasing my working memory capacity and for improving my overall cognitive functioning?’
-
-Before we tackle this question directly let us review some of the science.</p>
-<div class="clear"></div>
-<h2>KEY BACKGROUND THEORY</h2>
-<p>
-Working memory definition: Our mental workspace.
-
-The dual n-back trains train your brain’s working memory circuitry.
-
-Working memory can be defined as a brain system that helps us keep information in mind while using that information to complete a task (e.g. planned or strategic action, comprehending,  problem solving, decision-making). This can involve actively inhibiting distracting information.
-
-A useful metaphor for working memory is the ‘mental workspace’:</p>
-<h3>Dual N-Back: Working memory training to increase IQ</h3>
-<p>
-
-How is working memory and IQ (general intelligence) related? How does working memory training transfer to gains in intelligence? The answer is interference control
-– the ability to filter out distracting information while engaging in some cognitive task, using your attentional focus.
-
-Studies by Burgess, Gray, and my grad-school colleague Tod Braver (article 1, article 2) provide brain imaging evidence of a large overlap of IQ and working memory
-brain mechanisms when there is need for interference control on a task – but not otherwise. Brain regions common to fluid intelligence and working memory became more
-active when there is a need to filter out distractions. Interference control is a so-called ‘executive function’ – the ability to use focused attention to filter out
-distracting information or suppress irrelevant habits or responses, when faced with cognitive challenges.
-</p>
-<br>
-<p>
-IQ Mindware n-back training – unlike standard dual n-back training – has built-in interference requiring continual interference control to perform the task. You may
-have experienced interference in the standard dual n-back when the sequence of stimuli repeats itself before the target is presented. This creates confusion where you
-have to ‘repeat yourself’ to keep the series of items in memory. In standard dual n-back this happens randomly. I have built it in as a central feature for working
-memory training. Our data suggests this results in significantly better IQ gains.
-</p>
-</blockquote>
-</div>','3');
- */
-
-
+drop table images;
+drop table nbackDatas;
+drop table nbackSessions;
+drop table sessionWrongResult;
+drop table documents;
+drop table logs;
+drop table users;

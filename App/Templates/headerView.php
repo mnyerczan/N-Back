@@ -29,7 +29,7 @@
     <div id="header-list">        	                  
         <span class="emoji-container">&#9776;</span>
         <section class="drop-down-container">    
-        <?php if($user::$loged): ?>
+        <?php if($user::$logged): ?>
             <div id="drop-dw-name-cnt">Signed in as <br>
                 <b><?= strlen($user::$name) <= 15 ? $user::$name : substr($user::$name, 0, 15).".." ?></b>
             </div>

@@ -21,7 +21,7 @@ class User
 {
 
 	static 
-			$loged,
+			$logged,
 			$object,	
 			/**
 			 * Anonim user id = 0
@@ -54,86 +54,94 @@ class User
 	
 	
 	public static function setup()
-    {				 
+    {			
 		if (isset($_SESSION['userId']))
 			self::loadUser( $_SESSION['userId'] );				 
-		else			
+		else
 			self::loadAnonim();
 	}
 
 
 	public static function getUsersCount()
 	{		
-		return DB::select('CALL `GetUserCount`()')[0];
+		return DB::select('CALL `getUserCount`()')[0];
 	}
 
 	private static function loadAnonim()
 	{		
 		// Anonim user id == 0!!!
-		self::$id 				= 1;	
-		self::$name 			= 'Anonim';
+		$sql = 'CALL getUser(:inUId, :inEmail, :inPass)';
+
+		$params = [
+			':inUId' => 1,
+			':inEmail' => '', 			
+			':inPass' => ''
+			];
+
+		$user = self::getUser($sql, $params);
+
+		self::$id 				= $user->id;	
+		self::$name 			= $user->name;
 		self::$isAdmin			= false;
 		self::$email 			= NULL;
 		self::$loginDatetime	= NULL;
-		self::$privilege 		= 0;
-		self::$birth 			= NULL;
-		self::$passwordLength 	= NULL;
-		self::$theme 			= $_COOKIE['theme'] 		?? 'white';
+		self::$privilege 		= $user->privilege;
+		self::$birth 			= $user->birth;
+		self::$passwordLength 	= $user->paswordLength;
+		self::$theme 			= $_COOKIE['theme'] ?? $user->theme;
 		self::$refresh 			= NULL;
 		
 		// Van az anonimnak saját képe, hogy meg lehessen jeleníteni
 		// az nback settings felületet.
-		self::$imgBin 			= ImageConverter::BTB64(
-			DB::select("SELECT imgBin FROM images WHERE userID = 1")[0]->imgBin
-		);
+		self::$imgBin 			= ImageConverter::BTB64($user->imgBin);
 
 		// NOT IMPLEMENTED FEATUTRE
 		self::$online 			= NULL;
 		//--------------------------------------------------------------------------------------------				
 
 		if (!isset($_COOKIE['gameMode'])) {
-			setcookie('gameMode','Position');
-			self::$gameMode = 'Position';
+			setcookie('gameMode',$user->gameMode);
+			self::$gameMode = $user->gameMode;
 		} else
 			self::$gameMode = $_COOKIE['gameMode'];
 		
 
 		// Game level
 		if (!isset($_COOKIE['level'])) {
-			setcookie('level', 1);
-			self::$level = 1;
+			setcookie('level', $user->level);
+			self::$level = $user->level;
 		} else
 			self::$level = $_COOKIE['level'];
 		
 
 		// Tim between two event in seconds
 		if (!isset($_COOKIE['seconds'])) {
-			setcookie('seconds', 3);
-			self::$seconds = 3;
+			setcookie('seconds', $user->seconds);
+			self::$seconds = $user->seconds;
 		} else
 			self::$seconds = $_COOKIE['seconds'];
 		
 
 		// Min trial has 25 events
 		if (!isset($_COOKIE['trials'])) {
-			setcookie('trials', 25);
-			self::$trials 	= 25;
+			setcookie('trials', $user->trials);
+			self::$trials 	= $user->trials;
 		} else
 			self::$trials = $_COOKIE['trials'];
 		
 
 		// One event length in seconds 
 		if (!isset($_COOKIE['eventLength'])) {
-			setcookie('eventLength', 0.5);
-			self::$eventLength = 0.5;
+			setcookie('eventLength', $user->eventLength);
+			self::$eventLength = $user->eventLength;
 		} else
 			self::$eventLength = $_COOKIE['eventLength'];
 		
 
 		// Event's color
 		if (!isset($_COOKIE['color'])) {
-			setcookie('color','blue');		
-			self::$color = 'blue';
+			setcookie('color', $user->color);		
+			self::$color = $user->color;
 		} else
 			self::$color = $_COOKIE['color'];
     }
@@ -145,7 +153,7 @@ class User
 		// Anonim felhasználóhoz nem tartoznak személyes adatok.
 		if ($userId == 1) return false; 
 		
-		$sql = 'CALL GetUser(:inUId, :inEmail, :inPass)';
+		$sql = 'CALL getUser(:inUId, :inEmail, :inPass)';
 
 		$params = [
 			':inUId' => $userId,
@@ -153,8 +161,9 @@ class User
 			':inPass' => ''
 			];
 
-		$user = DB::select($sql,$params)[0]; 
-		
+
+		$user = self::getUser($sql, $params);
+
 		self::$id 				= $user->id;
 		self::$email			= $user->email;
 		self::$loginDatetime	= $user->loginDatetime;		
@@ -176,7 +185,7 @@ class User
 		self::$trials 			= $user->trials;
 		self::$eventLength		= $user->eventLength;
 		self::$color 			= $user->color;												
-		self::$loged 			= true;		
+		self::$logged 			= true;		
 	}
 
     public static function login( string $email, string $password ): string
@@ -188,30 +197,29 @@ class User
 		];
 
 		$user = DB::select(
-			'CALL GetUser(:inUId, :inEmail, :inPass)'
+			'CALL getUser(:inUId, :inEmail, :inPass)'
 			,$params
 		);
 
 		if (!is_array($user)) return false;
 		
 		if(count($user)) {							
-			self::setSession( $user[0] );	
-	
-			return self::$loged = true;
+			self::setSession($user[0]);		
+			return self::$logged = true;
 		}        		
 
-		return self::$loged = false;	
+		return self::$logged = false;	
 	}
 
 	private static function setSession( $result )
 	{
-		$_SESSION['userId']		= $result->id;
+		$_SESSION['userId'] = $result->id;
 	}
 
     public function __call($name, $arguments)	
     {		
         switch($name) {
-			case 'loged': 			return self::$loged; 			break;
+			case 'logged': 			return self::$logged; 			break;
 			case 'id': 				return self::$id; 				break;			
 			case 'name': 			return self::$name; 			break;
 			case 'isAdmin': 		return self::$isAdmin; 			break;
@@ -257,29 +265,78 @@ class User
 		 ValidateSex $sex, 
 		 $privilege, 
 		 ImageConverter $converter) {
-		// Létrehozzuk az SQL bind-olási paramétereket.	
-		$params = [            
-            ':email'            => trim( $email->getEmail() ),
-            ':userName'         => trim( $user->getUser() ),
-            ':password'         => $password->getPass(),
-            ':dateOfBirth'      => trim( $birthDAte->getDate() ),
-            ':sex'              => $sex->getSex(),
-            ':privilege'        => $privilege,
-            ':passwordLength'   => strlen($password->getPass()),
-            ':cmpBin'           => $converter->cmpBin
-		];     
 		
-		$sql = 'CALL CreateNewUserprocedure(
-            :userName,
+		self::exportUser(			
+			trim($user->getUser()),
+			trim($email->getEmail()),
+			$password->getPass(),
+			trim($birthDAte->getDate()),
+			$sex->getSex(),
+			$privilege,
+			$converter->cmpBin
+		);
+
+	}
+
+
+	private static function getUser($sql, $params)
+	{
+		$user = DB::select($sql,$params); 
+		if ($user == []) {
+			$params[":inUId"] = 1;			
+			if ($user = DB::select($sql, $params) == []) 
+				self::setupAnonim();								
+		}			
+
+		return DB::select($sql, $params)[0];
+	}
+
+
+	private static function exportUser($name, $email, $pass, $birth, $sex, $privilege, $cmpBin)	
+	{
+		$params = [
+			":name" => $name,
+			":email" => $email,
+			":password" => $pass,
+			":dateOfBirth" => $birth,
+			":sex" => $sex,
+			":privilege" => $privilege,			
+			":cmpBin" => $cmpBin
+		];
+
+		$sql = 'CALL createNewUserprocedure(
+            :name,
             :email, 
             :password, 
             :dateOfBirth,
             :sex,
-            :privilege, 
-            :passwordLength,
+            :privilege,        
             :cmpBin)';
 
-		// Ha a művelet nem sikerül, kivételt dob, amit nem kapunk el.
 		DB::execute($sql, $params);
+	}
+
+	/**
+	 *  Default user
+	 *	----------------
+	 *	Szükséges táblák
+	 * 
+	 *	users
+	 *	images
+	 *	nbackDatas
+	 *	nbackSessions
+	 *	userWrongSessions
+	 */
+	private static function setupAnonim()
+	{				
+		self::exportUser(
+			"Anonim",
+			"default@user.com",
+			NULL,
+			NULL,
+			"male",
+			0,
+			(new ImageConverter("/var/www/html".APPROOT."/App/Images/userMale.png"))->cmpBin
+		);
 	}
 }

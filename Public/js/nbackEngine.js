@@ -183,7 +183,7 @@ class Nback
             var response = this.saveSession();         
 
             if (response.responseText.update == 1) {
-                window.location = "/NBack";
+                window.location = "/NBack/feedback";
             } else {                             
                 $("upper-feedback").innerHTML = "<span style=\"color:red;text-align:center;padding:5px\">Error: Cant't upload result to server... :(</span>";
             }

@@ -72,7 +72,6 @@ spl_autoload_register(function($className) {
     $className = str_replace("\\", DIRECTORY_SEPARATOR, $className);    
     include_once $_SERVER['DOCUMENT_ROOT'] . '/NBack/' . $className . '.php';
 });
+              
 
-
-
-App\Http\Router::route($cleanedUri);		
+require "App/Core/core.php";

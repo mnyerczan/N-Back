@@ -5,14 +5,13 @@
 -- -----------------------------------------------------------
 -- Procedure for create user
 -- -----------------------------------------------------------
-CREATE PROCEDURE `CreateNewUserprocedure`(
+CREATE PROCEDURE `createNewUserprocedure`(
     IN `name` varchar(255),  
     IN `email` varchar(255),     
     IN `inNewPassword` varchar(33),   
     IN `birth` date,             
     IN `sex` varchar(6),         
     IN `privilege` INT,          
-    IN `passwordLength` tinyint, 
     -- image                   
     IN `imgBin` blob             
 )
@@ -39,20 +38,25 @@ BEGIN
 
     START TRANSACTION;
 
-        INSERT INTO `users` ( `name`, `email`, `password`, `birth`,`sex` , `privilege`, `passwordLength` ) VALUES
-            ( `name`, `email`, md5(CONCAT("salt",md5(`inNewPassword`))), `birth`, `sex`, `privilege`, `passwordLength`);
+        INSERT INTO `users` ( `name`, `email`, `password`, `birth`,`sex` , `privilege` ) VALUES
+            ( `name`, `email`, md5(CONCAT("salt",md5(`inNewPassword`))), `birth`, `sex`, `privilege`);
 
         SELECT MAX(`id`) INTO `userid` FROM `users`;
-
-        INSERT INTO `images` (`userID`,`imgBin`) VALUES (`userid`, `imgBin`);
-
+        IF (`imgBin` is NULL) THEN
+            INSERT INTO `images` (`userID`,`imgBin`, `createTime`) VALUES (`userid`, `imgBin`, NULL);
+        ELSE 
+            INSERT INTO `images` (`userID`,`imgBin`) VALUES (`userid`, `imgBin`);
+        END IF;
+        
+        INSERT INTO `nbackDatas`(`userID`) VALUES (`userid`);
+        INSERT INTO `sessionWrongResult`(`userId`) VALUES (`userid`);
     COMMIT; 
 END;
 
 -- -----------------------------------------------------------
 -- Procedure for get user
 -- -----------------------------------------------------------
-CREATE PROCEDURE `GetUser`(
+CREATE PROCEDURE `getUser`(
     IN `inUId` INT,
     IN `inEmail` VARCHAR(255),
     IN `inPass` VARCHAR(33)
@@ -60,7 +64,7 @@ CREATE PROCEDURE `GetUser`(
 BEGIN
     IF `inUId` IS NOT NULL THEN
         SELECT 
-            `u`.*, `i`.*,`n`.*, CURRENT_TIMESTAMP 
+            `u`.*, `i`.*,`n`.*, CURRENT_TIMESTAMP, length(`password`) `paswordLength`
         FROM 
             `users` AS `u` JOIN `images` AS `i` JOiN `nbackDatas` AS `n`
         WHERE 
@@ -69,7 +73,7 @@ BEGIN
             `u`.`id` = `inUId`;
     ELSE
         SELECT 
-            `u`.*, `i`.*, `n`.*, CURRENT_TIMESTAMP 
+            `u`.*, `i`.*, `n`.*, CURRENT_TIMESTAMP, length(`password`) `paswordLength`
         FROM 
             `users` AS `u` JOIN `images` AS `i` JOiN `nbackDatas` AS `n`
         WHERE 
@@ -144,8 +148,7 @@ BEGIN
         SELECT `password` FROM `users` WHERE `id` LIKE `userId` ) THEN
 
         UPDATE `users` SET 
-            `password` = md5(CONCAT("salt",md5(`inNewPassword`))),
-            `passwordLength` = LENGTH(`inNewPassword`)
+            `password` = md5(CONCAT("salt",md5(`inNewPassword`)))
         WHERE `users`.`id` LIKE `userId` ;
         SELECT 'true' AS `result`;
 
@@ -193,7 +196,7 @@ END;
 -------------------------------------------------------------
 -- Procedure for get users count
 -------------------------------------------------------------
-CREATE PROCEDURE `GetUserCount`()
+CREATE PROCEDURE `getUserCount`()
 BEGIN
     SELECT COUNT(*) AS num FROM `users`;
 END;
@@ -376,4 +379,35 @@ BEGIN
     FROM `nbackSessions`
     WHERE `userID` = `inUserId`
     AND `timestamp` > `lastDate`;
+END;
+
+
+-------------------------------------------------------------
+-- Procedure for export to database users new session
+-------------------------------------------------------------
+CREATE PROCEDURE `exportSession`(
+    IN `inUserId` INT,
+    IN `inIp` VARCHAR(15),
+    IN `inLevel` tinyint,
+    IN `inCorrectHit` tinyint,
+    IN `inWrongHit` tinyint,
+    IN `inSessionLength` INT,
+    IN `inGameMode` VARCHAR(8),
+    IN `inResult` tinyint
+)
+BEGIN
+    -- Error esetén beállítja az alapértelmezett @full_error session változót
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            GET DIAGNOSTICS CONDITION 1 @sqlstate = RETURNED_SQLSTATE, 
+                @errno = MYSQL_ERRNO, @text = MESSAGE_TEXT;
+            SET @full_error = CONCAT("ERROR ", @errno, " (", @sqlstate, "): ", @text); 
+            SELECT @full_error;    
+            ROLLBACK;
+        END;
+    START TRANSACTION;
+    INSERT INTO `nbackSessions` (`userID`,`ip`,`level`,`correctHit`,`wrongHit`,`sessionLength`,`gameMode`)
+        VALUES (`inUuserId`, `inIp`, `inLevel`, `inCorrectHit`, `inWrongHit`,`inSessionLength`,`inGameMode`);
+    UPDATE `sessionWrongResult` SET `result` = `inResult`;
+    COMMIT;
 END;

@@ -31,13 +31,3 @@ BEGIN
         SET NEW.id = 1;    
     END IF;
 END;
-
-/*
- * Trigger az nbackDatas táblához
- */
-
-CREATE TRIGGER `defaultNbackDatas` 
-AFTER INSERT ON `users` 
-FOR EACH ROW 
-    INSERT INTO `nbackDatas`(`userID`) VALUES (NEW.`id`);
-

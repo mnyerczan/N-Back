@@ -54,4 +54,10 @@ class NBackSaveController extends GameController
 
         $this->Response(["update" => 1], new ViewParameters("", "application/json"));
     }
+
+
+    public function feedback()
+    {
+        DB::select("SELECT * FROM `nbackSessions` ");
+    }
 }

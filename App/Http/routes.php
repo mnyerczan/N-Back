@@ -64,10 +64,16 @@ return [
             "action" => "",
             "logged" => false
         ],
-        // NBACK
+        // NBACK: index
         "/nback" => [
             "controller" => "App\Controller\Nback\NBackSessionController",                
             "action" => "",
+            "logged" => false
+        ],
+        // NBACK: feedback
+        "/nback/feedback" => [
+            "controller" => "App\Controller\Nback\NBackSaveController",                
+            "action" => "feedback",
             "logged" => false
         ],
         // Documents

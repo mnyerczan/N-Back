@@ -1,5 +1,5 @@
 <script src="<?=BACKSTEP?>Public/js/nbackSettings.js?v=<?= RELOAD_INDICATOR ?>"></script>
-<form action="<?= APPROOT ?>/settings/nback<?php if(!$user::$loged) echo "Anonim"; ?>" method="POST">	
+<form action="<?= APPROOT ?>/settings/nback<?php if(!$user::$logged) echo "Anonim"; ?>" method="POST">	
 	<div class="nback-setting-contents">
 		<div class="nback-settings-describtion">Describtion:
 

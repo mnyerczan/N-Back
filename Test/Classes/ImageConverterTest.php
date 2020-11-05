@@ -3,7 +3,9 @@
 
 use App\Classes\ImageConverter;
 
-require "init.php";
+chdir("/var/www/html/NBack");
+
+require "Test/init.php";
 
 
 

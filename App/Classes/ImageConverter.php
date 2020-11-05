@@ -40,7 +40,7 @@ class ImageConverter
             case 'bin':     return $this->bin;    break;
             case 'cmpBin':  return $this->cmpBin; break;
             case 'origin':  return $this->origin; break;
-            default: throw new InvalidArgumentException("Not exist the named variable");
+            default: throw new InvalidArgumentException("Not exist the named variable: \"{$name}\"");
         }
     }
 

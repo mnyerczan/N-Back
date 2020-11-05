@@ -1,7 +1,7 @@
 <?php
 
-
 namespace App\Controller\Main\Settings;
+
 
 use App\Controller\Main\MainController;
 use App\DB\DB;

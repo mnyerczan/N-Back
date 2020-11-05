@@ -4,8 +4,7 @@ namespace App\Http;
 
 
 use App\Controller\NotFoundController;
-use UnexpectedValueException;
-
+use App\Model\User;
 abstract class Router
 {          
     
@@ -17,12 +16,6 @@ abstract class Router
     
     public static function route($cleanedUri): void
     {
-        // Ha nincs jogosultság elérni a /var/lib/apache2/sessions/... fájlt, error view.
-        if(@!session_start()) {
-            // self::$addRoute('/(?<controller>sessionError)/?', "App\Controller\SessionError", 'get');   
-            $cleanedUri = "/sessionError";
-        }        
-        
         self::$routes = self::loadRoutes(require "App/Http/routes.php");
 
         // A $routes tömb minden metódushoz egy "regex minta":[paraméter tömb] típusú adatszerkezetet vesz fel.
@@ -31,7 +24,7 @@ abstract class Router
                 // Fejlesztendő!!!
                 // Ha szükséges bejelentkezés az adott view megtekintéséhez, de már lejárt a session, ne
                 // 404-et dobjon, hanem irányítson át!!
-                if ($params['logged'] && isset($_SESSION['userId']) || !$params['logged']) {                            
+                if (User::$logged || !$params['logged']) {                            
 
                     // A php nem enged közvetlenül tömbből kiolvasott értéket hívni, ezért le kell menteni?!!...
                     $action = $params['action'];                    

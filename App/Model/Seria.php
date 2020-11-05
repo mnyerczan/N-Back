@@ -30,7 +30,7 @@ class Seria
     
 
 
-    private function getResult( int $uid ): array
+    private function getResult(int $uid): array
     {   
         // A WHILE függvény pedíg addig meg, míg az aktuális napi és az
         // egyel korábbi ineger értéke megegyezik. minen loopban nö egyel a seria száma így jön ki a végeredmény.   

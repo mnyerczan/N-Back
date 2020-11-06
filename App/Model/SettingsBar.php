@@ -10,14 +10,14 @@ class SettingsBar
     private $submenus =  [ 
         "personalItem"  => [
             // CSS-hez osztály!!
-            "name"      => "Profile",
+            "name"      => "personal",
             "status"    => "inactive", 
             "privilege"  => 1, 
             "available" => false,
             "url"       => "settings"
         ], 
         "nbackItem"     => [
-            "name"      => "N-back",
+            "name"      => "nback",
             // CSS-hez osztály!!
             "status"    => "inactive", 
             "privilege"  => 0, 

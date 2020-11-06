@@ -295,3 +295,43 @@
             :sex,
             :privilege,        
             :cmpBin)' in /var/www/html/NBack/App/DB/DB.php at 115
+2020-11-06 00:27:16- Code: 0- Msg:  , ERROR 1146 (42S02): Table 'NBackDB.sessionWrongResult' doesn't exist with: 'CALL createNewUserprocedure(
+            :name,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex,
+            :privilege,        
+            :cmpBin)' in /var/www/html/NBack/App/DB/DB.php at 115
+2020-11-06 00:27:58- Code: 0- Msg:  , ERROR 1146 (42S02): Table 'NBackDB.sessionWrongResult' doesn't exist with: 'CALL createNewUserprocedure(
+            :name,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex,
+            :privilege,        
+            :cmpBin)' in /var/www/html/NBack/App/DB/DB.php at 115
+2020-11-06 00:28:52- Code: 0- Msg:  , ERROR 1146 (42S02): Table 'NBackDB.sessionWrongResult' doesn't exist with: 'CALL createNewUserprocedure(
+            :name,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex,
+            :privilege,        
+            :cmpBin)' in /var/www/html/NBack/App/DB/DB.php at 115
+2020-11-06 00:30:26- Code: 0- Msg:  , ERROR 1146 (42S02): Table 'NBackDB.sessionWrongResult' doesn't exist with: 'CALL createNewUserprocedure(
+            :name,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex,
+            :privilege,        
+            :cmpBin)' in /var/www/html/NBack/App/DB/DB.php at 115
+2020-11-06 00:33:54- Code: 0- Msg:  , Message: MySQL server has gone away Errorcode: 2006 with: 'CALL createNewUserprocedure(
+            :name,
+            :email, 
+            :password, 
+            :dateOfBirth,
+            :sex,
+            :privilege,        
+            :cmpBin)' in /var/www/html/NBack/App/DB/DB.php at 115

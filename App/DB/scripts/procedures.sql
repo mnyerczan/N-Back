@@ -49,7 +49,7 @@ BEGIN
         END IF;
         
         INSERT INTO `nbackDatas`(`userID`) VALUES (`userid`);
-        INSERT INTO `sessionWrongResult`(`userId`) VALUES (`userid`);
+        INSERT INTO `sessionWrongResults`(`userId`) VALUES (`userid`);
     COMMIT; 
 END;
 
@@ -407,7 +407,9 @@ BEGIN
         END;
     START TRANSACTION;
     INSERT INTO `nbackSessions` (`userID`,`ip`,`level`,`correctHit`,`wrongHit`,`sessionLength`,`gameMode`)
-        VALUES (`inUuserId`, `inIp`, `inLevel`, `inCorrectHit`, `inWrongHit`,`inSessionLength`,`inGameMode`);
-    UPDATE `sessionWrongResult` SET `result` = `inResult`;
+        VALUES (`inUserId`, `inIp`, `inLevel`, `inCorrectHit`, `inWrongHit`,`inSessionLength`,`inGameMode`);
+    IF `inResult` = -1 THEN
+        UPDATE `sessionWrongResults` SET `result` = `result` + 1;
+    END IF;
     COMMIT;
 END;

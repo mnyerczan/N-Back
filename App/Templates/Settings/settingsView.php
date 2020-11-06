@@ -18,7 +18,7 @@
                     </a>
                 <?php endif ?>                
             <?php endforeach ?>
-        </div>        
+        </div>       
         <?php include APPLICATION."Templates/Settings/{$views->item}View.php"; ?>        
     </section>
 </main>        

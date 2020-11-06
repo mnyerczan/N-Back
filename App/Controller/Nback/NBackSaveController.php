@@ -43,14 +43,13 @@ class NBackSaveController extends GameController
             ":level" => User::$level,
             ":correctHit" => $correctHit,
             ":wrongHit" => $wrongHit,
-            ":sessionLength" => User::$seconds * User::$trials,        
+            ":sessionLength" => User::$seconds * User::$trials * 1000,        
             ":gameMode"  => User::$gameMode,
             // Elérte-e a 80%-ot, vagy 500 alatt volt-e
             ":result" => $result
         ];
 
-        DB::execute("INSERT INTO `nbackSessions`(`userId`,`ip`,`level`,`correctHit`,`wrongHit`,`sessionLength`,`gameMode`,`result`) VALUES (
-            :userId, :ip, :level, :correctHit, :wrongHit, :sessionLength, :gameMode, :result)", $params);
+        DB::execute("CALL exportSession(:userId, :ip, :level, :correctHit, :wrongHit, :sessionLength, :gameMode, :result)", $params);
 
         $this->Response(["update" => 1], new ViewParameters("", "application/json"));
     }

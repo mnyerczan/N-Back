@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS`nbackSessions` (
 
 -- User session eredmény tároló tábla
 
-CREATE TABLE `sessionWrongResult`(
+CREATE TABLE `sessionWrongResults`(
     `userId` int unsigned primary key,
     `result` tinyint unsigned DEFAULT 0 CHECK(`result` <= 2),
     CONSTRAINT `users_fk` FOREIGN KEY(`userId`) REFERENCES `users`(`id`) 

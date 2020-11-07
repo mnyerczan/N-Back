@@ -25,9 +25,16 @@ class DB
      */
     public static function setup()
     {  
-        self::config();    
-        self::connect();                     
-        return self::checkDatabase();
+        try {
+            self::config();
+            self::connect();                     
+            self::checkDatabase();
+        } catch (InvalidArgumentException $e) {
+            return false;
+        } catch (Exception $e) {
+            return false;
+        }
+        return true;
     }
  
     /**
@@ -38,11 +45,41 @@ class DB
      * @param string $cript SQL script
      * @param array $params Pramas to bind metodhs
      * 
+     * @return object Entity
+     */
+    public static function select(string $script, array $params = [], string $type = null): ?object
+    {                       
+        if (($result = self::import($script, $params, $type)) == []) 
+            return null;
+        return $result[0];       
+    }
+    
+    /**
+     * SELECT query
+     * 
+     * Mindig tömbbel tér vissza, hogy loopolható maradjon.
+     * 
+     * @param string $cript SQL script
+     * @param array $params Pramas to bind metodhs
+     * 
      * @return array Entity set
      */
-    public static function select( string $script, array $params = [], string $type = null ): array
+    public static function selectAll(string $script, array $params = [], string $type = null): array
     {               
+        return self::import($script, $params, $type);
+       
+    }
 
+    /**
+     * import function abstraction
+     * 
+     * @param string $cript SQL script
+     * @param array $params Pramas to bind metodhs
+     * 
+     * @return array Entity set
+     */
+    protected static function import(string $script, array $params = [], string $type = null): array
+    {
         $pdoStatement =  self::$connect->prepare($script);     
      
         self::binds($pdoStatement, $params);           
@@ -65,9 +102,9 @@ class DB
             error_log( date('Y-m-d H:i:s').' - '.$e->getMessage()." with: '".$script."' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
             $statement = null;
             return [];
-        }        
+        } 
     }
-    
+
     /**
      * EXECUTE query
      * @throws LogicException   Logikai hiba eseténe
@@ -89,12 +126,9 @@ class DB
                     "Message: ".$smt->errorInfo()[2].
                     " Errorcode: ".$smt->errorInfo()[1]);
                         
-            // Hibakód ellenőrzés. Ha nincs mit lekérdezni, PODException-t dob.
-            $smt = self::$connect->prepare("SELECT @full_error AS error");
-            $smt->execute();
-
+            // Hibakód ellenőrzés. Ha nincs mit lekérdezni, PODException-t dob.                        
             // Adatbézis szintű logikai hibáról értesítést kap a hívó.
-            if(($error = $smt->fetch(PDO::FETCH_OBJ)->error) !== "") 
+            if(($error = self::select("SELECT @full_error AS error")) == null || $error->error !== "") 
                 throw new LogicException($error);
 
         } catch(PDOException $exception) {
@@ -160,6 +194,7 @@ class DB
         } catch( PDOException $e ) {           
             error_log( date('Y-m-d h:i:s').' - '.$e->getMessage()." in ".__FILE__." at ".
                 __LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -168,7 +203,7 @@ class DB
      */
     private static function checkDatabase() 
     {                                                  
-        if ( count( self::select('SHOW TABLES') ) < 6 ) {
+        if ( count( self::selectAll('SHOW TABLES') ) < 6 ) {
             throw new \Exception('Database breaked. Count of tables not enough!');
         }          
         

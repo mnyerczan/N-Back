@@ -8,8 +8,12 @@ if(@!session_start()) {
 }        
 
 
-App\DB\DB::setup();
-App\Model\User::setup();  
+if (!App\DB\DB::setup()) {
+    $cleanedUri = "/databaseError";
+} else {
+    App\Model\User::setup();
+}
+  
 
 
 App\Http\Router::route($cleanedUri);	

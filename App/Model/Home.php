@@ -15,7 +15,7 @@ class Home extends MainController
         $sql        = 'CALL `GetHomeContent`(:inPrivilege)';
         $params     = [':inPrivilege' => 3];     
 
-        $content    = DB::select($sql, $params);
+        $content    = DB::selectAll($sql, $params);
 
 
         return new HomeViewModel($content[0] ?? '');

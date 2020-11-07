@@ -39,7 +39,7 @@ class Seria
         $params = [':inRemoteAddress' => $_SERVER['REMOTE_ADDR'], ':inUserId' => $uid];
   
 
-        return ( DB::select($sql, $params));
+        return DB::selectAll($sql, $params);
     }
 
     private function CalculateSeria(): int

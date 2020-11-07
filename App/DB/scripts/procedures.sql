@@ -80,7 +80,7 @@ BEGIN
             `u`.`id` = `i`.`userID`         AND
             `u`.`id` = `n`.`userID`         AND
             `u`.`email` LiKE `inEmail`      AND
-            `u`.`password` LIKE `inPass`;
+            `u`.`password` LIKE md5(CONCAT("salt", md5(`inPass`)));
     END IF;
 END;
 
@@ -408,7 +408,7 @@ BEGIN
     START TRANSACTION;
     INSERT INTO `nbackSessions` (`userID`,`ip`,`level`,`correctHit`,`wrongHit`,`sessionLength`,`gameMode`)
         VALUES (`inUserId`, `inIp`, `inLevel`, `inCorrectHit`, `inWrongHit`,`inSessionLength`,`inGameMode`);
-    IF `inResult` = -1 THEN
+    IF `inResult` = -1 AND (SELECT `result` FROM `sessionWrongResults` WHERE `userId` = `inUserId`) < 2 THEN
         UPDATE `sessionWrongResults` SET `result` = `result` + 1;
     END IF;
     COMMIT;

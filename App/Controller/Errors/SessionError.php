@@ -7,7 +7,7 @@
  * 
  */
 
-namespace App\Controller;
+namespace App\Controller\Errors;
 
 
 use App\Core\BaseController;

@@ -14,26 +14,25 @@ use App\Classes\ValidateUser;
 use InvalidArgumentException;
 use LogicException;
 
-/**
- * UserEntity, this is a singleton
- */
-class User
+
+
+abstract class User
 {
 
 	static 
 			$logged,
 			$object,	
-			/**
-			 * Anonim user id = 0
-			 * Regisztrál user id = 1
-			 * a 2 fenntartva??
-			 * Admin user ud = 3 		
-			 */
 			$id,
 			$name,
 			$isAdmin,
 			$email,
 			$loginDatetime,
+			/**
+			 * Anonim user privilege = 0
+			 * Regisztrál user privilege = 1
+			 * a 2 fenntartva??
+			 * Admin user privilege = 3
+			 */
 			$privilege,
 			$birth,
 			$sex,
@@ -62,23 +61,11 @@ class User
 	}
 
 
-	public static function getUsersCount()
-	{		
-		return DB::select('CALL `getUserCount`()')[0];
-	}
-
 	private static function loadAnonim()
-	{		
-		// Anonim user id == 0!!!
-		$sql = 'CALL getUser(:inUId, :inEmail, :inPass)';
-
-		$params = [
-			':inUId' => 1,
-			':inEmail' => '', 			
-			':inPass' => ''
-			];
-
-		$user = self::getUser($sql, $params);
+	{				
+		
+		// Anonim user id = 1!!!			
+		$user = self::getUser(null, null, 1);
 
 		self::$id 				= $user->id;	
 		self::$name 			= $user->name;
@@ -148,21 +135,9 @@ class User
 	
 
 
-	protected static function loadUser( int $userId )
+	protected static function loadUser(int $userId)
     {	
-		// Anonim felhasználóhoz nem tartoznak személyes adatok.
-		if ($userId == 1) return false; 
-		
-		$sql = 'CALL getUser(:inUId, :inEmail, :inPass)';
-
-		$params = [
-			':inUId' => $userId,
-			':inEmail' => '', 			
-			':inPass' => ''
-			];
-
-
-		$user = self::getUser($sql, $params);
+		$user = self::getUser(null, null, $userId);
 
 		self::$id 				= $user->id;
 		self::$email			= $user->email;
@@ -188,34 +163,41 @@ class User
 		self::$logged 			= true;		
 	}
 
+	/**
+	 * Logining user by email and password
+	 * @param string $email
+	 * @param string password
+	 * @return bool
+	 */
     public static function login( string $email, string $password ): string
     {				
-		$params = [
-			':inUId' => null,
-			':inEmail' => $email, 			
-			':inPass' => md5("salt".md5($password ))
-		];
-
-		$user = DB::select(
-			'CALL getUser(:inUId, :inEmail, :inPass)'
-			,$params
-		);
-
-		if (!is_array($user)) return false;
+		// $user must be a object
+		$user = self::getUser($email, $password);
 		
-		if(count($user)) {							
-			self::setSession($user[0]);		
+		if($user->id != 1) {
+			self::setSession($user->id);
 			return self::$logged = true;
 		}        		
 
 		return self::$logged = false;	
 	}
 
-	private static function setSession( $result )
+	/**
+	 * Session handler
+	 */
+	private static function setSession(int $id)
 	{
-		$_SESSION['userId'] = $result->id;
+		$_SESSION['userId'] = $id;
 	}
 
+	/**
+	 * Static getter for static class property
+	 * 
+	 * @param $name Name of the property
+	 * @param $arguments Arguments if we can call a class method
+	 * 
+	 * @throws InvalidArgumentException If the named property does not exists
+	 */
     public function __call($name, $arguments)	
     {		
         switch($name) {
@@ -279,20 +261,56 @@ class User
 	}
 
 
-	private static function getUser($sql, $params)
+	/**
+	 * Load user from database and, if not existx,
+	 * call static setUpAnonim method, then load user
+	 * 
+	 * @param ?string $email
+	 * @param ?string $password
+	 * @param ?aint $id
+	 * @return object Object of user entity
+	 */
+	protected static function getUser(?string $email = null, ?string $password = null,  ?int $id = null)
 	{
-		$user = DB::select($sql,$params); 
-		if ($user == []) {
-			$params[":inUId"] = 1;			
-			if ($user = DB::select($sql, $params) == []) 
-				self::setupAnonim();								
-		}			
+		$sql = 'CALL getUser(:inUId, :inEmail, :inPass)';
 
-		return DB::select($sql, $params)[0];
+		$params = [
+			':inUId' => $id,
+			':inEmail' => $email, 			
+			':inPass' => $password
+		];
+
+		$user = DB::select($sql, $params); 
+		if ($user == null) {
+			$params[":inUId"] = 1;
+			if (($user = DB::select($sql, $params)) == null) {
+				self::setupAnonim();								
+				return DB::select($sql, $params);
+			}				
+		}
+		return $user;
 	}
 
-
-	private static function exportUser($name, $email, $pass, $birth, $sex, $privilege, $cmpBin)	
+	/**
+	 * Export user to database from getted datas
+	 * @param string $name Name of user
+	 * @param string $email Email of user
+	 * @param string $pass Password of user
+	 * @param string $birth Birthday of user
+	 * @param string $sex
+	 * @param int $privilege
+	 * @param string $cmpBin
+	 * 
+	 * 	----------------
+	 *	Szükséges táblák
+	 * 
+	 *	users
+	 *	images
+	 *	nbackDatas
+	 *	nbackSessions
+	 *	userWrongSessions
+	 */
+	private static function exportUser($name, $email, $pass, $birth, $sex, int $privilege, $cmpBin)	
 	{
 		$params = [
 			":name" => $name,
@@ -318,14 +336,6 @@ class User
 
 	/**
 	 *  Default user
-	 *	----------------
-	 *	Szükséges táblák
-	 * 
-	 *	users
-	 *	images
-	 *	nbackDatas
-	 *	nbackSessions
-	 *	userWrongSessions
 	 */
 	private static function setupAnonim()
 	{				

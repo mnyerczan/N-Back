@@ -11,6 +11,7 @@ use App\Classes\ValidateSex;
 use App\Classes\ImageConverter;
 use LogicException;
 use App\Model\User;
+use App\DB\DB;
 
 
 
@@ -158,7 +159,7 @@ class SignUpController extends MainController
         $this->datas['passwordLabel']   = $pass->errorMsg  ?? 'Password';
         $this->datas['privilegeLabel']  = 'Privilege';
         
-        $this->datas['isAdmin']         = User::getUsersCount()->num <= 1;
+        $this->datas['isAdmin']         = DB::select('CALL `getUserCount`()')->num <= 1;
         $this->datas['errorMessage']    = null;
 
         $this->datas['userNameValue']   = $this->datas['isAdmin']  ?  'Admin' : $crName;

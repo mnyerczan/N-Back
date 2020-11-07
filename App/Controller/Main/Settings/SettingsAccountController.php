@@ -149,7 +149,7 @@ class SettingsAccountController extends BaseController
          
             // Ha nem volt sikeres a módosítás, vagyis helytelen a régi
             // jelszó, hiba!
-            if ($updateResult[0]->result !== 'true')
+            if ($updateResult->result !== 'true')
                 $errorMsg = "Old password is incorrect!"; 
         }
 

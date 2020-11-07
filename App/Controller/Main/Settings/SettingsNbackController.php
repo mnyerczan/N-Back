@@ -109,7 +109,7 @@ class SettingsNbackController extends MainController
                 :newTrials,
                 :newEventLength,
                 :newColor
-            )', $params)[0]->result == '1') 
+            )', $params)->result == '1') 
         {            
             // Ha sikeres a bevitel, átirányítás.
             $this->Response([],new ViewParameters("redirect:".APPROOT."/settings/nback?sm=Update sucessfully!"));         

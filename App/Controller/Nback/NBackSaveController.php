@@ -57,6 +57,6 @@ class NBackSaveController extends GameController
 
     public function feedback()
     {
-        DB::select("SELECT * FROM `nbackSessions` ");
+        DB::selectAll("SELECT * FROM `nbackSessions` ");
     }
 }

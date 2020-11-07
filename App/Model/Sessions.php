@@ -57,7 +57,7 @@ class Sessions
         $params = [ ':inUserId' => $this->userID, ':inTimestamp' => $datetime ];
 
 
-        return DB::select( $sql, $params );                
+        return DB::selectAll($sql, $params);
     }  
   
     /**
@@ -117,7 +117,7 @@ class Sessions
         $sql    = 'CALL GetTimes(:inUserId)';
         $params = [':inUserId' => $this->userID];
 
-        $times = DB::select($sql, $params)[0];
+        $times = DB::select($sql, $params);
         
 
         $times->last_day = $times->last_day == NULL ? 0 : $times->last_day;

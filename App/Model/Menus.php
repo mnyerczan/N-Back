@@ -42,7 +42,7 @@ class Menus
                 // Megadjuk az aktuális parent menü azonostóját
                 $params["inMenuId"] = $this->menus[$i]->id;
 
-                $childMenuArray = DB::select(
+                $childMenuArray = DB::selectAll(
                     "CALL GetChildMenus(:inMenuId, :inPrivilege)", 
                     $params, 
                     MenuEntity::class
@@ -62,7 +62,7 @@ class Menus
     function LoadMenus()
     {                   
 
-        $this->menus = DB::select(
+        $this->menus = DB::selectAll(
             "CALL GetMenus(:inPrivilege)", 
             [ 
                 ':inPrivilege' => $this->userPrivilege 

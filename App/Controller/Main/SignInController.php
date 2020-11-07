@@ -45,7 +45,7 @@ class SignInController extends MainController
         $pass   = new ValidatePassword( $_POST['signIn-pass'] );
         
         // Hibás autentikálás esetén hibaüzenettel visszatér
-        if ( !User::login($email->getEmail(), $pass->getPass()) )
+        if (User::login($email->getEmail(), $pass->getPass())->id == 1)
         {
             $this->datas['emailLabel']      = $email->errorMsg ?? 'Email';
             $this->datas['passwordLabel']   = $pass->errorMsg ?? 'Password';

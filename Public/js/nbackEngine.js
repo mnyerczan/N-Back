@@ -1,15 +1,13 @@
-window.addEventListener("load", init );
-window.addEventListener("keydown", keyListener);
+window.addEventListener("load", async function(){    
+    window.addEventListener("keydown", keyListener);
+    engine = new Nback(12);    
+    engine.load();    
+    engine.start();     
+});
 
 
 
-function init()
-{
-    nback = new Nback(12);    
-    nback.load();
-    
-    nback.start();    
-}
+
 /**
  * Sajnos az eseménykezelő nem látja az osztálymetódust inicializlás előtt.
  * @param {*} e 
@@ -17,15 +15,14 @@ function init()
 function keyListener(e)
 {
     if(e.keyCode == 65)
-        nback.checkMatch();
+        engine.checkMatch();
 }
 
 
 class Nback
 {
-
-    // A felvillanásokat számolja
-    numOfVisibility;
+    // A trials értékének lementése
+    fullTrials
     // A rossz nyomásokat számolja
     wrongHit
     // A helyes találatokat számolja
@@ -59,7 +56,6 @@ class Nback
 
     constructor()
     {
-        this.numOfVisibility = 0;
         this.wrongHit = 0;
         this.correctHit = 0;
         this.tableItemIdxs = [];
@@ -76,7 +72,7 @@ class Nback
     {
         var idx = 0;
         // Ha az utolsó eventnél ját az algoritmus, de még nem volt egyezés 
-        if(this.numOfVisibility == this.trials - 1 &&  this.wrongHit == 0 && this.correctHit == 0)		
+        if(this.trials - 1 == 0 &&  this.wrongHit == 0 && this.correctHit == 0)		
             idx =  this.tableItemIdxs[1];
         else
             do
@@ -99,6 +95,7 @@ class Nback
             }, 
             this.seconds * 1000
         );
+        this.displayLoad();
     }
 
     /**
@@ -173,12 +170,13 @@ class Nback
     {
         // Kiírjuk a képernyőre, a hátralévő eventeket.
         $("time-left-feedback").innerHTML = "Left " + this.trials;
-
+        
         setTimeout(() => {
-            $("grid-image" + this.currentIdx).style.backgroundImage = ""            
+            $("grid-image" + this.currentIdx).style.backgroundImage = ""             
         }, this.eventLength * 1000);
         
-        if (this.trials-- == this.numOfVisibility) {
+        
+        if (this.trials-- == 0) {
             clearInterval(this.interval);
             var response = this.saveSession();         
 
@@ -197,8 +195,23 @@ class Nback
         // Itt jelenítjük meg a megfelelő indexű mezőben a képet
         $("grid-image" + this.currentIdx).style.backgroundImage = "url(\"Public/Images/Squares/spr_square_"+this.color+".png\")";        
         // Feloldjuk a keyEvent figyelőt.
-        this.isChecked = 0;
+        this.isChecked = 0;             
         setTimeout(()=>{$("nback-feedback").style.color = "#000"; }, 50); 
+    }
+
+    displayLoad()
+    {      
+        var timer = 0;    
+        console.log(this.seconds);
+        var interval = setInterval(function(){
+            if (timer == 100) {
+                clearInterval(interval);
+                $("nback-modal").style.display = "none";
+            }                
+            $("progress-value").innerHTML = timer + "%";       
+            $("progress-bar").style.width = timer + "%"; 
+            timer++;            
+        }, this.seconds * this.seconds);
     }
 
     /**
@@ -237,9 +250,11 @@ class Nback
         this.trials = params.trials;
         this.seconds = params.seconds;
         this.eventLength = params.eventLength;
+        this.fullTrials = this.trials;
 
         $("game-mode").innerHTML = " " + this.gameMode + " ";
         $("level").innerHTML = " " + this.level + " ";
         
     }
 }
+

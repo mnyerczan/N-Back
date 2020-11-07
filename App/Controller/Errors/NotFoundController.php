@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Errors;
 
 use App\Controller\Main\MainController;
 use App\Model\ViewParameters;

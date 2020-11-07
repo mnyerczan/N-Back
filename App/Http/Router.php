@@ -3,11 +3,13 @@
 namespace App\Http;
 
 
-use App\Controller\NotFoundController;
+use App\Controller\Errors\NotFoundController;
 use App\Model\User;
+
+
+
 abstract class Router
-{          
-    
+{              
     /**
      * Routes
      */

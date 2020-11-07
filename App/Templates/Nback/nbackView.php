@@ -1,4 +1,10 @@
 <div class="nback-container">
+    <div id="nback-modal">
+        <div id="progress-container">
+            <div id="progress-value"></div>
+            <div id="progress-bar"></div>
+        </div>                          
+    </div>
     <div class="nback-notice-line" >
         <div type='text' id="upper-feedback"><div id="game-mode"></div> <div id="level"></div>- back</div>
         <div id="time-left-feedback"></div>

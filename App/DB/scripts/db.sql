@@ -30,10 +30,10 @@ create table IF NOT EXISTS `users` (
     `about` varchar(255),
     `sex` enum('male', 'female') DEFAULT 'male' not null,
     `theme` varchar(5) DEFAULT 'white' not null, 
-    `online` int(1) DEFAULT 0 not null,
+    `online` tinyint(1) unsigned DEFAULT 0 not null,
     unique ( `email` ),
     index users_id_idx(id)
-)DEFAULT charset utf8;
+)DEFAULT charset utf8 collate "utf8_hungarian_ci";
 
 -- Add trigger idGen from triggers.sql!!!
 
@@ -47,7 +47,6 @@ CREATE TABLE IF NOT EXISTS `images`(
     `userID` INT(8) zerofill unsigned primary key,
     `imgBin` blob,
     `update` DATETIME,
-    `create` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT FOREIGN KEY(`userID`) REFERENCES `users`(`id`) on delete cascade
 ) ROW_FORMAT=DYNAMIC;
 
@@ -65,9 +64,12 @@ create table IF NOT EXISTS `nbackDatas`(
 	`trials` int(2) default 25 not null,
 	`eventLength` float(4,3) unsigned default 0.5 not null,
 	`color` varchar(7) default 'blue' not null,
+    CONSTRAINT `eventLength_ck` CHECK(`eventLength` <= `seconds` - 0.1),
+    CONSTRAINT `trials_ck` CHECK(`trials` >= 20 + 5 * `level`),
+    CONSTRAINT `seconds_ck` CHECK(`seconds` >= 1),
 	foreign key(`userID`) references `users`(`id`) on delete cascade,
 	index nbackDatas_userID_idx(userID)
-)default charset utf8 engine innoDB;
+)default charset utf8 engine innoDB collate "utf8_hungarian_ci";
 
 
 
@@ -92,7 +94,7 @@ create table IF NOT EXISTS `menus` (
 	`child` int(1) unsigned default 0 not null,
 	index menus_parentID_idx(parentID),
 	primary key(`id`)
-)default charset utf8;
+)default charset utf8 collate "utf8_hungarian_ci";
 
 
 insert into menus (`name`, `path`, `parentID` , `ikon`, `privilege`, `child`) values ('Forum','?#',null,null,'0','1');
@@ -177,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `documents`(
 `privilege` int(1) unsigned default 0 not null,
 primary key(id),
 foreign key(userID) references users(id)
-)default charset utf8;
+)default charset utf8 collate "utf8_hungarian_ci";
 
 
 -- Fórum bejegyzések

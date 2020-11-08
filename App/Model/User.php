@@ -169,7 +169,7 @@ abstract class User
 	 * @param string password
 	 * @return bool
 	 */
-    public static function login( string $email, string $password ): string
+    public static function login( string $email, string $password ): bool
     {				
 		// $user must be a object
 		$user = self::getUser($email, $password);
@@ -185,7 +185,7 @@ abstract class User
 	/**
 	 * Session handler
 	 */
-	private static function setSession(int $id)
+	private static function setSession(int $id): void
 	{
 		$_SESSION['userId'] = $id;
 	}
@@ -238,6 +238,8 @@ abstract class User
 	 * @param int				$privilege
 	 * @param ImageConverter	$converter
 	 * 
+	 * @throws LogicException
+	 * 
 	 */
 	public static function userRegistry(
 		 ValidateEmail $email, 
@@ -246,7 +248,7 @@ abstract class User
 		 ValidateDate $birthDAte, 
 		 ValidateSex $sex, 
 		 $privilege, 
-		 ImageConverter $converter) {
+		 ImageConverter $converter):void {
 		
 		self::exportUser(			
 			trim($user->getUser()),
@@ -270,7 +272,7 @@ abstract class User
 	 * @param ?aint $id
 	 * @return object Object of user entity
 	 */
-	protected static function getUser(?string $email = null, ?string $password = null,  ?int $id = null)
+	protected static function getUser(?string $email = null, ?string $password = null,  ?int $id = null): object
 	{
 		$sql = 'CALL getUser(:inUId, :inEmail, :inPass)';
 
@@ -300,6 +302,7 @@ abstract class User
 	 * @param string $sex
 	 * @param int $privilege
 	 * @param string $cmpBin
+	 * @throws LogicException
 	 * 
 	 * 	----------------
 	 *	Szükséges táblák
@@ -310,7 +313,7 @@ abstract class User
 	 *	nbackSessions
 	 *	userWrongSessions
 	 */
-	private static function exportUser($name, $email, $pass, $birth, $sex, int $privilege, $cmpBin)	
+	private static function exportUser($name, $email, $pass, $birth, $sex, int $privilege, $cmpBin): void
 	{
 		$params = [
 			":name" => $name,
@@ -336,8 +339,9 @@ abstract class User
 
 	/**
 	 *  Default user
+	 * @throws LogicException
 	 */
-	private static function setupAnonim()
+	private static function setupAnonim(): void
 	{				
 		self::exportUser(
 			"Anonim",

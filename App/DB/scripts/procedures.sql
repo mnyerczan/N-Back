@@ -64,7 +64,28 @@ CREATE PROCEDURE `getUser`(
 BEGIN
     IF `inUId` IS NOT NULL THEN
         SELECT 
-            `u`.*, `i`.*,`n`.*, CURRENT_TIMESTAMP, length(`password`) `paswordLength`
+            `u`.`id`,
+            `u`.`name`,
+            `u`.`email`,
+            `u`.`loginDatetime`,
+            `u`.`password`,
+            `u`.`privilege`,
+            `u`.`birth`,
+            `u`.`passwordLength`,
+            `u`.`about`,
+            `u`.`sex`,
+            `u`.`theme`,
+            `u`.`online`,
+            `i`.`imgBin`,
+            `i`.`update`,
+            `n`.`gameMode`, 
+            `n`.`level`, 
+            `n`.`seconds`, 
+            `n`.`trials`, 
+            `n`.`eventLength`, 
+            `n`.`color`, 
+            CURRENT_TIMESTAMP, 
+            length(`password`) `paswordLength`
         FROM 
             `users` AS `u` JOIN `images` AS `i` JOiN `nbackDatas` AS `n`
         WHERE 
@@ -73,7 +94,28 @@ BEGIN
             `u`.`id` = `inUId`;
     ELSE
         SELECT 
-            `u`.*, `i`.*, `n`.*, CURRENT_TIMESTAMP, length(`password`) `paswordLength`
+            `u`.`id`,
+            `u`.`name`,
+            `u`.`email`,
+            `u`.`loginDatetime`,
+            `u`.`password`,
+            `u`.`privilege`,
+            `u`.`birth`,
+            `u`.`passwordLength`,
+            `u`.`about`,
+            `u`.`sex`,
+            `u`.`theme`,
+            `u`.`online`,
+            `i`.`imgBin`,
+            `i`.`update`,
+            `n`.`gameMode`, 
+            `n`.`level`, 
+            `n`.`seconds`, 
+            `n`.`trials`, 
+            `n`.`eventLength`, 
+            `n`.`color`, 
+            CURRENT_TIMESTAMP, 
+            length(`password`) `paswordLength`
         FROM 
             `users` AS `u` JOIN `images` AS `i` JOiN `nbackDatas` AS `n`
         WHERE 

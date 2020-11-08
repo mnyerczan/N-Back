@@ -21,19 +21,15 @@ class ValidatePassword extends Validator
 
     public function validate() 
     {
-
-        if (strlen($this->value) < 6 ) 
-        {
+        if (strlen($this->value) < 6 ) {
             $this->setError('Password is too short');
             return;
         }
-        if (!preg_match('/^[a-zA-Z0-9_]+$/',$this->value )) 
-        {
+        if (!preg_match("`^[a-zA-Z0-9_\.,áéöüóőúű'\"\\+!%/\=()?@]+$`",$this->value )) {
             $this->setError('Password contains invalid characters');
             return;
         }
-        if (strlen($this->value) > 20 ) 
-        {
+        if (strlen($this->value) > 20 ) {
             $this->setError('Password is too long');
             return;
         }

@@ -86,7 +86,12 @@ return [
             "controller" => "App\Controller\Errors\DatabaseErrorController",
             "action" => "",
             "logged" => false
-        ]
+        ],
+        "exceptionError" => [
+            "controller" => "App\Controller\Errors\ExceptionErrorController",                
+            "action" => "",
+            "logged" => false
+        ] 
     ],
     "POST" => [
         "/nback" => [
@@ -144,6 +149,11 @@ return [
         ],
         "databaseError" => [
             "controller" => "App\Controller\Errors\DatabaseError",                
+            "action" => "",
+            "logged" => false
+        ],
+        "exceptionError" => [
+            "controller" => "App\Controller\Errors\ExceptionErrorController",                
             "action" => "",
             "logged" => false
         ]       

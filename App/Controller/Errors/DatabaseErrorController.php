@@ -11,7 +11,7 @@ class DatabaseErrorController extends BaseController
     {
         $this->Response(
             ["message" => "Sorry, site has gone away... :("], 
-            new ViewParameters("", "text/html", "_generalError", "Errors", "Database error")
+            new ViewParameters("", "text/html", "databaseError", "Errors", "Database error")
         );
     
     }   

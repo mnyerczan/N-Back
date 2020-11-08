@@ -2,6 +2,7 @@
 <?php
 
 chdir('/var/www/html/NBack');
+error_reporting(0);
 
 // Böngésző cash kezelő konstans.
 #define('RELOAD_INDICATOR'	, '' );
@@ -69,7 +70,7 @@ function test(object $obj, string $function, ?array $params = [], bool $result =
     
     $fileParams = tfile($dtime, $objName, $function);
     
-    $str = sprintf("Line: %3d | avg: ", debug_backtrace()[0]["line"]);
+    $str = sprintf("| at:\033[1m%4d\033[0m| avg: ", debug_backtrace()[0]["line"]);
     // Ha a függvény végrehajtási idő magasabb 100 microsecundumnál, 
     // piros kiemeléssel írja ki.
 
@@ -82,23 +83,23 @@ function test(object $obj, string $function, ?array $params = [], bool $result =
         $str.=sprintf("%5.3f",$fileParams["avg"]);
     }
 
-    $str.=" ms items: ".$fileParams["count"];
+    $str.=sprintf(" ms items: %4d",$fileParams["count"]);
     $str .= "| act:";
     $str .= sprintf("%7.3f ms", $dtime);
-    $str .= "| ";
+    $str .= "|";
 
     // A kívánt és a kapott eredmény függvényében piros, vagy zöld
     // háttérrel íratjuk ki az eredményt. Ha a függvény nem bool értékkel
     // tér vissza, akkor azt írja ki az algoritmus.
     if ($stmt == $result) {
-        if (gettype($stmt) == "boolean" || !$stmt)
+        if (gettype($stmt) == "boolean" || $stmt == 0 || $stmt == 1 || $stmt == "")
             $stmt = "true";        
-        $str.= "\e[0;30;42m{$stmt}\e[0m";
+        $str.= "\e[0;32m\033[1m{$stmt} \e[0m";
     }
     else {
-        if (gettype($stmt) == "boolean" || !$stmt)
+        if (gettype($stmt) == "boolean" || $stmt == 0 || $stmt == 1 || $stmt == "")
             $stmt = "false";
-        $str.= "\e[1;37;41m{$stmt}\e[0m";
+        $str.= "\e[0;31m\033[1m{$stmt} \e[0m";
     }        
     echo $str.PHP_EOL;
 }
@@ -125,10 +126,18 @@ function tfile(float $dtime, string $objName, string $fname): array
 
     $path = "Test/statistics/{$objName}/{$fname}.txt";
 
+    // Ha nem létezik a kapott osztályhoz tartozó mappa,
+    // megkísérli létrehozni. Ha nincs jogosultság, akkor
+    // kiírja a hibaüzenetet és befejezi a végrehajtást.
     if (!is_dir("Test/statistics/{$objName}")) {
-        if (!mkdir("Test/statistics/{$objName}", 0775))
-            throw new DomainException("Can't create folder Test/statistics/{$objName}. Access denied for ".get_current_user());
+        if (!mkdir("Test/statistics/{$objName}", 0775)) {
+            echo "\e[1;37;41m".PHP_EOL.PHP_EOL;
+            echo "Can't create folder Test/statistics/{$objName}. Access denied for '".get_current_user()."'";
+            echo PHP_EOL."\e[0m".PHP_EOL;
+            die;
+        }            
     }    
+
 
     if (!is_file($path))
         $resource = fopen($path,"x+");
@@ -136,9 +145,15 @@ function tfile(float $dtime, string $objName, string $fname): array
         $resource = fopen($path,"r+");
     }
 
-    if (!$resource)
-        throw new DomainException(
-            "Can't create file {$path}. Access denied for ".get_current_user());
+    // Ha nem sikerül megnyitni, vagy ha a fájl nem létezik,
+    // azt létrehozni, kiírja a hibaüzenetet és befejezi a 
+    // végrehajtást.    
+    if (!$resource) {
+        echo "\e[1;37;41m".PHP_EOL.PHP_EOL;
+        echo "Can't create file {$path}. Access denied for '".get_current_user()."'";
+        echo PHP_EOL."\e[0m".PHP_EOL;
+        die;
+    }
 
     while(!feof($resource)) {
         $sum +=  (float)fgets($resource);

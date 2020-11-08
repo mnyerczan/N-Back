@@ -12,6 +12,7 @@ class NBackSessionController extends GameController
     function __construct()
     {
         parent::__construct();
+        
         $this->SetDatas();
         $this->datas["jsonOptions"] = $this->jsonOptions();
       

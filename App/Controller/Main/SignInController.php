@@ -41,15 +41,15 @@ class SignInController extends MainController
 
     function submit()
     {
-        $email  = new ValidateEmail( $_POST['signIn-email'] );
-        $pass   = new ValidatePassword( $_POST['signIn-pass'] );
+        $email  = new ValidateEmail($_POST['signIn-email']);
+        $pass   = new ValidatePassword($_POST['signIn-pass']);
         
         // Hibás autentikálás esetén hibaüzenettel visszatér
-        if (User::login($email->getEmail(), $pass->getPass())->id == 1)
+        if (!User::login($email->getEmail(), $pass->getPass()))
         {
             $this->datas['emailLabel']      = $email->errorMsg ?? 'Email';
             $this->datas['passwordLabel']   = $pass->errorMsg ?? 'Password';
-            $this->datas['message']         = 'Email or password is invalid!';
+            $this->datas['message']         = "<span style=\"color:red\">Email and/or password are invalid!</span>";
                     
             $this->Response( $this->datas, new ViewParameters("signIn", "", "", "User"));
 

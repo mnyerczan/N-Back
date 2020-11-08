@@ -7,13 +7,14 @@ if(@!session_start()) {
     $cleanedUri = "/sessionError";
 }        
 
+try {
+    if (!App\DB\DB::setup()) {
+        $cleanedUri = "/databaseError";
+    } else {
+        App\Model\User::setup();
+    }  
 
-if (!App\DB\DB::setup()) {
-    $cleanedUri = "/databaseError";
-} else {
-    App\Model\User::setup();
+    App\Http\Router::route($cleanedUri);
+} catch (Exception $e) {
+    (new App\Controller\Errors\ExceptionErrorController())->index($e);
 }
-  
-
-
-App\Http\Router::route($cleanedUri);	

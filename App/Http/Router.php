@@ -10,16 +10,15 @@ use App\Model\User;
 
 abstract class Router
 {              
+    
     /**
-     * Routes
-     */
-    private static array $routes;
-    
-    
+     * @var Routes 
+     */     
+    private static array $routes;        
+
     public static function route($cleanedUri): void
     {
         self::$routes = self::loadRoutes(require "App/Http/routes.php");
-
         // A $routes tömb minden metódushoz egy "regex minta":[paraméter tömb] típusú adatszerkezetet vesz fel.
         foreach (self::$routes[$_SERVER['REQUEST_METHOD']] as $pattern => $params) {
             if (preg_match( $pattern, $cleanedUri, $matches )) {
@@ -27,10 +26,8 @@ abstract class Router
                 // Ha szükséges bejelentkezés az adott view megtekintéséhez, de már lejárt a session, ne
                 // 404-et dobjon, hanem irányítson át!!
                 if (User::$logged || !$params['logged']) {                            
-
                     // A php nem enged közvetlenül tömbből kiolvasott értéket hívni, ezért le kell menteni?!!...
                     $action = $params['action'];                    
-
                     // Controller hívása a kapott metódussal.
                     (new $params['controller']($matches))->$action();
                     return;

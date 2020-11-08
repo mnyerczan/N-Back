@@ -69,7 +69,12 @@ function test(object $obj, string $function, ?array $params = [], bool $result =
     $objName = get_parent_class($obj) ? get_parent_class($obj) : get_class($obj);
     
     $fileParams = tfile($dtime, $objName, $function);
-    
+    if (!is_array($fileParams)) {
+        echo "\e[1;37;41m".PHP_EOL.PHP_EOL;
+        echo $fileParams;
+        echo PHP_EOL."\e[0m".PHP_EOL;
+        die;
+    }
     $str = sprintf("| at:\033[1m%4d\033[0m| avg: ", debug_backtrace()[0]["line"]);
     // Ha a függvény végrehajtási idő magasabb 100 microsecundumnál, 
     // piros kiemeléssel írja ki.
@@ -115,11 +120,11 @@ function test(object $obj, string $function, ?array $params = [], bool $result =
  * @param float $dtime Differencia az algoritmus futása és vége közötti időpontokból
  * @param string $objname   Az osztályhoz tartozó mappa nevéhez
  * @param string $fname     A fájl a függvény nevén fog szerepelni.
- * @return array            A kalkulált átlag "avg" és az esetek száma "count"
+ * @return array|string            A kalkulált átlag "avg" és az esetek száma "count"
  * @throws DomainException  A futtató felhasználónak nincs jogosultsága a fájlredszer művelethez.
  * 
  */
-function tfile(float $dtime, string $objName, string $fname): array
+function tfile(float $dtime, string $objName, string $fname)
 {
     $sum = 0;
     $counter = 1;
@@ -131,10 +136,7 @@ function tfile(float $dtime, string $objName, string $fname): array
     // kiírja a hibaüzenetet és befejezi a végrehajtást.
     if (!is_dir("Test/statistics/{$objName}")) {
         if (!mkdir("Test/statistics/{$objName}", 0775)) {
-            echo "\e[1;37;41m".PHP_EOL.PHP_EOL;
-            echo "Can't create folder Test/statistics/{$objName}. Access denied for '".get_current_user()."'";
-            echo PHP_EOL."\e[0m".PHP_EOL;
-            die;
+            return "Can't create folder Test/statistics/{$objName}. Access denied for '". posix_getpwuid(posix_geteuid())['name']."'";
         }            
     }    
 
@@ -148,11 +150,9 @@ function tfile(float $dtime, string $objName, string $fname): array
     // Ha nem sikerül megnyitni, vagy ha a fájl nem létezik,
     // azt létrehozni, kiírja a hibaüzenetet és befejezi a 
     // végrehajtást.    
-    if (!$resource) {
-        echo "\e[1;37;41m".PHP_EOL.PHP_EOL;
-        echo "Can't create file {$path}. Access denied for '".get_current_user()."'";
-        echo PHP_EOL."\e[0m".PHP_EOL;
-        die;
+    if (!$resource) {        
+        return "Can't create file {$path}. Access denied for '". posix_getpwuid(posix_geteuid())['name']."'";
+        
     }
 
     while(!feof($resource)) {

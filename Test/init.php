@@ -75,23 +75,24 @@ function test(object $obj, string $function, ?array $params = [], bool $result =
         echo PHP_EOL."\e[0m".PHP_EOL;
         die;
     }
-    $str = sprintf("| at:\033[1m%4d\033[0m| avg: ", debug_backtrace()[0]["line"]);
+    $str = sprintf("|\033[1m%4d\033[0m| %-9s ", debug_backtrace()[0]["line"], strlen($function) <=  7 ? $function : substr($function,0,7)."..");    
     // Ha a függvény végrehajtási idő magasabb 100 microsecundumnál, 
     // piros kiemeléssel írja ki.
 
     // Meghatározzuk, hogy a kívánt értéken felül van-e az átlag.
-    // Ha igen, piros kiemeléssel jelenítjük meg.
+    // Ha igen, piros kiemeléssel jelenítjük meg.       
     if ($fileParams["avg"] > 1) {
-        $str.=sprintf("\e[1;37;41m%5.3f\e[0m",$fileParams["avg"]);
+        // Rossz hatásfokú
+        $str.=sprintf("\e[1;37;41m'%5.3f'\e[0m", $fileParams["avg"]);
     }
     else {
-        $str.=sprintf("%5.3f",$fileParams["avg"]);
+        // jó hatásfokú
+        $str.=sprintf("'%5.3f'", $fileParams["avg"]);
     }
 
-    $str.=sprintf(" ms items: %4d",$fileParams["count"]);
-    $str .= "| act:";
-    $str .= sprintf("%7.3f ms", $dtime);
-    $str .= "|";
+    $str .=sprintf("ms items: %4d ",$fileParams["count"]);    
+    $str .=sprintf("| act: '%5.3f'ms | ", $dtime);    
+    
 
     // A kívánt és a kapott eredmény függvényében piros, vagy zöld
     // háttérrel íratjuk ki az eredményt. Ha a függvény nem bool értékkel
@@ -99,7 +100,7 @@ function test(object $obj, string $function, ?array $params = [], bool $result =
     if ($stmt == $result) {
         if (gettype($stmt) == "boolean" || $stmt == 0 || $stmt == 1 || $stmt == "")
             $stmt = "true";        
-        $str.= "\e[0;32m\033[1m{$stmt} \e[0m";
+        $str.= "\033[1m{$stmt} \e[0m";
     }
     else {
         if (gettype($stmt) == "boolean" || $stmt == 0 || $stmt == 1 || $stmt == "")
@@ -128,18 +129,22 @@ function tfile(float $dtime, string $objName, string $fname)
 {
     $sum = 0;
     $counter = 1;
-
-    $path = "Test/statistics/{$objName}/{$fname}.txt";
-
+    $user = posix_getpwuid(posix_geteuid())['name'];
+    $path = "/home/{$user}/.local/share/testStatistics/{$objName}/{$fname}.txt";
+    
+    if (!is_dir("/home/{$user}/.local/share/testStatistics/")) {
+        if (!mkdir("/home/{$user}/.local/share/testStatistics", 0755)) {
+            return "Can't create folder /home/{$user}/.local/share/testStatistics/{$objName}. Access denied for '". posix_getpwuid(posix_geteuid())['name']."'. File owner '".posix_getpwuid(fileowner("/home/{$user}/.local/share/"))["name"]."'";
+        }      
+    }
     // Ha nem létezik a kapott osztályhoz tartozó mappa,
     // megkísérli létrehozni. Ha nincs jogosultság, akkor
     // kiírja a hibaüzenetet és befejezi a végrehajtást.
-    if (!is_dir("Test/statistics/{$objName}")) {
-        if (!mkdir("Test/statistics/{$objName}", 0775)) {
-            return "Can't create folder Test/statistics/{$objName}. Access denied for '". posix_getpwuid(posix_geteuid())['name']."'";
+    if (!is_dir("/home/{$user}/.local/share/testStatistics/{$objName}")) {
+        if (!mkdir("/home/{$user}/.local/share/testStatistics/{$objName}", 0755)) {
+            return "Can't create folder /home/{$user}/.local/share/testStatistics/{$objName}. Access denied for '". posix_getpwuid(posix_geteuid())['name']."'. File owner '".posix_getpwuid(fileowner("/home/{$user}/.local/share/"))["name"]."'";
         }            
     }    
-
 
     if (!is_file($path))
         $resource = fopen($path,"x+");
@@ -151,8 +156,7 @@ function tfile(float $dtime, string $objName, string $fname)
     // azt létrehozni, kiírja a hibaüzenetet és befejezi a 
     // végrehajtást.    
     if (!$resource) {        
-        return "Can't create file {$path}. Access denied for '". posix_getpwuid(posix_geteuid())['name']."'";
-        
+        return "Can't create file {$path}. Access denied for '". posix_getpwuid(posix_geteuid())['name']."'. File owner '".posix_getpwuid(fileowner("/home/{$user}/.local/share/"))["name"]."'";        
     }
 
     while(!feof($resource)) {
@@ -161,7 +165,6 @@ function tfile(float $dtime, string $objName, string $fname)
     }
 
     fputs($resource, $dtime.PHP_EOL);
-    fclose($resource);
 
     return [
         "avg" => round(($sum + $dtime) / ($counter + 1), 3), 

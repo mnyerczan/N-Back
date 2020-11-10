@@ -4,10 +4,8 @@
     RewriteCond %{REQUEST_FILNAME} !-f
     RewriteCond %{REQUEST_FILNAME} !-d
     #kivétel adása a szabályhoz, hogy a 
-    #http://localhost/Style/style.css kérést kiszolgálja a szerver.
-    RewriteCond %{REQUEST_URI} !/App/Script
-    RewriteCond %{REQUEST_URI} !/App/img
-    RewriteCond %{REQUEST_URI} !/App/Images
+    #http://localhost/Style/style.css kérést kiszolgálja a szerver.    
+    RewriteCond %{REQUEST_URI} !/app/images
     RewriteCond %{REQUEST_URI} !/Public/*
     # RewriteCond %{REQUEST_URI} !/Templates/Header/header.js    
     RewriteRule ^ index.php [L]

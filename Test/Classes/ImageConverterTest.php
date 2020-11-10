@@ -8,7 +8,7 @@ chdir("/var/www/html/NBack");
 require "Test/testEngine.php";
 
 
-$i = new Imagick("App/Images/userMale.png");
+$i = new Imagick("App/images/userMale.png");
 
 var_dump(strlen($i));
 
@@ -18,7 +18,7 @@ echo $i->getCompression();
 $i->setCompression();
 var_dump(strlen($i));
 /*
-$img = new ImageConverter("App/Images/userMale.png");
+$img = new ImageConverter("App/images/userMale.png");
 
 
 // var_dump((2**16 / strlen($img->bin)) * strlen($img->bin) -10000);

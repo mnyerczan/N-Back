@@ -1,6 +1,7 @@
 #!/usr/bin/php7.4
 <?php
 
+
 error_reporting(1);
 
 // Böngésző cash kezelő konstans.
@@ -20,15 +21,23 @@ define('BACKSTEP', '');
 
 $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
-
+chdir("/var/www/html");
 
 // Autoloader
 spl_autoload_register(function($className) {
-    // $classNema for debug...
-    $className = str_replace("\\", DIRECTORY_SEPARATOR, $className);    
-    include_once $_SERVER['DOCUMENT_ROOT'] . $className . '.php';;
+    $path = "";
+    $units = explode("\\", $className);
+    for($i = 0; $i < count($units); $i++) {
+        if ($i < count($units) -1 ) {
+            $path .= strtolower($units[$i][0]).substr($units[$i], 1);        
+            $path .= DIRECTORY_SEPARATOR;            
+        }        
+        else
+            $path .= $units[$i];
+     }        
+     
+    include_once 'NBack/' . $path . '.php';
 });
-
 
 /**
  * --------------------------------------------------------------
@@ -42,7 +51,7 @@ spl_autoload_register(function($className) {
  * @param bool $expect A várt eredmény
  * 
  */
-function test(object $obj, string $function, ?array $params = [], $expect)
+function test(object $obj, string $function, ?array $params = [], $expect = true)
 {    
     // Bejövő adatok ellenőrzése
     if (!(is_object($obj) && in_array($function, get_class_methods($obj))) ) {
@@ -130,7 +139,7 @@ function test(object $obj, string $function, ?array $params = [], $expect)
 function tfile(float $dtime, string $objName, string $fname)
 {
     $sum = $dtime;
-    $counter = 0;
+    $counter = 1;
     $user = posix_getpwuid(posix_geteuid())['name'];
     $path = "/home/{$user}/.local/share/testStatistics/{$objName}/{$fname}.txt";
     
@@ -161,8 +170,10 @@ function tfile(float $dtime, string $objName, string $fname)
         return "Can't create file {$path}. Access denied for '".posix_getpwuid(posix_geteuid())['name']."'. File owner '".posix_getpwuid(fileowner("/home/{$user}/.local/share/"))["name"]."'";        
     
     while(!feof($resource)) {
-        $sum += ($d = unpack("e",fgets($resource))[1]);
-        $counter++;        
+        if(($inp = fgets($resource)) != "") {
+            $sum += unpack("e",$inp)[1];
+            $counter++;        
+        }
     }     
 
     fputs($resource, pack("e",$dtime).PHP_EOL);

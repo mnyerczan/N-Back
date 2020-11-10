@@ -19,11 +19,11 @@ define('URI', explode('?', $_SERVER['REQUEST_URI'])[0]);
 // Böngésző cash kezelő konstans.    
 define('RELOAD_INDICATOR'	, date('s') );
 // Program mappa
-define('APPLICATION'		, 'App/');
+define('APPLICATION'		, 'app/');
 // Root directory. Must be at least '/' !
 define('APPROOT'			, "/NBack");
 // Temp mappa útvonal
-define('TMP_PATH'			, APPLICATION.'Tmp/');
+define('TMP_PATH'			, APPLICATION.'tmp/');
 // Config path
 define('CONF_PATH'			, 'config.json');
 // HTTP protocol
@@ -68,10 +68,19 @@ ini_set("log_errors", "0");
 
 // Autoloader
 spl_autoload_register(function($className) {
-    // $classNema for debug...
-    $className = str_replace("\\", DIRECTORY_SEPARATOR, $className);    
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/NBack/' . $className . '.php';
+    $path = "";
+    $units = explode("\\", $className);
+    for($i = 0; $i < count($units); $i++) {
+        if ($i < count($units) -1 ) {
+            $path .= strtolower($units[$i][0]).substr($units[$i], 1);        
+            $path .= DIRECTORY_SEPARATOR;            
+        }        
+        else
+            $path .= $units[$i];
+     }        
+     
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/NBack/' . $path . '.php';
 });
               
 
-require "App/Core/core.php";
+require "app/core/core.php";

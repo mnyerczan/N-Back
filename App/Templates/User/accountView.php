@@ -15,7 +15,7 @@
             <label for="">Your sex</label> 
             <p><?=$user::$sex?></p>                                                        
         </div>            
-        <div class="user-c" id="user-profile-image"><img class="big-user-image" id="output" src="data:image/*;base64,<?= $user::$imgBin?>"></div>  
+        <div class="user-c" id="user-profile-image"><img class="big-user-image" id="output" src="data:image/*;base64,<?= $user::$bin?>"></div>  
         <div class="user-f"></div> 
     </section>
 </main>        

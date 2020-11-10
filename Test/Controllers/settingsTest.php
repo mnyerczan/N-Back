@@ -5,7 +5,7 @@ use App\Controller\Main\Settings\SettingsAccountController;
 
 chdir("/var/www/html/NBack");
 
-require 'Test/init.php';
+require 'Test/testEngine.php';
 require APPLICATION.'Controller/Main/Settings/SettingsAccountController.php';
 
 

@@ -45,7 +45,7 @@ create table IF NOT EXISTS `users` (
 -- Images
 CREATE TABLE IF NOT EXISTS `images`(
     `userID` INT(8) zerofill unsigned primary key,
-    `imgBin` blob,
+    `bin` blob,
     `update` DATETIME,
     CONSTRAINT FOREIGN KEY(`userID`) REFERENCES `users`(`id`) on delete cascade
 ) ROW_FORMAT=DYNAMIC;
@@ -159,9 +159,10 @@ CREATE TABLE IF NOT EXISTS`nbackSessions` (
 
 -- User session eredmény tároló tábla
 
-CREATE TABLE `sessionWrongResults`(
+CREATE TABLE `sessionsResults`(
     `userId` int unsigned primary key,
-    `result` tinyint unsigned DEFAULT 0 CHECK(`result` <= 2),
+    `wrongSessions` tinyint unsigned DEFAULT 0 CHECK(`wrongSessions` BETWEEN 0 AND 2),
+    `correctSessions` tinyint unsigned DEFAULT 0 CHECK (`correctSessions` BETWEEN 0 AND 1),
     CONSTRAINT `users_fk` FOREIGN KEY(`userId`) REFERENCES `users`(`id`) 
         ON DELETE CASCADE 
         ON UPDATE CASCADE

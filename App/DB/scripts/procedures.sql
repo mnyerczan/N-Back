@@ -5,7 +5,7 @@
 -- -----------------------------------------------------------
 -- Procedure for create user
 -- -----------------------------------------------------------
-CREATE PROCEDURE `createNewUserprocedure`(
+CREATE PROCEDURE `createUser`(
     IN `name` varchar(255),  
     IN `email` varchar(255),     
     IN `inNewPassword` varchar(33),   
@@ -13,7 +13,7 @@ CREATE PROCEDURE `createNewUserprocedure`(
     IN `sex` varchar(6),         
     IN `privilege` INT,          
     -- image                   
-    IN `imgBin` blob             
+    IN `bin` blob             
 )
 BEGIN
 
@@ -42,14 +42,14 @@ BEGIN
             ( `name`, `email`, md5(CONCAT("salt",md5(`inNewPassword`))), `birth`, `sex`, `privilege`);
 
         SELECT MAX(`id`) INTO `userid` FROM `users`;
-        IF (`imgBin` is NULL) THEN
-            INSERT INTO `images` (`userID`,`imgBin`, `createTime`) VALUES (`userid`, `imgBin`, NULL);
+        IF (`bin` is NULL) THEN
+            INSERT INTO `images` (`userID`,`bin`, `createTime`) VALUES (`userid`, `bin`, NULL);
         ELSE 
-            INSERT INTO `images` (`userID`,`imgBin`) VALUES (`userid`, `imgBin`);
+            INSERT INTO `images` (`userID`,`bin`) VALUES (`userid`, `bin`);
         END IF;
         
         INSERT INTO `nbackDatas`(`userID`) VALUES (`userid`);
-        INSERT INTO `sessionWrongResults`(`userId`) VALUES (`userid`);
+        INSERT INTO `sessionsResults`(`userId`) VALUES (`userid`);
     COMMIT; 
 END;
 
@@ -76,7 +76,7 @@ BEGIN
             `u`.`sex`,
             `u`.`theme`,
             `u`.`online`,
-            `i`.`imgBin`,
+            `i`.`bin`,
             `i`.`update`,
             `n`.`gameMode`, 
             `n`.`level`, 
@@ -106,7 +106,7 @@ BEGIN
             `u`.`sex`,
             `u`.`theme`,
             `u`.`online`,
-            `i`.`imgBin`,
+            `i`.`bin`,
             `i`.`update`,
             `n`.`gameMode`, 
             `n`.`level`, 
@@ -424,9 +424,9 @@ BEGIN
 END;
 
 
--------------------------------------------------------------
+-- -----------------------------------------------------------
 -- Procedure for export to database users new session
--------------------------------------------------------------
+-- -----------------------------------------------------------
 CREATE PROCEDURE `exportSession`(
     IN `inUserId` INT,
     IN `inIp` VARCHAR(15),
@@ -439,6 +439,7 @@ CREATE PROCEDURE `exportSession`(
 )
 BEGIN
     -- Error esetén beállítja az alapértelmezett @full_error session változót
+  
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
             GET DIAGNOSTICS CONDITION 1 @sqlstate = RETURNED_SQLSTATE, 
@@ -447,11 +448,15 @@ BEGIN
             SELECT @full_error;    
             ROLLBACK;
         END;
+        
     START TRANSACTION;
     INSERT INTO `nbackSessions` (`userID`,`ip`,`level`,`correctHit`,`wrongHit`,`sessionLength`,`gameMode`)
         VALUES (`inUserId`, `inIp`, `inLevel`, `inCorrectHit`, `inWrongHit`,`inSessionLength`,`inGameMode`);
-    IF `inResult` = -1 AND (SELECT `result` FROM `sessionWrongResults` WHERE `userId` = `inUserId`) < 2 THEN
-        UPDATE `sessionWrongResults` SET `result` = `result` + 1;
+
+    IF `inResult` = -1 THEN
+        UPDATE `sessionsResults` SET `wrongSessions` = `wrongSessions` + 1 WHERE `userId` = `inUserId`;
+    ELSEIF `inResult` = 1 THEN 
+        UPDATE `sessionsResults` SET `correctSessions` = `correctSessions` + 1 WHERE `userId` = `inUserId`;
     END IF;
     COMMIT;
 END;

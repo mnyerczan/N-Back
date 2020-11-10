@@ -42,10 +42,12 @@ class NBackSessionController extends GameController
                     "eventLength" => User::$eventLength,
                     "color" => User::$color
                 ]);            
-        } elseif (!isset($_COOKIE["gameMode"])) {
+        } 
+        elseif (!isset($_COOKIE["gameMode"])) {
             // Ha véletlenül anélkül ugrana a /nback url-re, hogy be lenne állítva süti
             $this->Response([], new ViewParameters("redirect:".APPROOT."/nback"));
-        } else {
+        } 
+        else {
             $jsonOptions = json_encode(
                 [
                     "level" => $_COOKIE["level"],

@@ -19,36 +19,42 @@ use LogicException;
 abstract class User
 {
 
-	static 
-			$logged,
-			$object,	
-			$id,
-			$name,
-			$isAdmin,
-			$email,
-			$loginDatetime,
-			/**
-			 * Anonim user privilege = 0
-			 * Regisztrál user privilege = 1
-			 * a 2 fenntartva??
-			 * Admin user privilege = 3
-			 */
-			$privilege,
-			$birth,
-			$sex,
-			$passwordLength,
-			$theme,
-			$refresh,
-			$online,
-			$about,
-			$imgBin,
-			// NBACK OPTIONS
-			$gameMode,
-			$level,
-			$seconds,
-			$trials,
-			$eventLength,
-			$color;					
+	static  bool $logged = false;	
+	static	bool $isAdmin = false;	
+	static	string $name;	
+	static	string $email;
+	static	string $loginDatetime;
+	static	string $birth;
+	static	string $sex;
+	static	string $theme;
+	static	string $about;	
+	/**
+	 * A user profilképe
+	 * @var $bin
+	 */
+	static	string $bin;
+	/**
+	 * Anonim user privilege = 0
+	 * Regisztrál user privilege = 1
+	 * a 2 fenntartva??
+	 * Admin user privilege = 3
+	 * @var $privilege
+	 */	
+	static	int $privilege;
+	static	int $id;	
+	static	int $passwordLength;		
+	/**
+	 * Nem implementált funkció
+	 * @var $online	 
+	 */
+	static	int $online;		
+	// NBACK OPTIONS	
+	static	int $level;
+	static	int $seconds;
+	static	int $trials;
+	static	float $eventLength;
+	static	string $color;
+	static	string $gameMode;
 
 	
 	
@@ -62,29 +68,26 @@ abstract class User
 
 
 	private static function loadAnonim()
-	{				
-		
+	{						
 		// Anonim user id = 1!!!			
 		$user = self::getUser(null, null, 1);
 
 		self::$id 				= $user->id;	
-		self::$name 			= $user->name;
-		self::$isAdmin			= false;
+		self::$name 			= $user->name;		
 		self::$email 			= NULL;
 		self::$loginDatetime	= NULL;
 		self::$privilege 		= $user->privilege;
 		self::$birth 			= $user->birth;
 		self::$passwordLength 	= $user->paswordLength;
 		self::$theme 			= $_COOKIE['theme'] ?? $user->theme;
-		self::$refresh 			= NULL;
 		
 		// Van az anonimnak saját képe, hogy meg lehessen jeleníteni
 		// az nback settings felületet.
-		self::$imgBin 			= ImageConverter::BTB64($user->imgBin);
-
+		self::$bin 				= ImageConverter::BTB64($user->bin);
+		//--------------------------------------//
 		// NOT IMPLEMENTED FEATUTRE
 		self::$online 			= NULL;
-		//--------------------------------------------------------------------------------------------				
+		//--------------------------------------//		
 
 		if (!isset($_COOKIE['gameMode'])) {
 			setcookie('gameMode',$user->gameMode);
@@ -139,6 +142,7 @@ abstract class User
     {	
 		$user = self::getUser(null, null, $userId);
 
+		self::$logged 			= true;	
 		self::$id 				= $user->id;
 		self::$email			= $user->email;
 		self::$loginDatetime	= $user->loginDatetime;		
@@ -148,19 +152,19 @@ abstract class User
 		self::$birth			= $user->birth;
 		self::$sex				= $user->sex;
 		self::$passwordLength	= $user->passwordLength;
-		self::$imgBin			= ImageConverter::BTB64($user->imgBin);		
+		self::$bin				= ImageConverter::BTB64($user->bin);		
 		self::$theme			= $user->theme;
 		self::$about			= $user->about;	
-		// NOT IMPLEMENTED FEATUTRE
+		//--------------------------------------//
+		// NOT IMPLEMENTED FEATUTRE		
 		self::$online 			= $user->online;
-		//--------------------------------------------------------------------------------------------		
+		//--------------------------------------//
 		self::$gameMode 		= $user->gameMode;
 		self::$level 			= $user->level;
 		self::$seconds			= $user->seconds;
 		self::$trials 			= $user->trials;
 		self::$eventLength		= $user->eventLength;
-		self::$color 			= $user->color;												
-		self::$logged 			= true;		
+		self::$color 			= $user->color;															
 	}
 
 	/**
@@ -212,10 +216,9 @@ abstract class User
 			case 'sex': 			return self::$sex; 				break;
 			case 'passwordLength': 	return self::$passwordLength; 	break;			
 			case 'theme': 			return self::$theme; 			break;
-			case 'refresh': 		return self::$refresh; 			break;
 			case 'online': 			return self::$online; 			break;
 			case 'about':			return self::$about;			break;
-			case 'imgBin': 			return self::$imgBin; 			break;
+			case 'bin': 			return self::$bin; 				break;
 			case 'gameMode': 		return self::$gameMode; 		break;
 			case 'level': 			return self::$level; 			break;			
 			case 'seconds': 		return self::$seconds; 			break;
@@ -325,7 +328,7 @@ abstract class User
 			":cmpBin" => $cmpBin
 		];
 
-		$sql = 'CALL createNewUserprocedure(
+		$sql = 'CALL createUser(
             :name,
             :email, 
             :password, 

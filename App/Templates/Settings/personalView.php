@@ -45,7 +45,7 @@
         </form>                
     </div>     
     <div class="user-f" id="user-profile-image">
-        <img class="big-user-image" id="output" src="data:image/*;base64,<?= $user::$imgBin?>">
+        <img class="big-user-image" id="output" src="data:image/*;base64,<?= $user::$bin?>">
         <label for="update-img" class="btn btn-blk sml-btn" >&#128394; Edit</label>
         <form action="/settings/imageUpdate" id="imageForm" enctype="multipart/form-data">                 
             <input id="update-img" type="file" name="user-image"  accept="image/*">         

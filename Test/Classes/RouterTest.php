@@ -3,17 +3,24 @@
 
 use App\Http\Router;
 
-require "Test/init.php";
+require "Test/testEngine.php";
 
 
 
 class A extends Router
 {
-    public static function cPattern(string $str, string $url): string{        
-        return preg_match(parent::createPattern($str), $url);
+    public function cPattern(string $str, string $url): string
+    {        
+        return preg_match(parent::createPattern($str), $url);        
     }
 
-    public static function lRoutes(array $route, array $expect): bool{        
+    public static function createPattern(string $str): string
+    {
+        return parent::createPattern($str);
+    }
+
+    public function lRoutes(array $route, array $expect): bool
+    {
         return parent::loadRoutes($route) == $expect;
     }
 }
@@ -24,16 +31,15 @@ test(new A, "cPattern", ["", "/nback"], false);
 // 2 CSak egy per jel
 test(new A, "cPattern", ["/", "/nback"], false);
 // controller és opcionális action egyezés action
-test(new A, "cPattern", ["/signUp/form", "/signUp/form"], true);
+test(new A, "createPattern", ["/signUp/form"], "%^/(?<controller>signUp)/(?<action>form)/?$%");
 // Csak kontroller egyezés
-test(new A, "cPattern", ["/signIn", "/signIn"], true);
+test(new A, "createPattern", ["/signIn"], "%^/(?<controller>signIn)/?$%");
 // kontroller, action és id egyezés
 test(new A, "cPattern", ["/logUot/user/23", "/logUot/user/23"], true);
 // itt bevezetünk egy nem definiált részt az id után. Hamissal kell válaszolnia., mert az 
 // utolsó tagot "alma" már levágja.
 // "%^/(?<controller>settings)/(?<action>passwordUpdate)/(?<id>12)$%"
 test(new A, "cPattern", ["/settings/passwordUpdate/12/alma", "/settings/passwordUpdate/12/alma"], false);
-
 
 
 

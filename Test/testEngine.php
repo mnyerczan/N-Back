@@ -1,8 +1,7 @@
 #!/usr/bin/php7.4
 <?php
 
-chdir('/var/www/html/NBack');
-error_reporting(0);
+error_reporting(1);
 
 // Böngésző cash kezelő konstans.
 #define('RELOAD_INDICATOR'	, '' );
@@ -40,14 +39,14 @@ spl_autoload_register(function($className) {
  * @param object $obj A tesztelni kívánt osztály objektuma
  * @param string $function A tesztelni kívánt osztály tagfüggvénye
  * @param array $params A kapott függvény opcionális paraméterei
- * @param bool $result A várt eredmény
+ * @param bool $expect A várt eredmény
  * 
  */
-function test(object $obj, string $function, ?array $params = [], bool $result = true)
+function test(object $obj, string $function, ?array $params = [], $expect)
 {    
     // Bejövő adatok ellenőrzése
     if (!(is_object($obj) && in_array($function, get_class_methods($obj))) ) {
-        echo "\e[1;37;41m".PHP_EOL.PHP_EOL."Callable should be a callable function, or a array with two members: \"0\" an object of a class,".PHP_EOL."and a \"1\", a member function of the \"0\" element on line ".debug_backtrace()[0]["line"]."!".PHP_EOL."\e[0m".PHP_EOL;
+        echo "\e[1;37;41m".PHP_EOL.PHP_EOL."Callable should be a callable function, or an array with two members: \"0\" an object of a class,".PHP_EOL."and a \"1\", a member function of the \"0\" element on line ".debug_backtrace()[0]["line"]."!".PHP_EOL."\e[0m".PHP_EOL;
         if (!is_object($obj)) {
             echo "\e[1;37;41m".PHP_EOL.PHP_EOL."{$obj} is not a object!".PHP_EOL."\e[0m".PHP_EOL;
         }
@@ -75,29 +74,32 @@ function test(object $obj, string $function, ?array $params = [], bool $result =
         echo PHP_EOL."\e[0m".PHP_EOL;
         die;
     }
-    $str = sprintf("|\033[1m%4d\033[0m| %-9s ", debug_backtrace()[0]["line"], strlen($function) <=  7 ? $function : substr($function,0,7)."..");    
-    // Ha a függvény végrehajtási idő magasabb 100 microsecundumnál, 
-    // piros kiemeléssel írja ki.
-
+    $str = sprintf(
+        "%3d |\033[1m%-12s \e[0m|", 
+        debug_backtrace()[0]["line"], 
+        strlen($function) <=  10 ? $function : substr($function, 0, 10).".."
+    );    
+    
     // Meghatározzuk, hogy a kívánt értéken felül van-e az átlag.
-    // Ha igen, piros kiemeléssel jelenítjük meg.       
+    // Ha igen, piros kiemeléssel jelenítjük meg.  
+    $str .= "avg: ";
     if ($fileParams["avg"] > 1) {
         // Rossz hatásfokú
-        $str.=sprintf("\e[1;37;41m'%5.3f'\e[0m", $fileParams["avg"]);
+        $str.=sprintf("'\e[1;37;41m%5.3f\e[0m'", $fileParams["avg"]);
     }
     else {
         // jó hatásfokú
         $str.=sprintf("'%5.3f'", $fileParams["avg"]);
     }
 
-    $str .=sprintf("ms items: %4d ",$fileParams["count"]);    
-    $str .=sprintf("| act: '%5.3f'ms | ", $dtime);    
+    $str .=sprintf("ms |sample:%-4d",$fileParams["count"]);    
+    $str .=sprintf("|current: '%5.3f'ms | ", $dtime);    
     
 
     // A kívánt és a kapott eredmény függvényében piros, vagy zöld
     // háttérrel íratjuk ki az eredményt. Ha a függvény nem bool értékkel
     // tér vissza, akkor azt írja ki az algoritmus.
-    if ($stmt == $result) {
+    if ($stmt == $expect) {
         if (gettype($stmt) == "boolean" || $stmt == 0 || $stmt == 1 || $stmt == "")
             $stmt = "true";        
         $str.= "\033[1m{$stmt} \e[0m";
@@ -127,8 +129,8 @@ function test(object $obj, string $function, ?array $params = [], bool $result =
  */
 function tfile(float $dtime, string $objName, string $fname)
 {
-    $sum = 0;
-    $counter = 1;
+    $sum = $dtime;
+    $counter = 0;
     $user = posix_getpwuid(posix_geteuid())['name'];
     $path = "/home/{$user}/.local/share/testStatistics/{$objName}/{$fname}.txt";
     
@@ -155,19 +157,18 @@ function tfile(float $dtime, string $objName, string $fname)
     // Ha nem sikerül megnyitni, vagy ha a fájl nem létezik,
     // azt létrehozni, kiírja a hibaüzenetet és befejezi a 
     // végrehajtást.    
-    if (!$resource) {        
-        return "Can't create file {$path}. Access denied for '". posix_getpwuid(posix_geteuid())['name']."'. File owner '".posix_getpwuid(fileowner("/home/{$user}/.local/share/"))["name"]."'";        
-    }
-
+    if (!$resource)
+        return "Can't create file {$path}. Access denied for '".posix_getpwuid(posix_geteuid())['name']."'. File owner '".posix_getpwuid(fileowner("/home/{$user}/.local/share/"))["name"]."'";        
+    
     while(!feof($resource)) {
-        $sum +=  (float)fgets($resource);
-        $counter++;
-    }
+        $sum += ($d = unpack("e",fgets($resource))[1]);
+        $counter++;        
+    }     
 
-    fputs($resource, $dtime.PHP_EOL);
+    fputs($resource, pack("e",$dtime).PHP_EOL);
 
     return [
-        "avg" => round(($sum + $dtime) / ($counter + 1), 3), 
-        "count" => $counter + 1
+        "avg" => round($sum / ($counter), 3), 
+        "count" => $counter
     ];
 }

@@ -30,11 +30,11 @@ class NBackSaveController extends GameController
         // A játékszint emeléséhez, szinten tartásához,
         //  vagy csökkentéséhez szükséges adat.
         if ($percent >= 80)
-            $result = 1;
+            $wrongSessions = 1;
         elseif ($percent >= 50)
-            $result = 0;
+            $wrongSessions = 0;
         else
-            $result = -1;
+            $wrongSessions = -1;
 
 
         $params = [
@@ -46,10 +46,10 @@ class NBackSaveController extends GameController
             ":sessionLength" => User::$seconds * User::$trials * 1000,        
             ":gameMode"  => User::$gameMode,
             // Elérte-e a 80%-ot, vagy 500 alatt volt-e
-            ":result" => $result
+            ":sessionResult" => $wrongSessions
         ];
 
-        DB::execute("CALL exportSession(:userId, :ip, :level, :correctHit, :wrongHit, :sessionLength, :gameMode, :result)", $params);
+        DB::execute("CALL exportSession(:userId, :ip, :level, :correctHit, :wrongHit, :sessionLength, :gameMode, :sessionResult)", $params);
 
         $this->Response(["update" => 1], new ViewParameters("", "application/json"));
     }
@@ -57,6 +57,9 @@ class NBackSaveController extends GameController
 
     public function feedback()
     {
-        DB::selectAll("SELECT * FROM `nbackSessions` ");
+        $wrongSessions =  DB::selectAll("SELECT * FROM `nbackSessions` ");
+        if ($wrongSessions == 2) {
+            
+        }
     }
 }

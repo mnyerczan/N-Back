@@ -189,28 +189,21 @@ class SettingsAccountController extends BaseController
     {        
         // Lekérjük a képet a cgi változóból.
         $img = (object)$_FILES['image'];
-
         // Példányosítjuk az ImageConverter osztályt, ami elvégzi a szükséges tranzformálást.
         $converter = new ImageConverter($img->tmp_name, $img->type );
-
+        $converter->compress(250, 250);
         // A módosító SQL script
-        $sql = "UPDATE `images` SET `imgBin` = :cmpBin, `update` = CURRENT_TIMESTAMP WHERE `userID` = :userId";
-
+        $sql = "UPDATE `images` SET `bin` = :bin, `update` = CURRENT_TIMESTAMP WHERE `userID` = :userId";
         // Az ősosztályból kapott db objektummal végrehajtjuk a módosítást.
-        try
-        {
+        try{
             DB::execute($sql, [
-                ':cmpBin' => $converter->cmpBin,
+                ':bin' => $converter->bin,
                 ':userId' => User::$id
             ]);
-
-            // Az adatbázis művelet lementett eredményét visszaküldjük                            
-            // a frontendnek.
-            $this->Response(["uploadResult" => 1], new ViewParameters("", "application/json"));        
-        }
-        catch (LogicException $e)
-        {
-            $this->Response(["uploadResult" => 0], new ViewParameters("", "application/json"));        
+            // Siker esetén egy igaz értéket küldünk vissza jsonban. amivel kezdhet valamit.
+            $this->Response(["uploadResult" => true], new ViewParameters("", "application/json"));        
+        } catch (LogicException $e) {
+            $this->Response(["uploadResult" => false], new ViewParameters("", "application/json"));        
         }
     }
     
@@ -244,11 +237,9 @@ class SettingsAccountController extends BaseController
 
     public function validatePass(string $oldPass, string $newPass, string $retypedPass) 
     {            
-
         $this->oldPassV = new ValidatePassword($oldPass);
         $this->newPassV = new ValidatePassword($newPass);
         $retypePass  = new ValidatePassword($retypedPass);
-
         
         // A két új jelszó összehasonlítása, különben hiba!
         if ($this->newPassV->getPass() !== $retypePass->getPass()) {

@@ -80,21 +80,21 @@ class DB
      */
     protected static function import(string $script, array $params = [], string $type = null): array
     {
-        $pdoStatement =  self::$connect->prepare($script);     
+        $smt =  self::$connect->prepare($script);     
      
-        self::binds($pdoStatement, $params);           
+        self::binds($smt, $params);           
                 
 
         try {
-            if( !$pdoStatement->execute() )            
-                throw new PDOException($pdoStatement->errorInfo()[2]);
+            if( !$smt->execute() )            
+                throw new PDOException($smt->errorInfo()[2]);
 
             if ($type)
-                $result = $pdoStatement->fetchAll(PDO::FETCH_CLASS, $type);
+                $result = $smt->fetchAll(PDO::FETCH_CLASS, $type);
             else 
-                $result = $pdoStatement->fetchAll(PDO::FETCH_CLASS);
+                $result = $smt->fetchAll(PDO::FETCH_CLASS);
 
-            $pdoStatement = null;     
+            $smt = null;     
 
             return $result;
             
@@ -126,29 +126,30 @@ class DB
                     "Message: ".$smt->errorInfo()[2].
                     " Errorcode: ".$smt->errorInfo()[1]);
                         
+            $smt = null;
             // Hibakód ellenőrzés. Ha nincs mit lekérdezni, PODException-t dob.                        
             // Adatbézis szintű logikai hibáról értesítést kap a hívó.
-            if(($error = self::select("SELECT @full_error AS error")) == null || $error->error !== "") 
-                throw new LogicException($error);
+            if(($error = self::select("SELECT @full_error AS `full_error`")->full_error) !== "") 
+                throw new LogicException($error);                            
 
         } catch(PDOException $exception) {
             $smt = null;
-
             error_log( 
                 date('Y-m-d H:i:s').
                 '- Code: '.self::$connect->errorCode()[1].
                 '- Msg:  '.self::$connect->errorInfo()[2].', '.$exception->getMessage().
                 " with: '{$script}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
                     
-            throw new LogicException($exception->getMessage());
+            throw $exception;
         } catch(LogicException $exception) {
+            $smt = null;            
             error_log( 
                 date('Y-m-d H:i:s').
                 '- Code: '.self::$connect->errorCode()[1].
                 '- Msg:  '.self::$connect->errorInfo()[2].', '.$exception->getMessage().
                 " with: '{$script}' in ".__FILE__." at ".__LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );       
             
-            throw new LogicException($exception->getMessage());
+            throw $exception;
         }
 
     }
@@ -194,7 +195,7 @@ class DB
         } catch( PDOException $e ) {           
             error_log( date('Y-m-d h:i:s').' - '.$e->getMessage()." in ".__FILE__." at ".
                 __LINE__.PHP_EOL, 3, APPLICATION.'Log/dberror.log' );
-            throw new Exception($e->getMessage());
+            throw $e;
         }
     }
 

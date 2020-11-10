@@ -6,119 +6,74 @@
     Base64-re konvertáló osztály
 
     -- 2020.04.02 -- 
+    Add Imagick
+    -- 2020.11.09 --
   --------------------------------- 
 */
 namespace App\Classes;
 
-use DateTime;
-use DomainException;
+
 use InvalidArgumentException;
-use RangeException;
-use ReflectionException;
-use RuntimeException;
+use LengthException;
+
 
 class ImageConverter
-{
-
-    private $bin,
-            // A bin és cmpBin binárisokat át kell konvertálni a BTB64 függvénnyel, hogy
-            // beágyazható legyen!!!
-            $cmpBin,
+{ 
+    private             
+            $bin,
             $origin,      
-            $tmpName,
-            $mime,            
-            $requiredSize,
-            $tmp = TMP_PATH;    
-         
-    /** 
-     *  A getter mindig megkapja a kért nevet, még akkor is, ha az nem létezik.
-     * Ilyenkor érdemes lehet kivételt dobni.
-     */
-    function __get($name)
-    {
-        switch($name) {
-            case 'bin':     return $this->bin;    break;
-            case 'cmpBin':  return $this->cmpBin; break;
-            case 'origin':  return $this->origin; break;
-            default: throw new InvalidArgumentException("Not exist the named variable: \"{$name}\"");
-        }
-    }
+            $filePath,         
+            $maxSize = 2**16,            
+            $imagick;                   
 
     /**
      * @param $path Path of the file
-     * @param $mime Mime type of the file. Expected type: png, jpeg, jpg, gif,bmp?
-     * @param $requireSize If send $mime, required size add size of compressing image. Value beetwen 0 and 100
      */
-    public function __construct(string $path, ?string $mime = null) 
+    public function __construct(string $path) 
     {   
+        $this->filePath = $path;
+
         if(!is_file($path))
             throw new InvalidArgumentException("The file does not exists at ".$path); 
-        
-        $this->tmpName     = $path;
-        $this->mime         = $mime ?? 'image/jpg';        
-                
-
+                                
         if (is_file($path)) {
-            $this->bin      = file_get_contents($this->tmpName);
+            $this->bin   = file_get_contents($this->filePath);          
             $this->origin   = addslashes(base64_encode($this->bin));                                                           
         }        
-
-        $this->requiredSize = (2**16) / strlen($this->bin);
-
-
-        $this->compress();        
+        
+        $imgDatas       = getimagesize($this->filePath);
+        $this->width    = $imgDatas[0];
+        $this->height   = $imgDatas[1];
+        // MySQL Blob type    
+        $this->imagick = new \Imagick($this->filePath);           
+        $this->bin = file_get_contents($this->filePath);
     }
           
     /**
      * ComressImage
+     * @param float $width A kép szélessége pixelben
+     * @param float $height A kép magassága pixelben
      * 
      */
-    private function compress()
-    {      
-        $compressedImage = null;
+    public function compress(float $width = 250, float $height = 250): void
+    {
+        $size = $this->imagick->getImageLength();        
+        $quotient = "";
+        if ($this->maxSize < $size) {
+            $quotient = (int)(2**16 / $size * 100);
+        }
+        elseif($this->maxSize > $size + 10000) {
+            $quotient = 100;
+        }
+        // A thumbnail függvény mindig a legkisebb oldalhosszhoz
+        // igaztja a másikat, ha a harmadik paraméter true. Így
+        // méretarányos marad a kép.
+        $this->imagick->thumbnailImage($width, $height, true);
         
+        if(($size = $this->imagick->getImageLength()) > $this->maxSize)
+            throw new LengthException("The file size '".$size."' bytes is to large!");
 
-        //mime típus szerint konvertálunk.
-        switch($this->mime)
-        {
-            case 'image/jpeg': $compressedImage  = imagecreatefromjpeg($this->tmpName); break;
-            case 'image/jpg' : $compressedImage  = imagecreatefromjpeg($this->tmpName); break;
-            case 'image/png' : $compressedImage  = imagecreatefrompng ($this->tmpName); break;
-            case 'image/gif' : $compressedImage  = imagecreatefromgif ($this->tmpName); break;
-            case 'image/bmp' : $compressedImage  = imagecreatefrombmp ($this->tmpName); break;
-            default: throw new InvalidArgumentException("Invalid mime type getted: ".$this->mime);
-        }   
-               
-        /**
-         * 
-         * 
-         * Imagic extension telepítve, de nem látja a php..............
-         * 
-         * 
-         * 
-         */
-        // $imagick = new Imagick();        
-        
-        
-        // a tömörített kép kép generálása, hogy egyidőben több programpéldány
-        // ne ugyan azt a fájlt akarja feldolgozni.            
-        $fileName = md5(rand(0, 1000000)).'.jpeg';
-                    
-        # Mappa létezésének leellenőrzése
-        if (!is_dir($this->tmp))
-            if (!mkdir($this->tmp, 0777))                                 
-                throw new RuntimeException("Permission denied in {$this->tmp} !");
-
-        //Tömörítés. Sajnos csak file létrehozással tudom eddig.
-        if (!imagejpeg($compressedImage, $this->tmp.$fileName, $this->requiredSize)) 
-            throw new RangeException("failed to open stream: Permission denied in ".$this->tmp.$fileName);
-
-        //létrehozott tömörített állomány beolvasása.            
-        $this->cmpBin = file_get_contents($this->tmp.$fileName);
-                            
-        //tömörített állomány törlése a fájlrendszerből
-        if(!unlink($this->tmp.$fileName))
-            throw new DomainException("Cant't delete tmp fil from filesystem at: ".$this->tmp.$fileName);                    
+        $this->bin = $this->imagick->getImageBlob();
     }        
 
     /**
@@ -127,10 +82,23 @@ class ImageConverter
      * 
      * @return base64 coded fife
      */
-    public static function BTB64($binary)
+    public static function BTB64($binary): string
     {
         return addslashes(base64_encode($binary)); 
     }   
+  
+    /** 
+     *  A getter mindig megkapja a kért nevet, még akkor is, ha az nem létezik.
+     * Ilyenkor érdemes lehet kivételt dobni.
+     * @param $name The name of the needed property
+     */
+    function __get($name)
+    {
+        switch($name) { 
+            case 'bin':  return $this->bin; break;
+            case 'origin':  return $this->origin; break;
+            default: throw new InvalidArgumentException("Not exist the named variable: \"{$name}\"");
+        }
+    }
 
-    
 }

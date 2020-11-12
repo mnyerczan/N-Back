@@ -14,7 +14,7 @@ try {
         App\Services\User::setup();
     }  
 
-    App\Http\Router::route($cleanedUri);
+    App\Http\Router::route(CLEANED_URI);
 } catch (Exception $e) {
     (new App\Controller\Errors\ExceptionErrorController())->index($e);
 }

@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?=BACKSTEP?>Public/Style/settings.css?v=<?= RELOAD_INDICATOR ?>">
+<link rel="stylesheet" href="<?=BACKSTEP?>public/style/settings.css?v=<?= RELOAD_INDICATOR ?>">
 <main class="main-body">   
     <section class="settings-structure"> 
         <div class="settings-navbar">        
@@ -19,7 +19,7 @@
                 <?php endif ?>                
             <?php endforeach ?>
         </div>       
-        <?php include APPLICATION."Templates/Settings/{$views->item}View.php"; ?>        
+        <?php include APPLICATION."templates/settings/{$views->item}View.php"; ?>        
     </section>
 </main>        
 

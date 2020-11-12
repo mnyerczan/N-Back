@@ -10,7 +10,7 @@ use InvalidArgumentException;
 /**
  * Servicecontainer for service classes
  */
-class ServiceContainer
+abstract class ServiceContainer
 {
     private static array $definitions = [];
 

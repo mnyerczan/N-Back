@@ -3,13 +3,11 @@
 
 namespace App\Controller\Main\Settings;
 
-use App\Core\BaseController;
+
 use App\Model\SettingsBar;
 use App\Classes\ImageConverter;
-use App\Model\Sessions;
 use App\Model\Seria;
 use App\Model\Navbar;
-use App\Model\Indicator;
 use App\Model\Header;
 use App\Model\ViewParameters;
 use App\Classes\ValidateAbout;
@@ -17,14 +15,17 @@ use App\Classes\ValidateEmail;
 use App\Classes\ValidateUser;
 use App\Classes\ValidatePassword;
 use App\Classes\ValidateSex;
+use App\Controller\Main\MainController;
 use App\Services\User;
 use App\Services\DB;
 use LogicException;
 
 
 
-class SettingsAccountController extends BaseController
+class SettingsAccountController extends MainController
 {
+
+
     protected ?ValidatePassword $newPassV = NULL;
     protected ?ValidatePassword $oldPassV = NULL;
     protected ?ValidateUser $userV = NULL;
@@ -38,9 +39,9 @@ class SettingsAccountController extends BaseController
     public function __construct()
     {
         parent::__construct();       
-        $this->getEntitys();  
+        $this->setDatas();  
         // Átadásra kerül a frontend felé, hogy melyik almenű aktív.
-        $this->datas['settingsBar'] = new SettingsBar('personalItem', User::$id);               
+        $this->put("settingsBar", new SettingsBar('personalItem', User::$id));
     }
 
 
@@ -51,13 +52,12 @@ class SettingsAccountController extends BaseController
     public function index()
     {
         $this->setPersonalValues(); 
-        $this->Response( 
-            $this->datas, 
+        $this->Response(
             new ViewParameters(
                 'settings',
                 'text/html',
                 '', 
-                'Settings',
+                'settings',
                 'Personal settings',
                 "",
                 'personal'              
@@ -78,7 +78,7 @@ class SettingsAccountController extends BaseController
         if ( !($email->isValid() && $user->isValid() && $sex->isValid() && $about->isValid())) {
             $this->setPersonalValues($user, $email, $sex, NULL, NULL, $about);
             $this->Response(
-                $this->datas, new ViewParameters(
+                new ViewParameters(
                     'settings',
                     'text/html',
                     'main',
@@ -109,12 +109,12 @@ class SettingsAccountController extends BaseController
                 :privilege
             )', $sqlParams);
             
-            $this->Response([], new ViewParameters("redirect:".APPROOT."/settings?sm=Profile updated successfully!"));    
+            $this->Response(new ViewParameters("redirect:".APPROOT."/settings?sm=Profile updated successfully!"));    
         }            
         catch (LogicException $l){
             $this->setPersonalValues($user, $email, $sex);
             $this->Response(
-                $this->datas, new ViewParameters(
+                new ViewParameters(
                     'settings',
                     'text/html',
                     'main',
@@ -159,7 +159,7 @@ class SettingsAccountController extends BaseController
                 $this->errorMsg = "Old password is incorrect!"; 
 
             if ($this->errorMsg === "")
-                return $this->Response([], new ViewParameters("redirect:".APPROOT."/settings?sm=Password modification is succesfull!"));
+                return $this->Response(new ViewParameters("redirect:".APPROOT."/settings?sm=Password modification is succesfull!"));
             
         }                
 
@@ -167,7 +167,7 @@ class SettingsAccountController extends BaseController
         $this->setPersonalValues();         
         // ... és hívja meg magát újra.
         $this->Response(
-            $this->datas, new ViewParameters(
+            new ViewParameters(
                 'settings',
                 "",                    
                 "main", 
@@ -201,9 +201,11 @@ class SettingsAccountController extends BaseController
                 ':userId' => User::$id
             ]);
             // Siker esetén egy igaz értéket küldünk vissza jsonban. amivel kezdhet valamit.
-            $this->Response(["uploadResult" => true], new ViewParameters("", "application/json"));        
+            $this->put("uploadResult", true);
+            $this->Response(new ViewParameters("", "application/json"));        
         } catch (LogicException $e) {
-            $this->Response(["uploadResult" => false], new ViewParameters("", "application/json"));        
+            $this->put("uploadResult", false);
+            $this->Response(new ViewParameters("", "application/json"));        
         }
     }
     
@@ -212,25 +214,24 @@ class SettingsAccountController extends BaseController
      */
     private function setPersonalValues ()
     {     
-        
-        $this->datas['nameLabel']       = $this->userV->errorMsg  ?? 'Your Name';
-        $this->datas['emailLabel']      = $this->emailV->errorMsg ?? 'Email address';
-        $this->datas['passwordLabel']   = $this->newPassV->errorMsg ?? 'New password';
-        $this->datas['oldPasswordLabel']= $this->newPassV->errorMsg ?? 'Old password';
-        $this->datas['sexLabel']        = $this->sexV->errorMsg ?? 'Your sex';
-        $this->datas['privilegeLabel']  = 'Privilege';        
-        $this->datas['aboutLabel']      = $this->aboutV->errorMsg ?? 'About you';
-        $this->datas['isAdmin']         = User::$isAdmin;           
-        $this->datas['userEmailValue']  = is_object($this->emailV) ? $this->emailV->getEmail() : NULL;
+        $this->put("nameLabel",         $this->userV->errorMsg  ?? "Your Name");
+        $this->put("emailLabel",        $this->emailV->errorMsg ?? "Email address");
+        $this->put("passwordLabel",     $this->newPassV->errorMsg ?? "New password");
+        $this->put("oldPasswordLabel",  $this->newPassV->errorMsg ?? "Old password");
+        $this->put("sexLabel",          $this->sexV->errorMsg ?? "Your sex");
+        $this->put("privilegeLabel",    "Privilege");
+        $this->put("aboutLabel",        $this->aboutV->errorMsg ?? "About you");
+        $this->put("isAdmin",           User::$isAdmin);
+        $this->put("userEmailValue",    is_object($this->emailV) ? $this->emailV->getEmail() : NULL);
 
-        if ($this->datas['isAdmin']) {
-            $this->datas['userNameValue']   = 'Admin';            
-            $this->datas['enableNameInput'] = 'readonly'; 
-            $this->datas['nameLabel']       = 'Can\'t modify admin\'s username';
+        if ($this->get("isAdmin")) {
+            $this->put("userNameValue", "Admin");
+            $this->put("enableNameInput","readonly"); 
+            $this->put("nameLabel",     "Can\'t modify admin\'s username");
         }
         else {
-            $this->datas['userNameValue']   = is_object($this->userV) ? $this->userV->getUser() : NULL;
-            $this->datas['enableNameInput'] = ''; 
+            $this->put("userNameValue",  is_object($this->userV) ? $this->userV->getUser() : NULL);
+            $this->put("enableNameInput", ""); 
         }        
     }
 
@@ -256,21 +257,5 @@ class SettingsAccountController extends BaseController
             return false;
         }
         return true;        
-    }
-
-    private function getEntitys()
-    {
-        $this->datas = [ 
-            'seria' => (new Seria( User::$id ))->seria, 
-            'user'  => "App\Model\User",            
-            'navbar'=> ( new Navbar() )->getDatas(),
-            'indicator' => (
-                Indicator::getInstance(
-                    new Sessions( User::$id, 1 ),
-                    User::$gameMode 
-                )
-            )->getDatas(),
-            'header' => (new Header())->getDatas()
-        ];       
-    }   
+    } 
 }

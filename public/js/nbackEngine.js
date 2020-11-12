@@ -193,7 +193,7 @@ class Nback
         // És hozzáadatjuk a tárolóhoz
         this.itemIdxsHandler();
         // Itt jelenítjük meg a megfelelő indexű mezőben a képet
-        $("grid-image" + this.currentIdx).style.backgroundImage = "url(\"Public/images/Squares/spr_square_"+this.color+".png\")";        
+        $("grid-image" + this.currentIdx).style.backgroundImage = "url(\"public/images/Squares/spr_square_"+this.color+".png\")";        
         // Feloldjuk a keyEvent figyelőt.
         this.isChecked = 0;             
         setTimeout(()=>{$("nback-feedback").style.color = "#000"; }, 50); 

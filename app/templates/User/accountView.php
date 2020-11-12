@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?=BACKSTEP?>Public/Style/account.css?v=<?= RELOAD_INDICATOR ?>">
+<link rel="stylesheet" href="<?=BACKSTEP?>public/Style/account.css?v=<?= RELOAD_INDICATOR ?>">
 <main class="main-body">    
     <section class="user-profile-structure"> 
         <div class="title">Drawer</div>   

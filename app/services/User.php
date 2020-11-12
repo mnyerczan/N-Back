@@ -36,7 +36,7 @@ abstract class User
 	/**
 	 * Anonim user privilege = 0
 	 * Regisztrál user privilege = 1
-	 * a 2 fenntartva??
+	 * a 2 fenntartvaimages/
 	 * Admin user privilege = 3
 	 * @var $privilege
 	 */	

@@ -1,4 +1,4 @@
-<script src="<?=BACKSTEP?>Public/js/personlSettings.js?v=<?= RELOAD_INDICATOR ?>"></script>
+<script src="<?=BACKSTEP?>public/js/personlSettings.js?v=<?= RELOAD_INDICATOR ?>"></script>
 <form action="<?=APPROOT.'/'?>settings/personalUpdate" method="POST" id="personalForm"></form> 
 <div class="personal-setting-contents">
     <div class="title">Drawer</div>  

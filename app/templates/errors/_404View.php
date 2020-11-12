@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?= BACKSTEP ?>Public/Style/_404.css" type="text/css">
+<link rel="stylesheet" href="<?= BACKSTEP ?>public/Style/_404.css" type="text/css">
 <section class="ms-404-msg">            
     Oooops!!! <span>404</span> Page Not Found!
     <section class="ms-404-btn-container">

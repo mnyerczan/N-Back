@@ -18,6 +18,6 @@ class Home extends MainController
         $content    = DB::selectAll($sql, $params);
 
 
-        return new HomeViewModel($content[0] ?? '');
+        return new HomeViewModel($content[0] ?? "");
     }
 }

@@ -216,7 +216,7 @@ class DB
      */
     private static function config()
     {
-        $params = json_decode(file_get_contents(CONF_PATH), true);
+        $params = require DBCONFIGPATH;
 
         if (!$params)
             throw new InvalidArgumentException('Can\'t access /config.json file!!');

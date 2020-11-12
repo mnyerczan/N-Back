@@ -9,16 +9,14 @@ class ExceptionErrorController extends BaseController
 {
     public function index($exception)
     {
-// var_dump($exception->getTrace()); die;
-        $this->Response(
-            [
-                "message" => $exception->getMessage(),
-                "exception" => get_class($exception),
-                "file" => $exception->getFile(),
-                "line" => $exception->getLine(),
-                "previous" => $exception->getPrevious(),
-                "traces" => explode("#",$exception->getTraceAsString())
-            ], 
+        $this->put("message", $exception->getMessage());
+        $this->put("exception", get_class($exception));
+        $this->put("file", $exception->getFile());
+        $this->put("line", $exception->getLine());
+        $this->put("previous", $exception->getPrevious());
+        $this->put("traces", explode("#",$exception->getTraceAsString()));
+        
+        $this->Response(            
             new ViewParameters("", "text/html", "_exception", "Errors", "Exception occurs")
         );
     

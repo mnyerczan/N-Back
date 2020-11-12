@@ -34,7 +34,7 @@ final class ViewRenderer
         if (!strpos($views->mime, "json")) {            
             unset($models);
             // Fő view struktúrákat tartalmazó Layout mappában található fájlok meghatározása.
-            require_once APPLICATION."templates/Layouts/{$views->layout}Layout.php";
+            require_once APPLICATION."templates/layouts/{$views->layout}Layout.php";
         }
         else            
             echo (new JsonRenderer())->Emit($models);

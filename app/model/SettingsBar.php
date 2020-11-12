@@ -4,6 +4,7 @@ namespace App\Model;
 
 use Exception;
 use UnexpectedValueException;
+use App\Services\User;
 
 class SettingsBar
 {

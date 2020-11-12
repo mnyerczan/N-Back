@@ -10,8 +10,7 @@ class NotFoundController extends MainController
 {
     function __construct()
     {     
-
-        parent::__construct();
+    
 
         $this->setDatas();
     }
@@ -20,12 +19,11 @@ class NotFoundController extends MainController
     function Action()
     {
         $this->Response(
-            $this->datas, 
             new ViewParameters(
                 "_404", 
                 "text/html", 
                 "", 
-                "Errors", 
+                "errors", 
                 "Page Not Found")
         );
     }

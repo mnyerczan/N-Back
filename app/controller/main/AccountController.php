@@ -22,7 +22,7 @@ class AccountController extends MainController
 
     public function index()
     {              
-        $this->Response( $this->datas, new ViewParameters('account', 'text/html', '', 'User') );
+        $this->Response(new ViewParameters('account', 'text/html', '', 'User') );
     }    
 
 }

@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?=BACKSTEP ?>Public/Style/Main/navbar-structure.css?t=<?=RELOAD_INDICATOR?>">
+<link rel="stylesheet" href="<?=BACKSTEP ?>public/style/main/navbar-structure.css?t=<?=RELOAD_INDICATOR?>">
 <table class="navbar-hdr">
 	<tr>
 		<td><img src="<?= BACKSTEP ?><?=APPLICATION?><?=$navbar->logoImg?>" ></td>

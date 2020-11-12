@@ -15,18 +15,18 @@ class NBackSessionController extends GameController
         parent::__construct();
         
         $this->SetDatas();
-        $this->datas["jsonOptions"] = $this->jsonOptions();
+        $this->put("jsonOptions", $this->jsonOptions());
       
     }
 
     public function index()
     {           
         $this->Response( 
-            $this->datas, new ViewParameters(
+            new ViewParameters(
                 'nback',
                 'text/html',
                 "nback",
-                "Nback",
+                "nback",
                 "Nback") 
         );
     }
@@ -46,7 +46,7 @@ class NBackSessionController extends GameController
         } 
         elseif (!isset($_COOKIE["gameMode"])) {
             // Ha véletlenül anélkül ugrana a /nback url-re, hogy be lenne állítva süti
-            $this->Response([], new ViewParameters("redirect:".APPROOT."/nback"));
+            $this->Response(new ViewParameters("redirect:".APPROOT."/nback"));
         } 
         else {
             $jsonOptions = json_encode(

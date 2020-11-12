@@ -9,8 +9,8 @@ class DatabaseErrorController extends BaseController
 {
     public function index()
     {
-        $this->Response(
-            ["message" => "Sorry, site has gone away... :("], 
+        $this->put("message", "Sorry, site has gone away... :(");
+        $this->Response(            
             new ViewParameters("", "text/html", "databaseError", "Errors", "Database error")
         );
     

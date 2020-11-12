@@ -50,8 +50,8 @@ class NBackSaveController extends GameController
         ];
 
         DB::execute("CALL exportSession(:userId, :ip, :level, :correctHit, :wrongHit, :sessionLength, :gameMode, :sessionResult)", $params);
-
-        $this->Response(["update" => 1], new ViewParameters("", "application/json"));
+        $this->put("update", 1);
+        $this->Response( new ViewParameters("", "application/json"));
     }
 
 

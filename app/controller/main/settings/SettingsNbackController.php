@@ -6,11 +6,6 @@ namespace App\Controller\Main\Settings;
 use App\Controller\Main\MainController;
 use App\Model\SettingsBar;
 use App\Model\ViewParameters;
-use App\Model\Seria;
-use App\Model\Header;
-use App\Model\Navbar;
-use App\Model\Indicator;
-use App\Model\Sessions;
 use App\Services\User;
 use App\Services\DB;
 
@@ -22,10 +17,9 @@ class SettingsNbackController extends MainController
 
     public function __construct()
     {
-        parent::__construct();
         $this->setDatas();  
         // Átadásra kerül a frontend felé, hogy melyik almenű aktív.
-        $this->datas['settingsBar'] = new SettingsBar('nbackItem', $id = User::$id);
+        $this->put("settingsBar", new SettingsBar("nbackItem", $id = User::$id));
                
     }
 
@@ -36,11 +30,11 @@ class SettingsNbackController extends MainController
     public function index(string $errorMsg = "")
     {              
         $this->Response( 
-            $this->datas, new ViewParameters(
+            new ViewParameters(
                 'settings', 
                 'text/html',
                 '',
-                'Settings',
+                'settings',
                 'N-back settings',
                 $errorMsg,
                 'nback')                              
@@ -73,7 +67,7 @@ class SettingsNbackController extends MainController
         setcookie('eventLength', $eventLength, $lifeTime, $path);
         setcookie('color', $color, $lifeTime, $path);
 
-        $this->Response([], new ViewParameters("redirect:".APPROOT."/settings/nback?sm=Update successfully!"));
+        $this->Response(new ViewParameters("redirect:".APPROOT."/settings/nback?sm=Update successfully!"));
 
     }
 
@@ -113,7 +107,7 @@ class SettingsNbackController extends MainController
             )', $params)->result == '1') 
         {            
             // Ha sikeres a bevitel, átirányítás.
-            $this->Response([],new ViewParameters("redirect:".APPROOT."/settings/nback?sm=Update sucessfully!"));         
+            $this->Response(new ViewParameters("redirect:".APPROOT."/settings/nback?sm=Update sucessfully!"));         
         }
         else{
             // Sikertelen művelet esetén hibaüzenet. Mivel a frontend teljesen be van biztosítva, 
@@ -123,24 +117,5 @@ class SettingsNbackController extends MainController
              // Sikertelen módosítás esetén vissaadja saját magát hibaüzenettel.
             $this->index($errorMsg);
         }               
-    }
-
- 
-
-
-    private function getEntitys()
-    {
-        $this->datas = [ 
-            'seria' => (new Seria( $this->user->id ))->seria, 
-            'user'  => $this->user,            
-            'navbar'=> ( new Navbar( $this->user ) )->getDatas(),
-            'indicator' => (
-                Indicator::getInstance(
-                    new Sessions( $this->user->id, 1 ),
-                    $this->user->gameMode 
-                )
-            )->getDatas(),
-            'header' => (new Header( $this->user ))->getDatas()
-        ];       
     }
 }

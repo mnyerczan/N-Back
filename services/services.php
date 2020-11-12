@@ -4,10 +4,6 @@ use App\Model\ModelAndView;
 use App\Model\ViewParameters;
 
 return [
-    "ModelAndView" => function(string $container, $params) {
-        return new ModelAndView($container::get("ViewParameters", $params));
-    },
-    "ViewParameters" => function(string $container, $params) {
-        return new ViewParameters(...$params);
-    }
+    "ModelAndView" => fn (string $container, $params) => new ModelAndView($container::get("ViewParameters", $params)),
+    "ViewParameters" => fn (string $container, $params) => new ViewParameters(...$params)    
 ];

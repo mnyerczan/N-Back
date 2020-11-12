@@ -22,7 +22,7 @@ class SignUpController extends MainController
     
     function __construct($matches)
     {                 
-        parent::__construct();
+        // parent::__construct();
         $this->setDatas();                                     
     }
 
@@ -33,7 +33,6 @@ class SignUpController extends MainController
         $this->setValues();                
         
         $this->Response( 
-            $this->datas, 
             new ViewParameters(
                 "signUp", 
                 "text/html", 
@@ -118,15 +117,15 @@ class SignUpController extends MainController
                 $privilege,
                 $converter);
 
-            $this->Response([], 
+            $this->Response( 
                 new ViewParameters(
                     "redirect:".APPROOT."/signIn?sm=New account is succesfully!!")
                 );
         }
         catch (LogicException $e)
         {
-            $this->datas['errorMessage'] = 'Email is alredy exists!';
-            $this->datas['userEmailValue'] = null;
+            $this->put("errorMessage", "Email is alredy exists!");
+            $this->put("userEmailValue", null);
 
             // Ha valamelyik adat nem helyes, arról a setValues függvény értesítést tesz a $this->datas
             // változóba, és megkapja a frontend.
@@ -152,22 +151,22 @@ class SignUpController extends MainController
         $crName = $user     ? $user->getUser()      : null;
         $crEmail= $email    ? $email->getEmail()    : null;
 
-        $this->datas['signUpJsPath']    = BACKSTEP.'Public/js/signUp.js?v='.RELOAD_INDICATOR;
+        $this->put("signUpJsPath", BACKSTEP.'public/js/signUp.js?v='.RELOAD_INDICATOR);
 
-        $this->datas['nameLabel']       = $user->errorMsg  ?? 'Name';
-        $this->datas['emailLabel']      = $email->errorMsg ?? 'E-mail';
-        $this->datas['dateLabel']       = $date->errorMsg  ?? 'Date of birth';
-        $this->datas['passwordLabel']   = $pass->errorMsg  ?? 'Password';
-        $this->datas['privilegeLabel']  = 'Privilege';
+        $this->put("nameLabel", $user->errorMsg  ?? "Name");
+        $this->put("emailLabel", $email->errorMsg ?? "E-mail");
+        $this->put("dateLabel", $date->errorMsg  ?? "Date of birth");
+        $this->put("passwordLabel", $pass->errorMsg  ?? "Password");
+        $this->put("privilegeLabel", "Privilege");
         
-        $this->datas['isAdmin']         = DB::select('CALL `getUserCount`()')->num <= 1;
-        $this->datas['errorMessage']    = null;
+        $this->put("isAdmin", DB::select('CALL `getUserCount`()')->num <= 1);
+        $this->put("errorMessage",  null);
 
-        $this->datas['userNameValue']   = $this->datas['isAdmin']  ?  'Admin' : $crName;
-        $this->datas['userEmailValue']  = $crEmail;
+        $this->put("userNameValue", $this->get("isAdmin")  ?  "Admin" : $crName);
+        $this->put("userEmailValue", $crEmail);
      
 
-        if ($this->datas['isAdmin']) {
+        if ($this->get("isAdmin")) {
             // autentikációs azonosító létrehozása az Admin név ismétlődésének elkerüléséhez
             $_SESSION['adminAuthenticate'] = 1;
         }
@@ -175,7 +174,7 @@ class SignUpController extends MainController
             unset($_SESSION['adminAuthenticate']);
         } 
 
-        $this->datas['enableNameInput'] = isset($_SESSION['adminAuthenticate']) ? 'readonly' : ''; 
+        $this->put("enableNameInput", isset($_SESSION["adminAuthenticate"]) ? "readonly" : ""); 
 
 
     }

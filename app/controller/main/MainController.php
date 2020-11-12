@@ -16,12 +16,10 @@ class MainController extends BaseController
             
     protected function setDatas()
     {        
-        $this->datas = [ 
-            "user" => "App\Services\User",
-            'seria' => (new Seria())->seria,
-            'navbar'=> ( new Navbar() )->getDatas(),
-            'header' => (new Header())->getDatas()
-        ];       
+        $this->put("user", "App\Services\User"); 
+        $this->put('seria', (new Seria())->seria);
+        $this->put('navbar', ( new Navbar() )->getDatas());
+        $this->put('header', (new Header())->getDatas());                        
          
     }
 

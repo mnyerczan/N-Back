@@ -2,8 +2,7 @@
 
 use App\Core\Application;
 
-// Start output buffer to handle errors auto
-// headers sending.
+# Start output buffer to handle error: auto headers sending.
 ob_start();
 
 

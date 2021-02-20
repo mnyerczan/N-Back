@@ -26,7 +26,7 @@ final class ViewRenderer
         // Adatszerkezetek kicsomagolása
         extract($models);
         extract((array)$views);
-      
+
         ob_clean();       
 
         // Ha a kapott mime tartalmazza a json stringet, jsonban renderel.

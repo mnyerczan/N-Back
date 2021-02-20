@@ -37,9 +37,9 @@
             <label for=""><?=$oldPasswordLabel?></label>  
             <input type="password" placeholder="<?php for($i=0;$i<$user::$passwordLength;$i++){echo '*';} ?>" name="update-user-old-password" required>
             <label for=""><?=$passwordLabel?></label>             
-            <input type="password" placeholder="" name="update-user-password" required>
+            <input type="password" name="update-user-password" required>
             <label for="">Re-type new password</label>  
-            <input type="password" placeholder="" name="update-user-retype-password" required>
+            <input type="password" name="update-user-retype-password" required>
             <br>
             <input type="submit" id="opn-usr-mdl" class="btn btn-std sml-btn" value="Update password">
         </form>                

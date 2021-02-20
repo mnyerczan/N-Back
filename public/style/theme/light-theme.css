@@ -198,9 +198,12 @@ body > #navbar {
 .settings-navbar a:hover {
     background-color: #f1f1f1;
 }
-.active {    
-    color           : black;    
+.active {           
     border-left     : 5px solid black;
+}
+.inactive,
+.active {
+    color           : black; 
 }
 
 

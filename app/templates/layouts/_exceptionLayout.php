@@ -84,18 +84,22 @@
             <div class="left">
                 <h4>POST variables</h4>
                 <div class="">
-                    <?php foreach($_POST as $key => $value): ?>                    
-                    <p>"<?=$key?>":"<?=$value?>"</p>
-                    <?php endforeach ?>
+                    <?php if(isset($_POST)): ?>
+                        <?php foreach($_POST as $key => $value): ?>                    
+                        <p>"<?=$key?>":"<?=$value?>"</p>
+                        <?php endforeach ?>
+                    <?php endif?>                    
                 </div>            
             </div>              
             <div class="left">
                 <div class="">
                     <h4>GET variables</h4>
                     <div class="">
-                        <?php foreach($_GET as $key => $value): ?>                    
-                        <p>"<?=$key?>":"<?=$value?>"</p>
-                        <?php endforeach ?>
+                        <?php if(isset($_GET)): ?>
+                            <?php foreach($_GET as $key => $value): ?>                    
+                            <p>"<?=$key?>":"<?=$value?>"</p>
+                            <?php endforeach ?>
+                        <?php endif?>
                     </div>            
                 </div>             
             </div>
@@ -105,18 +109,22 @@
             <div class="left">
                 <h4>Session variables</h4>
                 <div class="">
-                    <?php foreach($_SESSION as $key => $value): ?>                    
-                    <p>"<?=$key?>":"<?=$value?>"</p>
-                    <?php endforeach ?>
+                    <?php if(isset($_SESSION)): ?>
+                        <?php foreach($_SESSION as $key => $value): ?>                    
+                        <p>"<?=$key?>":"<?=$value?>"</p>
+                        <?php endforeach ?>
+                    <?php endif?>
                 </div>
                 </table>
             </div>           
             <div class="left">
                 <h4>Cookie variables</h4>
                 <div class="">
-                    <?php foreach($_COOKIE as $key => $value): ?>                    
-                    <p>"<?=$key?>":"<?=strlen($value) > 30 ? substr($value,0, 30)." ..." : $value?>"</p>
-                    <?php endforeach ?>
+                    <?php if(isset($_COOKIE)): ?>
+                        <?php foreach($_COOKIE as $key => $value): ?>                    
+                        <p>"<?=$key?>":"<?=strlen($value) > 30 ? substr($value,0, 30)." ..." : $value?>"</p>
+                        <?php endforeach ?>
+                    <?php endif ?>
                 </div>            
             </div> 
         </div> 

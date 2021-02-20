@@ -226,7 +226,7 @@ class SettingsAccountController extends MainController
         if ($this->get("isAdmin")) {
             $this->put("userNameValue", "Admin");
             $this->put("enableNameInput","readonly"); 
-            $this->put("nameLabel",     "Can\'t modify admin\'s username");
+            $this->put("nameLabel",     "Can't modify admin's username");
         }
         else {
             $this->put("userNameValue",  is_object($this->userV) ? $this->userV->getUser() : NULL);

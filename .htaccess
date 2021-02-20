@@ -5,12 +5,12 @@
     RewriteCond %{REQUEST_FILNAME} !-d
     #kivétel adása a szabályhoz, hogy a 
     #http://localhost/Style/style.css kérést kiszolgálja a szerver.
-    RewriteCond %{REQUEST_URI} !/App/Script
-    RewriteCond %{REQUEST_URI} !/App/img
-    RewriteCond %{REQUEST_URI} !/App/Images
-    RewriteCond %{REQUEST_URI} !/Public/*
+    RewriteCond %{REQUEST_URI} !/app/script
+    RewriteCond %{REQUEST_URI} !/app/img
+    RewriteCond %{REQUEST_URI} !/app/images
+    RewriteCond %{REQUEST_URI} !/public/*
     # RewriteCond %{REQUEST_URI} !/Templates/Header/header.js    
-    RewriteRule ^ index.php [L]
+    RewriteRule ^ /public/index.php [L]
 </IFModule>
 # A minusszal kiakapcsoljuk a könyvtárak kilistázásának lehetőségét.
 Options -Indexes

@@ -2,10 +2,10 @@
 # 
 # json mappában a program ír és olvas ezért a jogosultságokat úgy
 # kell beállítani, hogy az apache a www-data felhasználóval is tudja írni.
-sudo chmod -R 775 Public/json
+sudo chmod -R 775 public/json
 
 # Ha nincs a www-data az editáló csoportjában:
-sudo chmod -R 777 Public/json
+sudo chmod -R 777 public/json
 
 # Modulok:
 

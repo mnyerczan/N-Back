@@ -14,19 +14,16 @@ class Application
     public static function run($cleanedUri)
     {
         // Ha nincs jogosultság elérni a /var/lib/apache2/sessions/... fájlt, error view.
-        if(@!session_start()) {
-            $cleanedUri = "/sessionError";
-            return Router::route($cleanedUri);
+        if(@!session_start()) {            
+            return Router::route("/sessionError");
         }        
 
         try {
             if (!DB::setup()) {
-                $cleanedUri = "/databaseError";
+                Router::route("/databaseError");
             } else {
                 User::setup();
-            }  
-
-            Router::route($cleanedUri);
+            }              
         } catch (\Exception $e) {
             (new ExceptionErrorController)->exception($e);
         }        
